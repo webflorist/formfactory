@@ -32,7 +32,7 @@ https://github.com/nic-at/htmlbuilder/blob/develop/src/config/htmlbuilder.php
 
 ### Basics
 
-A HTML-element for a Form (e.g. an input-field) is generated using the corresponding method of the `Form-`facade. This method may require one or more parameters for setting mandatory information (mostly the "name" attribute in case of fields). Furthermore, you can manipulate the generated output by "chaining" further methods (e.g. to set attributes). The final HTML-string is generated using the `generate()`-method. But since the `Tag`-class of the HtmlBuilder-package includes a magic `__toString()`-method doing exactly that, you can omit the `generate()`-method when using the Form-facade in a blade-template.
+A HTML-tag for a Form (e.g. an input-field) is generated using the corresponding method of the `Form-`facade. This method may require one or more parameters for setting mandatory information (mostly the "name" attribute in case of fields). Furthermore, you can manipulate the generated output by "chaining" further methods (e.g. to set attributes). The final HTML-string is generated using the `generate()`-method. But since the `Tag`-class of the HtmlBuilder-package includes a magic `__toString()`-method doing exactly that, you can omit the `generate()`-method when using the Form-facade in a blade-template.
 
 #### A minimal example to create a tag
 Here is a very basic example for the generation of a text-input from within a laravel-blade-template:
@@ -88,7 +88,7 @@ The methods, that can be applied to a tag consist of the HTML-attributes, that t
 Here are some often used non-HTML-attribute methods:
 * ->content('foobar'): sets the content of a tag, that can have one (e.g. div, button, textarea)
 * ->data('foo','bar'): adds a data-tag; Note: `data-` is automatically prepended to the key, so this example would result in: `data-foo="bar"`
-* ->addClass('foobar'): adds a class to the element (add multiple classes by either calling addClass multiple times, or by separating the classes with a space.
+* ->addClass('foobar'): adds a class to the tag (add multiple classes by either calling addClass multiple times, or by separating the classes with a space.
 
 But since this package is built IDE-friendly way, you just have to type e.g. `Form::text()->`in your auto-completion-enabled IDE and you should immediately get a list of available methods for this tag.
 
@@ -225,7 +225,7 @@ There are 3 possible ways of telling HtmlBuilder these rules:
 
 Another useful feature of HtmlBuilder is it's usage of auto-translation, which tries to automatically translate labels, button- or option-texts, placeholders, and general help-texts via standard laravel-translation-files.
  
-Here is a list of elements, that can be auto-translated (see example below for required language-file-keys):
+Here is a list of tags, that can be auto-translated (see example below for required language-file-keys):
 * Labels
 * Placeholders
 * Help-Texts
