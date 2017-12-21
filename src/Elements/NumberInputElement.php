@@ -10,7 +10,7 @@ use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
 use Nicat\FormBuilder\Elements\Traits\CanPerformAjaxValidation;
 use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 
-class TextInputElement extends \Nicat\HtmlBuilder\Elements\TextInputElement
+class NumberInputElement extends \Nicat\HtmlBuilder\Elements\NumberInputElement
 {
     use CanHaveLabel,
         CanHaveRules,

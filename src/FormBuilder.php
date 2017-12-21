@@ -2,7 +2,10 @@
 
 namespace Nicat\FormBuilder;
 
+use Nicat\FormBuilder\Components\FieldWrapper;
 use Nicat\FormBuilder\Elements\FormElement;
+use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 
 /**
@@ -22,20 +25,20 @@ class FormBuilder
      *
      * @var FormElement
      */
-    private $currentForm = null;
+    public $currentForm = null;
 
     /**
      * Generates and returns the opening form-tag.
-     * Also sets the form as $this->current.
+     * Also sets the form as $this->currentForm.
      *
      * @param string $id
      * @return FormElement
      */
     public function open(string $id): FormElement
     {
-        $formTag = (new FormElement())->id($id);
-        $this->currentForm = $formTag;
-        return $formTag;
+        $formElement = (new FormElement())->id($id);
+        $this->currentForm = $formElement;
+        return $formElement;
     }
 
     /**
@@ -56,7 +59,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-tag '<input type="text" />'
+     * Generates form-control '<input type="text" />'
      *
      * @param string $name
      * @return TextInputElement
@@ -64,6 +67,28 @@ class FormBuilder
     public function text(string $name): TextInputElement
     {
         return (new TextInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<textarea></textarea>'
+     *
+     * @param string $name
+     * @return TextareaElement
+     */
+    public function textarea(string $name): TextareaElement
+    {
+        return (new TextareaElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="number" />'
+     *
+     * @param string $name
+     * @return NumberInputElement
+     */
+    public function number(string $name): NumberInputElement
+    {
+        return (new NumberInputElement())->name($name);
     }
 
 }
