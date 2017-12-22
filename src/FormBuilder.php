@@ -2,7 +2,7 @@
 
 namespace Nicat\FormBuilder;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
+
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Elements\DateInputElement;

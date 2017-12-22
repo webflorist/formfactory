@@ -2,8 +2,6 @@
 
 namespace Nicat\FormBuilder\Elements\Traits;
 
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\FormBuilderTools;
 
 trait CanAutoSubmit
 {
