@@ -2,6 +2,7 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
+use Nicat\FormBuilder\Elements\EmailInputElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
@@ -37,6 +38,7 @@ class AutoGeneratePlaceholders extends Decorator
     {
         return [
             TextInputElement::class,
+            EmailInputElement::class,
             TextareaElement::class
         ];
     }

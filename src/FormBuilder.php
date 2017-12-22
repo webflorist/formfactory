@@ -3,7 +3,14 @@
 namespace Nicat\FormBuilder;
 
 use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\Elements\CheckboxInputElement;
+use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Elements\DateInputElement;
+use Nicat\FormBuilder\Elements\DatetimeInputElement;
+use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
+use Nicat\FormBuilder\Elements\EmailInputElement;
 use Nicat\FormBuilder\Elements\FormElement;
+use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
@@ -89,6 +96,84 @@ class FormBuilder
     public function number(string $name): NumberInputElement
     {
         return (new NumberInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="color" />'
+     *
+     * @param string $name
+     * @return ColorInputElement
+     */
+    public function color(string $name): ColorInputElement
+    {
+        return (new ColorInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="date" />'
+     *
+     * @param string $name
+     * @return DateInputElement
+     */
+    public function date(string $name): DateInputElement
+    {
+        return (new DateInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="datetime" />'
+     *
+     * @param string $name
+     * @return DatetimeInputElement
+     */
+    public function datetime(string $name): DatetimeInputElement
+    {
+        return (new DatetimeInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="datetime-local" />'
+     *
+     * @param string $name
+     * @return DatetimeLocalInputElement
+     */
+    public function datetimeLocal(string $name): DatetimeLocalInputElement
+    {
+        return (new DatetimeLocalInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="email" />'
+     *
+     * @param string $name
+     * @return EmailInputElement
+     */
+    public function email(string $name): EmailInputElement
+    {
+        return (new EmailInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="hidden" />'
+     *
+     * @param string $name
+     * @return HiddenInputElement
+     */
+    public function hidden(string $name): HiddenInputElement
+    {
+        return (new HiddenInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="checkbox" />'
+     *
+     * @param string $name
+     * @param string $value
+     * @return CheckboxInputElement
+     */
+    public function checkbox(string $name, string $value): CheckboxInputElement
+    {
+        return (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
     }
 
 }

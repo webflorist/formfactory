@@ -10,7 +10,7 @@ use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
 use Nicat\FormBuilder\Elements\Traits\CanPerformAjaxValidation;
 use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 
-class RadioInputElement extends \Nicat\HtmlBuilder\Elements\RadioInputElement
+class DatetimeInputElement extends \Nicat\HtmlBuilder\Elements\DatetimeInputElement
 {
     use CanHaveLabel,
         CanHaveRules,
@@ -19,4 +19,5 @@ class RadioInputElement extends \Nicat\HtmlBuilder\Elements\RadioInputElement
         CanHaveErrors,
         CanAutoSubmit,
         CanPerformAjaxValidation;
+
 }

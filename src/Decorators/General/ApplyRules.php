@@ -2,12 +2,20 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
+use Nicat\FormBuilder\Elements\CheckboxInputElement;
+use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Elements\DateInputElement;
+use Nicat\FormBuilder\Elements\DatetimeInputElement;
+use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
+use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\Abstracts\InputElement;
-use Nicat\HtmlBuilder\Elements\TextareaElement;
+use Nicat\FormBuilder\Elements\TextareaElement;
 
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
@@ -39,6 +47,14 @@ class ApplyRules extends Decorator
         return [
             TextInputElement::class,
             NumberInputElement::class,
+            ColorInputElement::class,
+            DateInputElement::class,
+            DatetimeInputElement::class,
+            DatetimeLocalInputElement::class,
+            EmailInputElement::class,
+            HiddenInputElement::class,
+            CheckboxInputElement::class,
+            RadioInputElement::class,
             TextareaElement::class
         ];
     }

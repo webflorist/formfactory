@@ -2,13 +2,21 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
+use Nicat\FormBuilder\Elements\CheckboxInputElement;
+use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Elements\DateInputElement;
+use Nicat\FormBuilder\Elements\DatetimeInputElement;
+use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
+use Nicat\FormBuilder\Elements\EmailInputElement;
 use Nicat\FormBuilder\Elements\FormElement;
+use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\FormBuilder\FormBuilder;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\TextareaElement;
+use Nicat\FormBuilder\Elements\TextareaElement;
 
 /**
  * Applies default-values, that were set via the 'values' method on the FormElement.
@@ -40,6 +48,14 @@ class ApplyDefaultValues extends Decorator
         return [
             TextInputElement::class,
             NumberInputElement::class,
+            ColorInputElement::class,
+            DateInputElement::class,
+            DatetimeInputElement::class,
+            DatetimeLocalInputElement::class,
+            EmailInputElement::class,
+            HiddenInputElement::class,
+            CheckboxInputElement::class,
+            RadioInputElement::class,
             TextareaElement::class
         ];
     }

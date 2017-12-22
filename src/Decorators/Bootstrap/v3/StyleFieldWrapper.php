@@ -5,11 +5,9 @@ namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 use Nicat\FormBuilder\Components\FieldWrapper;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\Abstracts\InputElement;
-use Nicat\HtmlBuilder\Elements\SelectElement;
-use Nicat\HtmlBuilder\Elements\TextareaElement;
+use Nicat\HtmlBuilder\Elements\CheckboxInputElement;
 
-class AddFormGroupClassToFieldWrapper extends Decorator
+class StyleFieldWrapper extends Decorator
 {
 
     /**
@@ -43,6 +41,13 @@ class AddFormGroupClassToFieldWrapper extends Decorator
      */
     public static function decorate(Element $element)
     {
-        $element->addClass('form-group');
+
+        /** @var FieldWrapper $element */
+        if (is_a($element->field,CheckboxInputElement::class)) {
+            $element->addClass('checkbox');
+        }
+        else {
+            $element->addClass('form-group');
+        }
     }
 }

@@ -3,7 +3,14 @@
 namespace Nicat\FormBuilder\Decorators\General;
 
 use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\Elements\CheckboxInputElement;
+use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Elements\DateInputElement;
+use Nicat\FormBuilder\Elements\DatetimeInputElement;
+use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
+use Nicat\FormBuilder\Elements\EmailInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
@@ -40,6 +47,13 @@ class WrapFields extends Decorator
         return [
             TextInputElement::class,
             NumberInputElement::class,
+            ColorInputElement::class,
+            DateInputElement::class,
+            DatetimeInputElement::class,
+            DatetimeLocalInputElement::class,
+            EmailInputElement::class,
+            CheckboxInputElement::class,
+            RadioInputElement::class,
             TextareaElement::class
         ];
     }
