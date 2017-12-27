@@ -2,6 +2,9 @@
 
 namespace Nicat\FormBuilder\Elements\Traits;
 
+use Nicat\FormBuilder\Elements\OptionElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\FormBuilder;
 use Nicat\FormBuilder\FormBuilderTools;
 
 trait UsesAutoTranslation
@@ -66,6 +69,21 @@ trait UsesAutoTranslation
      * (By default this will be the array-stripped name of the field.)
      */
     private function getTranslationKey() {
+
+        if (is_a($this, RadioInputElement::class)) {
+            return $this->attributes->getValue('value');
+        }
+
+        if (is_a($this, OptionElement::class)) {
+            /** @var FormBuilder $formBuilderService */
+            $formBuilderService = app()[FormBuilder::class];
+            return
+                FormBuilderTools::arrayStripString(
+                    $formBuilderService->openSelect->attributes->getValue('name')
+                ) .
+                '_' . $this->attributes->getValue('value');
+        }
+
         return FormBuilderTools::arrayStripString($this->attributes->getValue('name'));
     }
 }

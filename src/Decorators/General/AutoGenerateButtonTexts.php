@@ -2,30 +2,34 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\OptionElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\ResetButtonElement;
 use Nicat\FormBuilder\Elements\SelectElement;
+use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\FormBuilder\FormBuilder;
+use Nicat\FormBuilder\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 /**
- * Automatically generates an id for fields without a manually set id.
- * The generated id will be:
+ * Automatically generates the button-text for button-elements without a manually set content.
+ * Uses auto-translation.
  *
- * Class AutoGenerateFieldIDs
+ * Class AutoGenerateButtonTexts
  * @package Nicat\FormBuilder\Decorators\General
  */
-class WrapFields extends Decorator
+class AutoGenerateButtonTexts extends Decorator
 {
 
     /**
@@ -47,18 +51,9 @@ class WrapFields extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            TextInputElement::class,
-            NumberInputElement::class,
-            ColorInputElement::class,
-            DateInputElement::class,
-            DatetimeInputElement::class,
-            DatetimeLocalInputElement::class,
-            EmailInputElement::class,
-            FileInputElement::class,
-            CheckboxInputElement::class,
-            RadioInputElement::class,
-            TextareaElement::class,
-            SelectElement::class
+            ButtonElement::class,
+            SubmitButtonElement::class,
+            ResetButtonElement::class
         ];
     }
 
@@ -69,10 +64,12 @@ class WrapFields extends Decorator
      */
     public static function decorate(Element $element)
     {
-        if (is_null($element->wrapper)) {
-            $element->wrap(
-                new FieldWrapper($element)
+        /** @var OptionElement $element */
+        if (!$element->hasChildren()) {
+            $element->content(
+                $element->performAutoTranslation(null,'',ucwords($element->attributes->getValue('name')))
             );
         }
+
     }
 }

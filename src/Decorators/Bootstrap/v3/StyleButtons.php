@@ -2,13 +2,13 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
-use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\ButtonElement;
+use Nicat\FormBuilder\Elements\ResetButtonElement;
+use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\CheckboxInputElement;
 
-class StyleFieldWrapper extends Decorator
+class StyleButtons extends Decorator
 {
 
     /**
@@ -31,7 +31,9 @@ class StyleFieldWrapper extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            FieldWrapper::class
+            ButtonElement::class,
+            SubmitButtonElement::class,
+            ResetButtonElement::class
         ];
     }
 
@@ -42,27 +44,30 @@ class StyleFieldWrapper extends Decorator
      */
     public static function decorate(Element $element)
     {
+        if (!$element->hasContext()) {
+            $element->context(static::getDefaultContextForButton($element));
+        }
 
-        /** @var FieldWrapper $element */
-        $element->addClass(self::getWrapperClassForField($element->field));
+        $element->addClass('btn-'.$element->getContext());
+
     }
 
     /**
-     * Returns the correct class for the field's wrapper.
+     * Returns the default context for the button.
      *
-     * @param Element $field
+     * @param Element $button
      * @return string
      */
-    private static function getWrapperClassForField(Element $field)
+    private static function getDefaultContextForButton(Element $button)
     {
-        if (is_a($field,CheckboxInputElement::class)) {
-            return 'checkbox';
+        if (is_a($button,SubmitButtonElement::class)) {
+            return 'primary';
         }
 
-        if (is_a($field,RadioInputElement::class)) {
-            return 'radio';
+        if (is_a($button,ResetButtonElement::class)) {
+            return 'secondary';
         }
 
-        return 'form-group';
+        return 'default';
     }
 }

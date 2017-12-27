@@ -9,13 +9,14 @@
 namespace FormBuilderTests\Forms;
 
 use FormBuilderTests\Traits\Tests\TestsAutocompleteAttribute;
+use FormBuilderTests\Traits\Tests\TestsMaxlengthAttribute;
 use FormBuilderTests\Traits\Tests\TestsPatternAttribute;
 use FormBuilderTests\Traits\Tests\TestsPlaceholderAttribute;
 use FormBuilderTests\Traits\Tests\TestsValueAttribute;
 
 class InputEmailTest extends InputTestCase
 {
-    use TestsAutocompleteAttribute, TestsPlaceholderAttribute, TestsValueAttribute, TestsPatternAttribute;
+    use TestsAutocompleteAttribute, TestsPlaceholderAttribute, TestsValueAttribute, TestsPatternAttribute, TestsMaxlengthAttribute;
 
     protected $tagFunction = 'email';
 

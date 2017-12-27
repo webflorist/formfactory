@@ -204,6 +204,10 @@ trait AppliesTagMethodsToMatcherData
         return method_exists($this,'testFieldTag_setPattern');
     }
 
+    protected function tagSupportsMaxlength() {
+        return method_exists($this,'testFieldTag_setMaxlength');
+    }
+
     protected function tagMethod2Matcher_rules($ruleString='') {
 
         $explodedRules = explode('|',$ruleString);
@@ -274,7 +278,7 @@ trait AppliesTagMethodsToMatcherData
                         if ($this->matchTagAttributes['type'] === 'number') {
                             $this->tagMethod2Matcher_defaultAttribute('max',$parameters[0]);
                         }
-                        else {
+                        else if ($this->tagSupportsMaxlength()) {
                             $this->tagMethod2Matcher_defaultAttribute('maxlength',$parameters[0]);
                         }
                     }

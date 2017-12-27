@@ -58,6 +58,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     {
         $this->evaluateSubmittedState();
         $this->appendCSRFToken();
+        $this->appendHiddenFormId();
         $this->setDefaultAction();
 
         $html = parent::render();
@@ -96,15 +97,30 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 
     /**
      * Append hidden input tag with CSRF-token (except for forms with a GET-method),
-     * if $this->>generateToken is not set to false.
+     * if $this->generateToken is not set to false.
      */
     protected function appendCSRFToken()
     {
         if ($this->generateToken && $this->attributes->getValue('method') !== 'get') {
-            $this->appendContent(
-                (new HiddenInputElement())->name('_token')->value(csrf_token())
+            $csrfToken = csrf_token();
+            if (is_null($csrfToken)) {
+                $csrfToken = '';
+            }
+            $this->appendChild(
+                (new HiddenInputElement())->name('_token')->value($csrfToken)
             );
         }
+    }
+
+    /**
+     * Append hidden input tag with the form-id.
+     * This is used to find out, if a form was just submitted.
+     */
+    protected function appendHiddenFormId()
+    {
+        $this->appendChild(
+            (new HiddenInputElement())->name('_formID')->value($this->attributes->getValue('id'))
+        );
     }
 
     /**

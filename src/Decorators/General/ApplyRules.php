@@ -8,9 +8,11 @@ use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
@@ -52,10 +54,11 @@ class ApplyRules extends Decorator
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
-            HiddenInputElement::class,
+            FileInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
-            TextareaElement::class
+            TextareaElement::class,
+            SelectElement::class
         ];
     }
 
@@ -208,7 +211,7 @@ class ApplyRules extends Decorator
         if (is_a($element, InputElement::class)) {
             if ($element->attributes->getValue('type') === 'number') {
                 $element->max($parameters[0]);
-            } else {
+            } else if($element->attributes->isAllowed('maxlength')) {
                 $element->maxlength($parameters[0]);
             }
         } else if (is_a($element, TextareaElement::class)) {

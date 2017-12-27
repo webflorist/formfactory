@@ -3,15 +3,22 @@
 namespace Nicat\FormBuilder;
 
 
+use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\FormElement;
 use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\OptionElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\ResetButtonElement;
+use Nicat\FormBuilder\Elements\SelectElement;
+use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 
@@ -32,19 +39,26 @@ class FormBuilder
      *
      * @var FormElement
      */
-    public $currentForm = null;
+    public $openForm = null;
+
+    /**
+     * The currently open select-box.
+     *
+     * @var SelectElement
+     */
+    public $openSelect = null;
 
     /**
      * Generates and returns the opening form-tag.
-     * Also sets the form as $this->currentForm.
+     * Also sets the form as $this->openForm.
      *
      * @param string $id
      * @return FormElement
      */
     public function open(string $id): FormElement
     {
-        $formElement = (new FormElement())->id($id);
-        $this->currentForm = $formElement;
+        $formElement = (new FormElement())->id($id)->method('post');
+        $this->openForm = $formElement;
         return $formElement;
     }
 
@@ -57,16 +71,16 @@ class FormBuilder
     public function close(bool $showMandatoryFieldsLegend = true)
     {
         $return = '';
-        if ($showMandatoryFieldsLegend && $this->currentForm) {
+        if ($showMandatoryFieldsLegend && $this->openForm) {
             $return .= '<div class="text-muted small"><sup>*</sup> ' . trans('Nicat-FormBuilder::formbuilder.mandatoryFields') . '</div>';
         }
         $return .= '</form>';
-        $this->currentForm = null;
+        $this->openForm = null;
         return $return;
     }
 
     /**
-     * Generates form-control '<input type="text" />'
+     * Generates form-control '<input type="text" />'.
      *
      * @param string $name
      * @return TextInputElement
@@ -77,7 +91,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<textarea></textarea>'
+     * Generates form-control '<textarea></textarea>'.
      *
      * @param string $name
      * @return TextareaElement
@@ -88,7 +102,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="number" />'
+     * Generates form-control '<input type="number" />'.
      *
      * @param string $name
      * @return NumberInputElement
@@ -99,7 +113,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="color" />'
+     * Generates form-control '<input type="color" />'.
      *
      * @param string $name
      * @return ColorInputElement
@@ -110,7 +124,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="date" />'
+     * Generates form-control '<input type="date" />'.
      *
      * @param string $name
      * @return DateInputElement
@@ -121,7 +135,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="datetime" />'
+     * Generates form-control '<input type="datetime" />'.
      *
      * @param string $name
      * @return DatetimeInputElement
@@ -132,7 +146,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="datetime-local" />'
+     * Generates form-control '<input type="datetime-local" />'.
      *
      * @param string $name
      * @return DatetimeLocalInputElement
@@ -143,7 +157,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="email" />'
+     * Generates form-control '<input type="email" />'.
      *
      * @param string $name
      * @return EmailInputElement
@@ -154,7 +168,7 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="hidden" />'
+     * Generates form-control '<input type="hidden" />'.
      *
      * @param string $name
      * @return HiddenInputElement
@@ -165,7 +179,18 @@ class FormBuilder
     }
 
     /**
-     * Generates form-control '<input type="checkbox" />'
+     * Generates form-control '<input type="file" />'.
+     *
+     * @param string $name
+     * @return FileInputElement
+     */
+    public function file(string $name): FileInputElement
+    {
+        return (new FileInputElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<input type="checkbox" />'.
      *
      * @param string $name
      * @param string $value
@@ -174,6 +199,80 @@ class FormBuilder
     public function checkbox(string $name, string $value): CheckboxInputElement
     {
         return (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
+    }
+
+    /**
+     * Generates form-control '<input type="radio" />'.
+     *
+     * @param string $value
+     * @param string $name
+     * @return RadioInputElement
+     */
+    public function radio(string $value, string $name): RadioInputElement
+    {
+        return (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
+    }
+
+    /**
+     * Generates form-control '<option></option>'.
+     *
+     * @param string $value
+     * @return OptionElement
+     */
+    public function option(string $value): OptionElement
+    {
+        return (new OptionElement())->value($value);
+    }
+
+    /**
+     * Generates form-control '<select></select>'.
+     * Also sets the selectElement as $this->openSelect.
+     *
+     * @param string $name
+     * @param array $options
+     * @return SelectElement
+     */
+    public function select(string $name,array $options=[]): SelectElement
+    {
+        $selectElement = (new SelectElement())->name($name);
+        $this->openSelect = $selectElement;
+        foreach ($options as $option) {
+            $selectElement->appendChild($option);
+        }
+        return $selectElement;
+    }
+
+    /**
+     * Generates form-control '<button type="reset"></button>'.
+     *
+     * @param string $name
+     * @return ResetButtonElement
+     */
+    public function reset(string $name='reset'): ResetButtonElement
+    {
+        return (new ResetButtonElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<button type="submit"></button>'.
+     *
+     * @param string $name
+     * @return SubmitButtonElement
+     */
+    public function submit(string $name='submit'): SubmitButtonElement
+    {
+        return (new SubmitButtonElement())->name($name);
+    }
+
+    /**
+     * Generates form-control '<button></button>'.
+     *
+     * @param string $name
+     * @return ButtonElement
+     */
+    public function button(string $name=''): ButtonElement
+    {
+        return (new ButtonElement())->name($name);
     }
 
 }

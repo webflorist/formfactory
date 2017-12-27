@@ -9,12 +9,13 @@
 namespace FormBuilderTests\Forms;
 
 use FormBuilderTests\Traits\Tests\TestsAutocompleteAttribute;
+use FormBuilderTests\Traits\Tests\TestsMaxlengthAttribute;
 use FormBuilderTests\Traits\Tests\TestsPatternAttribute;
 use FormBuilderTests\Traits\Tests\TestsPlaceholderAttribute;
 
 class InputTextTest extends InputTestCase
 {
-    use TestsAutocompleteAttribute, TestsPlaceholderAttribute, TestsPatternAttribute;
+    use TestsAutocompleteAttribute, TestsPlaceholderAttribute, TestsPatternAttribute, TestsMaxlengthAttribute;
 
     protected $tagFunction = 'text';
 

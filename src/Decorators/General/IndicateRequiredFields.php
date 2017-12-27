@@ -8,8 +8,10 @@ use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
@@ -50,9 +52,11 @@ class IndicateRequiredFields extends Decorator
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
+            FileInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
-            TextareaElement::class
+            TextareaElement::class,
+            SelectElement::class
         ];
     }
 
@@ -63,10 +67,12 @@ class IndicateRequiredFields extends Decorator
      */
     public static function decorate(Element $element)
     {
-        if (!is_null($element->label) && $element->attributes->isSet('required')) {
-            $element->label(
-                $element->label . '<sup>*</sup>'
-            );
+        if (!is_a($element,RadioInputElement::class)) {
+            if (!is_null($element->label) && $element->attributes->isSet('required')) {
+                $element->label(
+                    $element->label . '<sup>*</sup>'
+                );
+            }
         }
     }
 }

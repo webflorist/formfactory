@@ -31,7 +31,7 @@ trait CanHaveLabel
      *
      * @var null|string
      */
-    public $labelMode = 'bound';
+    public $labelMode = 'before';
 
     /**
      * Set how the label should be generated
@@ -44,33 +44,6 @@ trait CanHaveLabel
     {
         $this->labelMode = $labelMode;
         return $this;
-    }
-
-    /**
-     * Append the label and wrap everything in an attribute-less label-tag, if $this->labelMode === 'after'.
-     */
-    protected function task_1100_appendLabel()
-    {
-        if ($this->labelMode === 'after') {
-            $this->output = '<label>' . $this->output . ' ' . $this->generateLabelText() . '</label>';
-        }
-    }
-
-    /**
-     * Apply label in all cases except when $this->labelMode === 'after'.
-     */
-    protected function task_1300_applyLabel()
-    {
-        // Prepend a label-tag bound to the field by the "for"-attribute, if $this->labelMode === 'bound'
-        if ($this->labelMode === 'bound') {
-            $this->output = $this->generateLabel() . $this->output;
-        } // Prepend a label-tag bound to the field by the "for"-attribute and with class "sr-only" (so it is visible only to screenreaders), if $this->labelMode === 'sr-only'
-        else if ($this->labelMode === 'sr-only') {
-            $this->output = $this->generateLabel(true) . $this->output;
-        } // Prepend the label and wrap everything in an attribute-less label-tag, if $this->labelMode === 'before'
-        else if ($this->labelMode === 'before') {
-            $this->output = '<label>' . $this->generateLabelText() . $this->output . '</label>';
-        }
     }
 
     /**

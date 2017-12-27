@@ -8,6 +8,7 @@ use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\FormElement;
 use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
@@ -53,6 +54,7 @@ class ApplyDefaultValues extends Decorator
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
+            FileInputElement::class,
             HiddenInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
@@ -67,18 +69,23 @@ class ApplyDefaultValues extends Decorator
      */
     public static function decorate(Element $element)
     {
-        /** @var FormElement $currentForm */
-        $currentForm = app(FormBuilder::class)->currentForm;
+        /** @var FormElement $openForm */
+        $openForm = app(FormBuilder::class)->openForm;
 
         $fieldName = $element->attributes->getValue('name');
 
         // We only apply default-values, if the current form was not submitted.
-        if (!$currentForm->wasSubmitted && $currentForm->fieldHasDefaultValue($fieldName)) {
-            $defaultValue = $currentForm->getDefaultValueForField($fieldName);
+        if (!$openForm->wasSubmitted && $openForm->fieldHasDefaultValue($fieldName)) {
+            $defaultValue = $openForm->getDefaultValueForField($fieldName);
 
             if (is_a($element,TextareaElement::class)) {
                 $element->clearContent();
                 $element->content($defaultValue);
+            }
+            else if (is_a($element,CheckboxInputElement::class) || is_a($element,RadioInputElement::class)) {
+                $element->checked(
+                    $defaultValue === $element->attributes->getValue('value')
+                );
             }
             else {
                 $element->value($defaultValue);

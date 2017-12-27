@@ -11,13 +11,11 @@ namespace FormBuilderTests\Forms;
 use FormBuilderTests\Traits\Tests\FieldTests;
 use FormBuilderTests\Traits\Tests\TestsAutofocusAttribute;
 use FormBuilderTests\Traits\Tests\TestsDisabledAttribute;
-use FormBuilderTests\Traits\Tests\TestsMaxlengthAttribute;
 use FormBuilderTests\Traits\Tests\TestsReadonlyAttribute;
 
 class InputTestCase extends FieldTestCase
 {
     use FieldTests,
-        TestsMaxlengthAttribute,
         TestsReadonlyAttribute,
         TestsAutofocusAttribute,
         TestsDisabledAttribute;

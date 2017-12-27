@@ -120,7 +120,7 @@ class FieldTestCase extends TestCase
 
         if (($this->labelMode === 'after') || ($this->labelMode === 'before')) {
 
-            $this->labelMatcher['children'][0]['text'] = ' '.$this->labelMatcher['children'][0]['text'];
+            $this->labelMatcher['children'][0]['text'] = $this->labelMatcher['children'][0]['text'];
 
             if ($this->labelMode === 'after') {
                 array_unshift($this->labelMatcher['children'],$this->matcher[0]);

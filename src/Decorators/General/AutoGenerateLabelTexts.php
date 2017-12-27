@@ -8,10 +8,13 @@ use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\FormBuilder\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
@@ -19,10 +22,10 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  * Automatically generates the label-text for fields without a manually set label.
  * Uses auto-translation.
  *
- * Class AutoGenerateFieldIDs
+ * Class AutoGenerateLabelTexts
  * @package Nicat\FormBuilder\Decorators\General
  */
-class AutoGenerateLabels extends Decorator
+class AutoGenerateLabelTexts extends Decorator
 {
 
     /**
@@ -53,7 +56,9 @@ class AutoGenerateLabels extends Decorator
             EmailInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
-            TextareaElement::class
+            FileInputElement::class,
+            TextareaElement::class,
+            SelectElement::class
         ];
     }
 
@@ -64,10 +69,18 @@ class AutoGenerateLabels extends Decorator
      */
     public static function decorate(Element $element)
     {
+
         if (is_null($element->label)) {
+
+            $defaultValue = ucwords(FormBuilderTools::arrayStripString($element->attributes->getValue('name')));
+            if (is_a($element, RadioInputElement::class)) {
+                $defaultValue = ucwords($element->attributes->getValue('value'));
+            }
+
             $element->label(
-                ucwords($element->attributes->getValue('name'))
+                $element->performAutoTranslation(null,'',$defaultValue)
             );
         }
+
     }
 }

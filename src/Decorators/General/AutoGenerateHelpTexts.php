@@ -8,6 +8,7 @@ use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
@@ -51,6 +52,7 @@ class AutoGenerateHelpTexts extends Decorator
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
+            FileInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
             TextareaElement::class

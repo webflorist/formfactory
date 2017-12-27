@@ -26,7 +26,7 @@ class FormTest extends TestCase
     protected $matchTagAttributes = [
         'id' => 'myFormID',
         'action' => 'http://localhost',
-        'method' => 'POST',
+        'method' => 'post',
         'role' => 'form',
         'accept-charset' => 'UTF-8',
         'class' => 'form-vertical',
@@ -56,7 +56,7 @@ class FormTest extends TestCase
         parent::applyTagMethods2MatcherData();
 
         // Add hidden-input field for _token.
-        if ($this->matchTagAttributes['method'] !== 'GET') {
+        if ($this->matchTagAttributes['method'] !== 'get') {
             $this->matchTagChildren[] = [
                 'tag' => 'input',
                 'attributes' => [
@@ -81,7 +81,7 @@ class FormTest extends TestCase
             ]
         ];
 
-        if (($this->matchTagAttributes['method'] !== 'GET') && ($this->matchTagAttributes['method'] !== 'POST')) {
+        if (($this->matchTagAttributes['method'] !== 'get') && ($this->matchTagAttributes['method'] !== 'post')) {
             $this->matchTagChildren[] = [
                 'tag' => 'input',
                 'attributes' => [
@@ -92,7 +92,7 @@ class FormTest extends TestCase
                     'value' => $this->matchTagAttributes['method']
                 ]
             ];
-            $this->matchTagAttributes['method'] = 'POST';
+            $this->matchTagAttributes['method'] = 'post';
         }
 
         // Add hidden-input honeypot field, if one was set.
@@ -205,14 +205,14 @@ class FormTest extends TestCase
     }
 
     /** Tests:
-    %tagCall%->method('GET')
+    %tagCall%->method('get')
      */
     public function testFormTag_setMethodGet() {
 
         $this->tagMethods = [
             [
                 'name' => 'method',
-                'parameters' => ['GET']
+                'parameters' => ['get']
             ]
         ];
 

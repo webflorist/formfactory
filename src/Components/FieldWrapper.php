@@ -31,17 +31,43 @@ class FieldWrapper extends DivElement
     private function addLabel()
     {
         if ($this->field->labelMode !== 'none') {
-            $label = (new LabelElement())
-                ->for($this->field->attributes->getValue('id'))
-                ->content($this->field->label);
 
+            // Create the label-element with the label-text as it's content.
+            $label = (new LabelElement())->content($this->field->label);
+
+            // If labelMode is set to 'bound', we simply wrap the field with the label,
+            // and replace the field-element with the label-element in $this.
+            if ($this->field->labelMode === 'bound') {
+                $this->replaceChild(
+                    $this->field,
+                    $label->prependChild($this->field)
+                );
+                return;
+            }
+
+            // In all other cases the label-element should have the for-attribute
+            // pointing to the field's id.
+            $label->for($this->field->attributes->getValue('id'));
+
+            // If labelMode is set to 'after', we append the label after the field.
+            if ($this->field->labelMode === 'after') {
+                $this->insertChildAfter(
+                    $label,
+                    $this->field
+                );
+                return;
+            }
+
+            // If labelMode is set to 'sr-only', we add the 'sr-only' class to the label.
             if ($this->field->labelMode === 'sr-only') {
                 $label->addClass('sr-only');
             }
 
-            $this->prependContent(
+            // Standard-procedure is to insert the label before the field.
+            $this->prependChild(
                 $label
             );
+
         }
     }
 
@@ -59,16 +85,22 @@ class FieldWrapper extends DivElement
 
             // Add the help-text-element according to it's desired location.
             if ($this->field->helpTextLocation === 'append') {
-                $this->field->appendContent($helpTextElement);
+                $this->field->appendChild($helpTextElement);
             }
             if ($this->field->helpTextLocation === 'prepend') {
-                $this->field->prependContent($helpTextElement);
+                $this->field->prependChild($helpTextElement);
             }
             if ($this->field->helpTextLocation === 'after') {
-                $this->appendContent($helpTextElement);
+                $this->insertChildAfter(
+                    $helpTextElement,
+                    $this->field
+                );
             }
             if ($this->field->helpTextLocation === 'before') {
-                $this->prependContent($helpTextElement);
+                $this->insertChildBefore(
+                    $helpTextElement,
+                    $this->field
+                );
             }
 
             // Add the 'aria-describedby' attribute to the field-element.
@@ -94,16 +126,22 @@ class FieldWrapper extends DivElement
 
             // Add the help-text-element according to it's desired location.
             if ($this->field->errorsLocation === 'append') {
-                $this->field->appendContent($errorContainer);
+                $this->field->appendChild($errorContainer);
             }
             if ($this->field->errorsLocation === 'prepend') {
-                $this->field->prependContent($errorContainer);
+                $this->field->prependChild($errorContainer);
             }
             if ($this->field->errorsLocation === 'after') {
-                $this->appendContent($errorContainer);
+                $this->insertChildAfter(
+                    $errorContainer,
+                    $this->field
+                );
             }
             if ($this->field->errorsLocation === 'before') {
-                $this->prependContent($errorContainer);
+                $this->insertChildBefore(
+                    $errorContainer,
+                    $this->field
+                );
             }
 
             // Add the 'aria-describedby' attribute to the field-element.
