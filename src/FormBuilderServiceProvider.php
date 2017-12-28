@@ -25,6 +25,9 @@ class FormBuilderServiceProvider extends ServiceProvider
         // Merge the config.
         $this->mergeConfigFrom(__DIR__.'/config/formbuilder.php', 'formbuilder');
 
+        // Load translations.
+        $this->loadTranslationsFrom(__DIR__ . "/resources/lang","Nicat-FormBuilder");
+
         // Register included decorators.
         $htmlBuilder->decorators->registerFromFolder(
             'Nicat\FormBuilder\Decorators\General',

@@ -3,24 +3,10 @@
 namespace Nicat\FormBuilder\Decorators\General;
 
 use Nicat\FormBuilder\Elements\ButtonElement;
-use Nicat\FormBuilder\Elements\CheckboxInputElement;
-use Nicat\FormBuilder\Elements\ColorInputElement;
-use Nicat\FormBuilder\Elements\DateInputElement;
-use Nicat\FormBuilder\Elements\DatetimeInputElement;
-use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
-use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\ResetButtonElement;
-use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\SubmitButtonElement;
-use Nicat\FormBuilder\Elements\TextareaElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 /**
  * Automatically generates the button-text for button-elements without a manually set content.
@@ -31,6 +17,13 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  */
 class AutoGenerateButtonTexts extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var ButtonElement
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -58,16 +51,14 @@ class AutoGenerateButtonTexts extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        /** @var OptionElement $element */
-        if (!$element->hasChildren()) {
-            $element->content(
-                $element->performAutoTranslation(null,'',ucwords($element->attributes->getValue('name')))
+        /** @var OptionElement $this->element */
+        if (!$this->element->hasChildren()) {
+            $this->element->content(
+                $this->element->performAutoTranslation(null,'',ucwords($this->element->attributes->getValue('name')))
             );
         }
 

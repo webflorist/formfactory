@@ -2,11 +2,8 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-
 use Nicat\FormBuilder\Elements\HelpTextElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-
 
 class StyleHelpTextElement extends Decorator
 {
@@ -36,13 +33,11 @@ class StyleHelpTextElement extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        $element->addClass('text-muted');
-        $element->addClass('small');
+        $this->element->addClass('text-muted');
+        $this->element->addClass('small');
     }
 }

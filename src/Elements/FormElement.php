@@ -2,7 +2,12 @@
 
 namespace Nicat\FormBuilder\Elements;
 
+use Illuminate\Cache\RateLimiter;
+use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
+use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormBuilder\FormBuilderTools;
+use Request;
 
 class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 {
@@ -50,23 +55,56 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     public $wasSubmitted = false;
 
     /**
-     * Overwritten to apply certain modifications.
+     * A method to spoof for laravel.
      *
-     * @return string
+     * @var string
      */
-    public function render(): string
+    protected $spoofedMethod;
+
+    /**
+     * Class-name of the form-request-object this form will validate against.
+     *
+     * @var null|string
+     */
+    public $requestObject = null;
+
+    /**
+     * Set some default-setting.
+     */
+    protected function setUp()
     {
-        $this->evaluateSubmittedState();
-        $this->appendCSRFToken();
-        $this->appendHiddenFormId();
-        $this->setDefaultAction();
-
-        $html = parent::render();
-
-        // We remove the closing tag, since FormBuilder closes the form-tag via method close().
-        return str_before($html, '</form>');
+        $this->addRole('form');
+        $this->acceptCharset('UTF-8');
+        $this->enctype('multipart/form-data');
     }
 
+    /**
+     * Apply some modifications.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    protected function beforeDecoration()
+    {
+        $this->evaluateSubmittedState();
+
+        $this->appendCSRFToken();
+        $this->appendHiddenFormId();
+        $this->appendHiddenMethodSpoof();
+        $this->handleHoneypotProtection();
+        $this->handleCaptchaProtection();
+        $this->setDefaultAction();
+    }
+
+
+    /**
+     * Remove the closing tag from output, since FormBuilder closes the form-tag via method close().
+     *
+     * @param string $output
+     */
+    protected function manipulateOutput(string &$output)
+    {
+        $output = str_before($output, '</form>');
+    }
 
     /**
      * Evaluates, if this form been submitted via the last request.
@@ -77,9 +115,84 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     private function evaluateSubmittedState()
     {
-        if (\Request::old('_formID') === $this->attributes->getValue('id')) {
+        if (Request::old('_formID') === $this->attributes->getValue('id')) {
             $this->wasSubmitted = true;
         }
+    }
+
+    /**
+     * Set the class-name of the request object.
+     * (used for auto-adoption of rules, ajaxValidation, etc.)
+     *
+     * Also loads rules from the requestObject.
+     *
+     * Also saves in session, which request object is used for this particular form.
+     * This ist required for ajaxValidation.
+     *
+     * @param string $requestObject
+     * @return $this
+     * @throws FormRequestClassNotFoundException
+     */
+    public function requestObject(string $requestObject)
+    {
+        // If class $requestObject does not exist, we try to prepend the namespace 'App\Http\Requests\'
+        if (!class_exists($requestObject)) {
+            if (class_exists('App\Http\Requests\\' . $requestObject)) {
+                $requestObject = 'App\Http\Requests\\' . $requestObject;
+            } else {
+                throw new FormRequestClassNotFoundException('The form request class ' . $requestObject . ' could not be found!');
+            }
+        }
+
+        // We set it as a property of this object.
+        $this->requestObject = $requestObject;
+
+        // ... as well as in the session.
+        \Session::put('formBuilder.requestObjects.' . $this->attributes->getValue('id'), $requestObject);
+
+        // Furthermore we load the rules from the requestObject into $this->rules (if no rules were manually set).
+        if (count($this->rules) === 0) {
+            $requestObjectInstance = FormBuilderTools::initFormRequestObject($requestObject);
+
+            $rules = [];
+
+            // If the request-object uses the getRules()-function of the nicat/extended-validation package,
+            // We also fetch the rules returned by this method to get the wildcard-variants of array-fields.
+            // This should not be required anymore from Laravel 5.2 on.
+            if (method_exists($requestObjectInstance, 'getRules')) {
+                $rules = array_merge($rules, $requestObjectInstance->getRules());
+            }
+
+            // Merge rules-array from request-object.
+            $rules = array_merge($rules, $requestObjectInstance->rules());
+
+            $this->rules($rules);
+        }
+
+
+        return $this;
+    }
+
+    /**
+     * Set value of HTML-attribute 'method'.
+     * Overwritten to allow spoofed methods for laravel.
+     *
+     * @param string $method
+     * @return $this
+     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotAllowedException
+     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotFoundException
+     */
+    public function method(string $method)
+    {
+        $method = strtoupper($method);
+
+        if (in_array($method, ['DELETE', 'PUT', 'PATCH'])) {
+            $this->spoofedMethod = $method;
+            $method = 'POST';
+        }
+
+        $this->attributes->establish('method')->setValue(strtoupper($method));
+        return $this;
     }
 
     /**
@@ -101,13 +214,25 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     protected function appendCSRFToken()
     {
-        if ($this->generateToken && $this->attributes->getValue('method') !== 'get') {
+        if ($this->generateToken && $this->attributes->getValue('method') !== 'GET') {
             $csrfToken = csrf_token();
             if (is_null($csrfToken)) {
                 $csrfToken = '';
             }
             $this->appendChild(
                 (new HiddenInputElement())->name('_token')->value($csrfToken)
+            );
+        }
+    }
+
+    /**
+     * If the method is DELETE|PATCH|PUT, we spoof it laravel-style by adding a hidden '_method' field.
+     */
+    protected function appendHiddenMethodSpoof()
+    {
+        if (!is_null($this->spoofedMethod)) {
+            $this->appendChild(
+                (new HiddenInputElement())->name('_method')->value($this->spoofedMethod)
             );
         }
     }
@@ -121,6 +246,132 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->appendChild(
             (new HiddenInputElement())->name('_formID')->value($this->attributes->getValue('id'))
         );
+    }
+
+    /**
+     * Append the honeypot-field, if honeypot-protection is enabled in the config.
+     */
+    protected function handleHoneypotProtection()
+    {
+        if (config('formbuilder.honeypot.enabled')) {
+
+            // We retrieve the honeypot-rules.
+            $honeypotRules = $this->getRulesForField('_honeypot');
+
+            // If there are any, ...
+            if (count($honeypotRules) > 0) {
+
+                // ...we add the honeypot-field wrapped in a hidden wrapper.
+                $honeypotField = (new TextInputElement())
+                    ->name(FormBuilderTools::getHoneypotFieldName())
+                    ->value("")
+                    ->label(trans('Nicat-FormBuilder::formbuilder.honeypot_field_label'))
+                    ->addErrorField('_honeypot');
+                $honeypotField->wrap(
+                    (new FieldWrapper($honeypotField))->hidden()
+                );
+                $this->appendChild(
+                    $honeypotField
+                );
+            }
+        }
+    }
+
+    /**
+     * Handle setting the session-info and generation of the captcha-field, if captcha-protection is enabled in the config.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    protected function handleCaptchaProtection()
+    {
+        if (config('formbuilder.captcha.enabled')) {
+
+            // We retrieve the captcha-rules.
+            $captchaRules = $this->getRulesForField('_captcha');
+
+            // If there are any, ...
+            if (count($captchaRules)>0) {
+
+                // Captcha-protection only works, if a request-object was stated via the requestObject() method,
+                // so we throw an exception, if this was not the case.
+                if (is_null($this->requestObject)) {
+                    throw new MandatoryOptionMissingException(
+                        'The form with ID "'.$this->attributes->getValue('id').'" should display a captcha, '.
+                        'but no request-object was stated via the Form::open()->requestObject() method. '.
+                        'Captcha only works if this is the case.'
+                    );
+                }
+
+                // Set where the captcha-answer will be stored in the session.
+                $sessionKeyForCaptchaData = 'htmlBuilder.formBuilder.captcha.' . $this->requestObject;
+
+                // We unset any old captcha-answer (from the previous request) currently set in the session for this request-object.
+                $oldFlashKeys = Request::session()->get('flash.old');
+                if (is_array($oldFlashKeys) && in_array($sessionKeyForCaptchaData,$oldFlashKeys)) {
+                    Request::session()->forget($sessionKeyForCaptchaData);
+                }
+
+                // Get the rule-parameters for the 'captcha'-rule.
+                $ruleParameters = $captchaRules['captcha'];
+
+                // If a specific limit is set for this request via the first rule-parameter, we use this value.
+                if (isset($ruleParameters[0]) && is_numeric($ruleParameters[0])) {
+                    $requestLimit = $ruleParameters[0];
+                }
+                // Otherwise we use the default-value set in the config.
+                else {
+                    $requestLimit = config('formbuilder.captcha.default_limit');
+                }
+
+                // If a specific decay-time is set for this request via the first rule-parameter, we use this value.
+                if (isset($ruleParameters[1]) && is_numeric($ruleParameters[1])) {
+                    $decayTime = $ruleParameters[1];
+                }
+                // Otherwise we use the default-value set in the config.
+                else {
+                    $decayTime = config('formbuilder.captcha.decay_time');
+                }
+
+                // Now let's see, if the limit for this particular request has been reached.
+                // We use the laravel-built in RateLimiter for that.
+                // The Key of the RateLimiter is a hash of the RequestObject and the client-IP.
+                $rateLimiterKey = sha1($this->requestObject. Request::ip());
+
+                // A requestLimit of 0 means, a captcha is always required.
+                if (($requestLimit === "0") || app(RateLimiter::class)->tooManyAttempts($rateLimiterKey, $requestLimit, $decayTime)) {
+
+                    // If it has been reached, we must append a captcha-field.
+
+                    // If the same request-object is used in multiple forms of a page,
+                    // there might already be captchaData in the session.
+                    // If this is the case, we use that.
+                    if (Request::session()->has($sessionKeyForCaptchaData)) {
+                        $captchaData = Request::session()->get($sessionKeyForCaptchaData);
+                    }
+                    // Otherwise...
+                    else {
+                        // ...we generate a captcha-question and an answer.
+                        $captchaData = FormBuilderTools::generateCaptchaData();
+
+                        // Furthermore we also set the required captcha-answer in the session.
+                        // This is used when the CaptchaValidator actually checks the captcha.
+                        Request::session()->flash($sessionKeyForCaptchaData, $captchaData);
+                    }
+
+                    // Then we add the captcha-field to the output.
+                    $this->appendChild(
+                        (new TextInputElement())
+                            ->name('_captcha')
+                            ->required(true)
+                            ->value('')
+                            ->label($captchaData['question'])
+                            ->placeholder(trans('Nicat-FormBuilder::formbuilder.captcha_placeholder'))
+                            ->helpText(trans('Nicat-FormBuilder::formbuilder.captcha_help_text'))
+                    );
+
+                }
+            }
+        }
     }
 
     /**
@@ -144,7 +395,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->defaultValues = $values;
         return $this;
     }
-
 
     /**
      * Gets the default-value of a field stored in this FormElement via the 'values'-method.
@@ -258,8 +508,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
                 }
             }
         }
-
-        // TODO: look via request-object.
 
         // If no rules were found, we simply return an empty array.
         return [];

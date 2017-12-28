@@ -13,8 +13,9 @@ use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\FormBuilder\Elements\Traits\CanHaveHelpText;
+use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 /**
  * Automatically generates help-texts for fields without a manually set help-text.
@@ -25,6 +26,13 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  */
 class AutoGenerateHelpTexts extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var CanHaveHelpText|UsesAutoTranslation
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -60,16 +68,14 @@ class AutoGenerateHelpTexts extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        if (!$element->hasHelpText()) {
-            $helpText = $element->performAutoTranslation(null, 'HelpText');
+        if (!$this->element->hasHelpText()) {
+            $helpText = $this->element->performAutoTranslation(null, 'HelpText');
             if ($helpText !== null) {
-                $element->helpText($helpText);
+                $this->element->helpText($helpText);
             }
         }
     }

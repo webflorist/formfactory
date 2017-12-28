@@ -14,6 +14,8 @@ use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
+use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 use Nicat\FormBuilder\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
@@ -27,6 +29,13 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  */
 class AutoGenerateLabelTexts extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var Element|CanHaveLabel|UsesAutoTranslation
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -63,22 +72,20 @@ class AutoGenerateLabelTexts extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
 
-        if (is_null($element->label)) {
+        if (is_null($this->element->label)) {
 
-            $defaultValue = ucwords(FormBuilderTools::arrayStripString($element->attributes->getValue('name')));
-            if (is_a($element, RadioInputElement::class)) {
-                $defaultValue = ucwords($element->attributes->getValue('value'));
+            $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->getValue('name')));
+            if ($this->element->is(RadioInputElement::class)) {
+                $defaultValue = ucwords($this->element->attributes->getValue('value'));
             }
 
-            $element->label(
-                $element->performAutoTranslation(null,'',$defaultValue)
+            $this->element->label(
+                $this->element->performAutoTranslation(null,'',$defaultValue)
             );
         }
 

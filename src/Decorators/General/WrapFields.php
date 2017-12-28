@@ -16,17 +16,24 @@ use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\HtmlBuilder\Elements\Abstracts\ContainerElement;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 /**
- * Automatically generates an id for fields without a manually set id.
- * The generated id will be:
+ * Wrap fields with FieldWrapper.
  *
  * Class AutoGenerateFieldIDs
  * @package Nicat\FormBuilder\Decorators\General
  */
 class WrapFields extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var ContainerElement
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -63,15 +70,13 @@ class WrapFields extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        if (is_null($element->wrapper)) {
-            $element->wrap(
-                new FieldWrapper($element)
+        if (is_null($this->element->wrapper)) {
+            $this->element->wrap(
+                new FieldWrapper($this->element)
             );
         }
     }

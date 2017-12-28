@@ -5,11 +5,17 @@ namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 use Nicat\FormBuilder\Components\FieldWrapper;
 use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\CheckboxInputElement;
 
 class StyleFieldWrapper extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var FieldWrapper
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -36,30 +42,26 @@ class StyleFieldWrapper extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-
-        /** @var FieldWrapper $element */
-        $element->addClass(self::getWrapperClassForField($element->field));
+        /** @var FieldWrapper $this->element */
+        $this->element->addClass($this->getFieldWrapperClass());
     }
 
     /**
      * Returns the correct class for the field's wrapper.
      *
-     * @param Element $field
      * @return string
      */
-    private static function getWrapperClassForField(Element $field)
+    private function getFieldWrapperClass()
     {
-        if (is_a($field,CheckboxInputElement::class)) {
+        if ($this->element->field->is(CheckboxInputElement::class)) {
             return 'checkbox';
         }
 
-        if (is_a($field,RadioInputElement::class)) {
+        if ($this->element->field->is(RadioInputElement::class)) {
             return 'radio';
         }
 

@@ -6,10 +6,16 @@ use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\ResetButtonElement;
 use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 class StyleButtons extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var ButtonElement|SubmitButtonElement|ResetButtonElement
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -38,33 +44,30 @@ class StyleButtons extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        if (!$element->hasContext()) {
-            $element->context(static::getDefaultContextForButton($element));
+        if (!$this->element->hasContext()) {
+            $this->element->context($this->getDefaultContext());
         }
 
-        $element->addClass('btn-'.$element->getContext());
+        $this->element->addClass('btn-'.$this->element->getContext());
 
     }
 
     /**
      * Returns the default context for the button.
      *
-     * @param Element $button
      * @return string
      */
-    private static function getDefaultContextForButton(Element $button)
+    private function getDefaultContext()
     {
-        if (is_a($button,SubmitButtonElement::class)) {
+        if ($this->element->is(SubmitButtonElement::class)) {
             return 'primary';
         }
 
-        if (is_a($button,ResetButtonElement::class)) {
+        if ($this->element->is(ResetButtonElement::class)) {
             return 'secondary';
         }
 

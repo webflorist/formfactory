@@ -26,7 +26,7 @@ class FormTest extends TestCase
     protected $matchTagAttributes = [
         'id' => 'myFormID',
         'action' => 'http://localhost',
-        'method' => 'post',
+        'method' => 'POST',
         'role' => 'form',
         'accept-charset' => 'UTF-8',
         'class' => 'form-vertical',
@@ -56,7 +56,7 @@ class FormTest extends TestCase
         parent::applyTagMethods2MatcherData();
 
         // Add hidden-input field for _token.
-        if ($this->matchTagAttributes['method'] !== 'get') {
+        if ($this->matchTagAttributes['method'] !== 'GET') {
             $this->matchTagChildren[] = [
                 'tag' => 'input',
                 'attributes' => [
@@ -81,7 +81,7 @@ class FormTest extends TestCase
             ]
         ];
 
-        if (($this->matchTagAttributes['method'] !== 'get') && ($this->matchTagAttributes['method'] !== 'post')) {
+        if (($this->matchTagAttributes['method'] !== 'GET') && ($this->matchTagAttributes['method'] !== 'POST')) {
             $this->matchTagChildren[] = [
                 'tag' => 'input',
                 'attributes' => [
@@ -92,7 +92,7 @@ class FormTest extends TestCase
                     'value' => $this->matchTagAttributes['method']
                 ]
             ];
-            $this->matchTagAttributes['method'] = 'post';
+            $this->matchTagAttributes['method'] = 'POST';
         }
 
         // Add hidden-input honeypot field, if one was set.
@@ -100,7 +100,7 @@ class FormTest extends TestCase
             $this->matchTagChildren[] = [
                 'tag' => 'div',
                 'attributes' => [
-                    'hidden' => 'hidden',
+                    'hidden' => true,
                     'class' => 'form-group'
                 ],
                 'children' => [
@@ -165,7 +165,7 @@ class FormTest extends TestCase
                             'id' => $this->matchTagAttributes['id'].'__captcha',
                             'aria-describedby' => $this->matchTagAttributes['id'].'__captcha_helpText',
                             'class' => 'form-control',
-                            'required' => 'required',
+                            'required' => true,
                             'name' => '_captcha',
                             'value' => "",
                             'placeholder' => 'Please solve the above mentioned calculation.'
@@ -212,7 +212,7 @@ class FormTest extends TestCase
         $this->tagMethods = [
             [
                 'name' => 'method',
-                'parameters' => ['get']
+                'parameters' => ['GET']
             ]
         ];
 

@@ -7,6 +7,7 @@ use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
+use Nicat\HtmlBuilder\Elements\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Automatically generates the placeholder-text for fields without a manually set placeholder.
@@ -17,6 +18,13 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  */
 class AutoGeneratePlaceholders extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var Element|AllowsPlaceholderAttribute
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -44,15 +52,13 @@ class AutoGeneratePlaceholders extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        if (!$element->attributes->isSet('placeholder')) {
-            $element->placeholder(
-                ucwords($element->attributes->getValue('name'))
+        if (!$this->element->attributes->isSet('placeholder')) {
+            $this->element->placeholder(
+                ucwords($this->element->attributes->getValue('name'))
             );
         }
     }

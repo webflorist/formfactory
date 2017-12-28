@@ -14,6 +14,7 @@ use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
@@ -25,6 +26,12 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
  */
 class IndicateRequiredFields extends Decorator
 {
+    /**
+     * The element to be decorated.
+     *
+     * @var Element|CanHaveLabel
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -61,16 +68,14 @@ class IndicateRequiredFields extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
-        if (!is_a($element,RadioInputElement::class)) {
-            if (!is_null($element->label) && $element->attributes->isSet('required')) {
-                $element->label(
-                    $element->label . '<sup>*</sup>'
+        if (!$this->element->is(RadioInputElement::class)) {
+            if (!is_null($this->element->label) && $this->element->attributes->isSet('required')) {
+                $this->element->label(
+                    $this->element->label . '<sup>*</sup>'
                 );
             }
         }

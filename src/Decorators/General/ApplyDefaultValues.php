@@ -15,9 +15,11 @@ use Nicat\FormBuilder\Elements\NumberInputElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\FormBuilder\FormBuilder;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\FormBuilder\Elements\TextareaElement;
+use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\HtmlBuilder\Elements\Abstracts\ContainerElement;
+use Nicat\HtmlBuilder\Elements\Traits\AllowsCheckedAttribute;
+use Nicat\HtmlBuilder\Elements\Traits\AllowsValueAttribute;
 
 /**
  * Applies default-values, that were set via the 'values' method on the FormElement.
@@ -63,34 +65,74 @@ class ApplyDefaultValues extends Decorator
     }
 
     /**
-     * Decorates the element.
-     *
-     * @param Element $element
+     * Perform decorations on $this->element.
      */
-    public static function decorate(Element $element)
+    public function decorate()
     {
         /** @var FormElement $openForm */
         $openForm = app(FormBuilder::class)->openForm;
 
-        $fieldName = $element->attributes->getValue('name');
+        $fieldName = $this->element->attributes->getValue('name');
 
         // We only apply default-values, if the current form was not submitted.
         if (!$openForm->wasSubmitted && $openForm->fieldHasDefaultValue($fieldName)) {
             $defaultValue = $openForm->getDefaultValueForField($fieldName);
 
-            if (is_a($element,TextareaElement::class)) {
-                $element->clearContent();
-                $element->content($defaultValue);
+            // Apply default-value as content for text-areas.
+            if ($this->element->is(TextareaElement::class)) {
+                $this->applyContent($defaultValue);
+                return;
             }
-            else if (is_a($element,CheckboxInputElement::class) || is_a($element,RadioInputElement::class)) {
-                $element->checked(
-                    $defaultValue === $element->attributes->getValue('value')
-                );
+
+            // Apply default-value as checked-state for checkboxes and radio-buttons.
+            if ($this->element->is(CheckboxInputElement::class) || $this->element->is(RadioInputElement::class)) {
+                $this->applyCheckedState($defaultValue);
+                return;
             }
-            else {
-                $element->value($defaultValue);
-            }
+
+            // All other elements get the default value set as their 'value' attribute.
+            $this->applyValue($defaultValue);
+            return;
         }
+    }
+
+    /**
+     * Applies a default-value as content.
+     *
+     * @param $defaultValue
+     */
+    protected function applyContent(string $defaultValue)
+    {
+        /** @var ContainerElement $containerElement */
+        $containerElement = $this->element;
+        $containerElement->clearContent();
+        $containerElement->content($defaultValue);
+    }
+
+    /**
+     * Applies a default-value to element's checked-state.
+     *
+     * @param $defaultValue
+     */
+    protected function applyCheckedState($defaultValue)
+    {
+        /** @var AllowsCheckedAttribute $element */
+        $element = $this->element;
+        $element->checked(
+            $defaultValue === $this->element->attributes->getValue('value')
+        );
+    }
+
+    /**
+     * Applies a default-value as the element's 'value'-attribute.
+     *
+     * @param $defaultValue
+     */
+    protected function applyValue($defaultValue)
+    {
+        /** @var AllowsValueAttribute $element */
+        $element = $this->element;
+        $element->value($defaultValue);
     }
 
 
