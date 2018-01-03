@@ -11,8 +11,24 @@
          syntaxCheck="false">
 
     <testsuites>
-        <testsuite name="FormBuilder Test Suite">
-            <directory>tests</directory>
+        <testsuite name="FormBuilder Legacy Tests">
+            <directory>./tests/Legacy</directory>
+        </testsuite>
+        <testsuite name="FormBuilder Browser Tests">
+            <directory>./tests/Browser</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:W6SykHpAPJS7ahx2oOSr2/+f4psDt65U1OHEgP5tT0U="/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="APP_LOG_LEVEL" value="debug"/>
+        <env name="APP_URL" value="http://192.168.56.103:8000"/>
+        <env name="BROWSERTEST_DRIVER_URL" value="10.16.1.68"/>
+        <!--<env name="BROWSERTEST_DRIVER_PORT" value="9515"/>-->
+        <env name="BROWSERTEST_SERVER_IP" value="192.168.56.103"/>
+        <env name="CACHE_DRIVER" value="file"/>
+        <env name="SESSION_DRIVER" value="file"/>
+    </php>
 </phpunit>

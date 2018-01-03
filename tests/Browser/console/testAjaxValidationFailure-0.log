@@ -1,0 +1,14 @@
+[
+    {
+        "level": "WARNING",
+        "message": "http:\/\/192.168.56.103:8000\/jquery-3.2.1.min.js 3 Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check https:\/\/xhr.spec.whatwg.org\/.",
+        "source": "deprecation",
+        "timestamp": 1514566132839
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/192.168.56.103:8000\/jquery-3.2.1.min.js 3 Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+        "source": "network",
+        "timestamp": 1514566132851
+    }
+]

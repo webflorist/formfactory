@@ -1,0 +1,8 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/192.168.56.103:8000\/captcha-get - Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+        "source": "network",
+        "timestamp": 1514976927286
+    }
+]
