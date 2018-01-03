@@ -1,8 +1,0 @@
-[
-    {
-        "level": "WARNING",
-        "message": "deprecation 374 Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For more help, check https:\/\/xhr.spec.whatwg.org\/.",
-        "source": "deprecation",
-        "timestamp": 1514971522097
-    }
-]
