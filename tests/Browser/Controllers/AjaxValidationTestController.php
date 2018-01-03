@@ -1,9 +1,9 @@
 <?php
 
-namespace HtmlBuilderTests\Browser\Controllers;
+namespace FormBuilderTests\Browser\Controllers;
 
 use Form;
-use HtmlBuilderTests\Browser\Requests\AjaxValidationTestRequest;
+use FormBuilderTests\Browser\Requests\AjaxValidationTestRequest;
 use Illuminate\Routing\Controller;
 
 class AjaxValidationTestController extends Controller

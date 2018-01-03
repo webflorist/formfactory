@@ -1,10 +1,10 @@
 <?php
 
-namespace HtmlBuilderTests\Browser\Controllers;
+namespace FormBuilderTests\Browser\Controllers;
 
 use Form;
-use HtmlBuilderTests\Browser\Requests\CaptchaRequest;
-use HtmlBuilderTests\Browser\Requests\CaptchaTestRequest;
+use FormBuilderTests\Browser\Requests\CaptchaRequest;
+use FormBuilderTests\Browser\Requests\CaptchaTestRequest;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Routing\Controller;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace HtmlBuilderTests\Browser;
+namespace FormBuilderTests\Browser;
 
-use HtmlBuilderTests\DuskTestCase;
+use FormBuilderTests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Route;
 

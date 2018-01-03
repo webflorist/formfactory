@@ -110,6 +110,7 @@ class FieldWrapper extends DivElement
 
     private function addErrors()
     {
+
         if ($this->field->hasErrors() && $this->field->showErrors) {
 
             // The ID of the error-container should be the id of the field plus the suffix '_errors'.

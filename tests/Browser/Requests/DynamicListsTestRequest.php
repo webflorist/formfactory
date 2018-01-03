@@ -1,6 +1,6 @@
 <?php
 
-namespace HtmlBuilderTests\Browser\Requests;
+namespace FormBuilderTests\Browser\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

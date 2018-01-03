@@ -20,9 +20,9 @@ The main features are:
 ## Installation
 1. Require the package via composer:  `composer require nicat/htmlbuilder`
 2. Add the Service-Provider to config/app.php:  `Nicat\HtmlBuilder\HtmlBuilderServiceProvider::class`
-3. Add the Form-facade to config/app.php: `'Form' => Nicat\HtmlBuilder\FormBuilder\FormBuilderFacade::class`
+3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormBuilder\FormBuilderFacade::class`
 4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\HtmlBuilder\HtmlBuilderServiceProvider"`
-5. Include the published javascript-file (`public/vendor/nicat/htmlbuilder/js/htmlbuilder.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
+5. Include the published javascript-file (`public/vendor/nicat/htmlbuilder/js/formbuilder.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
 
 ## Configuration
 The package can be configured via config/htmlbuilder.php. Please see the inline-documentation of this file for explanations of the various settings:
@@ -303,7 +303,7 @@ Generated HTML:
 #### Ajax validation
 
 HtmlBuilder comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
-* `htmlbuilder.js` must be loaded with your application (see Install-instructions above).
+* `formbuilder.js` must be loaded with your application (see Install-instructions above).
 * The config-key `formbuilder.ajax_validation.enabled` must be set to `true` in the `htmlbuilder`-config.
 * A [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) must be handed over to the `Form::open()`-call via the `->requestObject()`-method (see `rules`-section above for details). This request-object will be used for ajax-validation.
 

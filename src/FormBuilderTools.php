@@ -139,16 +139,6 @@ class FormBuilderTools
     }
 
     /**
-     * Returns the string to be used as the honeypot-field-name.
-     *
-     * @return string
-     */
-    public static function getHoneypotFieldName()
-    {
-        return md5(csrf_token());
-    }
-
-    /**
      * Gets instance of FormRequest-Object
      *
      * @param string $objectName
@@ -161,22 +151,6 @@ class FormBuilderTools
             throw new FormRequestClassNotFoundException('The form request class ' . $objectName . ' could not be found!');
         }
         return new $objectName();
-    }
-
-    /**
-     * Generates captcha-data (question and answer).
-     *
-     * @return array
-     */
-    public static function generateCaptchaData() {
-        $num1 = rand(1, 10) * rand(1, 3);
-        $num2 = rand(1, 10) * rand(1, 3);
-        $answer = $num1+$num2;
-        $question = trans('Nicat-FormBuilder::formbuilder.captcha_questions.math',['calc' => $num1.' + '.$num2]);
-        return [
-            'question' => $question,
-            'answer' => $answer,
-        ];
     }
 
 

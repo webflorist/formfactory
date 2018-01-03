@@ -1,9 +1,9 @@
 <?php
 
-namespace HtmlBuilderTests\Browser\Controllers;
+namespace FormBuilderTests\Browser\Controllers;
 
 use Form;
-use HtmlBuilderTests\Browser\Requests\TimeLimitTestRequest;
+use FormBuilderTests\Browser\Requests\TimeLimitTestRequest;
 use Illuminate\Routing\Controller;
 
 class TimeLimitTestController extends Controller

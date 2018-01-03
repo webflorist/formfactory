@@ -146,7 +146,7 @@ class FormTest extends TestCase
                         ],
                         'children' => [
                             [
-                                'text' => \Session::get('htmlBuilder.formBuilder.captcha.' . $this->requestObject . '.question')
+                                'text' => \Session::get('formbuilder.captcha.' . $this->requestObject . '.question')
                             ],
                             [
                                 'tag' => 'sup',

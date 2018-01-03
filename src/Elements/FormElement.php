@@ -2,12 +2,12 @@
 
 namespace Nicat\FormBuilder\Elements;
 
-use Illuminate\Cache\RateLimiter;
-use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\AntiBotProtection\CaptchaProtection;
+use Nicat\FormBuilder\AntiBotProtection\HoneypotProtection;
+use Nicat\FormBuilder\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormBuilder\FormBuilderTools;
-use Request;
 
 class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 {
@@ -69,6 +69,13 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     public $requestObject = null;
 
     /**
+     * The Laravel errorBag, where this form should look for errors.
+     *
+     * @var string
+     */
+    protected $errorBag = 'default';
+
+    /**
      * Set some default-setting.
      */
     protected function setUp()
@@ -86,13 +93,13 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     protected function beforeDecoration()
     {
         $this->evaluateSubmittedState();
-
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
-        $this->handleHoneypotProtection();
-        $this->handleCaptchaProtection();
         $this->setDefaultAction();
+        HoneypotProtection::setUp($this);
+        TimeLimitProtection::setUp($this);
+        CaptchaProtection::setUp($this);
     }
 
 
@@ -115,9 +122,21 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     private function evaluateSubmittedState()
     {
-        if (Request::old('_formID') === $this->attributes->getValue('id')) {
+        if (request()->old('_formID') === $this->attributes->getValue('id')) {
             $this->wasSubmitted = true;
         }
+    }
+
+    /**
+     * Sets the name of the Laravel-errorBag, where this form should look for errors.
+     * (default = 'default')
+     *
+     * @param string $errorBag
+     * @return $this
+     */
+    public function errorBag($errorBag) {
+        $this->errorBag = $errorBag;
+        return $this;
     }
 
     /**
@@ -135,6 +154,9 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     public function requestObject(string $requestObject)
     {
+        // Make sure, the submittedState of this form is correctly evaluated.
+        $this->evaluateSubmittedState();
+
         // If class $requestObject does not exist, we try to prepend the namespace 'App\Http\Requests\'
         if (!class_exists($requestObject)) {
             if (class_exists('App\Http\Requests\\' . $requestObject)) {
@@ -147,8 +169,9 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         // We set it as a property of this object.
         $this->requestObject = $requestObject;
 
-        // ... as well as in the session.
-        \Session::put('formBuilder.requestObjects.' . $this->attributes->getValue('id'), $requestObject);
+        // We also link the request-object to this form in the session.
+        // This is utilized by ajaxValidation.
+        session()->put('formbuilder.request_objects.' . $this->attributes->getValue('id'), $requestObject);
 
         // Furthermore we load the rules from the requestObject into $this->rules (if no rules were manually set).
         if (count($this->rules) === 0) {
@@ -169,6 +192,18 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
             $this->rules($rules);
         }
 
+        // If this form was just submitted, we also fetch any errors from the session
+        // and put them into $this->errors (if no errors were manually set).
+        if ($this->wasSubmitted && (count($this->errors) === 0) && session()->has('errors')) {
+            $errorBag = session()->get('errors');
+            if (is_a($errorBag, 'Illuminate\Support\ViewErrorBag')) {
+                /** @var \Illuminate\Support\ViewErrorBag $errorBag */
+                $errors = $errorBag->getBag($this->errorBag)->toArray();
+                if (count($errors) > 0) {
+                    $this->errors = $errors;
+                }
+            }
+        }
 
         return $this;
     }
@@ -249,132 +284,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     }
 
     /**
-     * Append the honeypot-field, if honeypot-protection is enabled in the config.
-     */
-    protected function handleHoneypotProtection()
-    {
-        if (config('formbuilder.honeypot.enabled')) {
-
-            // We retrieve the honeypot-rules.
-            $honeypotRules = $this->getRulesForField('_honeypot');
-
-            // If there are any, ...
-            if (count($honeypotRules) > 0) {
-
-                // ...we add the honeypot-field wrapped in a hidden wrapper.
-                $honeypotField = (new TextInputElement())
-                    ->name(FormBuilderTools::getHoneypotFieldName())
-                    ->value("")
-                    ->label(trans('Nicat-FormBuilder::formbuilder.honeypot_field_label'))
-                    ->addErrorField('_honeypot');
-                $honeypotField->wrap(
-                    (new FieldWrapper($honeypotField))->hidden()
-                );
-                $this->appendChild(
-                    $honeypotField
-                );
-            }
-        }
-    }
-
-    /**
-     * Handle setting the session-info and generation of the captcha-field, if captcha-protection is enabled in the config.
-     *
-     * @throws MandatoryOptionMissingException
-     */
-    protected function handleCaptchaProtection()
-    {
-        if (config('formbuilder.captcha.enabled')) {
-
-            // We retrieve the captcha-rules.
-            $captchaRules = $this->getRulesForField('_captcha');
-
-            // If there are any, ...
-            if (count($captchaRules)>0) {
-
-                // Captcha-protection only works, if a request-object was stated via the requestObject() method,
-                // so we throw an exception, if this was not the case.
-                if (is_null($this->requestObject)) {
-                    throw new MandatoryOptionMissingException(
-                        'The form with ID "'.$this->attributes->getValue('id').'" should display a captcha, '.
-                        'but no request-object was stated via the Form::open()->requestObject() method. '.
-                        'Captcha only works if this is the case.'
-                    );
-                }
-
-                // Set where the captcha-answer will be stored in the session.
-                $sessionKeyForCaptchaData = 'htmlBuilder.formBuilder.captcha.' . $this->requestObject;
-
-                // We unset any old captcha-answer (from the previous request) currently set in the session for this request-object.
-                $oldFlashKeys = Request::session()->get('flash.old');
-                if (is_array($oldFlashKeys) && in_array($sessionKeyForCaptchaData,$oldFlashKeys)) {
-                    Request::session()->forget($sessionKeyForCaptchaData);
-                }
-
-                // Get the rule-parameters for the 'captcha'-rule.
-                $ruleParameters = $captchaRules['captcha'];
-
-                // If a specific limit is set for this request via the first rule-parameter, we use this value.
-                if (isset($ruleParameters[0]) && is_numeric($ruleParameters[0])) {
-                    $requestLimit = $ruleParameters[0];
-                }
-                // Otherwise we use the default-value set in the config.
-                else {
-                    $requestLimit = config('formbuilder.captcha.default_limit');
-                }
-
-                // If a specific decay-time is set for this request via the first rule-parameter, we use this value.
-                if (isset($ruleParameters[1]) && is_numeric($ruleParameters[1])) {
-                    $decayTime = $ruleParameters[1];
-                }
-                // Otherwise we use the default-value set in the config.
-                else {
-                    $decayTime = config('formbuilder.captcha.decay_time');
-                }
-
-                // Now let's see, if the limit for this particular request has been reached.
-                // We use the laravel-built in RateLimiter for that.
-                // The Key of the RateLimiter is a hash of the RequestObject and the client-IP.
-                $rateLimiterKey = sha1($this->requestObject. Request::ip());
-
-                // A requestLimit of 0 means, a captcha is always required.
-                if (($requestLimit === "0") || app(RateLimiter::class)->tooManyAttempts($rateLimiterKey, $requestLimit, $decayTime)) {
-
-                    // If it has been reached, we must append a captcha-field.
-
-                    // If the same request-object is used in multiple forms of a page,
-                    // there might already be captchaData in the session.
-                    // If this is the case, we use that.
-                    if (Request::session()->has($sessionKeyForCaptchaData)) {
-                        $captchaData = Request::session()->get($sessionKeyForCaptchaData);
-                    }
-                    // Otherwise...
-                    else {
-                        // ...we generate a captcha-question and an answer.
-                        $captchaData = FormBuilderTools::generateCaptchaData();
-
-                        // Furthermore we also set the required captcha-answer in the session.
-                        // This is used when the CaptchaValidator actually checks the captcha.
-                        Request::session()->flash($sessionKeyForCaptchaData, $captchaData);
-                    }
-
-                    // Then we add the captcha-field to the output.
-                    $this->appendChild(
-                        (new TextInputElement())
-                            ->name('_captcha')
-                            ->required(true)
-                            ->value('')
-                            ->label($captchaData['question'])
-                            ->placeholder(trans('Nicat-FormBuilder::formbuilder.captcha_placeholder'))
-                            ->helpText(trans('Nicat-FormBuilder::formbuilder.captcha_help_text'))
-                    );
-
-                }
-            }
-        }
-    }
-
-    /**
      * Set default action to current URL, if none was set.
      */
     private function setDefaultAction()
@@ -452,8 +361,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         if (isset($this->errors[$name]) > 0) {
             return $this->errors[$name];
         }
-
-        // TODO: look via request-object.
 
         // If no errors were found, we simply return an empty array.
         return [];

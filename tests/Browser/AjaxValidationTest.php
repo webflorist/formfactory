@@ -1,9 +1,9 @@
 <?php
 
-namespace HtmlBuilderTests\Browser;
+namespace FormBuilderTests\Browser;
 
 use Facebook\WebDriver\WebDriverKeys;
-use HtmlBuilderTests\DuskTestCase;
+use FormBuilderTests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
 class AjaxValidationTest extends DuskTestCase

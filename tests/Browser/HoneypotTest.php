@@ -1,33 +1,13 @@
 <?php
 
-namespace HtmlBuilderTests\Browser;
+namespace FormBuilderTests\Browser;
 
-use HtmlBuilderTests\DuskTestCase;
+use FormBuilderTests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Route;
 
 class HoneypotTest extends DuskTestCase
 {
-
-    /**
-     * Submits Form.
-     *
-     * @param Browser $browser
-     * @param string $honeypotValue
-     */
-    private function submitForm(Browser $browser, $honeypotValue = '')
-    {
-
-        // Make wrapper of honeypot-field visible to be able to interact with it.
-        $browser->script('document.querySelector("#myFormId fieldset").style.display = "block";');
-
-        // Get name of honeypot-field
-        $fieldName = $browser->element("#myFormId fieldset input")->getAttribute('name');
-
-        $browser
-            ->type($fieldName,$honeypotValue)
-            ->click('#myFormId_submit');
-    }
 
     /**
      * @throws \Exception
@@ -83,5 +63,25 @@ class HoneypotTest extends DuskTestCase
             $browser->assertDontSee('validated')
             ;
         });
+    }
+
+    /**
+     * Submits Form.
+     *
+     * @param Browser $browser
+     * @param string $honeypotValue
+     */
+    private function submitForm(Browser $browser, $honeypotValue = '')
+    {
+
+        // Make wrapper of honeypot-field visible to be able to interact with it.
+        $browser->script('document.querySelector("#myFormId div").style.display = "block";');
+
+        // Get name of honeypot-field
+        $fieldName = $browser->element("#myFormId div input")->getAttribute('name');
+
+        $browser
+            ->type($fieldName,$honeypotValue)
+            ->click('#myFormId_submit');
     }
 }

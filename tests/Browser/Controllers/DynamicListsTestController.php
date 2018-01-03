@@ -1,9 +1,9 @@
 <?php
 
-namespace HtmlBuilderTests\Browser\Controllers;
+namespace FormBuilderTests\Browser\Controllers;
 
 use Form;
-use HtmlBuilderTests\Browser\Requests\DynamicListsTestRequest;
+use FormBuilderTests\Browser\Requests\DynamicListsTestRequest;
 use Illuminate\Routing\Controller;
 
 class DynamicListsTestController extends Controller

@@ -72,7 +72,7 @@ class FormBuilder
     {
         $return = '';
         if ($showMandatoryFieldsLegend && $this->openForm) {
-            $return .= '<div class="text-muted small"><sup>*</sup> ' . trans('Nicat-FormBuilder::formbuilder.mandatoryFields') . '</div>';
+            $return .= '<div class="text-muted small"><sup>*</sup> ' . trans('Nicat-FormBuilder::formbuilder.mandatory_fields') . '</div>';
         }
         $return .= '</form>';
         $this->openForm = null;
