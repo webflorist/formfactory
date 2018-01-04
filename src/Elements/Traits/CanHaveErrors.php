@@ -51,7 +51,7 @@ trait CanHaveErrors
     }
 
     /**
-     * Set if errors should be displayed for this tag.
+     * Set if errors should be displayed for this field.
      *
      * @param bool|false $showErrors
      * @return $this
@@ -59,21 +59,6 @@ trait CanHaveErrors
     public function showErrors(bool $showErrors)
     {
         $this->showErrors = $showErrors;
-        return $this;
-    }
-
-    /**
-     * Adds a fieldname to the list of fields, this tag should display errors for.
-     * This is only used, if this tag should display errors for other fields than itself.
-     *
-     * @param string $fieldName
-     * @return $this
-     */
-    public function addErrorField($fieldName)
-    {
-        if (array_search($fieldName, $this->errorFields) === false) {
-            $this->errorFields[] = $fieldName;
-        }
         return $this;
     }
 

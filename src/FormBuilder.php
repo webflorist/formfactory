@@ -3,9 +3,15 @@
 namespace Nicat\FormBuilder;
 
 
+use Nicat\FormBuilder\Components\DynamicList;
+use Nicat\FormBuilder\Components\InputGroupAddonComponent;
+use Nicat\FormBuilder\Components\InputGroupButtonComponent;
+use Nicat\FormBuilder\Components\InputGroupComponent;
+use Nicat\FormBuilder\Components\PanelComponent;
 use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
 use Nicat\FormBuilder\Elements\DateInputElement;
 use Nicat\FormBuilder\Elements\DatetimeInputElement;
 use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
@@ -50,15 +56,17 @@ class FormBuilder
 
     /**
      * Generates and returns the opening form-tag.
-     * Also sets the form as $this->openForm.
+     * Also sets the form as app(FormBuilder::class)->openForm.
      *
      * @param string $id
      * @return FormElement
+     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotAllowedException
+     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotFoundException
      */
-    public function open(string $id): FormElement
+    public static function open(string $id): FormElement
     {
         $formElement = (new FormElement())->id($id)->method('post');
-        $this->openForm = $formElement;
+        app(FormBuilder::class)->openForm = $formElement;
         return $formElement;
     }
 
@@ -68,14 +76,14 @@ class FormBuilder
      * @param bool $showMandatoryFieldsLegend
      * @return string
      */
-    public function close(bool $showMandatoryFieldsLegend = true)
+    public static function close(bool $showMandatoryFieldsLegend = true)
     {
         $return = '';
-        if ($showMandatoryFieldsLegend && $this->openForm) {
+        if ($showMandatoryFieldsLegend && app(FormBuilder::class)->openForm) {
             $return .= '<div class="text-muted small"><sup>*</sup> ' . trans('Nicat-FormBuilder::formbuilder.mandatory_fields') . '</div>';
         }
         $return .= '</form>';
-        $this->openForm = null;
+        app(FormBuilder::class)->openForm = null;
         return $return;
     }
 
@@ -85,7 +93,7 @@ class FormBuilder
      * @param string $name
      * @return TextInputElement
      */
-    public function text(string $name): TextInputElement
+    public static function text(string $name): TextInputElement
     {
         return (new TextInputElement())->name($name);
     }
@@ -96,7 +104,7 @@ class FormBuilder
      * @param string $name
      * @return TextareaElement
      */
-    public function textarea(string $name): TextareaElement
+    public static function textarea(string $name): TextareaElement
     {
         return (new TextareaElement())->name($name);
     }
@@ -107,7 +115,7 @@ class FormBuilder
      * @param string $name
      * @return NumberInputElement
      */
-    public function number(string $name): NumberInputElement
+    public static function number(string $name): NumberInputElement
     {
         return (new NumberInputElement())->name($name);
     }
@@ -118,7 +126,7 @@ class FormBuilder
      * @param string $name
      * @return ColorInputElement
      */
-    public function color(string $name): ColorInputElement
+    public static function color(string $name): ColorInputElement
     {
         return (new ColorInputElement())->name($name);
     }
@@ -129,7 +137,7 @@ class FormBuilder
      * @param string $name
      * @return DateInputElement
      */
-    public function date(string $name): DateInputElement
+    public static function date(string $name): DateInputElement
     {
         return (new DateInputElement())->name($name);
     }
@@ -140,7 +148,7 @@ class FormBuilder
      * @param string $name
      * @return DatetimeInputElement
      */
-    public function datetime(string $name): DatetimeInputElement
+    public static function datetime(string $name): DatetimeInputElement
     {
         return (new DatetimeInputElement())->name($name);
     }
@@ -151,7 +159,7 @@ class FormBuilder
      * @param string $name
      * @return DatetimeLocalInputElement
      */
-    public function datetimeLocal(string $name): DatetimeLocalInputElement
+    public static function datetimeLocal(string $name): DatetimeLocalInputElement
     {
         return (new DatetimeLocalInputElement())->name($name);
     }
@@ -162,7 +170,7 @@ class FormBuilder
      * @param string $name
      * @return EmailInputElement
      */
-    public function email(string $name): EmailInputElement
+    public static function email(string $name): EmailInputElement
     {
         return (new EmailInputElement())->name($name);
     }
@@ -173,7 +181,7 @@ class FormBuilder
      * @param string $name
      * @return HiddenInputElement
      */
-    public function hidden(string $name): HiddenInputElement
+    public static function hidden(string $name): HiddenInputElement
     {
         return (new HiddenInputElement())->name($name);
     }
@@ -184,7 +192,7 @@ class FormBuilder
      * @param string $name
      * @return FileInputElement
      */
-    public function file(string $name): FileInputElement
+    public static function file(string $name): FileInputElement
     {
         return (new FileInputElement())->name($name);
     }
@@ -196,7 +204,7 @@ class FormBuilder
      * @param string $value
      * @return CheckboxInputElement
      */
-    public function checkbox(string $name, string $value): CheckboxInputElement
+    public static function checkbox(string $name, string $value): CheckboxInputElement
     {
         return (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
     }
@@ -208,7 +216,7 @@ class FormBuilder
      * @param string $name
      * @return RadioInputElement
      */
-    public function radio(string $value, string $name): RadioInputElement
+    public static function radio(string $value, string $name): RadioInputElement
     {
         return (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
     }
@@ -219,23 +227,23 @@ class FormBuilder
      * @param string $value
      * @return OptionElement
      */
-    public function option(string $value): OptionElement
+    public static function option(string $value): OptionElement
     {
         return (new OptionElement())->value($value);
     }
 
     /**
      * Generates form-control '<select></select>'.
-     * Also sets the selectElement as $this->openSelect.
+     * Also sets the selectElement as app(FormBuilder::class)->openSelect.
      *
      * @param string $name
      * @param array $options
      * @return SelectElement
      */
-    public function select(string $name,array $options=[]): SelectElement
+    public static function select(string $name,array $options=[]): SelectElement
     {
         $selectElement = (new SelectElement())->name($name);
-        $this->openSelect = $selectElement;
+        app(FormBuilder::class)->openSelect = $selectElement;
         foreach ($options as $option) {
             $selectElement->appendChild($option);
         }
@@ -248,7 +256,7 @@ class FormBuilder
      * @param string $name
      * @return ResetButtonElement
      */
-    public function reset(string $name='reset'): ResetButtonElement
+    public static function reset(string $name='reset'): ResetButtonElement
     {
         return (new ResetButtonElement())->name($name);
     }
@@ -259,7 +267,7 @@ class FormBuilder
      * @param string $name
      * @return SubmitButtonElement
      */
-    public function submit(string $name='submit'): SubmitButtonElement
+    public static function submit(string $name='submit'): SubmitButtonElement
     {
         return (new SubmitButtonElement())->name($name);
     }
@@ -270,9 +278,65 @@ class FormBuilder
      * @param string $name
      * @return ButtonElement
      */
-    public function button(string $name=''): ButtonElement
+    public static function button(string $name=''): ButtonElement
     {
         return (new ButtonElement())->name($name);
     }
+
+    /**
+     * Generates a DynamicList.
+     *
+     * @param string $arrayName: The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
+     * @param DynamicListTemplateInterface $template: A Tag, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
+     * @param null $addButtonLabel: The label for the button to add a new item. (Gets auto-translated, if possible.)
+     * @param null $minItems: Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
+     * @param null $maxItems: Maximum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
+     * @return DynamicList
+     */
+    public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel=null, $minItems=null, $maxItems=null) : DynamicList
+    {
+        return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
+    }
+
+    /**
+     * Generates PanelComponent.
+     *
+     * @return PanelComponent
+     */
+    public static function panel(): PanelComponent
+    {
+        return (new PanelComponent());
+    }
+
+    /**
+     * Generates InputGroupComponent.
+     *
+     * @return InputGroupComponent
+     */
+    public static function inputGroup(): InputGroupComponent
+    {
+        return (new InputGroupComponent());
+    }
+
+    /**
+     * Generates InputGroupButtonComponent
+     *
+     * @param ButtonElement $button
+     * @return InputGroupButtonComponent
+     */
+    public static function inputGroupButton(ButtonElement $button) {
+        return new InputGroupButtonComponent($button);
+    }
+
+    /**
+     * Generates Input-Group-Addon
+     *
+     * @param string|CheckboxInputElement|RadioInputElement $content
+     * @return InputGroupAddonComponent
+     */
+    public static function inputGroupAddon($content) {
+        return new InputGroupAddonComponent($content);
+    }
+
 
 }

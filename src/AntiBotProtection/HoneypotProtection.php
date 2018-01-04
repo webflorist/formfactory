@@ -28,8 +28,8 @@ class HoneypotProtection
                 $honeypotField = (new TextInputElement())
                     ->name(self::getHoneypotFieldName())
                     ->value("")
-                    ->label(trans('Nicat-FormBuilder::formbuilder.honeypot_field_label'))
-                    ->addErrorField('_honeypot');
+                    ->label(trans('Nicat-FormBuilder::formbuilder.honeypot_field_label'));
+
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()
                 );

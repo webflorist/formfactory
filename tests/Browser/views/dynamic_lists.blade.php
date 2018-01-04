@@ -1,15 +1,13 @@
 @extends('master')
 @section('content')
     {!! Form::open('myFormId')->requestObject(FormBuilderTests\Browser\Requests\DynamicListsTestRequest::class)->action('/dynamic-lists-post')->values($values??[])->novalidate() !!}
-    {!! Form::fieldset()->dynamicList(
+    {!! Form::dynamicList(
             'outer_dynamic_list',
-            Form::panel([
+            Form::panel()->content([
                 Form::text('outer_dynamic_list[][text]'),
-                Form::fieldset()->dynamicList(
+                Form::dynamicList(
                     'outer_dynamic_list[][inner_dynamic_list]',
-                    Form::inputGroup('inner_dynamic_list',[
-                        Form::text('outer_dynamic_list[][inner_dynamic_list][]'),
-                    ])
+                    Form::inputGroup()->content(Form::text('outer_dynamic_list[][inner_dynamic_list][]'))
                 )
             ])
         ) !!}

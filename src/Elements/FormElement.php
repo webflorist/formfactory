@@ -83,6 +83,10 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
+
+        if (config('formbuilder.ajax_validation.enabled') && config('formbuilder.ajax_validation.enable_on_form_submit_by_default')) {
+            $this->ajaxValidation();
+        }
     }
 
     /**
@@ -134,7 +138,8 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      * @param string $errorBag
      * @return $this
      */
-    public function errorBag($errorBag) {
+    public function errorBag($errorBag)
+    {
         $this->errorBag = $errorBag;
         return $this;
     }
@@ -329,10 +334,35 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     public function fieldHasDefaultValue(string $fieldName = '')
     {
         $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        if (array_has($this->defaultValues, $fieldName)) {
-            return true;
+        return array_has($this->defaultValues, $fieldName);
+    }
+
+
+    /**
+     * Gets the submitted value of a field for the current form
+     *
+     * @param string $fieldName
+     * @return mixed
+     */
+    public function getSubmittedValueForField(string $fieldName)
+    {
+        if ($this->wasSubmitted) {
+            $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+            return request()->old($fieldName);
         }
-        return false;
+        return null;
+    }
+
+    /**
+     * Checks, if a field was submitted for the current form
+     *
+     * @param string $fieldName
+     * @return bool
+     */
+    public function fieldHasSubmittedValue(string $fieldName) : bool
+    {
+        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+        return $this->wasSubmitted && !is_null(request()->old($fieldName));
     }
 
     /**
@@ -418,6 +448,22 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 
         // If no rules were found, we simply return an empty array.
         return [];
+    }
+
+    /**
+     * Enables/disables ajax-validation onSubmit for this form.
+     *
+     * @param bool $enable
+     * @return $this
+     */
+    public function ajaxValidation($enable = true)
+    {
+        if ($enable && config('formbuilder.ajax_validation.enabled')) {
+            $this->data('ajaxvalidation', 'onSubmit');
+        } else {
+            $this->attributes->remove('data-ajaxvalidation');
+        }
+        return $this;
     }
 
 }

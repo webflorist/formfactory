@@ -39,7 +39,7 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
-     * Executes HtmlBuilder-related javascript-files.
+     * Copies FormBuilder-related javascript-files to public directory.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */

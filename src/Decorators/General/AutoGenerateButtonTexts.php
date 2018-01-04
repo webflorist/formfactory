@@ -55,7 +55,6 @@ class AutoGenerateButtonTexts extends Decorator
      */
     public function decorate()
     {
-        /** @var OptionElement $this->element */
         if (!$this->element->hasChildren()) {
             $this->element->content(
                 $this->element->performAutoTranslation(null,'',ucwords($this->element->attributes->getValue('name')))

@@ -22,12 +22,13 @@ use Nicat\HtmlBuilder\Elements\Traits\AllowsCheckedAttribute;
 use Nicat\HtmlBuilder\Elements\Traits\AllowsValueAttribute;
 
 /**
- * Applies default-values, that were set via the 'values' method on the FormElement.
+ * Applies default-values, that were set via the 'values' method on the FormElement (if the form was not submitted during last request).
+ * Applies submitted values (if the form was submitted during last request).
  *
- * Class ApplyDefaultValues
+ * Class ApplyValues
  * @package Nicat\FormBuilder\Decorators\General
  */
-class ApplyDefaultValues extends Decorator
+class ApplyValues extends Decorator
 {
 
     /**
@@ -74,26 +75,38 @@ class ApplyDefaultValues extends Decorator
 
         $fieldName = $this->element->attributes->getValue('name');
 
-        // We only apply default-values, if the current form was not submitted.
         if (!$openForm->wasSubmitted && $openForm->fieldHasDefaultValue($fieldName)) {
-            $defaultValue = $openForm->getDefaultValueForField($fieldName);
+            $this->applyFieldValue($openForm->getDefaultValueForField($fieldName));
+        }
 
-            // Apply default-value as content for text-areas.
-            if ($this->element->is(TextareaElement::class)) {
-                $this->applyContent($defaultValue);
-                return;
-            }
+        if ($openForm->wasSubmitted && $openForm->fieldHasSubmittedValue($fieldName)) {
+            $this->applyFieldValue($openForm->getSubmittedValueForField($fieldName));
+        }
 
-            // Apply default-value as checked-state for checkboxes and radio-buttons.
-            if ($this->element->is(CheckboxInputElement::class) || $this->element->is(RadioInputElement::class)) {
-                $this->applyCheckedState($defaultValue);
-                return;
-            }
+    }
 
-            // All other elements get the default value set as their 'value' attribute.
-            $this->applyValue($defaultValue);
+    /**
+     * Applies $value to $this->element.
+     *
+     * @param $value
+     */
+    private function applyFieldValue($value)
+    {
+
+        // Apply default-value as content for text-areas.
+        if ($this->element->is(TextareaElement::class)) {
+            $this->applyContent($value);
             return;
         }
+
+        // Apply default-value as checked-state for checkboxes and radio-buttons.
+        if ($this->element->is(CheckboxInputElement::class) || $this->element->is(RadioInputElement::class)) {
+            $this->applyCheckedState($value);
+            return;
+        }
+
+        // All other elements get the default value set as their 'value' attribute.
+        $this->applyValue($value);
     }
 
     /**

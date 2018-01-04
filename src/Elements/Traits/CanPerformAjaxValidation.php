@@ -7,12 +7,12 @@ trait CanPerformAjaxValidation
 {
 
     /**
-     * Set ajaxValidation-mode.
+     * Set ajax-validation-mode.
      *
      * Can be 'onChange' or 'onKeyup' .
      * Only works, if ajax_validation is enabled in formbuilder-config.
      *
-     * @param bool|string $ajaxValidation : 'onChange' or 'onKeyup'
+     * @param string $ajaxValidation : 'onChange' or 'onKeyup'
      * @return $this
      */
     public function ajaxValidation($ajaxValidation = 'onChange')

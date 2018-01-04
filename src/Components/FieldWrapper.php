@@ -10,23 +10,44 @@ use Nicat\HtmlBuilder\Elements\LabelElement;
 
 class FieldWrapper extends DivElement
 {
+    /**
+     * The field that should be wrapped.
+     *
+     * @var Element
+     */
     public $field;
 
+    /**
+     * The ErrorWrapper, that will display any field-errors.
+     *
+     * @var ErrorWrapper
+     */
+    public $errorWrapper;
+
+    /**
+     * FieldWrapper constructor.
+     *
+     * @param Element $field
+     */
     public function __construct(Element $field)
     {
         $this->field = $field;
+        $this->errorWrapper = new ErrorWrapper();
 
         parent::__construct();
     }
 
-    public function generate()
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
     {
         $this->addHelpText();
         $this->addErrors();
         $this->addLabel();
-
-        return parent::generate();
     }
+
 
     private function addLabel()
     {
@@ -113,43 +134,27 @@ class FieldWrapper extends DivElement
 
         if ($this->field->hasErrors() && $this->field->showErrors) {
 
-            // The ID of the error-container should be the id of the field plus the suffix '_errors'.
-            $errorContainerId = $this->field->attributes->getValue('id') . '_errors';
+            $this->errorWrapper->addErrorField($this->field);
 
-            // Create error-container.
-            $errorContainer = (new AlertComponent('danger'))
-                ->id($errorContainerId);
-
-            // Put each individual error inside a div and set it as content of $errorContainer.
-            foreach ($this->field->getErrors() as $errorMsg) {
-                $errorContainer->content((new DivElement())->content($errorMsg));
-            }
-
-            // Add the help-text-element according to it's desired location.
+            // Add the errorWrapper according to the desired location.
             if ($this->field->errorsLocation === 'append') {
-                $this->field->appendChild($errorContainer);
+                $this->field->appendChild($this->errorWrapper);
             }
             if ($this->field->errorsLocation === 'prepend') {
-                $this->field->prependChild($errorContainer);
+                $this->field->prependChild($this->errorWrapper);
             }
             if ($this->field->errorsLocation === 'after') {
                 $this->insertChildAfter(
-                    $errorContainer,
+                    $this->errorWrapper,
                     $this->field
                 );
             }
             if ($this->field->errorsLocation === 'before') {
                 $this->insertChildBefore(
-                    $errorContainer,
+                    $this->errorWrapper,
                     $this->field
                 );
             }
-
-            // Add the 'aria-describedby' attribute to the field-element.
-            $this->field->addAriaDescribedby($errorContainerId);
-
-            // Add the 'aria-invalid' attribute to the field-element.
-            $this->field->ariaInvalid();
 
             // Add error-class to wrapper.
             // TODO: make adjustable via decorators.

@@ -2,9 +2,8 @@
 
 namespace Nicat\FormBuilder\AntiBotProtection;
 
+use Nicat\FormBuilder\Components\ErrorWrapper;
 use Nicat\FormBuilder\Elements\FormElement;
-use Nicat\FormBuilder\Elements\HiddenInputElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
 use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
 
 class TimeLimitProtection
@@ -43,15 +42,10 @@ class TimeLimitProtection
         // It will be read out by the TimeLimitValidator after submitting the form.
         session()->put('formbuilder.generation_time.' . $form->requestObject, time());
 
-        // We also add a hidden input called '_timeLimit' to the form.
-        // The only purpose for this is, that any timeLimit-errors are displayed at the beginning of the form.
-
-        // TODO: should not be a TextInputElement.
-        $form->appendChild(
-            (new TextInputElement())
-                ->name('_timeLimit')
-                ->value('')
-        );
+        // We also add an errorWrapper to display any errors for '_timeLimit' to the form.
+        $errorWrapper = new ErrorWrapper();
+        $errorWrapper->addErrorField('_timeLimit');
+        $form->appendChild($errorWrapper);
     }
 
     /**
