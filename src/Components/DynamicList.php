@@ -123,7 +123,7 @@ class DynamicList extends DivElement
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
 
         $this->addErrorWrapperForArrayErrors();
@@ -133,6 +133,8 @@ class DynamicList extends DivElement
         $this->template->data('dynamiclist-group', $this->getDynamicListGroupID());
 
         $this->template->implementRemoveItemButton($this->removeItemButton);
+
+        od($this->removeItemButton);
 
         $this->template->performDynamicListModifications($this);
 
@@ -428,9 +430,9 @@ class DynamicList extends DivElement
      */
     protected function addJavaScriptTemplate()
     {
-        $template = $this->cloneTemplate();
-        $template->hidden();
-        $template->data('dynamiclist-template', true);
+        $this->template->hidden();
+        $this->template->addStyle('display:none');
+        $this->template->data('dynamiclist-template', true);
         $this->addDynamicListItem('%group'.$this->getDynamicListGroupID().'itemID%', true);
     }
 
@@ -503,6 +505,7 @@ class DynamicList extends DivElement
         $this->removeItemButton = (new ButtonElement())
             ->title($removeButtonLabel)
             ->content($removeButtonLabel)
+            ->context('danger')
             ->data('dynamiclist-remove', true)
         ;
     }

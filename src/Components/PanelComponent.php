@@ -18,7 +18,7 @@ class PanelComponent extends \Nicat\HtmlBuilder\Components\PanelComponent implem
      */
     function performDynamicListModifications(DynamicList $dynamicList)
     {
-        $this->prependContent((new SpanElement())->addClass('clearfix'));
+        $this->contentWrapper->prependContent((new SpanElement())->addClass('clearfix'));
         $this->addClass('m-b-1');
     }
 
@@ -30,6 +30,7 @@ class PanelComponent extends \Nicat\HtmlBuilder\Components\PanelComponent implem
      */
     function implementRemoveItemButton(ButtonElement $button)
     {
-        $this->prependContent($button);
+        $button->addClass('pull-right')->addClass('btn-sm');
+        $this->contentWrapper->prependContent($button);
     }
 }

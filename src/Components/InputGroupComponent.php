@@ -24,13 +24,14 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
         parent::__construct();
 
         $this->errorWrapper = new ErrorWrapper();
+        $this->addClass('input-group');
     }
 
     /**
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
         $this->formatFieldChildren();
 

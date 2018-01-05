@@ -20,6 +20,9 @@
         "psr-4": {
             "Nicat\\FormBuilder\\": "src/",
             "FormBuilderTests\\": "tests/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }

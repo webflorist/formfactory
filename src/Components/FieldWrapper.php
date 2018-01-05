@@ -41,7 +41,7 @@ class FieldWrapper extends DivElement
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
         $this->addHelpText();
         $this->addErrors();

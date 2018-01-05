@@ -76,7 +76,6 @@ class AutoGenerateLabelTexts extends Decorator
      */
     public function decorate()
     {
-
         if (is_null($this->element->label)) {
 
             $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->getValue('name')));

@@ -46,7 +46,6 @@ class StyleFieldWrapper extends Decorator
      */
     public function decorate()
     {
-        /** @var FieldWrapper $this->element */
         $this->element->addClass($this->getFieldWrapperClass());
     }
 

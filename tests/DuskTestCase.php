@@ -74,16 +74,31 @@ abstract class DuskTestCase extends BaseTestCase
         $app['config']->set('session.expire_on_close', false);
 
         // Setup new View path
-        $app['config']->set('view.paths',[
+        $app['config']->set('view.paths', [
             __DIR__ . '/Browser/views'
         ]);
 
+        $app['config']->set('htmlbuilder.frontend_framework', 'bootstrap:3');
+
+    }
+
+    protected function setFrontendFramework(string $frameworkId, string $frameworkVersion = null)
+    {
+        $frontendFramework = $frameworkId;
+        if (!is_null($frameworkVersion)) {
+            $frontendFramework .= ':' . $frameworkVersion;
+        }
+        $this->tweakApplication(function($app) use ($frontendFramework){
+            $app['config']->set('htmlbuilder.frontend_framework', $frontendFramework);
+        });
     }
 
     protected function setUp()
     {
         parent::setUp();
     }
+
+
 
 
     /**

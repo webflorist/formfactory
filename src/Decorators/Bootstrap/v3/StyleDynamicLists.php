@@ -44,6 +44,7 @@ class StyleDynamicLists extends Decorator
      */
     public function decorate()
     {
+
         $this->element->addItemButton
             ->addClass('btn-sm push-top')
             ->appendContent(' <i class="btr bt-plus btn-no-anim"></i>')
@@ -52,7 +53,6 @@ class StyleDynamicLists extends Decorator
         $this->element->removeItemButton
             ->clearContent()
             ->content('<i class="btr bt-trash" style="margin:0"></i>')
-            ->addClass('btn-sm pull-right')
         ;
 
     }
