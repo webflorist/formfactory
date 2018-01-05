@@ -2,29 +2,36 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
+use Nicat\FormBuilder\Components\FieldWrapper;
+use Nicat\FormBuilder\Elements\CheckboxInputElement;
+use Nicat\FormBuilder\Elements\ColorInputElement;
+use Nicat\FormBuilder\Elements\DateInputElement;
+use Nicat\FormBuilder\Elements\DatetimeInputElement;
+use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
 use Nicat\FormBuilder\Elements\EmailInputElement;
+use Nicat\FormBuilder\Elements\FileInputElement;
+use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
-use Nicat\FormBuilder\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\HtmlBuilder\Elements\Abstracts\ContainerElement;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\Traits\AllowsPlaceholderAttribute;
 
 /**
- * Automatically generates the placeholder-text for fields without a manually set placeholder.
- * Uses auto-translation.
+ * Wrap fields with FieldWrapper.
  *
- * Class AutoGeneratePlaceholders
+ * Class AutoGenerateFieldIDs
  * @package Nicat\FormBuilder\Decorators\General
  */
-class AutoGeneratePlaceholders extends Decorator
+class WrapFields extends Decorator
 {
 
     /**
      * The element to be decorated.
      *
-     * @var Element|AllowsPlaceholderAttribute|UsesAutoTranslation
+     * @var ContainerElement
      */
     protected $element;
 
@@ -48,8 +55,17 @@ class AutoGeneratePlaceholders extends Decorator
     {
         return [
             TextInputElement::class,
+            NumberInputElement::class,
+            ColorInputElement::class,
+            DateInputElement::class,
+            DatetimeInputElement::class,
+            DatetimeLocalInputElement::class,
             EmailInputElement::class,
-            TextareaElement::class
+            FileInputElement::class,
+            CheckboxInputElement::class,
+            RadioInputElement::class,
+            TextareaElement::class,
+            SelectElement::class
         ];
     }
 
@@ -58,10 +74,9 @@ class AutoGeneratePlaceholders extends Decorator
      */
     public function decorate()
     {
-        if (!$this->element->attributes->isSet('placeholder')) {
-            $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->getValue('name')));
-            $this->element->placeholder(
-                $this->element->performAutoTranslation(null,'Placeholder',$defaultValue)
+        if (is_null($this->element->wrapper)) {
+            $this->element->wrap(
+                new FieldWrapper($this->element)
             );
         }
     }

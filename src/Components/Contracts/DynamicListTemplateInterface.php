@@ -8,18 +8,12 @@ use Nicat\FormBuilder\Elements\ButtonElement;
 interface DynamicListTemplateInterface
 {
     /**
-     * Perform general modifications needed for dynamic list items.
+     * Manipulate this object to add the $removeItemButton needed for dynamicLists
+     * and perform other needed modifications.
      *
      * @param DynamicList $dynamicList
+     * @param ButtonElement $removeItemButton
      * @return void
      */
-    function performDynamicListModifications(DynamicList $dynamicList);
-
-    /**
-     * Take the button intended to remove this dynamic list item and put it where you see fit.
-     *
-     * @param ButtonElement $button
-     * @return void
-     */
-    function implementRemoveItemButton(ButtonElement $button);
+    function performDynamicListModifications(DynamicList $dynamicList, ButtonElement $removeItemButton);
 }

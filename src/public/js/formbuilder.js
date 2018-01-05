@@ -292,7 +292,7 @@ function addDynamicListItem(groupID) {
     var newItemID = 0;
     $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-id]').each(function (index) {
         var itemID = $(this).data('dynamiclist-id');
-        var itemID = parseInt(itemID);
+        itemID = parseInt(itemID);
         if (itemID >= newItemID) {
             newItemID = itemID + 1;
         }
@@ -306,6 +306,7 @@ function addDynamicListItem(groupID) {
 
     // Remove the hidden-property.
     newItem.removeAttr('hidden');
+    newItem.show();
 
     // Remove the data-dynamiclist-template-attribute.
     newItem.removeAttr('data-dynamiclist-template');

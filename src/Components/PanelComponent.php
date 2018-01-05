@@ -10,27 +10,19 @@ class PanelComponent extends \Nicat\HtmlBuilder\Components\PanelComponent implem
 {
 
     /**
-     * Manipulate this object to add the deleteRow-button needed for dynamicLists
+     * Manipulate this object to add the $removeItemButton needed for dynamicLists
      * and perform other needed modifications.
      *
      * @param DynamicList $dynamicList
+     * @param ButtonElement $removeItemButton
      * @return void
      */
-    function performDynamicListModifications(DynamicList $dynamicList)
+    function performDynamicListModifications(DynamicList $dynamicList, ButtonElement $removeItemButton)
     {
-        $this->contentWrapper->prependContent((new SpanElement())->addClass('clearfix'));
+        $removeItemButton->addClass('pull-right')->addClass('btn-sm');
+        $this->contentWrapper->insertBefore($removeItemButton);
+        $this->contentWrapper->insertBefore((new SpanElement())->addClass('clearfix'));
         $this->addClass('m-b-1');
     }
 
-    /**
-     * Take the button intended to remove this dynamic list item and put it where you see fit.
-     *
-     * @param ButtonElement $button
-     * @return void
-     */
-    function implementRemoveItemButton(ButtonElement $button)
-    {
-        $button->addClass('pull-right')->addClass('btn-sm');
-        $this->contentWrapper->prependContent($button);
-    }
 }

@@ -4,7 +4,6 @@ namespace Nicat\FormBuilder;
 
 
 use Nicat\FormBuilder\Components\DynamicList;
-use Nicat\FormBuilder\Components\FieldWrapper;
 use Nicat\FormBuilder\Components\InputGroupAddonComponent;
 use Nicat\FormBuilder\Components\InputGroupButtonComponent;
 use Nicat\FormBuilder\Components\InputGroupComponent;
@@ -28,7 +27,6 @@ use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 
 /**
  * The main class of this package.
@@ -97,9 +95,7 @@ class FormBuilder
      */
     public static function text(string $name): TextInputElement
     {
-        $element = (new TextInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new TextInputElement())->name($name);
     }
 
     /**
@@ -110,9 +106,7 @@ class FormBuilder
      */
     public static function textarea(string $name): TextareaElement
     {
-        $element = (new TextareaElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new TextareaElement())->name($name);
     }
 
     /**
@@ -123,9 +117,7 @@ class FormBuilder
      */
     public static function number(string $name): NumberInputElement
     {
-        $element = (new NumberInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new NumberInputElement())->name($name);
     }
 
     /**
@@ -136,9 +128,7 @@ class FormBuilder
      */
     public static function color(string $name): ColorInputElement
     {
-        $element = (new ColorInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new ColorInputElement())->name($name);
     }
 
     /**
@@ -149,9 +139,7 @@ class FormBuilder
      */
     public static function date(string $name): DateInputElement
     {
-        $element = (new DateInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new DateInputElement())->name($name);
     }
 
     /**
@@ -162,9 +150,7 @@ class FormBuilder
      */
     public static function datetime(string $name): DatetimeInputElement
     {
-        $element = (new DatetimeInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new DatetimeInputElement())->name($name);
     }
 
     /**
@@ -175,9 +161,7 @@ class FormBuilder
      */
     public static function datetimeLocal(string $name): DatetimeLocalInputElement
     {
-        $element = (new DatetimeLocalInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new DatetimeLocalInputElement())->name($name);
     }
 
     /**
@@ -188,9 +172,7 @@ class FormBuilder
      */
     public static function email(string $name): EmailInputElement
     {
-        $element = (new EmailInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new EmailInputElement())->name($name);
     }
 
     /**
@@ -201,9 +183,7 @@ class FormBuilder
      */
     public static function hidden(string $name): HiddenInputElement
     {
-        $element = (new HiddenInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new HiddenInputElement())->name($name);
     }
 
     /**
@@ -214,9 +194,7 @@ class FormBuilder
      */
     public static function file(string $name): FileInputElement
     {
-        $element = (new FileInputElement())->name($name);
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new FileInputElement())->name($name);
     }
 
     /**
@@ -228,9 +206,7 @@ class FormBuilder
      */
     public static function checkbox(string $name, string $value): CheckboxInputElement
     {
-        $element = (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
     }
 
     /**
@@ -242,9 +218,7 @@ class FormBuilder
      */
     public static function radio(string $value, string $name): RadioInputElement
     {
-        $element = (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
-        static::applyFieldWrapper($element);
-        return $element;
+        return (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
     }
 
     /**
@@ -273,7 +247,6 @@ class FormBuilder
         foreach ($options as $option) {
             $selectElement->appendChild($option);
         }
-        static::applyFieldWrapper($selectElement);
         return $selectElement;
     }
 
@@ -363,16 +336,6 @@ class FormBuilder
      */
     public static function inputGroupAddon($content) {
         return new InputGroupAddonComponent($content);
-    }
-
-    /**
-     * Applies the FieldWrapper to $element
-     *
-     * @param Element $element
-     */
-    private static function applyFieldWrapper(Element $element)
-    {
-        $element->wrap(new FieldWrapper($element));
     }
 
 

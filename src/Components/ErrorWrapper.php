@@ -59,7 +59,7 @@ class ErrorWrapper extends AlertComponent
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
         // Establish id of this error-wrapper.
         $this->establishId();

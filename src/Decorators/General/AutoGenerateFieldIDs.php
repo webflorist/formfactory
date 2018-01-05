@@ -76,30 +76,39 @@ class AutoGenerateFieldIDs extends Decorator
      */
     public function decorate()
     {
-        if (!$this->element->attributes->isSet('id')) {
-
-            /** @var FormBuilder $formBuilderService */
-            $formBuilderService = app()[FormBuilder::class];
-
-            // Auto-generated IDs always start with formID.
-            $fieldId = $formBuilderService->openForm->attributes->getValue('id');
-
-            // The field-element containing the field-name is always $this->element,
-            // except with option-elements, where we use the currently open select-element.
-            $fieldElement = $this->element;
-            if ($this->element->is(OptionElement::class)) {
-                $fieldElement = $formBuilderService->openSelect;
-            }
-
-            // Append the field-name.
-            $fieldId .= '_' . $fieldElement->attributes->getValue('name');
-
-            // For radio-buttons and options we also append the value.
-            if ($this->element->is(RadioInputElement::class) || $this->element->is(OptionElement::class)) {
-                $fieldId .= '_' . $this->element->attributes->getValue('value');
-            }
-
-            $this->element->id($fieldId);
+        // If the element already has an id, we leave it be.
+        if ($this->element->attributes->isSet('id')) {
+            return;
         }
+
+        // Instantiate the FormBuilder service.
+        /** @var FormBuilder $formBuilderService */
+        $formBuilderService = app()[FormBuilder::class];
+
+        // The field-element containing the field-name is always $this->element,
+        // except with option-elements, where we use the currently open select-element.
+        $fieldElement = $this->element;
+        if ($this->element->is(OptionElement::class)) {
+            $fieldElement = $formBuilderService->openSelect;
+        }
+
+        // If $fieldElement has no 'name' attribute set, we abort,
+        // because without a name we can not auto-create an id.
+        if (!$fieldElement->attributes->isSet('name')) {
+            return;
+        }
+
+        // Auto-generated IDs always start with formID...
+        $fieldId = $formBuilderService->openForm->attributes->getValue('id');
+
+        // ...followed by the field-name.
+        $fieldId .= '_' . $fieldElement->attributes->getValue('name');
+
+        // For radio-buttons and options we also append the value.
+        if ($this->element->is(RadioInputElement::class) || $this->element->is(OptionElement::class)) {
+            $fieldId .= '_' . $this->element->attributes->getValue('value');
+        }
+
+        $this->element->id($fieldId);
     }
 }

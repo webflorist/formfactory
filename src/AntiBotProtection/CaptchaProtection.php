@@ -69,7 +69,8 @@ class CaptchaProtection
 
             // Then we add the captcha-field to the output.
             $form->appendChild(
-                \Form::text('_captcha')
+                (new TextInputElement())
+                    ->name('_captcha')
                     ->required(true)
                     ->value('')
                     ->label($captchaData['question'])

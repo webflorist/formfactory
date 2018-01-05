@@ -68,9 +68,9 @@ class ApplyRules extends Decorator
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
-            FileInputElement::class,
             CheckboxInputElement::class,
             RadioInputElement::class,
+            FileInputElement::class,
             TextareaElement::class,
             SelectElement::class
         ];

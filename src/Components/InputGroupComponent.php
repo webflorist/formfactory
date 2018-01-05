@@ -17,13 +17,13 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
     private $errorWrapper;
 
     /**
-     * InputGroupComponent constructor.
+     * Gets called during construction.
+     * Overwrite to perform setup-functionality.
      */
-    public function __construct()
+    protected function setUp()
     {
-        parent::__construct();
-
         $this->errorWrapper = new ErrorWrapper();
+        $this->insertBefore($this->errorWrapper);
         $this->addClass('input-group');
     }
 
@@ -31,34 +31,9 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function afterDecoration()
+    protected function beforeDecoration()
     {
         $this->formatFieldChildren();
-
-    }
-
-    /**
-     * Take the button intended to remove this dynamic list item and put it where you see fit.
-     *
-     * @param ButtonElement $button
-     * @return void
-     */
-    function implementRemoveItemButton(ButtonElement $button)
-    {
-        $inputGroupButton = new InputGroupButtonComponent($button);
-        $this->prependChild($inputGroupButton);
-    }
-
-    /**
-     * Manipulate this object to add the deleteRow-button needed for dynamicLists
-     * and perform other needed modifications.
-     *
-     * @param DynamicList $dynamicList
-     * @return void
-     */
-    function performDynamicListModifications(DynamicList $dynamicList)
-    {
-        $this->addClass('m-b-1');
     }
 
     /**
@@ -90,5 +65,19 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
             // Tell $this->errorWrapper to display errors for $child.
             $this->errorWrapper->addErrorField($child);
         }
+    }
+
+    /**
+     * Manipulate this object to add the $removeItemButton needed for dynamicLists
+     * and perform other needed modifications.
+     *
+     * @param DynamicList $dynamicList
+     * @param ButtonElement $removeItemButton
+     * @return void
+     */
+    function performDynamicListModifications(DynamicList $dynamicList, ButtonElement $removeItemButton)
+    {
+        $this->addClass('m-b-1');
+        $this->prependChild(new InputGroupButtonComponent($removeItemButton));
     }
 }

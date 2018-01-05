@@ -92,6 +92,10 @@ class DynamicList extends DivElement
      * @var AlertComponent
      */
     public $maximumReachedAlert;
+    /**
+     * @var null|string
+     */
+    private $addButtonLabel;
 
     /**
      * DynamicList constructor.
@@ -111,10 +115,17 @@ class DynamicList extends DivElement
         $this->minItems = $minItems;
         $this->maxItems = $maxItems;
         $this->formBuilder = app(FormBuilder::class);
-
         $this->containsChildDynamicList = $this->templateContainsDynamicChild();
+        $this->addButtonLabel = $addButtonLabel;
+    }
 
-        $this->generateAddItemButton($addButtonLabel);
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        $this->generateAddItemButton();
         $this->generateRemoveItemButton();
         $this->generateMaximumReachedAlert();
     }
@@ -132,11 +143,7 @@ class DynamicList extends DivElement
 
         $this->template->data('dynamiclist-group', $this->getDynamicListGroupID());
 
-        $this->template->implementRemoveItemButton($this->removeItemButton);
-
-        od($this->removeItemButton);
-
-        $this->template->performDynamicListModifications($this);
+        $this->template->performDynamicListModifications($this,$this->removeItemButton);
 
         // Add any children, that should already be rendered on output.
         // (e.g. default-values or submitted values).
@@ -333,7 +340,7 @@ class DynamicList extends DivElement
             /** @var FormBuilder $formBuilder */
             $formBuilder = app(FormBuilder::class);
             $arrayRules = $formBuilder->openForm->getRulesForField(
-                $this->arrayName
+                $this->originalArrayName??$this->arrayName
             );
 
             // Set minimum count of items from the gathered rules, or use default value.
@@ -448,11 +455,10 @@ class DynamicList extends DivElement
 
     /**
      * Generates the ButtonElement used for $this->addItemButton.
-     *
-     * @param string|null $addButtonLabel
      */
-    private function generateAddItemButton(string $addButtonLabel=null)
+    private function generateAddItemButton()
     {
+        $addButtonLabel = $this->addButtonLabel;
         // If no add-button-label was stated, we try to auto-translate it.
         if (is_null($addButtonLabel)) {
 
@@ -470,6 +476,7 @@ class DynamicList extends DivElement
         $this->addItemButton = (new ButtonElement())
             ->title($addButtonLabel)
             ->content($addButtonLabel)
+            ->id($this->formBuilder->openForm->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
             ->data('dynamiclist-add', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID())
         ;
