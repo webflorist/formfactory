@@ -7,6 +7,7 @@ use Nicat\FormBuilder\Elements\ButtonElement;
 
 interface DynamicListTemplateInterface
 {
+
     /**
      * Manipulate this object to add the $removeItemButton needed for dynamicLists
      * and perform other needed modifications.

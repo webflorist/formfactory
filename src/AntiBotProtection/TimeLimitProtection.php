@@ -32,7 +32,7 @@ class TimeLimitProtection
         // so we throw an exception, if this was not the case.
         if (is_null($form->requestObject)) {
             throw new MandatoryOptionMissingException(
-                'The form with ID "' . $form->attributes->getValue('id') . '" should be protected by a time-limit, ' .
+                'The form with ID "' . $form->attributes->id . '" should be protected by a time-limit, ' .
                 'but no request-object was stated via the Form::open()->requestObject() method. ' .
                 'TimeLimit-protection only works if this is the case.'
             );

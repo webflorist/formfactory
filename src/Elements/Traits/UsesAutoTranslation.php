@@ -2,22 +2,20 @@
 
 namespace Nicat\FormBuilder\Elements\Traits;
 
-use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\FormBuilder;
+use Nicat\FormBuilder\AutoTranslation\AutoTranslator;
 use Nicat\FormBuilder\FormBuilderTools;
 
 trait UsesAutoTranslation
 {
     /**
-     * Auto-translation for this tag.
+     * Perform auto-translations for this object?
      *
      * @var bool
      */
     protected $autoTranslate = true;
 
     /**
-     * Set auto-translation for this tag.
+     * Turn auto-translation for this element on/off.
      *
      * @param bool $autoTranslate
      * @return $this
@@ -29,61 +27,32 @@ trait UsesAutoTranslation
     }
 
     /**
-     * Is auto-translation enabled for this tag?
-     *
-     * @return bool
-     */
-    public function doesAutoTranslate() : bool
-    {
-        return $this->autoTranslate;
-    }
-
-    /**
      * Tries to perform an auto-translation.
      *
-     * Calling Class must have method "getTranslationKey" or state the translationKey via $translationKey.
+     * Calling Class must implement AutoTranslationInterface!
      *
      * The $suffix is appended to the translation-key (e.g. "HelpText" or "Placeholder").
      *
-     * @param null $translationKey
-     * @param string $suffix
      * @param null $defaultValue
+     * @param string $suffix
      * @return null|string
      */
-    public function performAutoTranslation($translationKey = null, $suffix = '', $defaultValue = null)
+    public function performAutoTranslation($defaultValue = null, $suffix = '')
     {
-        if ($this->doesAutoTranslate()) {
-            if (is_null($translationKey)) {
-                $translationKey = $this->getTranslationKey();
-            }
-            // Append the suffix (e.g. "Placeholder" or "HelpText")
-            $translationKey .= $suffix;
-            // Perform auto-translation
-            return FormBuilderTools::autoTranslate($translationKey, $defaultValue);
+        if ($this->autoTranslate) {
+            return AutoTranslator::autoTranslateObject($this, $defaultValue, $suffix);
         }
         return $defaultValue;
     }
 
     /**
-     * Returns the base translation-key for auto-translations for this field.
-     * (By default this will be the array-stripped name of the field.)
+     * Returns the base translation-key for auto-translations for this object.
+     * Override for special behaviour.
+     *
+     * @return string
      */
-    private function getTranslationKey() {
-
-        if (is_a($this, RadioInputElement::class)) {
-            return $this->attributes->getValue('value');
-        }
-
-        if (is_a($this, OptionElement::class)) {
-            /** @var FormBuilder $formBuilderService */
-            $formBuilderService = app()[FormBuilder::class];
-            return
-                FormBuilderTools::arrayStripString(
-                    $formBuilderService->openSelect->attributes->getValue('name')
-                ) .
-                '_' . $this->attributes->getValue('value');
-        }
-
-        return FormBuilderTools::arrayStripString($this->attributes->getValue('name'));
+    function getAutoTranslationKey(): string
+    {
+        return FormBuilderTools::arrayStripString($this->attributes->name);
     }
 }

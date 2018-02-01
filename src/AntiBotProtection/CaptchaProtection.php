@@ -36,7 +36,7 @@ class CaptchaProtection
         // so we throw an exception, if this was not the case.
         if (is_null($form->requestObject)) {
             throw new MandatoryOptionMissingException(
-                'The form with ID "' . $form->attributes->getValue('id') . '" should display a captcha, ' .
+                'The form with ID "' . $form->attributes->id . '" should display a captcha, ' .
                 'but no request-object was stated via the Form::open()->requestObject() method. ' .
                 'Captcha only works if this is the case.'
             );

@@ -1,23 +1,11 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\General;
+namespace Nicat\FormBuilder\RulesProcessor;
 
-use Nicat\FormBuilder\Elements\CheckboxInputElement;
-use Nicat\FormBuilder\Elements\ColorInputElement;
-use Nicat\FormBuilder\Elements\DateInputElement;
-use Nicat\FormBuilder\Elements\DatetimeInputElement;
-use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
-use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\FileInputElement;
-use Nicat\FormBuilder\Elements\NumberInputElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\Elements\SelectElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
+
 use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\Abstracts\InputElement;
-use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\HtmlBuilder\Elements\Traits\AllowsAcceptAttribute;
 use Nicat\HtmlBuilder\Elements\Traits\AllowsMaxAttribute;
 use Nicat\HtmlBuilder\Elements\Traits\AllowsMaxlengthAttribute;
@@ -29,58 +17,26 @@ use Nicat\HtmlBuilder\Elements\Traits\AllowsTypeAttribute;
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
  *
- * Class IndicateRequiredFields
- * @package Nicat\FormBuilder\Decorators\General
+ * Class RulesProcessor
+ * @package Nicat\FormBuilder
  */
-class ApplyRules extends Decorator
+class RulesProcessor
 {
 
     /**
-     * The element to be decorated.
-     *
      * @var Element|CanHaveRules
      */
-    protected $element;
+    private $element;
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
-     * Returning an empty array means all frameworks are supported.
+     * RulesProcessor constructor.
      *
-     * @return string[]
+     * @param Element $element
      */
-    public static function getSupportedFrameworks(): array
+    public function __construct($element)
     {
-        return [];
-    }
+        $this->element = $element;
 
-    /**
-     * Returns an array of class-names of elements, that should be decorated by this decorator.
-     *
-     * @return string[]
-     */
-    public static function getSupportedElements(): array
-    {
-        return [
-            TextInputElement::class,
-            NumberInputElement::class,
-            ColorInputElement::class,
-            DateInputElement::class,
-            DatetimeInputElement::class,
-            DatetimeLocalInputElement::class,
-            EmailInputElement::class,
-            CheckboxInputElement::class,
-            RadioInputElement::class,
-            FileInputElement::class,
-            TextareaElement::class,
-            SelectElement::class
-        ];
-    }
-
-    /**
-     * Perform decorations on $this->element.
-     */
-    public function decorate()
-    {
         if ($this->element->hasRules()) {
             foreach ($this->element->getRules() as $rule => $parameters) {
                 $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
@@ -170,7 +126,7 @@ class ApplyRules extends Decorator
     {
 
         // For number-inputs we apply a min- and max-attributes.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->getValue('type') === 'number')) {
+        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
             $this->applyMinAttribute($parameters[0]);
             $this->applyMaxAttribute($parameters[1]);
             return;
@@ -202,7 +158,7 @@ class ApplyRules extends Decorator
     {
 
         // For number-inputs we apply a max-attribute.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->getValue('type') === 'number')) {
+        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
             $this->applyMaxAttribute($parameters[0]);
             return;
         }
@@ -221,7 +177,7 @@ class ApplyRules extends Decorator
     {
 
         // For number-inputs we apply a min-attribute.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->getValue('type') === 'number')) {
+        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
             $this->applyMinAttribute($parameters[0]);
             return;
         }
@@ -283,7 +239,7 @@ class ApplyRules extends Decorator
 
             // Append to existing pattern, if $append=true.
             if ($append && $element->attributes->isSet('pattern')) {
-                $pattern = $element->attributes->getValue('pattern') . $pattern;
+                $pattern = $element->attributes->pattern . $pattern;
             }
 
             $element->pattern($pattern);

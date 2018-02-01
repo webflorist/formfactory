@@ -2,6 +2,7 @@
 
 namespace Nicat\FormBuilder\Components;
 
+use Nicat\FormBuilder\AutoTranslation\AutoTranslator;
 use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
 use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\FormBuilder;
@@ -111,6 +112,7 @@ class DynamicList extends DivElement
         parent::__construct();
 
         $this->arrayName = $arrayName;
+        $template->isDynamicListTemplate = true;
         $this->template = $template;
         $this->minItems = $minItems;
         $this->maxItems = $maxItems;
@@ -131,7 +133,7 @@ class DynamicList extends DivElement
     }
 
     /**
-     * Gets called before applying decorators.
+     * Gets called after applying decorators.
      * Overwrite to perform manipulations.
      */
     protected function afterDecoration()
@@ -465,7 +467,7 @@ class DynamicList extends DivElement
             // The default add-button-label contains an attribute.
             // We try to auto-translate it.
             $arrayStrippedAttribute = FormBuilderTools::arrayStripString($this->arrayName);
-            $addButtonLabelAttribute = FormBuilderTools::autoTranslate(
+            $addButtonLabelAttribute = AutoTranslator::autoTranslate(
                 $arrayStrippedAttribute,
                 ucfirst($arrayStrippedAttribute)
             );
@@ -502,7 +504,7 @@ class DynamicList extends DivElement
         // The default remove-button-label contains an attribute.
         // We try to auto-translate it.
         $arrayStrippedAttribute = FormBuilderTools::arrayStripString($this->arrayName);
-        $removeButtonAttribute = FormBuilderTools::autoTranslate(
+        $removeButtonAttribute = AutoTranslator::autoTranslate(
             $arrayStrippedAttribute,
             ucfirst($arrayStrippedAttribute)
         );

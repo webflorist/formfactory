@@ -45,41 +45,4 @@ trait CanHaveLabel
         $this->labelMode = $labelMode;
         return $this;
     }
-
-    /**
-     * Generates the text to be used as a label
-     *
-     * @return string
-     */
-    private function generateLabelText()
-    {
-        // Determine label-content for the element.
-        // If $this->label is defined, this one is used
-        if (strlen($this->label) > 0) {
-            $return = $this->label;
-        } // Otherwise try to auto-translate.
-        else {
-            $return = $this->performAutoTranslation();
-
-            // If auto-translation was unsuccessful, we use the upper-cased value, if this field is a radio-button.
-            if ($return === null) {
-                if (is_a($this, InputRadio::class)) {
-                    $return = ucwords($this->getValue());
-                } // In all other cases we use the upper-cased and array-stripped name
-                else {
-                    $return = ucwords($this->getArrayStrippedName());
-                }
-            }
-
-        }
-        // Apply required *, if field is required
-        // (except for radio-buttons, because there we have the required * on the group-label).
-        if ($this->isRequired()) {
-            if (!(property_exists($this, 'attrType') AND ($this->attrType === 'radio'))) {
-                $return .= '<sup>*</sup>';
-                app()['formbuilder']->setMandatoryFieldState(true);
-            }
-        }
-        return $return;
-    }
 }

@@ -75,7 +75,7 @@ class ErrorWrapper extends AlertComponent
         // If the errorWrapper should only display errors for a single field-element,
         // we use the field's ID plus the suffix '_errors' as this errorWrapper's ID.
         if ((count($this->errorFieldNames) === 0) && count($this->errorFieldElements) == 1) {
-            $this->id($this->errorFieldElements[0]->attributes->getValue('id') . '_errors');
+            $this->id($this->errorFieldElements[0]->attributes->id . '_errors');
             return;
         }
 
@@ -83,7 +83,7 @@ class ErrorWrapper extends AlertComponent
         // append the suffix '_errors' and use it as this errorWrapper's ID.
         $fieldIDs = '';
         foreach ($this->errorFieldElements as $fieldElement) {
-            $fieldIDs .= $fieldElement->attributes->getValue('id');
+            $fieldIDs .= $fieldElement->attributes->id;
         }
         foreach ($this->errorFieldNames as $fieldName) {
             $fieldIDs .= $fieldName;

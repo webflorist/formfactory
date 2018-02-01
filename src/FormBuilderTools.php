@@ -95,33 +95,6 @@ class FormBuilderTools
     }
 
     /**
-     * Tries to auto-translate a string.
-     *
-     * @param $translationKey
-     * @param null $defaultValue
-     * @return null|string
-     */
-    public static function autoTranslate($translationKey, $defaultValue = null)
-    {
-
-        // If the nicat/extended-validation package is installed,
-        // we try getting a translation from it's registered attributes.
-        if (isset(app()[ExtendedValidation::class]) && app()[ExtendedValidation::class]->hasAttribute($translationKey)) {
-            return app()[ExtendedValidation::class]->getAttribute($translationKey);
-        }
-
-        // Otherwise, we try to translate from the language file,
-        // that is defined under the config key "formbuilder.translations".
-        $translationString = config('formbuilder.translations') . '.' . $translationKey;
-        if (\Lang::has($translationString)) {
-            return trans($translationString);
-        }
-
-        // Per default we return the stated $defaultValue.
-        return $defaultValue;
-    }
-
-    /**
      * Strips a string (normally a field-name) of it's array-structure and only returns it's most specific field-name.
      * e.g. 'myFieldArray[]'                    returns 'myFieldArray',
      *      'myFieldArray[][mySpecificField]    returns 'mySpecificField'

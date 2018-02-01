@@ -8,7 +8,7 @@ use Nicat\FormBuilder\Components\InputGroupAddonComponent;
 use Nicat\FormBuilder\Components\InputGroupButtonComponent;
 use Nicat\FormBuilder\Components\InputGroupComponent;
 use Nicat\FormBuilder\Components\PanelComponent;
-use Nicat\FormBuilder\Elements\ButtonElement;
+use Nicat\HtmlBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
@@ -20,6 +20,7 @@ use Nicat\FormBuilder\Elements\FileInputElement;
 use Nicat\FormBuilder\Elements\FormElement;
 use Nicat\FormBuilder\Elements\HiddenInputElement;
 use Nicat\FormBuilder\Elements\NumberInputElement;
+use Nicat\FormBuilder\Elements\OptgroupElement;
 use Nicat\FormBuilder\Elements\OptionElement;
 use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\FormBuilder\Elements\ResetButtonElement;
@@ -230,6 +231,17 @@ class FormBuilder
     public static function option(string $value): OptionElement
     {
         return (new OptionElement())->value($value);
+    }
+
+    /**
+     * Generates form-control '<optgroup></optgroup>'.
+     *
+     * @param string $label
+     * @param OptionElement[] $options
+     * @return OptgroupElement
+     */
+    public static function optgroup($label='',$options) {
+        return (new OptgroupElement())->content($options);
     }
 
     /**

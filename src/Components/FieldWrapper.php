@@ -68,7 +68,7 @@ class FieldWrapper extends DivElement
 
             // In all other cases the label-element should have the for-attribute
             // pointing to the field's id.
-            $label->for($this->field->attributes->getValue('id'));
+            $label->for($this->field->attributes->id);
 
             // If labelMode is set to 'after', we append the label after the field.
             if ($this->field->labelMode === 'after') {
@@ -97,7 +97,7 @@ class FieldWrapper extends DivElement
         if ($this->field->hasHelpText()) {
 
             // The ID of the HelpTextElement should be the id of the field plus the suffix '_helpText'.
-            $helpTextElementId = $this->field->attributes->getValue('id') . '_helpText';
+            $helpTextElementId = $this->field->attributes->id . '_helpText';
 
             // Create HelpTextElement.
             $helpTextElement = (new HelpTextElement())

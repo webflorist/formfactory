@@ -126,7 +126,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     private function evaluateSubmittedState()
     {
-        if (request()->old('_formID') === $this->attributes->getValue('id')) {
+        if (request()->old('_formID') === $this->attributes->id) {
             $this->wasSubmitted = true;
         }
     }
@@ -176,7 +176,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 
         // We also link the request-object to this form in the session.
         // This is utilized by ajaxValidation.
-        session()->put('formbuilder.request_objects.' . $this->attributes->getValue('id'), $requestObject);
+        session()->put('formbuilder.request_objects.' . $this->attributes->id, $requestObject);
 
         // Furthermore we load the rules from the requestObject into $this->rules (if no rules were manually set).
         if (count($this->rules) === 0) {
@@ -254,7 +254,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     protected function appendCSRFToken()
     {
-        if ($this->generateToken && $this->attributes->getValue('method') !== 'GET') {
+        if ($this->generateToken && $this->attributes->method !== 'GET') {
             $csrfToken = csrf_token();
             if (is_null($csrfToken)) {
                 $csrfToken = '';
@@ -284,7 +284,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     protected function appendHiddenFormId()
     {
         $this->appendChild(
-            (new HiddenInputElement())->name('_formID')->value($this->attributes->getValue('id'))
+            (new HiddenInputElement())->name('_formID')->value($this->attributes->id)
         );
     }
 

@@ -143,8 +143,12 @@ abstract class DuskTestCase extends BaseTestCase
 
     /**
      * Figure out where the test directory is, if we're an included package, or the root one.
+     *
+     * @param string $path
+     *
+     * @return string
      */
-    protected function resolveBrowserTestsPath()
+    protected function resolveBrowserTestsPath($path = __DIR__)
     {
         $root = dirname(__DIR__);
 

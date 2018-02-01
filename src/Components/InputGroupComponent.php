@@ -4,8 +4,10 @@ namespace Nicat\FormBuilder\Components;
 
 use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
 use Nicat\FormBuilder\Elements\ButtonElement;
+use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\HtmlBuilder\Elements\LabelElement;
 
 class InputGroupComponent extends DivElement implements DynamicListTemplateInterface
 {
@@ -37,6 +39,26 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
     }
 
     /**
+     * Manipulate the generated HTML.
+     *
+     * @param string $output
+     */
+    protected function manipulateOutput(string &$output)
+    {
+        // We extract the label of the first field-element and render it' label before the InputGroup.
+        if (!isset($this->isDynamicListTemplate) || ($this->isDynamicListTemplate === false)) {
+            foreach ($this->getChildren() as $childKey => $child) {
+                if (property_exists($child, 'label') and $child->labelMode != 'none') {
+                    /** @var CanHaveLabel $child */
+                    $output = (new LabelElement())->content($child->label)->for($child->attributes->id)->generate() . $output;
+                    break;
+                }
+            }
+        }
+    }
+
+
+    /**
      * Returns all children, that are fields (=can have the "name" attribute).
      *
      * @return Element[]
@@ -61,6 +83,9 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
 
             // Disable the standard-wrapping of the child.
             $child->wrap(false);
+
+            /** @var CanHaveLabel $child */
+            $child->labelMode('sr-only');
 
             // Tell $this->errorWrapper to display errors for $child.
             $this->errorWrapper->addErrorField($child);
