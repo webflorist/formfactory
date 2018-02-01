@@ -8,7 +8,7 @@ use Nicat\FormBuilder\Components\InputGroupAddonComponent;
 use Nicat\FormBuilder\Components\InputGroupButtonComponent;
 use Nicat\FormBuilder\Components\InputGroupComponent;
 use Nicat\FormBuilder\Components\PanelComponent;
-use Nicat\HtmlBuilder\Elements\ButtonElement;
+use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
@@ -333,10 +333,10 @@ class FormBuilder
     /**
      * Generates InputGroupButtonComponent
      *
-     * @param ButtonElement $button
+     * @param \Nicat\HtmlBuilder\Elements\ButtonElement $button
      * @return InputGroupButtonComponent
      */
-    public static function inputGroupButton(ButtonElement $button) {
+    public static function inputGroupButton(\Nicat\HtmlBuilder\Elements\ButtonElement $button) {
         return new InputGroupButtonComponent($button);
     }
 
