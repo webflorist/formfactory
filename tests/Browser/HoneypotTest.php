@@ -75,7 +75,8 @@ class HoneypotTest extends DuskTestCase
     {
 
         // Make wrapper of honeypot-field visible to be able to interact with it.
-        $browser->script('document.querySelector("#myFormId div").style.display = "block";');
+        $browser->script('document.querySelector("#myFormId div.form-group").style.display = "block";');
+        $browser->script('document.querySelector("#myFormId div.form-group").removeAttribute("hidden");');
 
         // Get name of honeypot-field
         $fieldName = $browser->element("#myFormId div input")->getAttribute('name');

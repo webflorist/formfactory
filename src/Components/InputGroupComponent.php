@@ -30,10 +30,10 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
     }
 
     /**
-     * Gets called before applying decorators.
+     * Gets called after applying decorators to the child-elements.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterChildrenDecoration()
     {
         $this->formatFieldChildren();
     }

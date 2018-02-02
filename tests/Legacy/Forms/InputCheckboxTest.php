@@ -27,6 +27,7 @@ class InputCheckboxTest extends InputTestCase
         'tag' => 'div',
         'attributes' => [
             'class' => 'checkbox',
+            'data-field-wrapper' => '1'
         ]
     ];
 

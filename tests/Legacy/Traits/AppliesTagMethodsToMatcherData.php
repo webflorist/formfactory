@@ -21,6 +21,10 @@ trait AppliesTagMethodsToMatcherData
         if (isset($this->labelMatcher) && (count($this->labelMatcher)>0)) {
             $this->labelMatcher['attributes']['for'] = $id;
         }
+        $this->errorMatcher['attributes']['id'] = $id.'_errors';
+        if (isset($this->matchTagAttributes['aria-describedby'])) {
+            $this->matchTagAttributes['aria-describedby'] = $id.'_errors';
+        }
     }
 
     protected function tagMethod2Matcher_addClass($class='') {
@@ -130,7 +134,7 @@ trait AppliesTagMethodsToMatcherData
         if (!isset($this->matchTagAttributes['aria-describedby'])) {
             $this->matchTagAttributes['aria-describedby'] = '';
         }
-        $this->matchTagAttributes['aria-describedby'] .= $this->matchTagAttributes['id'].'_helpText';
+        $this->matchTagAttributes['aria-describedby'] = $this->matchTagAttributes['id'].'_helpText'.' '.$this->matchTagAttributes['aria-describedby'];
     }
 
     protected function tagMethod2Matcher_errors($errors=[]) {
@@ -139,15 +143,8 @@ trait AppliesTagMethodsToMatcherData
             $this->addHtmlClass2String($this->wrapperMatcher['attributes']['class'],'has-error');
         }
 
-        $this->errorMatcher = [
-            'tag' => 'div',
-            'attributes' => [
-                'role' => 'alert',
-                'class' => 'alert m-b-1 alert-danger',
-                'id' => $this->matchTagAttributes['id'].'_errors',
-            ],
-            'children' => []
-        ];
+        unset($this->errorMatcher['attributes']['hidden']);
+        unset($this->errorMatcher['attributes']['style']);
 
         foreach ($errors as $key => $errorMsg) {
             $this->errorMatcher['children'][] = [
@@ -159,11 +156,6 @@ trait AppliesTagMethodsToMatcherData
                 ]
             ];
         }
-
-        if (!isset($this->matchTagAttributes['aria-describedby'])) {
-            $this->matchTagAttributes['aria-describedby'] = '';
-        }
-        $this->matchTagAttributes['aria-describedby'] .= $this->matchTagAttributes['id'].'_errors';
 
         $this->matchTagAttributes['aria-invalid'] = 'true';
 

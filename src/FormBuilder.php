@@ -299,7 +299,7 @@ class FormBuilder
      * Generates a DynamicList.
      *
      * @param string $arrayName: The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
-     * @param DynamicListTemplateInterface $template: A Tag, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
+     * @param DynamicListTemplateInterface $template: An element/component, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
      * @param null $addButtonLabel: The label for the button to add a new item. (Gets auto-translated, if possible.)
      * @param null $minItems: Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
      * @param null $maxItems: Maximum items of this dynamic list. (Gets auto-fetched from rules, if possible.)

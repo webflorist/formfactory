@@ -35,6 +35,8 @@ class FieldWrapper extends DivElement
         $this->errorWrapper = new ErrorWrapper();
 
         parent::__construct();
+
+        $this->data('field-wrapper',true);
     }
 
     /**
@@ -131,8 +133,7 @@ class FieldWrapper extends DivElement
 
     private function addErrors()
     {
-
-        if ($this->field->hasErrors() && $this->field->showErrors) {
+        if ($this->field->showErrors) {
 
             $this->errorWrapper->addErrorField($this->field);
 
@@ -156,9 +157,12 @@ class FieldWrapper extends DivElement
                 );
             }
 
-            // Add error-class to wrapper.
-            // TODO: make adjustable via decorators.
-            $this->addClass('has-error');
+            if ($this->field->hasErrors()) {
+                // Add error-class to wrapper.
+                // TODO: make adjustable via decorators.
+                $this->addClass('has-error');
+            }
+
         }
     }
 

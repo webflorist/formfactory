@@ -41,6 +41,25 @@ trait FieldTests
             ];
         }
 
+        // Hidden error-wrapper
+        $this->errorMatcher = [
+            'tag' => 'div',
+            'attributes' => [
+                'role' => 'alert',
+                'class' => 'alert m-b-1 alert-danger',
+                'data-error-wrapper' => '1',
+                'data-displays-errors-for' => $fieldName,
+                'hidden' => true,
+                'style' => 'display:none'
+            ],
+            'children' => []
+        ];
+
+        if (!isset($this->errorMatcher['attributes']['id'])) {
+            $this->errorMatcher['attributes']['id'] = $fieldID.'_errors';
+        }
+
+        $this->matchTagAttributes['aria-describedby'] = $fieldID.'_errors';
         $this->matchTagAttributes['id'] = $fieldID;
         $this->matchTagAttributes['name'] = $fieldID;
 

@@ -27,6 +27,7 @@ class InputRadioTest extends InputTestCase
         'tag' => 'div',
         'attributes' => [
             'class' => 'radio',
+            'data-field-wrapper' => '1'
         ]
     ];
 

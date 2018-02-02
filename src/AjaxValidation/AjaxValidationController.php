@@ -32,7 +32,7 @@ class AjaxValidationController extends Controller
         $sessionKeyForRequestObject = 'formbuilder.request_objects.' . request()->input('_formID');
 
         if (!session()->has($sessionKeyForRequestObject)) {
-            throw new MandatoryOptionMissingException('Ajax validation of form with ID "'.request()->input('_formID').'" was not possible due to missing request-object-info in session.');
+            throw new MandatoryOptionMissingException('Ajax validation of form with ID "' . request()->input('_formID') . '" was not possible due to missing request-object-info in session.');
         }
 
         // Normally we assume a successful submission and return just an empty JSON-array.
@@ -54,11 +54,20 @@ class AjaxValidationController extends Controller
         // Perform validation, extract error-messages for all fields on failure, put them inside a $return['errors']-array, and return status code 422.
         if ($validator->fails()) {
             $errors = $validator->errors()->getMessages();
-            $return['errors'] = $errors;
+            $return['errors'] = $this->convertArrayFieldDotNotations2HtmlNames($errors);
             $returnCode = 422;
         }
 
         return new JsonResponse($return, $returnCode);
 
+    }
+
+    private function convertArrayFieldDotNotations2HtmlNames($errors)
+    {
+        $return = [];
+        foreach ($errors as $fieldName => $errorMessages) {
+            $return[FormBuilderTools::convertArrayFieldDotNotation2HtmlName($fieldName)] = $errorMessages;
+        }
+        return $return;
     }
 }

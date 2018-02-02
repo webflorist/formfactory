@@ -32,6 +32,7 @@ class ErrorWrapper extends AlertComponent
     public function __construct()
     {
         parent::__construct('danger');
+        $this->data('error-wrapper',true);
     }
 
     /**
@@ -65,6 +66,12 @@ class ErrorWrapper extends AlertComponent
         $this->establishId();
 
         $this->addErrors();
+
+        // If this error-wrapper has nothing to display, we simply hide it.
+        if (!$this->hasChildren()) {
+            $this->hidden();
+            $this->addStyle('display:none');
+        }
     }
 
     /**
@@ -98,18 +105,27 @@ class ErrorWrapper extends AlertComponent
     private function addErrors()
     {
 
+        $displaysErrorsFor = $this->errorFieldNames;
+
         // For stated fieldElements, we ask themselves for errors and add aria-attributes.
         foreach ($this->errorFieldElements as $field) {
 
-            if ($field->hasErrors() && $field->showErrors) {
+            if ($field->showErrors) {
 
-                $this->addErrorMessages($field->getErrors());
+                // In case the field has indeed errors.
+                if ($field->hasErrors()) {
+
+                    $this->addErrorMessages($field->getErrors());
+
+                    // Add the 'aria-invalid' attribute to the field-element.
+                    $field->ariaInvalid();
+
+                }
 
                 // Add the 'aria-describedby' attribute to the field-element.
                 $field->addAriaDescribedby($this->attributes->id);
 
-                // Add the 'aria-invalid' attribute to the field-element.
-                $field->ariaInvalid();
+                $displaysErrorsFor[] = $field->attributes->name;
             }
 
         }
@@ -120,6 +136,8 @@ class ErrorWrapper extends AlertComponent
             $formBuilder = app(FormBuilder::class);
             $this->addErrorMessages($formBuilder->openForm->getErrorsForField($fieldName));
         }
+
+        $this->data('displays-errors-for',implode('|',$displaysErrorsFor));
     }
 
     /**
@@ -131,19 +149,6 @@ class ErrorWrapper extends AlertComponent
     {
         foreach ($errorMessages as $errorMsg) {
             $this->content((new DivElement())->content($errorMsg));
-        }
-    }
-
-    /**
-     * Manipulate the generated HTML.
-     *
-     * @param string $output
-     */
-    protected function manipulateOutput(string &$output)
-    {
-        // If no errors are to be displayed, we output nothing instead of an empty errorWrapper.
-        if (!$this->hasChildren()) {
-            $output = '';
         }
     }
 

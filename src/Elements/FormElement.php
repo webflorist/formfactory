@@ -5,6 +5,7 @@ namespace Nicat\FormBuilder\Elements;
 use Nicat\FormBuilder\AntiBotProtection\CaptchaProtection;
 use Nicat\FormBuilder\AntiBotProtection\HoneypotProtection;
 use Nicat\FormBuilder\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormBuilder\Components\ErrorWrapper;
 use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormBuilder\FormBuilderTools;
@@ -101,6 +102,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
         $this->setDefaultAction();
+        $this->appendHiddenGeneralErrorWrapper();
         HoneypotProtection::setUp($this);
         TimeLimitProtection::setUp($this);
         CaptchaProtection::setUp($this);
@@ -464,6 +466,16 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
             $this->attributes->remove('data-ajaxvalidation');
         }
         return $this;
+    }
+
+    /**
+     * Append a hidden general-error-wrapper for displaying general field-errors.
+     */
+    protected function appendHiddenGeneralErrorWrapper()
+    {
+        $this->appendChild(
+            (new ErrorWrapper())->data('displays-general-errors',true)
+        );
     }
 
 }
