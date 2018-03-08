@@ -98,6 +98,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     protected function beforeDecoration()
     {
         $this->evaluateSubmittedState();
+        $this->fetchErrorsFromSession();
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
@@ -197,19 +198,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
             $rules = array_merge($rules, $requestObjectInstance->rules());
 
             $this->rules($rules);
-        }
-
-        // If this form was just submitted, we also fetch any errors from the session
-        // and put them into $this->errors (if no errors were manually set).
-        if ($this->wasSubmitted && (count($this->errors) === 0) && session()->has('errors')) {
-            $errorBag = session()->get('errors');
-            if (is_a($errorBag, 'Illuminate\Support\ViewErrorBag')) {
-                /** @var \Illuminate\Support\ViewErrorBag $errorBag */
-                $errors = $errorBag->getBag($this->errorBag)->toArray();
-                if (count($errors) > 0) {
-                    $this->errors = $errors;
-                }
-            }
         }
 
         return $this;
@@ -476,6 +464,26 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->appendChild(
             (new ErrorWrapper())->data('displays-general-errors',true)
         );
+    }
+
+    /**
+     * If this form was submitted, fetch all validation-errors from laravel's session
+     * and put them in $this->errors.
+     */
+    protected function fetchErrorsFromSession()
+    {
+        // If this form was just submitted, we also fetch any errors from the session
+        // and put them into $this->errors (if no errors were manually set).
+        if ($this->wasSubmitted && (count($this->errors) === 0) && session()->has('errors')) {
+            $errorBag = session()->get('errors');
+            if (is_a($errorBag, 'Illuminate\Support\ViewErrorBag')) {
+                /** @var \Illuminate\Support\ViewErrorBag $errorBag */
+                $errors = $errorBag->getBag($this->errorBag)->toArray();
+                if (count($errors) > 0) {
+                    $this->errors = $errors;
+                }
+            }
+        }
     }
 
 }
