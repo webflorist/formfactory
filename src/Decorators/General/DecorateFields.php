@@ -98,14 +98,14 @@ class DecorateFields extends Decorator
         // Automatically generate the label-text for fields without a manually set label using auto-translation.
         $this->autoGenerateLabelText();
 
-        // Add an indication to the label of required form fields.
-        $this->indicateRequiredFields();
-
         // Automatically generate the placeholder-text for fields without a manually set placeholder using auto-translation.
         $this->autoGeneratePlaceholder();
 
         // Automatically generate help-texts for fields without a manually set help-text using auto-translation.
         $this->autoGenerateHelpText();
+
+        // Add an indication to the label of required form fields.
+        $this->indicateRequiredFields();
 
     }
 
@@ -223,7 +223,7 @@ class DecorateFields extends Decorator
     private function autoGeneratePlaceholder()
     {
         if ($this->element->attributes->isAllowed('placeholder') && !$this->element->attributes->isSet('placeholder')) {
-            $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->name));
+            $defaultValue = $this->element->label;
             $this->element->placeholder(
                 $this->element->performAutoTranslation($defaultValue,'Placeholder')
             );

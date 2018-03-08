@@ -39,6 +39,6 @@ class RadioInputElement extends \Nicat\HtmlBuilder\Elements\RadioInputElement im
      */
     function getAutoTranslationKey(): string
     {
-        return $this->attributes->value;
+        return $this->attributes->name . '_' . $this->attributes->value;
     }
 }

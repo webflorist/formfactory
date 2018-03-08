@@ -2,7 +2,7 @@
 
 namespace Nicat\FormBuilder\Components;
 
-use Nicat\FormBuilder\Elements\HelpTextElement;
+use Nicat\FormBuilder\Components\HelpTextComponent;
 use Nicat\HtmlBuilder\Components\AlertComponent;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\DivElement;
@@ -102,7 +102,7 @@ class FieldWrapper extends DivElement
             $helpTextElementId = $this->field->attributes->id . '_helpText';
 
             // Create HelpTextElement.
-            $helpTextElement = (new HelpTextElement())
+            $helpTextElement = (new HelpTextComponent())
                 ->content($this->field->getHelpText())
                 ->id($helpTextElementId);
 
@@ -157,12 +157,13 @@ class FieldWrapper extends DivElement
                 );
             }
 
-            if ($this->field->hasErrors()) {
-                // Add error-class to wrapper.
-                // TODO: make adjustable via decorators.
-                $this->addClass('has-error');
-            }
+        }
 
+
+        if ($this->field->hasErrors()) {
+            // Add error-class to wrapper.
+            // TODO: make adjustable via decorators.
+            $this->addClass('has-error');
         }
     }
 

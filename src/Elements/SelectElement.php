@@ -32,7 +32,7 @@ class SelectElement extends \Nicat\HtmlBuilder\Elements\SelectElement implements
         // $value may be a string (in case of a non-multiple-select) or an array (in case of a multiple-select).
         // We make sure, $value is an array in any case.
         if (!is_array($value)) {
-            $value[] = $value;
+            $value = [$value];
         }
 
         // Format each option.

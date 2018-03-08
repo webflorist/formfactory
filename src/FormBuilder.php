@@ -3,11 +3,13 @@
 namespace Nicat\FormBuilder;
 
 
+use Nicat\FormBuilder\Components\ButtonGroupComponent;
 use Nicat\FormBuilder\Components\DynamicList;
 use Nicat\FormBuilder\Components\InputGroupAddonComponent;
 use Nicat\FormBuilder\Components\InputGroupButtonComponent;
 use Nicat\FormBuilder\Components\InputGroupComponent;
 use Nicat\FormBuilder\Components\PanelComponent;
+use Nicat\FormBuilder\Components\RadioGroupComponent;
 use Nicat\FormBuilder\Elements\ButtonElement;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
@@ -28,6 +30,7 @@ use Nicat\FormBuilder\Elements\SelectElement;
 use Nicat\FormBuilder\Elements\SubmitButtonElement;
 use Nicat\FormBuilder\Elements\TextareaElement;
 use Nicat\FormBuilder\Elements\TextInputElement;
+use Nicat\HtmlBuilder\Elements\FieldsetElement;
 
 /**
  * The main class of this package.
@@ -217,10 +220,23 @@ class FormBuilder
      * @param string $name
      * @return RadioInputElement
      */
-    public static function radio(string $value, string $name): RadioInputElement
+    public static function radio(string $value, string $name = ''): RadioInputElement
     {
         return (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
     }
+
+    /**
+     * Generates RadioGroupComponent.
+     *
+     * @param string $name
+     * @param RadioInputElement[] $children
+     * @return RadioGroupComponent
+     */
+    public static function radioGroup(string $name, array $children) : RadioGroupComponent
+    {
+        return new RadioGroupComponent($name, $children);
+    }
+
 
     /**
      * Generates form-control '<option></option>'.
@@ -228,7 +244,7 @@ class FormBuilder
      * @param string $value
      * @return OptionElement
      */
-    public static function option(string $value): OptionElement
+    public static function option(string $value = ''): OptionElement
     {
         return (new OptionElement())->value($value);
     }
@@ -240,8 +256,9 @@ class FormBuilder
      * @param OptionElement[] $options
      * @return OptgroupElement
      */
-    public static function optgroup($label='',$options) {
-        return (new OptgroupElement())->content($options);
+    public static function optgroup($label = '', array $options): OptgroupElement
+    {
+        return (new OptgroupElement())->label($label)->content($options);
     }
 
     /**
@@ -252,7 +269,7 @@ class FormBuilder
      * @param array $options
      * @return SelectElement
      */
-    public static function select(string $name,array $options=[]): SelectElement
+    public static function select(string $name, array $options = []): SelectElement
     {
         $selectElement = (new SelectElement())->name($name);
         app(FormBuilder::class)->openSelect = $selectElement;
@@ -268,7 +285,7 @@ class FormBuilder
      * @param string $name
      * @return ResetButtonElement
      */
-    public static function reset(string $name='reset'): ResetButtonElement
+    public static function reset(string $name = 'reset'): ResetButtonElement
     {
         return (new ResetButtonElement())->name($name);
     }
@@ -279,7 +296,7 @@ class FormBuilder
      * @param string $name
      * @return SubmitButtonElement
      */
-    public static function submit(string $name='submit'): SubmitButtonElement
+    public static function submit(string $name = 'submit'): SubmitButtonElement
     {
         return (new SubmitButtonElement())->name($name);
     }
@@ -290,7 +307,7 @@ class FormBuilder
      * @param string $name
      * @return ButtonElement
      */
-    public static function button(string $name=''): ButtonElement
+    public static function button(string $name = ''): ButtonElement
     {
         return (new ButtonElement())->name($name);
     }
@@ -298,14 +315,14 @@ class FormBuilder
     /**
      * Generates a DynamicList.
      *
-     * @param string $arrayName: The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
-     * @param DynamicListTemplateInterface $template: An element/component, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
-     * @param null $addButtonLabel: The label for the button to add a new item. (Gets auto-translated, if possible.)
-     * @param null $minItems: Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
-     * @param null $maxItems: Maximum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
+     * @param string $arrayName : The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
+     * @param DynamicListTemplateInterface $template : An element/component, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
+     * @param null $addButtonLabel : The label for the button to add a new item. (Gets auto-translated, if possible.)
+     * @param null $minItems : Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
+     * @param null $maxItems : Maximum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
      * @return DynamicList
      */
-    public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel=null, $minItems=null, $maxItems=null) : DynamicList
+    public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel = null, $minItems = null, $maxItems = null): DynamicList
     {
         return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
     }
@@ -336,7 +353,8 @@ class FormBuilder
      * @param \Nicat\HtmlBuilder\Elements\ButtonElement $button
      * @return InputGroupButtonComponent
      */
-    public static function inputGroupButton(\Nicat\HtmlBuilder\Elements\ButtonElement $button) {
+    public static function inputGroupButton(\Nicat\HtmlBuilder\Elements\ButtonElement $button): InputGroupButtonComponent
+    {
         return new InputGroupButtonComponent($button);
     }
 
@@ -346,8 +364,39 @@ class FormBuilder
      * @param string|CheckboxInputElement|RadioInputElement $content
      * @return InputGroupAddonComponent
      */
-    public static function inputGroupAddon($content) {
+    public static function inputGroupAddon($content): InputGroupAddonComponent
+    {
         return new InputGroupAddonComponent($content);
+    }
+
+    /**
+     * Generates Button-Group.
+     *
+     * @param $buttons
+     * @return ButtonGroupComponent
+     */
+    public static function buttonGroup(array $buttons)
+    {
+        return new ButtonGroupComponent($buttons);
+    }
+
+    /**
+     * Generates form-control '<fieldset></fieldset>'.
+     *
+     * @param string|null $legend
+     * @param null $content
+     * @return FieldsetElement
+     */
+    public static function fieldset(string $legend = null, $content = null): FieldsetElement
+    {
+        $element = new FieldsetElement();
+        if (!is_null($legend)) {
+            $element->legend($legend);
+        }
+        if (!is_null($content)) {
+            $element->content($content);
+        }
+        return $element;
     }
 
 
