@@ -24,7 +24,7 @@ class TimeLimitProtection
         }
 
         // If TimeLimit is not enabled for the specific form, there is also nothing to do here.
-        if (count($form->getRulesForField('_timeLimit')) === 0) {
+        if (count($form->rules->getRulesForField('_timeLimit')) === 0) {
             return;
         }
 

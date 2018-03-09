@@ -3,8 +3,16 @@
 namespace Nicat\FormBuilder\Decorators\General;
 
 use Nicat\FormBuilder\Components\FieldWrapper;
-use Nicat\FormBuilder\RulesProcessor\RulesProcessor;
-use Nicat\FormBuilder\ValueProcessor\ValueProcessor;
+use Nicat\FormBuilder\Elements\MonthInputElement;
+use Nicat\FormBuilder\Elements\PasswordInputElement;
+use Nicat\FormBuilder\Elements\RangeInputElement;
+use Nicat\FormBuilder\Elements\SearchInputElement;
+use Nicat\FormBuilder\Elements\TelInputElement;
+use Nicat\FormBuilder\Elements\TimeInputElement;
+use Nicat\FormBuilder\Elements\UrlInputElement;
+use Nicat\FormBuilder\Elements\WeekInputElement;
+use Nicat\FormBuilder\FieldRules\FieldRuleProcessor;
+use Nicat\FormBuilder\FieldValues\FieldValueProcessor;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Elements\DateInputElement;
@@ -62,19 +70,27 @@ class DecorateFields extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            TextInputElement::class,
-            NumberInputElement::class,
+            CheckboxInputElement::class,
             ColorInputElement::class,
             DateInputElement::class,
             DatetimeInputElement::class,
             DatetimeLocalInputElement::class,
             EmailInputElement::class,
-            HiddenInputElement::class,
-            CheckboxInputElement::class,
             FileInputElement::class,
+            HiddenInputElement::class,
+            MonthInputElement::class,
+            NumberInputElement::class,
+            PasswordInputElement::class,
             RadioInputElement::class,
+            RangeInputElement::class,
+            SearchInputElement::class,
+            SelectElement::class,
+            TelInputElement::class,
             TextareaElement::class,
-            SelectElement::class
+            TextInputElement::class,
+            TimeInputElement::class,
+            UrlInputElement::class,
+            WeekInputElement::class
         ];
     }
 
@@ -104,9 +120,6 @@ class DecorateFields extends Decorator
         // Automatically generate help-texts for fields without a manually set help-text using auto-translation.
         $this->autoGenerateHelpText();
 
-        // Add an indication to the label of required form fields.
-        $this->indicateRequiredFields();
-
     }
 
     /**
@@ -119,16 +132,9 @@ class DecorateFields extends Decorator
             return;
         }
 
-        // The field-element containing the field-name is always $this->element,
-        // except with option-elements, where we use the currently open select-element.
-        $fieldElement = $this->element;
-        if ($this->element->is(OptionElement::class)) {
-            $fieldElement = $this->formBuilder->openSelect;
-        }
-
-        // If $fieldElement has no 'name' attribute set, we abort,
+        // If $this->element has no 'name' attribute set, we abort,
         // because without a name we can not auto-create an id.
-        if (!$fieldElement->attributes->isSet('name')) {
+        if (!$this->element->attributes->isSet('name')) {
             return;
         }
 
@@ -136,10 +142,10 @@ class DecorateFields extends Decorator
         $fieldId = $this->formBuilder->openForm->attributes->id;
 
         // ...followed by the field-name.
-        $fieldId .= '_' . $fieldElement->attributes->name;
+        $fieldId .= '_' . $this->element->attributes->name;
 
         // For radio-buttons and options we also append the value.
-        if ($this->element->is(RadioInputElement::class) || $this->element->is(OptionElement::class)) {
+        if ($this->element->is(RadioInputElement::class)) {
             $fieldId .= '_' . $this->element->attributes->value;
         }
 
@@ -169,12 +175,12 @@ class DecorateFields extends Decorator
     private function applyRules()
     {
         if (method_exists($this->element,'rules')) {
-            new RulesProcessor($this->element);
+            FieldRuleProcessor::process($this->element);
         }
     }
 
     /**
-     * Applies default- or submitted-values to the field using the ValueProcessor.
+     * Applies default- or submitted-values to the field using the FieldValueProcessor.
      */
     private function applyValues()
     {
@@ -183,7 +189,7 @@ class DecorateFields extends Decorator
             return;
         }
 
-        new ValueProcessor($this->element);
+        FieldValueProcessor::process($this->element);
     }
 
     /**
@@ -199,21 +205,6 @@ class DecorateFields extends Decorator
             $this->element->label(
                 $this->element->performAutoTranslation($defaultValue)
             );
-        }
-    }
-
-    /**
-     * Adds an indication to the label of required form fields.
-     */
-    protected function indicateRequiredFields()
-    {
-        // TODO: Make decoratable.
-        if (!$this->element->is(RadioInputElement::class) && method_exists($this->element,'label')) {
-            if (!is_null($this->element->label) && $this->element->attributes->isSet('required')) {
-                $this->element->label(
-                    $this->element->label . '<sup>*</sup>'
-                );
-            }
         }
     }
 

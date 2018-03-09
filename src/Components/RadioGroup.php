@@ -9,7 +9,7 @@ use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
 use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 use Nicat\HtmlBuilder\Elements\FieldsetElement;
 
-class RadioGroupComponent extends FieldsetElement implements AutoTranslationInterface
+class RadioGroup extends FieldsetElement implements AutoTranslationInterface
 {
 
     use UsesAutoTranslation;
@@ -29,7 +29,7 @@ class RadioGroupComponent extends FieldsetElement implements AutoTranslationInte
     protected $radioName;
 
     /**
-     * RadioGroupComponent constructor.
+     * RadioGroup constructor.
      *
      * @param string $name
      * @param RadioInputElement[] $radioInputElements
@@ -77,4 +77,5 @@ class RadioGroupComponent extends FieldsetElement implements AutoTranslationInte
     {
         return $this->radioName;
     }
+
 }

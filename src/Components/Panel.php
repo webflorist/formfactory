@@ -4,9 +4,10 @@ namespace Nicat\FormBuilder\Components;
 
 use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
 use Nicat\FormBuilder\Elements\ButtonElement;
+use Nicat\HtmlBuilder\Components\PanelComponent;
 use Nicat\HtmlBuilder\Elements\SpanElement;
 
-class PanelComponent extends \Nicat\HtmlBuilder\Components\PanelComponent implements DynamicListTemplateInterface
+class Panel extends PanelComponent implements DynamicListTemplateInterface
 {
 
     /**

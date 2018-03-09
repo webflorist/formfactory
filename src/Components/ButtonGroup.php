@@ -4,10 +4,11 @@ namespace Nicat\FormBuilder\Components;
 
 use Nicat\HtmlBuilder\Elements\DivElement;
 
-class ButtonGroupComponent extends DivElement
+class ButtonGroup extends DivElement
 {
     /**
-     * ButtonGroupComponent constructor.
+     * ButtonGroup constructor.
+     *
      * @param array $buttons
      */
     public function __construct($buttons=[])

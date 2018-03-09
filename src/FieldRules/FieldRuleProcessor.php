@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\RulesProcessor;
+namespace Nicat\FormBuilder\FieldRules;
 
 
 use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
@@ -17,10 +17,10 @@ use Nicat\HtmlBuilder\Elements\Traits\AllowsTypeAttribute;
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
  *
- * Class RulesProcessor
+ * Class FieldRuleProcessor
  * @package Nicat\FormBuilder
  */
-class RulesProcessor
+class FieldRuleProcessor
 {
 
     /**
@@ -29,22 +29,32 @@ class RulesProcessor
     private $element;
 
     /**
+     * Apply any rules for/to $element.
+     *
+     * @param Element|CanHaveRules $element
+     */
+    public static function process($element)
+    {
+
+        if ($element->hasRules()) {
+            $rulesProcessor = new FieldRuleProcessor($element);
+            foreach ($element->getRules() as $rule => $parameters) {
+                $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
+                if (method_exists($rulesProcessor, $applyRulesMethod)) {
+                    call_user_func([$rulesProcessor,$applyRulesMethod], $parameters);
+                }
+            }
+        }
+    }
+
+    /**
      * RulesProcessor constructor.
      *
      * @param Element $element
      */
-    public function __construct($element)
+    private function __construct($element)
     {
         $this->element = $element;
-
-        if ($this->element->hasRules()) {
-            foreach ($this->element->getRules() as $rule => $parameters) {
-                $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
-                if (method_exists($this, $applyRulesMethod)) {
-                    call_user_func([$this,$applyRulesMethod], $parameters);
-                }
-            }
-        }
     }
 
     /**

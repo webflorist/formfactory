@@ -9,8 +9,9 @@ use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\DivElement;
 use Nicat\HtmlBuilder\Elements\LabelElement;
 
-class InputGroupComponent extends DivElement implements DynamicListTemplateInterface
+class InputGroup extends DivElement implements DynamicListTemplateInterface
 {
+
     /**
      * Any errors for fields contained in this input-group will be displayed here.
      *
@@ -103,6 +104,7 @@ class InputGroupComponent extends DivElement implements DynamicListTemplateInter
     function performDynamicListModifications(DynamicList $dynamicList, ButtonElement $removeItemButton)
     {
         $this->addClass('m-b-1');
-        $this->prependChild(new InputGroupButtonComponent($removeItemButton));
+        $this->prependChild(new InputGroupButton($removeItemButton));
     }
+
 }

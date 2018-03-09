@@ -12,7 +12,7 @@ use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
 use Nicat\FormBuilder\Elements\Traits\CanPerformAjaxValidation;
 use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 
-class CheckboxInputElement extends \Nicat\HtmlBuilder\Elements\CheckboxInputElement implements FieldValueProcessorInterface, AutoTranslationInterface
+class MonthInputElement extends \Nicat\HtmlBuilder\Elements\MonthInputElement implements FieldValueProcessorInterface, AutoTranslationInterface
 {
     use CanHaveLabel,
         CanHaveRules,
@@ -29,6 +29,7 @@ class CheckboxInputElement extends \Nicat\HtmlBuilder\Elements\CheckboxInputElem
      */
     public function applyFieldValue($value)
     {
-        $this->checked($value === $this->attributes->value);
+        $this->value($value);
     }
+
 }

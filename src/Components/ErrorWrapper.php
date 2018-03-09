@@ -132,7 +132,7 @@ class ErrorWrapper extends AlertComponent
         foreach ($this->errorFieldNames as $fieldName) {
             /** @var FormBuilder $formBuilder */
             $formBuilder = app(FormBuilder::class);
-            $this->addErrorMessages($formBuilder->openForm->getErrorsForField($fieldName));
+            $this->addErrorMessages($formBuilder->openForm->errors->getErrorsForField($fieldName));
         }
 
         $this->data('displays-errors-for',implode('|',$displaysErrorsFor));

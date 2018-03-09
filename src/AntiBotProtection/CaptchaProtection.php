@@ -25,7 +25,7 @@ class CaptchaProtection
         }
 
         // We retrieve the captcha-rules defined for this form.
-        $captchaRules = $form->getRulesForField('_captcha');
+        $captchaRules = $form->rules->getRulesForField('_captcha');
 
         // If no captcha-rules are defined for this form, there is also nothing to do here.
         if (count($captchaRules) === 0) {

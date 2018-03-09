@@ -8,7 +8,9 @@ use Nicat\FormBuilder\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormBuilder\Components\ErrorWrapper;
 use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormBuilder\FormBuilderTools;
+use Nicat\FormBuilder\FieldErrors\FieldErrorManager;
+use Nicat\FormBuilder\FieldRules\FieldRuleManager;
+use Nicat\FormBuilder\FieldValues\FieldValueManager;
 
 class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
 {
@@ -28,25 +30,25 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     protected $displayMandatoryFieldsLegend = true;
 
     /**
-     * Array of all rules for all fields of this form, that were submitted via the 'rules'-method of this FormElement.
+     * Instance of the FieldRuleManager that handles management of field-rules.
      *
-     * @var array
+     * @var FieldRuleManager
      */
-    public $rules = [];
+    public $rules = null;
 
     /**
-     * Array of all errors for all fields of this form.
+     * Instance of the FieldErrorManager that handles management of field-errors.
      *
-     * @var array
+     * @var FieldErrorManager
      */
-    public $errors = [];
+    public $errors = null;
 
     /**
-     * Array of default-values for all fields of this form, that were submitted via the 'values'-method of this FormElement.
+     * Instance of the FieldValueManager that handles management of field-values.
      *
-     * @var array
+     * @var FieldValueManager
      */
-    private $defaultValues = [];
+    public $values = null;
 
     /**
      * Has this form been submitted with the last request?
@@ -70,17 +72,13 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     public $requestObject = null;
 
     /**
-     * The Laravel errorBag, where this form should look for errors.
-     *
-     * @var string
-     */
-    protected $errorBag = 'default';
-
-    /**
      * Set some default-setting.
      */
     protected function setUp()
     {
+        $this->values = new FieldValueManager($this);
+        $this->errors = new FieldErrorManager($this);
+        $this->rules = new FieldRuleManager($this);
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -98,7 +96,7 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     protected function beforeDecoration()
     {
         $this->evaluateSubmittedState();
-        $this->fetchErrorsFromSession();
+        $this->errors->fetchErrorsFromSession();
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
@@ -135,19 +133,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
     }
 
     /**
-     * Sets the name of the Laravel-errorBag, where this form should look for errors.
-     * (default = 'default')
-     *
-     * @param string $errorBag
-     * @return $this
-     */
-    public function errorBag($errorBag)
-    {
-        $this->errorBag = $errorBag;
-        return $this;
-    }
-
-    /**
      * Set the class-name of the request object.
      * (used for auto-adoption of rules, ajaxValidation, etc.)
      *
@@ -181,24 +166,8 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         // This is utilized by ajaxValidation.
         session()->put('formbuilder.request_objects.' . $this->attributes->id, $requestObject);
 
-        // Furthermore we load the rules from the requestObject into $this->rules (if no rules were manually set).
-        if (count($this->rules) === 0) {
-            $requestObjectInstance = FormBuilderTools::initFormRequestObject($requestObject);
-
-            $rules = [];
-
-            // If the request-object uses the getRules()-function of the nicat/extended-validation package,
-            // We also fetch the rules returned by this method to get the wildcard-variants of array-fields.
-            // This should not be required anymore from Laravel 5.2 on.
-            if (method_exists($requestObjectInstance, 'getRules')) {
-                $rules = array_merge($rules, $requestObjectInstance->getRules());
-            }
-
-            // Merge rules-array from request-object.
-            $rules = array_merge($rules, $requestObjectInstance->rules());
-
-            $this->rules($rules);
-        }
+        // Furthermore we fetch the rules from the requestObject (if no rules were manually set).
+        $this->rules->fetchRulesFromRequestObject($requestObject);
 
         return $this;
     }
@@ -296,63 +265,8 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     public function values(array $values)
     {
-        $this->defaultValues = $values;
+        $this->values->setDefaultValues($values);
         return $this;
-    }
-
-    /**
-     * Gets the default-value of a field stored in this FormElement via the 'values'-method.
-     *
-     * @param string $fieldName
-     * @return string|null
-     */
-    public function getDefaultValueForField(string $fieldName = '')
-    {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        if (array_has($this->defaultValues, $fieldName)) {
-            return (array_get($this->defaultValues, $fieldName));
-        }
-        return null;
-    }
-
-    /**
-     * Checks, if a default-value of a field was stored in this FormElement via the 'values'-method.
-     *
-     * @param string $fieldName
-     * @return bool
-     */
-    public function fieldHasDefaultValue(string $fieldName = '')
-    {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        return array_has($this->defaultValues, $fieldName);
-    }
-
-
-    /**
-     * Gets the submitted value of a field for the current form
-     *
-     * @param string $fieldName
-     * @return mixed
-     */
-    public function getSubmittedValueForField(string $fieldName)
-    {
-        if ($this->wasSubmitted) {
-            $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-            return request()->old($fieldName);
-        }
-        return null;
-    }
-
-    /**
-     * Checks, if a field was submitted for the current form
-     *
-     * @param string $fieldName
-     * @return bool
-     */
-    public function fieldHasSubmittedValue(string $fieldName) : bool
-    {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        return $this->wasSubmitted && !is_null(request()->old($fieldName));
     }
 
     /**
@@ -364,28 +278,22 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     public function errors(array $errors)
     {
-        $this->errors = $errors;
+        $this->errors->setErrors($errors);
         return $this;
     }
 
     /**
-     * Gets the error(s) of a field currently stored in the FormBuilder-object.
+     * Sets the name of the Laravel-errorBag, where this form should look for errors.
+     * (default = 'default')
      *
-     * @param string $name
-     * @return array
+     * @param string $errorBag
+     * @return $this
      */
-    public function getErrorsForField(string $name): array
+    public function errorBag(string $errorBag)
     {
-        $name = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($name);
-
-        if (isset($this->errors[$name]) > 0) {
-            return $this->errors[$name];
-        }
-
-        // If no errors were found, we simply return an empty array.
-        return [];
+        $this->errors->setErrorBag($errorBag);
+        return $this;
     }
-
 
     /**
      * Set rules to be used for all fields.
@@ -396,48 +304,8 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
      */
     public function rules(array $rules)
     {
-        foreach ($rules as $fieldName => $fieldRules) {
-            $this->rules[$fieldName] = FormBuilderTools::parseRules($fieldRules);
-        }
+        $this->rules->setRules($rules);
         return $this;
-    }
-
-    /**
-     * Gets the rules of a field of this form.
-     *
-     * @param string $name
-     * @return array
-     */
-    public function getRulesForField(string $name): array
-    {
-        $isArray = FormBuilderTools::isArrayField($name);
-
-        // If the name is an array-key (e.g. "domainName[domainLabel]"), we have to convert it into dot-notation to access it's rules
-        if ($isArray) {
-            $name = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($name);
-        }
-
-        // If rules for this field are present in $this->rules, we return them.
-        if (isset($this->rules[$name])) {
-            return $this->rules[$name];
-        }
-
-        // If the field is an array, we also look for a rule defined via wildcard.
-        // E.g.: If there are rules defined for "domainList.*.domainName",
-        // we must return them, if the current field is called "domainList[0][domainName]"
-        if ($isArray) {
-            foreach ($this->rules as $ruleField => $ruleSet) {
-                if (strpos($ruleField, '.*') !== false) {
-                    $ruleFieldRegex = str_replace('.*', '.([0-9]*)', $ruleField);
-                    if (preg_match("/^(" . $ruleFieldRegex . ")$/", $name)) {
-                        return $this->rules[$ruleField];
-                    }
-                }
-            }
-        }
-
-        // If no rules were found, we simply return an empty array.
-        return [];
     }
 
     /**
@@ -464,26 +332,6 @@ class FormElement extends \Nicat\HtmlBuilder\Elements\FormElement
         $this->appendChild(
             (new ErrorWrapper())->data('displays-general-errors',true)
         );
-    }
-
-    /**
-     * If this form was submitted, fetch all validation-errors from laravel's session
-     * and put them in $this->errors.
-     */
-    protected function fetchErrorsFromSession()
-    {
-        // If this form was just submitted, we also fetch any errors from the session
-        // and put them into $this->errors (if no errors were manually set).
-        if ($this->wasSubmitted && (count($this->errors) === 0) && session()->has('errors')) {
-            $errorBag = session()->get('errors');
-            if (is_a($errorBag, 'Illuminate\Support\ViewErrorBag')) {
-                /** @var \Illuminate\Support\ViewErrorBag $errorBag */
-                $errors = $errorBag->getBag($this->errorBag)->toArray();
-                if (count($errors) > 0) {
-                    $this->errors = $errors;
-                }
-            }
-        }
     }
 
 }

@@ -3,7 +3,7 @@
 namespace Nicat\FormBuilder\Elements;
 
 use Nicat\FormBuilder\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormBuilder\ValueProcessor\ValueProcessorInterface;
+use Nicat\FormBuilder\FieldValues\FieldValueProcessorInterface;
 use Nicat\FormBuilder\Elements\Traits\CanAutoSubmit;
 use Nicat\FormBuilder\Elements\Traits\CanHaveErrors;
 use Nicat\FormBuilder\Elements\Traits\CanHaveHelpText;
@@ -12,7 +12,7 @@ use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
 use Nicat\FormBuilder\Elements\Traits\CanPerformAjaxValidation;
 use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
 
-class EmailInputElement extends \Nicat\HtmlBuilder\Elements\EmailInputElement implements ValueProcessorInterface, AutoTranslationInterface
+class EmailInputElement extends \Nicat\HtmlBuilder\Elements\EmailInputElement implements FieldValueProcessorInterface, AutoTranslationInterface
 {
     use CanHaveLabel,
         CanHaveRules,

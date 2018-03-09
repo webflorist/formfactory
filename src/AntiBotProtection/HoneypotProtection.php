@@ -19,7 +19,7 @@ class HoneypotProtection
         if (config('formbuilder.honeypot.enabled')) {
 
             // We retrieve the honeypot-rules.
-            $honeypotRules = $form->getRulesForField('_honeypot');
+            $honeypotRules = $form->rules->getRulesForField('_honeypot');
 
             // If there are any, ...
             if (count($honeypotRules) > 0) {

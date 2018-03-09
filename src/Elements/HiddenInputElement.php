@@ -2,10 +2,10 @@
 
 namespace Nicat\FormBuilder\Elements;
 
-use Nicat\FormBuilder\ValueProcessor\ValueProcessorInterface;
+use Nicat\FormBuilder\FieldValues\FieldValueProcessorInterface;
 use Nicat\FormBuilder\Elements\Traits\CanHaveErrors;
 
-class HiddenInputElement extends \Nicat\HtmlBuilder\Elements\HiddenInputElement implements ValueProcessorInterface
+class HiddenInputElement extends \Nicat\HtmlBuilder\Elements\HiddenInputElement implements FieldValueProcessorInterface
 {
     use CanHaveErrors;
 

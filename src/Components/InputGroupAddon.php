@@ -9,11 +9,11 @@ use Nicat\FormBuilder\Elements\RadioInputElement;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
 use Nicat\HtmlBuilder\Elements\DivElement;
 
-class InputGroupAddonComponent extends DivElement
+class InputGroupAddon extends DivElement
 {
 
     /**
-     * InputGroupAddonComponent constructor.
+     * InputGroupAddon constructor.
      *
      * @param string|CheckboxInputElement|RadioInputElement $content
      */

@@ -4,7 +4,7 @@ namespace Nicat\FormBuilder\Decorators\General;
 
 use Nicat\FormBuilder\Components\FieldWrapper;
 use Nicat\FormBuilder\RulesProcessor\RulesProcessor;
-use Nicat\FormBuilder\ValueProcessor\ValueProcessor;
+use Nicat\FormBuilder\FieldValues\FieldValueProcessor;
 use Nicat\FormBuilder\Elements\CheckboxInputElement;
 use Nicat\FormBuilder\Elements\ColorInputElement;
 use Nicat\FormBuilder\Elements\DateInputElement;

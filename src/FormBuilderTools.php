@@ -18,38 +18,6 @@ class FormBuilderTools
 {
 
     /**
-     * Parses a string or array of Laravel-rules
-     * into an array structured as:
-     *
-     *  [rule] => array(parameters)
-     *
-     * @param string|array $rules
-     * @return array
-     */
-    public static function parseRules($rules)
-    {
-        $return = [];
-        $explodedRules = null;
-        if (is_string($rules) && (strlen($rules) > 0)) {
-            $explodedRules = explode('|', $rules);
-        } else if (is_array($rules) && (count($rules) > 0)) {
-            $explodedRules = $rules;
-        }
-        if (is_array($explodedRules) && (count($explodedRules) > 0)) {
-            foreach ($explodedRules as $key => $rule) {
-                $parameters = [];
-                if (str_contains($rule, ':')) {
-                    $ruleWithParameters = explode(':', $rule);
-                    $rule = $ruleWithParameters[0];
-                    $parameters = explode(',', $ruleWithParameters[1]);
-                }
-                $return[$rule] = $parameters;
-            }
-        }
-        return $return;
-    }
-
-    /**
      * Checks, if a field is part of an array (e.g. "domainlist[0][domainName][domainLabel]").
      *
      * @param string $fieldName

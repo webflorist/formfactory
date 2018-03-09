@@ -2,10 +2,10 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\HelpTextComponent;
+use Nicat\FormBuilder\Components\HelpText;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
-class StyleHelpTextComponent extends Decorator
+class StyleHelpText extends Decorator
 {
 
     /**
@@ -28,7 +28,7 @@ class StyleHelpTextComponent extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            HelpTextComponent::class
+            HelpText::class
         ];
     }
 

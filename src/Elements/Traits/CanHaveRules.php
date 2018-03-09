@@ -2,8 +2,8 @@
 
 namespace Nicat\FormBuilder\Elements\Traits;
 
+use Nicat\FormBuilder\FieldRules\FieldRuleManager;
 use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\FormBuilderTools;
 
 trait CanHaveRules
 {
@@ -24,7 +24,7 @@ trait CanHaveRules
      */
     public function rules($rules)
     {
-        $this->rules = FormBuilderTools::parseRules($rules);
+        $this->rules = FieldRuleManager::parseRules($rules);
         return $this;
     }
 
@@ -50,7 +50,7 @@ trait CanHaveRules
         if (is_null($this->rules)) {
             /** @var FormBuilder $formBuilderService */
             $formBuilderService = app(FormBuilder::class);
-            $this->rules =  $formBuilderService->openForm->getRulesForField($this->attributes->name);
+            $this->rules =  $formBuilderService->openForm->rules->getRulesForField($this->attributes->name);
         }
 
         return $this->rules;

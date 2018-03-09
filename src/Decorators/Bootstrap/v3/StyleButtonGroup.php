@@ -2,10 +2,10 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\ButtonGroupComponent;
+use Nicat\FormBuilder\Components\ButtonGroup;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
-class StyleButtonGroupComponent extends Decorator
+class StyleButtonGroup extends Decorator
 {
 
     /**
@@ -28,7 +28,7 @@ class StyleButtonGroupComponent extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            ButtonGroupComponent::class
+            ButtonGroup::class
         ];
     }
 

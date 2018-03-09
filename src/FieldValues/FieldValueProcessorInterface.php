@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\ValueProcessor;
+namespace Nicat\FormBuilder\FieldValues;
 
-interface ValueProcessorInterface
+interface FieldValueProcessorInterface
 {
 
     /**

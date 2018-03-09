@@ -47,6 +47,11 @@ class StyleFieldWrapper extends Decorator
     public function decorate()
     {
         $this->element->addClass($this->getFieldWrapperClass());
+
+        // Add error-class to wrapper, if field has errors.
+        if ($this->element->field->hasErrors()) {
+            $this->element->addClass('has-error');
+        }
     }
 
     /**

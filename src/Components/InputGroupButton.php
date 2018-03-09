@@ -5,11 +5,11 @@ namespace Nicat\FormBuilder\Components;
 use Nicat\HtmlBuilder\Elements\ButtonElement;
 use Nicat\HtmlBuilder\Elements\DivElement;
 
-class InputGroupButtonComponent extends DivElement
+class InputGroupButton extends DivElement
 {
 
     /**
-     * InputGroupComponent constructor.
+     * InputGroup constructor.
      *
      * @param ButtonElement $button
      */

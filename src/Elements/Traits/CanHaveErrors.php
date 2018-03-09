@@ -74,11 +74,11 @@ trait CanHaveErrors
         if (is_null($this->errors)) {
             /** @var FormBuilder $formBuilderService */
             $formBuilderService = app(FormBuilder::class);
-            $this->errors =  $formBuilderService->openForm->getErrorsForField($this->attributes->name);
+            $this->errors =  $formBuilderService->openForm->errors->getErrorsForField($this->attributes->name);
 
             if (count($this->errorFields) > 0) {
                 foreach ($this->errorFields as $errorField) {
-                    $this->errors = array_merge($this->errors, $formBuilderService->openForm->getErrorsForField($errorField));
+                    $this->errors = array_merge($this->errors, $formBuilderService->openForm->errors->getErrorsForField($errorField));
                 }
             }
 
