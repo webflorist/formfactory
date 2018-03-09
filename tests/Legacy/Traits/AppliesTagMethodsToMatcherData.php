@@ -57,6 +57,9 @@ trait AppliesTagMethodsToMatcherData
                     'text' => $label
                 ]
             ];
+            if (isset($this->matchTagAttributes['placeholder'])) {
+                $this->matchTagAttributes['placeholder'] = $label;
+            }
         }
     }
 

@@ -25,7 +25,7 @@
         <env name="APP_DEBUG" value="1"/>
         <env name="APP_LOG_LEVEL" value="debug"/>
         <env name="APP_URL" value="http://192.168.56.103:8000"/>
-        <env name="BROWSERTEST_DRIVER_URL" value="10.16.1.68"/>
+        <env name="BROWSERTEST_DRIVER_URL" value="localhost"/>
         <!--<env name="BROWSERTEST_DRIVER_PORT" value="9515"/>-->
         <env name="BROWSERTEST_SERVER_IP" value="192.168.56.103"/>
         <env name="CACHE_DRIVER" value="file"/>

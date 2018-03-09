@@ -18,27 +18,6 @@ abstract class DuskTestCase extends BaseTestCase
     use AssertsHtml;
 
     /**
-     * Create the RemoteWebDriver instance.
-     *
-     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
-     */
-    protected function driver()
-    {
-        $options = (new ChromeOptions)->addArguments([
-            '--disable-gpu',
-            '--headless'
-        ]);
-
-        $driverUrl = 'http://' . env('BROWSERTEST_DRIVER_URL', 'localhost') . ':' . env('BROWSERTEST_DRIVER_PORT', 9515);
-
-        return RemoteWebDriver::create(
-            $driverUrl, DesiredCapabilities::chrome()->setCapability(
-            ChromeOptions::CAPABILITY, $options
-        )
-        );
-    }
-
-    /**
      * Copies FormBuilder-related javascript-files to public directory.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
@@ -155,26 +134,6 @@ abstract class DuskTestCase extends BaseTestCase
         return $root . '/tests/Browser';
     }
 
-
-    public static function setUpBeforeClass()
-    {
-        $serverIP = env('BROWSERTEST_SERVER_IP', 'localhost');
-        $serverPort = env('BROWSERTEST_SERVER_PORT', 8000);
-        $connection = @fsockopen($serverIP, $serverPort);
-
-        if (!is_resource($connection)) {
-            static::serve(env('BROWSERTEST_SERVER_IP', 'localhost'), env('BROWSERTEST_SERVER_PORT', 8000));
-            return;
-        }
-
-        fclose($connection);
-        return;
-    }
-
-    public static function tearDownAfterClass()
-    {
-        static::stopServing();
-    }
 
 
 }

@@ -153,7 +153,7 @@ class FormTest extends TestCase
                             'name' => $this->honeypotFieldName,
                             'value' => "",
                             'aria-describedby' => $this->matchTagAttributes['id'].'_'.$this->honeypotFieldName.'_errors',
-                            'placeholder' => ucwords($this->honeypotFieldName)
+                            'placeholder' => 'Please leave this field blank.'
                         ]
                     ]
                 ]
