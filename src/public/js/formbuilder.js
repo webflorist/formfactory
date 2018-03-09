@@ -41,10 +41,8 @@ $(document).ready(function () {
                 async:false,    // must be false to allow validation
                 beforeSend: function () {
 
-                    //clear all error elements before send
-                    jqForm.find('.form-group').removeClass('has-error');
-                    jqForm.find('.alert').remove();
-
+                    // Clear all error elements before submit.
+                    clearErrors(jqForm);
 
                 },
                 success: function (data, textStatus, jqXHR) {
@@ -74,7 +72,7 @@ $(document).ready(function () {
                         else {
                             $.each( jsonResponse.errors, function( fieldName, fieldErrors ) {
                                 var jqField = jqForm.find('[name="'+fieldName+'"]');
-                                displayFieldErrors(jqField,fieldErrors);
+                                displayFieldErrors(jqField,fieldErrors, jqForm);
                             });
                         }
                     }
@@ -109,6 +107,15 @@ $(document).ready(function () {
     });
 
     /*
+     *  Clears errors within container.
+     */
+    function clearErrors(container){
+        container.removeClass('has-error');
+        container.find('[data-field-wrapper]').removeClass('has-error');
+        container.find('[data-error-wrapper]').empty().hide();
+    }
+
+    /*
      *  Validate a single field via ajax.
      */
     function validateField(jqField) {
@@ -121,11 +128,8 @@ $(document).ready(function () {
             async:false,
             beforeSend: function () {
 
-                //clear all error elements in this form-group before send
-                var jqFormGroup = jqField.closest('.form-group');
-                jqFormGroup.removeClass('has-error');
-                jqFormGroup.find('.alert').remove();
-
+                // Clear all error elements in this field-wrapper before submit.
+                clearErrors(jqField.closest('[data-field-wrapper]'));
 
             },
             success: function (data, textStatus, jqXHR) {
@@ -142,7 +146,7 @@ $(document).ready(function () {
                     var fieldErrors = jsonResponse.errors[jqField.attr('name')];
 
                     if (fieldErrors) {
-                        displayFieldErrors(jqField,fieldErrors);
+                        displayFieldErrors(jqField,fieldErrors, jqField.closest('form'));
                     }
 
                 } else {
@@ -153,34 +157,43 @@ $(document).ready(function () {
     }
 
     /*
-     *  Maps errors for a field to the form bootstrap-style.
+     *  Displays errors for fields within their designated error-wrappers..
      */
-    function displayFieldErrors(jqField,fieldErrors) {
+    function displayFieldErrors(jqField,fieldErrors, jqForm) {
 
-        var fieldErrorBox = '';
+        var jqErrorWrapper = null;
 
-        $.each( fieldErrors, function( errorKey, errorText ) {
-            fieldErrorBox+= '<div>'+errorText+'</div>';
+        // Find the error-wrapper responsible for displaying errors for jqField
+        jqForm.find('[data-error-wrapper]').each(function (i) {
+            var jqErrorWrapperCandidate = $(this);
+            var displaysErrorsFor = jqErrorWrapperCandidate.attr('data-displays-errors-for').split('|');
+            displaysErrorsFor.forEach(function(fieldName) {
+                if (fieldName === jqField.attr('name')) {
+                    jqErrorWrapper = jqErrorWrapperCandidate;
+                }
+            });
+
         });
-        fieldErrorBox = '<div class="alert alert-danger" role="alert" style="margin-bottom:10px">'+fieldErrorBox+'</div>';
 
-        // Normally we place the error before the field
-        var jqElement2PlaceErrorBefore = jqField;
-
-        // But if the field is part of an input-group, we place it before the input-group.
-        if (jqField.parents('.input-group').length > 0) {
-            jqElement2PlaceErrorBefore = jqField.closest('.input-group');
+        // If no suitable error-wrapper was found, we use the general-error wrapper of the form.
+        if (jqErrorWrapper === null) {
+            jqErrorWrapper = jqForm.children('[data-displays-general-errors').first();
         }
 
-        // Place the error-box.
-        jqElement2PlaceErrorBefore.before(fieldErrorBox);
+        // Put errors inside the error-wrapper.
+        $.each( fieldErrors, function( errorKey, errorText ) {
+            jqErrorWrapper.append('<div>'+errorText+'</div>');
+        });
 
-        // Set the form-group this field belongs to to 'has-error'.
-        jqField.closest('.form-group').addClass('has-error');
+        // Unhide the error-wrapper.
+        jqErrorWrapper.removeAttr('hidden');
+        jqErrorWrapper.show();
+
+        // Set the field-wrapper this field belongs to to 'has-error'.
+        jqField.closest('[data-field-wrapper]').addClass('has-error');
     }
 
 });
-
 
 /*
 ----------------------------

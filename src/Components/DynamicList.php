@@ -209,7 +209,6 @@ class DynamicList extends FieldsetElement
      *
      * @param int|string $itemID
      * @param bool $disableFields
-     * @return string
      */
     protected function addDynamicListItem($itemID, $disableFields = false)
     {

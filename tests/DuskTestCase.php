@@ -78,12 +78,11 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
 
-
-
     /**
      * Nicely prints current page source.
      *
      * @param Browser $browser
+     * @throws \Gajus\Dindent\Exception\InvalidArgumentException
      * @throws \Gajus\Dindent\Exception\RuntimeException
      */
     protected function prettyPrintPageSource(Browser $browser)

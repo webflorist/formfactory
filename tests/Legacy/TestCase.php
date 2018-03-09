@@ -330,6 +330,12 @@ class TestCase extends BaseTestCase
         return $tag;
     }
 
+    /**
+     * @param string $text
+     * @return string
+     * @throws \Gajus\Dindent\Exception\InvalidArgumentException
+     * @throws \Gajus\Dindent\Exception\RuntimeException
+     */
     protected function generateErrorMsg($text = '')
     {
 
@@ -517,6 +523,7 @@ class TestCase extends BaseTestCase
                 }
             }
         }
+        return false;
     }
 
 
