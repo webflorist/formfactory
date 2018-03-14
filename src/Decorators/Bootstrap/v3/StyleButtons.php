@@ -2,9 +2,9 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Elements\ButtonElement;
-use Nicat\FormBuilder\Elements\ResetButtonElement;
-use Nicat\FormBuilder\Elements\SubmitButtonElement;
+use Nicat\FormBuilder\Components\FormControls\Button;
+use Nicat\FormBuilder\Components\FormControls\ResetButton;
+use Nicat\FormBuilder\Components\FormControls\SubmitButton;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
 class StyleButtons extends Decorator
@@ -13,7 +13,7 @@ class StyleButtons extends Decorator
     /**
      * The element to be decorated.
      *
-     * @var ButtonElement|SubmitButtonElement|ResetButtonElement
+     * @var Button|SubmitButton|ResetButton
      */
     protected $element;
 
@@ -37,9 +37,9 @@ class StyleButtons extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            ButtonElement::class,
-            SubmitButtonElement::class,
-            ResetButtonElement::class
+            Button::class,
+            SubmitButton::class,
+            ResetButton::class
         ];
     }
 
@@ -63,11 +63,11 @@ class StyleButtons extends Decorator
      */
     private function getDefaultContext()
     {
-        if ($this->element->is(SubmitButtonElement::class)) {
+        if ($this->element->is(SubmitButton::class)) {
             return 'primary';
         }
 
-        if ($this->element->is(ResetButtonElement::class)) {
+        if ($this->element->is(ResetButton::class)) {
             return 'secondary';
         }
 

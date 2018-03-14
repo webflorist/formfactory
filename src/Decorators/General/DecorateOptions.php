@@ -2,30 +2,8 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
-use Nicat\FormBuilder\RulesProcessor\RulesProcessor;
-use Nicat\FormBuilder\FieldValues\FieldValueProcessor;
-use Nicat\FormBuilder\Elements\CheckboxInputElement;
-use Nicat\FormBuilder\Elements\ColorInputElement;
-use Nicat\FormBuilder\Elements\DateInputElement;
-use Nicat\FormBuilder\Elements\DatetimeInputElement;
-use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
-use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\FileInputElement;
-use Nicat\FormBuilder\Elements\HiddenInputElement;
-use Nicat\FormBuilder\Elements\NumberInputElement;
-use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\Elements\SelectElement;
-use Nicat\FormBuilder\Elements\TextareaElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\FormBuilder\Elements\Traits\CanHaveHelpText;
-use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
-use Nicat\FormBuilder\FormBuilderTools;
+use Nicat\FormBuilder\Components\FormControls\Option;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Apply various decorations to FormBuilder-options.
@@ -39,7 +17,7 @@ class DecorateOptions extends Decorator
     /**
      * The element to be decorated.
      *
-     * @var OptionElement
+     * @var Option
      */
     protected $element;
 
@@ -62,7 +40,7 @@ class DecorateOptions extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            OptionElement::class
+            Option::class
         ];
     }
 
@@ -89,20 +67,20 @@ class DecorateOptions extends Decorator
             return;
         }
 
-        // We retrieve the SelectElement this OptionElement belongs to from the formbuilder-service
-        $selectElement = $this->formBuilder->openSelect;
+        // We retrieve the Select this Option belongs to from the formbuilder-service
+        $select = $this->formBuilder->openSelect;
 
         // If this option's select-box has no 'name' attribute set, we abort,
         // because without a name we can not auto-create an id.
-        if (!$selectElement->attributes->isSet('name')) {
+        if (!$select->attributes->isSet('name')) {
             return;
         }
 
         // Auto-generated IDs always start with formID...
         $fieldId = $this->formBuilder->openForm->attributes->id;
 
-        // ...followed by the field-name of the SelectElement....
-        $fieldId .= '_' . $selectElement->attributes->name;
+        // ...followed by the field-name of the Select....
+        $fieldId .= '_' . $select->attributes->name;
 
         // ...and the option's value.
         $fieldId .= '_' . $this->element->attributes->value;

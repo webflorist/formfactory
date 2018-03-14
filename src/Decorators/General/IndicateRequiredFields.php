@@ -2,16 +2,13 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
-use Nicat\FormBuilder\Components\RadioGroup;
-use Nicat\FormBuilder\Components\RequiredFieldIndicator;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\Elements\Traits\CanHaveHelpText;
-use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Elements\Traits\CanHaveRules;
-use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
+use Nicat\FormBuilder\Components\Additional\RadioGroup;
+use Nicat\FormBuilder\Components\Additional\RequiredFieldIndicator;
+use Nicat\FormBuilder\Components\FormControls\RadioInput;
+use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
+use Nicat\FormBuilder\Components\Traits\CanHaveRules;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Adds an indication to the label of required form fields.
@@ -60,7 +57,7 @@ class IndicateRequiredFields extends Decorator
             $this->indicateRadioGroup();
         }
 
-        if (!$this->element->is(RadioInputElement::class) && method_exists($this->element,'label')) {
+        if (!$this->element->is(RadioInput::class) && method_exists($this->element,'label')) {
             $this->indicateField();
         }
 
@@ -85,7 +82,7 @@ class IndicateRequiredFields extends Decorator
     {
         /** @var RadioGroup $radioGroup */
         $radioGroup = $this->element;
-        foreach ($radioGroup->getChildrenByClassName(RadioInputElement::class) as $radioElement) {
+        foreach ($radioGroup->getChildrenByClassName(RadioInput::class) as $radioElement) {
             if ($this->isFieldRequired($radioElement)) {
                 $radioGroup->legend(
                     $radioGroup->legend . new RequiredFieldIndicator()

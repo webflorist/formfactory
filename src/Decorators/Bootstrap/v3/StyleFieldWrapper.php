@@ -2,10 +2,10 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
-use Nicat\FormBuilder\Elements\RadioInputElement;
+use Nicat\FormBuilder\Components\Additional\FieldWrapper;
+use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
+use Nicat\FormBuilder\Components\FormControls\RadioInput;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\CheckboxInputElement;
 
 class StyleFieldWrapper extends Decorator
 {
@@ -61,11 +61,11 @@ class StyleFieldWrapper extends Decorator
      */
     private function getFieldWrapperClass()
     {
-        if ($this->element->field->is(CheckboxInputElement::class)) {
+        if ($this->element->field->is(CheckboxInput::class)) {
             return 'checkbox';
         }
 
-        if ($this->element->field->is(RadioInputElement::class)) {
+        if ($this->element->field->is(RadioInput::class)) {
             return 'radio';
         }
 

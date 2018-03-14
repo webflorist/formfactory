@@ -4,9 +4,9 @@ namespace Nicat\FormBuilder;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
-use Nicat\FormBuilder\AntiBotProtection\HoneypotProtection;
-use Nicat\FormBuilder\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormBuilder\AntiBotProtection\CaptchaProtection;
+use Nicat\FormBuilder\Utilities\AntiBotProtection\HoneypotProtection;
+use Nicat\FormBuilder\Utilities\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormBuilder\Utilities\AntiBotProtection\CaptchaProtection;
 use Nicat\HtmlBuilder\HtmlBuilder;
 use Route;
 use Validator;
@@ -154,9 +154,9 @@ class FormBuilderServiceProvider extends ServiceProvider
     private function registerAjaxValidationRoutes()
     {
         if (config('formbuilder.ajax_validation.enabled')) {
-            Route::middleware('web')->post('/formbuilder_validation', 'Nicat\FormBuilder\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->put('/formbuilder_validation', 'Nicat\FormBuilder\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->delete('/formbuilder_validation', 'Nicat\FormBuilder\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->post('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->put('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->delete('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
         }
     }
 }

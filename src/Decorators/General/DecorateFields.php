@@ -2,38 +2,38 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
-use Nicat\FormBuilder\Components\FieldWrapper;
-use Nicat\FormBuilder\Elements\MonthInputElement;
-use Nicat\FormBuilder\Elements\PasswordInputElement;
-use Nicat\FormBuilder\Elements\RangeInputElement;
-use Nicat\FormBuilder\Elements\SearchInputElement;
-use Nicat\FormBuilder\Elements\TelInputElement;
-use Nicat\FormBuilder\Elements\TimeInputElement;
-use Nicat\FormBuilder\Elements\UrlInputElement;
-use Nicat\FormBuilder\Elements\WeekInputElement;
-use Nicat\FormBuilder\FieldRules\FieldRuleProcessor;
-use Nicat\FormBuilder\FieldValues\FieldValueProcessor;
-use Nicat\FormBuilder\Elements\CheckboxInputElement;
-use Nicat\FormBuilder\Elements\ColorInputElement;
-use Nicat\FormBuilder\Elements\DateInputElement;
-use Nicat\FormBuilder\Elements\DatetimeInputElement;
-use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
-use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\FileInputElement;
-use Nicat\FormBuilder\Elements\HiddenInputElement;
-use Nicat\FormBuilder\Elements\NumberInputElement;
-use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\Elements\SelectElement;
-use Nicat\FormBuilder\Elements\TextareaElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\FormBuilder\Elements\Traits\CanHaveHelpText;
-use Nicat\FormBuilder\Elements\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Elements\Traits\UsesAutoTranslation;
-use Nicat\FormBuilder\FormBuilderTools;
+use Nicat\FormBuilder\Components\Additional\FieldWrapper;
+use Nicat\FormBuilder\Components\FormControls\MonthInput;
+use Nicat\FormBuilder\Components\FormControls\PasswordInput;
+use Nicat\FormBuilder\Components\FormControls\RangeInput;
+use Nicat\FormBuilder\Components\FormControls\SearchInput;
+use Nicat\FormBuilder\Components\FormControls\TelInput;
+use Nicat\FormBuilder\Components\FormControls\TimeInput;
+use Nicat\FormBuilder\Components\FormControls\UrlInput;
+use Nicat\FormBuilder\Components\FormControls\WeekInput;
+use Nicat\FormBuilder\Utilities\FieldRules\FieldRuleProcessor;
+use Nicat\FormBuilder\Utilities\FieldValues\FieldValueProcessor;
+use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
+use Nicat\FormBuilder\Components\FormControls\ColorInput;
+use Nicat\FormBuilder\Components\FormControls\DateInput;
+use Nicat\FormBuilder\Components\FormControls\DatetimeInput;
+use Nicat\FormBuilder\Components\FormControls\DatetimeLocalInput;
+use Nicat\FormBuilder\Components\FormControls\EmailInput;
+use Nicat\FormBuilder\Components\FormControls\FileInput;
+use Nicat\FormBuilder\Components\FormControls\HiddenInput;
+use Nicat\FormBuilder\Components\FormControls\NumberInput;
+use Nicat\FormBuilder\Components\FormControls\Option;
+use Nicat\FormBuilder\Components\FormControls\RadioInput;
+use Nicat\FormBuilder\Components\FormControls\Select;
+use Nicat\FormBuilder\Components\FormControls\Textarea;
+use Nicat\FormBuilder\Components\FormControls\TextInput;
+use Nicat\FormBuilder\Components\Traits\CanHaveHelpText;
+use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
+use Nicat\FormBuilder\Components\Traits\UsesAutoTranslation;
+use Nicat\FormBuilder\Utilities\FormBuilderTools;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\Traits\AllowsPlaceholderAttribute;
+use Nicat\HtmlBuilder\Attributes\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Apply various decorations to FormBuilder-fields.
@@ -70,27 +70,27 @@ class DecorateFields extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            CheckboxInputElement::class,
-            ColorInputElement::class,
-            DateInputElement::class,
-            DatetimeInputElement::class,
-            DatetimeLocalInputElement::class,
-            EmailInputElement::class,
-            FileInputElement::class,
-            HiddenInputElement::class,
-            MonthInputElement::class,
-            NumberInputElement::class,
-            PasswordInputElement::class,
-            RadioInputElement::class,
-            RangeInputElement::class,
-            SearchInputElement::class,
-            SelectElement::class,
-            TelInputElement::class,
-            TextareaElement::class,
-            TextInputElement::class,
-            TimeInputElement::class,
-            UrlInputElement::class,
-            WeekInputElement::class
+            CheckboxInput::class,
+            ColorInput::class,
+            DateInput::class,
+            DatetimeInput::class,
+            DatetimeLocalInput::class,
+            EmailInput::class,
+            FileInput::class,
+            HiddenInput::class,
+            MonthInput::class,
+            NumberInput::class,
+            PasswordInput::class,
+            RadioInput::class,
+            RangeInput::class,
+            SearchInput::class,
+            Select::class,
+            TelInput::class,
+            Textarea::class,
+            TextInput::class,
+            TimeInput::class,
+            UrlInput::class,
+            WeekInput::class
         ];
     }
 
@@ -145,7 +145,7 @@ class DecorateFields extends Decorator
         $fieldId .= '_' . $this->element->attributes->name;
 
         // For radio-buttons and options we also append the value.
-        if ($this->element->is(RadioInputElement::class)) {
+        if ($this->element->is(RadioInput::class)) {
             $fieldId .= '_' . $this->element->attributes->value;
         }
 
@@ -158,7 +158,7 @@ class DecorateFields extends Decorator
     protected function applyFieldWrapper()
     {
         // For hidden-input-fields, a FieldWrapper does not make sense.
-        if ($this->element->is(HiddenInputElement::class)) {
+        if ($this->element->is(HiddenInput::class)) {
             return;
         }
 
@@ -184,8 +184,8 @@ class DecorateFields extends Decorator
      */
     private function applyValues()
     {
-        // OptionElements are handled via their SelectElement.
-        if ($this->element->is(OptionElement::class)) {
+        // Options are handled via their Select.
+        if ($this->element->is(Option::class)) {
             return;
         }
 
@@ -199,7 +199,7 @@ class DecorateFields extends Decorator
     {
         if (method_exists($this->element,'label') && is_null($this->element->label)) {
             $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->name));
-            if ($this->element->is(RadioInputElement::class)) {
+            if ($this->element->is(RadioInput::class)) {
                 $defaultValue = ucwords($this->element->attributes->value);
             }
             $this->element->label(

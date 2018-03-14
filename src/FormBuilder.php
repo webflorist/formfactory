@@ -3,42 +3,43 @@
 namespace Nicat\FormBuilder;
 
 
-use Nicat\FormBuilder\Components\ButtonGroup;
-use Nicat\FormBuilder\Components\DynamicList;
-use Nicat\FormBuilder\Components\InputGroupAddon;
-use Nicat\FormBuilder\Components\InputGroupButton;
-use Nicat\FormBuilder\Components\InputGroup;
-use Nicat\FormBuilder\Components\Panel;
-use Nicat\FormBuilder\Components\RadioGroup;
-use Nicat\FormBuilder\Components\RequiredFieldsLegend;
-use Nicat\FormBuilder\Elements\ButtonElement;
-use Nicat\FormBuilder\Elements\CheckboxInputElement;
-use Nicat\FormBuilder\Elements\ColorInputElement;
-use Nicat\FormBuilder\Components\Contracts\DynamicListTemplateInterface;
-use Nicat\FormBuilder\Elements\DateInputElement;
-use Nicat\FormBuilder\Elements\DatetimeInputElement;
-use Nicat\FormBuilder\Elements\DatetimeLocalInputElement;
-use Nicat\FormBuilder\Elements\EmailInputElement;
-use Nicat\FormBuilder\Elements\FileInputElement;
-use Nicat\FormBuilder\Elements\FormElement;
-use Nicat\FormBuilder\Elements\HiddenInputElement;
-use Nicat\FormBuilder\Elements\MonthInputElement;
-use Nicat\FormBuilder\Elements\NumberInputElement;
-use Nicat\FormBuilder\Elements\OptgroupElement;
-use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\PasswordInputElement;
-use Nicat\FormBuilder\Elements\RadioInputElement;
-use Nicat\FormBuilder\Elements\RangeInputElement;
-use Nicat\FormBuilder\Elements\ResetButtonElement;
-use Nicat\FormBuilder\Elements\SearchInputElement;
-use Nicat\FormBuilder\Elements\SelectElement;
-use Nicat\FormBuilder\Elements\SubmitButtonElement;
-use Nicat\FormBuilder\Elements\TelInputElement;
-use Nicat\FormBuilder\Elements\TextareaElement;
-use Nicat\FormBuilder\Elements\TextInputElement;
-use Nicat\FormBuilder\Elements\TimeInputElement;
-use Nicat\FormBuilder\Elements\UrlInputElement;
-use Nicat\FormBuilder\Elements\WeekInputElement;
+use Nicat\FormBuilder\Components\Additional\ButtonGroup;
+use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
+use Nicat\FormBuilder\Components\Additional\InputGroupAddon;
+use Nicat\FormBuilder\Components\Additional\InputGroupButton;
+use Nicat\FormBuilder\Components\Additional\InputGroup;
+use Nicat\FormBuilder\Components\Additional\Panel;
+use Nicat\FormBuilder\Components\Additional\RadioGroup;
+use Nicat\FormBuilder\Components\Additional\RequiredFieldsLegend;
+use Nicat\FormBuilder\Components\FormControls\Button;
+use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
+use Nicat\FormBuilder\Components\FormControls\ColorInput;
+use Nicat\FormBuilder\Components\DynamicLists\DynamicListTemplateInterface;
+use Nicat\FormBuilder\Components\FormControls\DateInput;
+use Nicat\FormBuilder\Components\FormControls\DatetimeInput;
+use Nicat\FormBuilder\Components\FormControls\DatetimeLocalInput;
+use Nicat\FormBuilder\Components\FormControls\EmailInput;
+use Nicat\FormBuilder\Components\FormControls\FileInput;
+use Nicat\FormBuilder\Components\Form;
+use Nicat\FormBuilder\Components\FormControls\HiddenInput;
+use Nicat\FormBuilder\Components\FormControls\MonthInput;
+use Nicat\FormBuilder\Components\FormControls\NumberInput;
+use Nicat\FormBuilder\Components\FormControls\Optgroup;
+use Nicat\FormBuilder\Components\FormControls\Option;
+use Nicat\FormBuilder\Components\FormControls\PasswordInput;
+use Nicat\FormBuilder\Components\FormControls\RadioInput;
+use Nicat\FormBuilder\Components\FormControls\RangeInput;
+use Nicat\FormBuilder\Components\FormControls\ResetButton;
+use Nicat\FormBuilder\Components\FormControls\SearchInput;
+use Nicat\FormBuilder\Components\FormControls\Select;
+use Nicat\FormBuilder\Components\FormControls\SubmitButton;
+use Nicat\FormBuilder\Components\FormControls\TelInput;
+use Nicat\FormBuilder\Components\FormControls\Textarea;
+use Nicat\FormBuilder\Components\FormControls\TextInput;
+use Nicat\FormBuilder\Components\FormControls\TimeInput;
+use Nicat\FormBuilder\Components\FormControls\UrlInput;
+use Nicat\FormBuilder\Components\FormControls\WeekInput;
+use Nicat\HtmlBuilder\Elements\ButtonElement;
 use Nicat\HtmlBuilder\Elements\FieldsetElement;
 
 /**
@@ -54,16 +55,16 @@ class FormBuilder
 {
 
     /**
-     * The currently open FormElement.
+     * The currently open Form.
      *
-     * @var FormElement
+     * @var Form
      */
     public $openForm = null;
 
     /**
-     * The currently open SelectElement.
+     * The currently open Select.
      *
-     * @var SelectElement
+     * @var Select
      */
     public $openSelect = null;
 
@@ -71,7 +72,7 @@ class FormBuilder
      * Has a required-field-indicator been rendered,
      * and thus should the required-fields-legend be displayed?
      *
-     * @var SelectElement
+     * @var bool
      */
     public $requiredFieldIndicatorUsed = false;
 
@@ -80,15 +81,15 @@ class FormBuilder
      * Also sets the form as app(FormBuilder::class)->openForm.
      *
      * @param string $id
-     * @return FormElement
+     * @return Form
      * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotAllowedException
      * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotFoundException
      */
-    public static function open(string $id): FormElement
+    public static function open(string $id): Form
     {
-        $formElement = (new FormElement())->id($id)->method('post');
-        app(FormBuilder::class)->openForm = $formElement;
-        return $formElement;
+        $form = (new Form())->id($id)->method('post');
+        app(FormBuilder::class)->openForm = $form;
+        return $form;
     }
 
     /**
@@ -114,122 +115,122 @@ class FormBuilder
      *
      * @param string $name
      * @param string $value
-     * @return CheckboxInputElement
+     * @return CheckboxInput
      */
-    public static function checkbox(string $name, string $value): CheckboxInputElement
+    public static function checkbox(string $name, string $value): CheckboxInput
     {
-        return (new CheckboxInputElement())->name($name)->value($value)->labelMode('bound');
+        return (new CheckboxInput())->name($name)->value($value)->labelMode('bound');
     }
 
     /**
      * Generates form-control '<input type="color" />'.
      *
      * @param string $name
-     * @return ColorInputElement
+     * @return ColorInput
      */
-    public static function color(string $name): ColorInputElement
+    public static function color(string $name): ColorInput
     {
-        return (new ColorInputElement())->name($name);
+        return (new ColorInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="date" />'.
      *
      * @param string $name
-     * @return DateInputElement
+     * @return DateInput
      */
-    public static function date(string $name): DateInputElement
+    public static function date(string $name): DateInput
     {
-        return (new DateInputElement())->name($name);
+        return (new DateInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="datetime" />'.
      *
      * @param string $name
-     * @return DatetimeInputElement
+     * @return DatetimeInput
      */
-    public static function datetime(string $name): DatetimeInputElement
+    public static function datetime(string $name): DatetimeInput
     {
-        return (new DatetimeInputElement())->name($name);
+        return (new DatetimeInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="datetime-local" />'.
      *
      * @param string $name
-     * @return DatetimeLocalInputElement
+     * @return DatetimeLocalInput
      */
-    public static function datetimeLocal(string $name): DatetimeLocalInputElement
+    public static function datetimeLocal(string $name): DatetimeLocalInput
     {
-        return (new DatetimeLocalInputElement())->name($name);
+        return (new DatetimeLocalInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="email" />'.
      *
      * @param string $name
-     * @return EmailInputElement
+     * @return EmailInput
      */
-    public static function email(string $name): EmailInputElement
+    public static function email(string $name): EmailInput
     {
-        return (new EmailInputElement())->name($name);
+        return (new EmailInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="file" />'.
      *
      * @param string $name
-     * @return FileInputElement
+     * @return FileInput
      */
-    public static function file(string $name): FileInputElement
+    public static function file(string $name): FileInput
     {
-        return (new FileInputElement())->name($name);
+        return (new FileInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="hidden" />'.
      *
      * @param string $name
-     * @return HiddenInputElement
+     * @return HiddenInput
      */
-    public static function hidden(string $name): HiddenInputElement
+    public static function hidden(string $name): HiddenInput
     {
-        return (new HiddenInputElement())->name($name);
+        return (new HiddenInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="month" />'.
      *
      * @param string $name
-     * @return MonthInputElement
+     * @return MonthInput
      */
-    public static function month(string $name): MonthInputElement
+    public static function month(string $name): MonthInput
     {
-        return (new MonthInputElement())->name($name);
+        return (new MonthInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="number" />'.
      *
      * @param string $name
-     * @return NumberInputElement
+     * @return NumberInput
      */
-    public static function number(string $name): NumberInputElement
+    public static function number(string $name): NumberInput
     {
-        return (new NumberInputElement())->name($name);
+        return (new NumberInput())->name($name);
     }
 
     /**
      * Generates form-control '<optgroup></optgroup>'.
      *
      * @param string $label
-     * @param OptionElement[] $options
-     * @return OptgroupElement
+     * @param Option[] $options
+     * @return Optgroup
      */
-    public static function optgroup($label, array $options): OptgroupElement
+    public static function optgroup($label, array $options): Optgroup
     {
-        return (new OptgroupElement())->label($label)->content($options);
+        return (new Optgroup())->label($label)->content($options);
     }
 
 
@@ -237,22 +238,22 @@ class FormBuilder
      * Generates form-control '<option></option>'.
      *
      * @param string $value
-     * @return OptionElement
+     * @return Option
      */
-    public static function option(string $value = ''): OptionElement
+    public static function option(string $value = ''): Option
     {
-        return (new OptionElement())->value($value);
+        return (new Option())->value($value);
     }
 
     /**
      * Generates form-control '<input type="password" />'.
      *
      * @param string $name
-     * @return PasswordInputElement
+     * @return PasswordInput
      */
-    public static function password(string $name): PasswordInputElement
+    public static function password(string $name): PasswordInput
     {
-        return (new PasswordInputElement())->name($name);
+        return (new PasswordInput())->name($name);
     }
 
     /**
@@ -260,18 +261,18 @@ class FormBuilder
      *
      * @param string $value
      * @param string $name
-     * @return RadioInputElement
+     * @return RadioInput
      */
-    public static function radio(string $value, string $name = ''): RadioInputElement
+    public static function radio(string $value, string $name = ''): RadioInput
     {
-        return (new RadioInputElement())->name($name)->value($value)->labelMode('bound');
+        return (new RadioInput())->name($name)->value($value)->labelMode('bound');
     }
 
     /**
      * Generates RadioGroup.
      *
      * @param string $name
-     * @param RadioInputElement[] $children
+     * @param RadioInput[] $children
      * @return RadioGroup
      */
     public static function radioGroup(string $name, array $children) : RadioGroup
@@ -283,139 +284,139 @@ class FormBuilder
      * Generates form-control '<input type="range" />'.
      *
      * @param string $name
-     * @return RangeInputElement
+     * @return RangeInput
      */
-    public static function range(string $name): RangeInputElement
+    public static function range(string $name): RangeInput
     {
-        return (new RangeInputElement())->name($name);
+        return (new RangeInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="search" />'.
      *
      * @param string $name
-     * @return SearchInputElement
+     * @return SearchInput
      */
-    public static function search(string $name): SearchInputElement
+    public static function search(string $name): SearchInput
     {
-        return (new SearchInputElement())->name($name);
+        return (new SearchInput())->name($name);
     }
 
     /**
      * Generates form-control '<select></select>'.
-     * Also sets the selectElement as app(FormBuilder::class)->openSelect.
+     * Also sets the Select as app(FormBuilder::class)->openSelect.
      *
      * @param string $name
      * @param array $options
-     * @return SelectElement
+     * @return Select
      */
-    public static function select(string $name, array $options = []): SelectElement
+    public static function select(string $name, array $options = []): Select
     {
-        $selectElement = (new SelectElement())->name($name);
-        app(FormBuilder::class)->openSelect = $selectElement;
+        $select = (new Select())->name($name);
+        app(FormBuilder::class)->openSelect = $select;
         foreach ($options as $option) {
-            $selectElement->appendChild($option);
+            $select->appendChild($option);
         }
-        return $selectElement;
+        return $select;
     }
 
     /**
      * Generates form-control '<input type="tel" />'.
      *
      * @param string $name
-     * @return TelInputElement
+     * @return TelInput
      */
-    public static function tel(string $name): TelInputElement
+    public static function tel(string $name): TelInput
     {
-        return (new TelInputElement())->name($name);
+        return (new TelInput())->name($name);
     }
 
     /**
      * Generates form-control '<textarea></textarea>'.
      *
      * @param string $name
-     * @return TextareaElement
+     * @return Textarea
      */
-    public static function textarea(string $name): TextareaElement
+    public static function textarea(string $name): Textarea
     {
-        return (new TextareaElement())->name($name);
+        return (new Textarea())->name($name);
     }
 
     /**
      * Generates form-control '<input type="text" />'.
      *
      * @param string $name
-     * @return TextInputElement
+     * @return TextInput
      */
-    public static function text(string $name): TextInputElement
+    public static function text(string $name): TextInput
     {
-        return (new TextInputElement())->name($name);
+        return (new TextInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="time" />'.
      *
      * @param string $name
-     * @return TimeInputElement
+     * @return TimeInput
      */
-    public static function time(string $name): TimeInputElement
+    public static function time(string $name): TimeInput
     {
-        return (new TimeInputElement())->name($name);
+        return (new TimeInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="url" />'.
      *
      * @param string $name
-     * @return UrlInputElement
+     * @return UrlInput
      */
-    public static function url(string $name): UrlInputElement
+    public static function url(string $name): UrlInput
     {
-        return (new UrlInputElement())->name($name);
+        return (new UrlInput())->name($name);
     }
 
     /**
      * Generates form-control '<input type="week" />'.
      *
      * @param string $name
-     * @return WeekInputElement
+     * @return WeekInput
      */
-    public static function week(string $name): WeekInputElement
+    public static function week(string $name): WeekInput
     {
-        return (new WeekInputElement())->name($name);
+        return (new WeekInput())->name($name);
     }
 
     /**
      * Generates form-control '<button type="reset"></button>'.
      *
      * @param string $name
-     * @return ResetButtonElement
+     * @return ResetButton
      */
-    public static function reset(string $name = 'reset'): ResetButtonElement
+    public static function reset(string $name = 'reset'): ResetButton
     {
-        return (new ResetButtonElement())->name($name);
+        return (new ResetButton())->name($name);
     }
 
     /**
      * Generates form-control '<button type="submit"></button>'.
      *
      * @param string $name
-     * @return SubmitButtonElement
+     * @return SubmitButton
      */
-    public static function submit(string $name = 'submit'): SubmitButtonElement
+    public static function submit(string $name = 'submit'): SubmitButton
     {
-        return (new SubmitButtonElement())->name($name);
+        return (new SubmitButton())->name($name);
     }
 
     /**
      * Generates form-control '<button></button>'.
      *
      * @param string $name
-     * @return ButtonElement
+     * @return Button
      */
-    public static function button(string $name = ''): ButtonElement
+    public static function button(string $name = ''): Button
     {
-        return (new ButtonElement())->name($name);
+        return (new Button())->name($name);
     }
 
     /**
@@ -456,10 +457,10 @@ class FormBuilder
     /**
      * Generates InputGroupButton
      *
-     * @param \Nicat\HtmlBuilder\Elements\ButtonElement $button
+     * @param ButtonElement $button
      * @return InputGroupButton
      */
-    public static function inputGroupButton(\Nicat\HtmlBuilder\Elements\ButtonElement $button): InputGroupButton
+    public static function inputGroupButton(ButtonElement $button): InputGroupButton
     {
         return new InputGroupButton($button);
     }
@@ -467,7 +468,7 @@ class FormBuilder
     /**
      * Generates Input-Group-Addon
      *
-     * @param string|CheckboxInputElement|RadioInputElement $content
+     * @param string|CheckboxInput|RadioInput $content
      * @return InputGroupAddon
      */
     public static function inputGroupAddon($content): InputGroupAddon

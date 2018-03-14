@@ -2,7 +2,7 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\HelpText;
+use Nicat\FormBuilder\Components\Additional\HelpText;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
 class StyleHelpText extends Decorator

@@ -2,10 +2,9 @@
 
 namespace Nicat\FormBuilder\Decorators\General;
 
-use Nicat\FormBuilder\Elements\ButtonElement;
-use Nicat\FormBuilder\Elements\OptionElement;
-use Nicat\FormBuilder\Elements\ResetButtonElement;
-use Nicat\FormBuilder\Elements\SubmitButtonElement;
+use Nicat\FormBuilder\Components\FormControls\Button;
+use Nicat\FormBuilder\Components\FormControls\ResetButton;
+use Nicat\FormBuilder\Components\FormControls\SubmitButton;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
 /**
@@ -20,7 +19,7 @@ class DecorateButtons extends Decorator
     /**
      * The element to be decorated.
      *
-     * @var ButtonElement
+     * @var Button
      */
     protected $element;
 
@@ -43,9 +42,9 @@ class DecorateButtons extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            ButtonElement::class,
-            SubmitButtonElement::class,
-            ResetButtonElement::class
+            Button::class,
+            SubmitButton::class,
+            ResetButton::class
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\DynamicList;
+use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
 class StyleDynamicLists extends Decorator
