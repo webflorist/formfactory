@@ -82,7 +82,7 @@ class IndicateRequiredFields extends Decorator
     {
         /** @var RadioGroup $radioGroup */
         $radioGroup = $this->element;
-        foreach ($radioGroup->getChildrenByClassName(RadioInput::class) as $radioElement) {
+        foreach ($radioGroup->content->getChildrenByClassName(RadioInput::class) as $radioElement) {
             if ($this->isFieldRequired($radioElement)) {
                 $radioGroup->legend(
                     $radioGroup->legend . new RequiredFieldIndicator()

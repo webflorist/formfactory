@@ -157,10 +157,10 @@ class DynamicList extends FieldsetElement
         $this->addJavaScriptTemplate();
 
         // Add the "Add new row" button.
-        $this->appendChild($this->addItemButton);
+        $this->appendContent($this->addItemButton);
 
         // Add the tag for the "maximum reached" alert.
-        $this->appendChild($this->maximumReachedAlert);
+        $this->appendContent($this->maximumReachedAlert);
     }
 
     /**
@@ -233,7 +233,7 @@ class DynamicList extends FieldsetElement
         }
 
         // Finally append the child to this tag.
-        $this->appendChild($template);
+        $this->appendContent($template);
     }
 
     /**
@@ -256,7 +256,7 @@ class DynamicList extends FieldsetElement
 
         if (is_a($element,ContainerElement::class)) {
             /** @var ContainerElement $element */
-            foreach ($element->getChildren() as $childKey => $child) {
+            foreach ($element->content->get() as $childKey => $child) {
                 if (is_a($child,Element::class)) {
                     $this->setHtmlArrayKeyInNameRecursively($child, $key2set);
                 }
@@ -281,10 +281,8 @@ class DynamicList extends FieldsetElement
         // If $element has children, we must call disableFieldsRecursively() on them also.
         if (is_a($element,ContainerElement::class)) {
             /** @var ContainerElement $element */
-            foreach ($element->getChildren() as $childKey => $child) {
-                if (is_a($child,Element::class)) {
-                    $this->disableFieldsRecursively($child);
-                }
+            foreach ($element->content->getChildrenByClassName(Element::class) as $childKey => $child) {
+                $this->disableFieldsRecursively($child);
             }
         }
 
@@ -301,7 +299,7 @@ class DynamicList extends FieldsetElement
     {
         $arrayName = $this->originalArrayName ?? $this->arrayName;
 
-        foreach ($template->getChildrenByClassName(DynamicList::class) as $childDynamicList) {
+        foreach ($template->content->getChildrenByClassName(DynamicList::class) as $childDynamicList) {
             /** @var DynamicList $childDynamicList */
             $childDynamicList->injectDynamicListParentItemID($arrayName, $itemID);
         }
@@ -376,7 +374,7 @@ class DynamicList extends FieldsetElement
     {
         $errorWrapper = new ErrorWrapper();
         $errorWrapper->addErrorField($this->arrayName);
-        $this->prependChild($errorWrapper);
+        $this->prependContent($errorWrapper);
     }
 
     /**
@@ -428,7 +426,7 @@ class DynamicList extends FieldsetElement
         $template  = $this->template;
         if (is_a($template,ContainerElement::class)) {
             /** @var ContainerElement $template */
-            if (count($template->getChildrenByClassName(DynamicList::class))>0) {
+            if (count($template->content->getChildrenByClassName(DynamicList::class))>0) {
                 return true;
             }
         }

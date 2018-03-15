@@ -68,7 +68,7 @@ class CaptchaProtection
             $captchaData = self::establishCaptchaData($sessionKeyForCaptchaData);
 
             // Then we add the captcha-field to the output.
-            $form->appendChild(
+            $form->appendContent(
                 (new TextInput())
                     ->name('_captcha')
                     ->required(true)

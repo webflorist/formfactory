@@ -30,7 +30,7 @@ class Textarea extends TextareaElement implements FieldValueProcessorInterface, 
      */
     public function applyFieldValue($value)
     {
-        $this->clearContent();
+        $this->content->clear();
         $this->content($value);
     }
 }

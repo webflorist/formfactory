@@ -49,7 +49,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
         // Set $this->errorWrapper and prepend it.
         $this->errorWrapper = (new ErrorWrapper());
         $this->errorWrapper->addErrorField($name);
-        $this->prependChild($this->errorWrapper);
+        $this->prependContent($this->errorWrapper);
 
         // Auto-translate legend.
         $this->legend($this->performAutoTranslation($this->radioName));
@@ -61,7 +61,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
      */
     protected function afterChildrenDecoration()
     {
-        foreach ($this->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
+        foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
             /** @var CanHaveErrors $child */
             $child->showErrors(false);
         }

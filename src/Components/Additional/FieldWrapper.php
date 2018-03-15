@@ -59,9 +59,9 @@ class FieldWrapper extends DivElement
             // If labelMode is set to 'bound', we simply wrap the field with the label,
             // and replace the field-element with the label-element in $this.
             if ($this->field->labelMode === 'bound') {
-                $this->replaceChild(
+                $this->content->replaceChild(
                     $this->field,
-                    $label->prependChild($this->field)
+                    $label->prependContent($this->field)
                 );
                 return;
             }
@@ -72,7 +72,7 @@ class FieldWrapper extends DivElement
 
             // If labelMode is set to 'after', we append the label after the field.
             if ($this->field->labelMode === 'after') {
-                $this->insertChildAfter(
+                $this->content->insertChildAfter(
                     $label,
                     $this->field
                 );
@@ -85,7 +85,7 @@ class FieldWrapper extends DivElement
             }
 
             // Standard-procedure is to insert the label before the field.
-            $this->prependChild(
+            $this->prependContent(
                 $label
             );
 
@@ -106,19 +106,19 @@ class FieldWrapper extends DivElement
 
             // Add the help-text-element according to it's desired location.
             if ($this->field->helpTextLocation === 'append') {
-                $this->field->appendChild($helpTextElement);
+                $this->field->appendContent($helpTextElement);
             }
             if ($this->field->helpTextLocation === 'prepend') {
-                $this->field->prependChild($helpTextElement);
+                $this->field->prependContent($helpTextElement);
             }
             if ($this->field->helpTextLocation === 'after') {
-                $this->insertChildAfter(
+                $this->content->insertChildAfter(
                     $helpTextElement,
                     $this->field
                 );
             }
             if ($this->field->helpTextLocation === 'before') {
-                $this->insertChildBefore(
+                $this->content->insertChildBefore(
                     $helpTextElement,
                     $this->field
                 );
@@ -137,19 +137,19 @@ class FieldWrapper extends DivElement
 
             // Add the errorWrapper according to the desired location.
             if ($this->field->errorsLocation === 'append') {
-                $this->field->appendChild($this->errorWrapper);
+                $this->field->appendContent($this->errorWrapper);
             }
             if ($this->field->errorsLocation === 'prepend') {
-                $this->field->prependChild($this->errorWrapper);
+                $this->field->prependContent($this->errorWrapper);
             }
             if ($this->field->errorsLocation === 'after') {
-                $this->insertChildAfter(
+                $this->content->insertChildAfter(
                     $this->errorWrapper,
                     $this->field
                 );
             }
             if ($this->field->errorsLocation === 'before') {
-                $this->insertChildBefore(
+                $this->content->insertChildBefore(
                     $this->errorWrapper,
                     $this->field
                 );

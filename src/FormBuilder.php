@@ -315,7 +315,7 @@ class FormBuilder
         $select = (new Select())->name($name);
         app(FormBuilder::class)->openSelect = $select;
         foreach ($options as $option) {
-            $select->appendChild($option);
+            $select->appendContent($option);
         }
         return $select;
     }

@@ -18,7 +18,7 @@ class InputGroupButton extends DivElement
         parent::__construct();
 
         $this->addClass('input-group-btn');
-        $this->appendChild($button);
+        $this->appendContent($button);
     }
 
 }

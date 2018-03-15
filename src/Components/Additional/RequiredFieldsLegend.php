@@ -14,8 +14,8 @@ class RequiredFieldsLegend extends DivElement
     protected function setUp()
     {
         $this->addClass('text-muted small');
-        $this->appendChild(new RequiredFieldIndicator());
-        $this->appendChild(' ' . trans('Nicat-FormBuilder::formbuilder.mandatory_fields'));
+        $this->appendContent(new RequiredFieldIndicator());
+        $this->appendContent(' ' . trans('Nicat-FormBuilder::formbuilder.mandatory_fields'));
     }
 
 }

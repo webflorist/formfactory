@@ -66,7 +66,7 @@ class ErrorWrapper extends AlertComponent
         $this->addErrors();
 
         // If this error-wrapper has nothing to display, we simply hide it.
-        if (!$this->hasChildren()) {
+        if (!$this->content->hasContent()) {
             $this->hidden();
             $this->addStyle('display:none');
         }

@@ -33,7 +33,7 @@ class HoneypotProtection
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()
                 );
-                $form->appendChild(
+                $form->appendContent(
                     $honeypotField
                 );
             }

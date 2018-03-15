@@ -49,7 +49,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     {
         // We extract the label of the first field-element and render it' label before the InputGroup.
         if (!isset($this->isDynamicListTemplate) || ($this->isDynamicListTemplate === false)) {
-            foreach ($this->getChildren() as $childKey => $child) {
+            foreach ($this->content->get() as $childKey => $child) {
                 if (property_exists($child, 'label') and $child->labelMode != 'none') {
                     /** @var CanHaveLabel $child */
                     $output = (new LabelElement())->content($child->label)->for($child->attributes->id)->generate() . $output;
@@ -68,7 +68,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     private function getFieldChildren()
     {
         $fieldChildren = [];
-        foreach ($this->getChildren() as $child) {
+        foreach ($this->content->get() as $child) {
             if ($child->attributes->isAllowed('name')) {
                 $fieldChildren[] = $child;
             }
@@ -105,7 +105,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     function performDynamicListModifications(DynamicList $dynamicList, Button $removeItemButton)
     {
         $this->addClass('m-b-1');
-        $this->prependChild(new InputGroupButton($removeItemButton));
+        $this->prependContent(new InputGroupButton($removeItemButton));
     }
 
 }

@@ -105,7 +105,7 @@ class DecorateButtons extends Decorator
      */
     private function autoGenerateButtonText()
     {
-        if (!$this->element->hasChildren()) {
+        if (!$this->element->content->hasContent()) {
             $this->element->content(
                 $this->element->performAutoTranslation(ucwords($this->element->attributes->name))
             );

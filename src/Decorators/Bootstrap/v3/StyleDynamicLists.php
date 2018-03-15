@@ -50,10 +50,8 @@ class StyleDynamicLists extends Decorator
             ->appendContent(' <i class="btr bt-plus btn-no-anim"></i>')
         ;
 
-        $this->element->removeItemButton
-            ->clearContent()
-            ->content('<i class="btr bt-trash" style="margin:0"></i>')
-        ;
+        $this->element->removeItemButton->content->clear();
+        $this->element->removeItemButton->content('<i class="btr bt-trash" style="margin:0"></i>');
 
     }
 }

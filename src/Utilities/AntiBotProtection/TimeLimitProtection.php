@@ -45,7 +45,7 @@ class TimeLimitProtection
         // We also add an errorWrapper to display any errors for '_timeLimit' to the form.
         $errorWrapper = new ErrorWrapper();
         $errorWrapper->addErrorField('_timeLimit');
-        $form->appendChild($errorWrapper);
+        $form->appendContent($errorWrapper);
     }
 
     /**

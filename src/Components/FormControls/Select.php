@@ -37,7 +37,7 @@ class Select extends SelectElement implements FieldValueProcessorInterface, Auto
         }
 
         // Format each option.
-        foreach ($this->getChildrenByClassName(Option::class) as $optionKey => $option) {
+        foreach ($this->content->getChildrenByClassName(Option::class) as $optionKey => $option) {
 
             /** @var Option $option */
             $option->selected(

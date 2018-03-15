@@ -220,7 +220,7 @@ class Form extends FormElement
             if (is_null($csrfToken)) {
                 $csrfToken = '';
             }
-            $this->appendChild(
+            $this->appendContent(
                 (new HiddenInput())->name('_token')->value($csrfToken)
             );
         }
@@ -232,7 +232,7 @@ class Form extends FormElement
     protected function appendHiddenMethodSpoof()
     {
         if (!is_null($this->spoofedMethod)) {
-            $this->appendChild(
+            $this->appendContent(
                 (new HiddenInput())->name('_method')->value($this->spoofedMethod)
             );
         }
@@ -244,7 +244,7 @@ class Form extends FormElement
      */
     protected function appendHiddenFormId()
     {
-        $this->appendChild(
+        $this->appendContent(
             (new HiddenInput())->name('_formID')->value($this->attributes->id)
         );
     }
@@ -331,7 +331,7 @@ class Form extends FormElement
      */
     protected function appendHiddenGeneralErrorWrapper()
     {
-        $this->appendChild(
+        $this->appendContent(
             (new ErrorWrapper())->data('displays-general-errors',true)
         );
     }

@@ -93,7 +93,7 @@ class DecorateOptions extends Decorator
      */
     private function autoGenerateContentText()
     {
-        if (!$this->element->hasChildren()) {
+        if (!$this->element->content->hasContent()) {
             $this->element->content(
                 $this->element->performAutoTranslation($this->element->attributes->value)
             );
