@@ -13,9 +13,17 @@ if ( ! function_exists('od'))
     function od()
     {
         array_map(function($x) { (new Dumper)->dump($x); }, func_get_args());
-
-
     }
+}
 
-
+if (! function_exists('form')) {
+    /**
+     * Gets the FormBuilder singleton from Laravel's service-container
+     *
+     * @return \Nicat\FormBuilder\FormBuilder
+     */
+    function html()
+    {
+        return app(\Nicat\FormBuilder\FormBuilder::class);
+    }
 }

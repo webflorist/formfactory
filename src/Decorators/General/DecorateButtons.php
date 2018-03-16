@@ -58,7 +58,6 @@ class DecorateButtons extends Decorator
 
         // Automatically generate the button-text for button-elements without a manually set content using auto-translation.
         $this->autoGenerateButtonText();
-
     }
 
     /**
@@ -72,7 +71,7 @@ class DecorateButtons extends Decorator
         }
 
         // Auto-generated IDs always start with formID followed by an underscore and an appropriate suffix.
-        $fieldId = $this->formBuilder->openForm->attributes->id . '_' . $this->getIdSuffix();
+        $fieldId = form()->openForm->attributes->id . '_' . $this->getIdSuffix();
 
         // Set the id.
         $this->element->id($fieldId);

@@ -138,11 +138,15 @@ class DecorateFields extends Decorator
             return;
         }
 
+        $fieldId = '';
+
         // Auto-generated IDs always start with formID...
-        $fieldId = $this->formBuilder->openForm->attributes->id;
+        if (!is_null(form()->openForm)) {
+            $fieldId .= form()->openForm->attributes->id . '_';
+        }
 
         // ...followed by the field-name.
-        $fieldId .= '_' . $this->element->attributes->name;
+        $fieldId .= $this->element->attributes->name;
 
         // For radio-buttons and options we also append the value.
         if ($this->element->is(RadioInput::class)) {

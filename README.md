@@ -1,38 +1,96 @@
 # nicat/formbuilder
-**Convenient and powerful bootstrap (v4) conform form--builder for Laravel 5.5**
+**Convenient and powerful form-builder for Laravel 5.5**
 
 ## Description
-This package provides a form-builder for building whole forms in Laravel 5.1 views without the need to write any HTML.
+This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder). 
 
 The main features are:
-* Built for easy usage with IDEs (avoiding the use of magic methods to allow auto-completion of IDEs)
+* Use static factory methods for all relevant form-elements.
+* Chain fluid method-calls to set HTML-attributes and other properties.
+* Fully use the benefits of IDEs (auto-completion).
+* Style output for specific frontend-frameworks using [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
+* Keep your views frontend-framework-agnostic.
+* Extend it's features using [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder)'s `Decorators` and `Components`.
+* Produce accessibility-conform valid HTML 5 output.
 * Automatic mapping of Laravel-validation-rules into HTML5-attributes for live-validation by the browser (e.g. laravel rule "required" results in the "required"-property of the HTML-field)
 * Automatic mapping and display of Laravel-error-messages next to their corresponding form-fields.
 * Extensive auto-translation-functionality (for field-labels, -placeholders and -help-texts)
 * Allows multiple forms per page with correct values- and error-mappings.
-* Bootstrap (v4)-conform output
-* Accessibility-conform output (e.g. using ARIA-attributes and outputting valid HTML 5)
 * Easy pre-population of form-fields via a predefined value-array.
 * On-board AJAX-validation-functionality (onSubmit of form and/or onKeyup/onChange of field)
 * Anti-bot-mechanisms (honeypot-field, captcha, time-limit)
 * ...and many more.
 
 ## Installation
-1. Require the package via composer:  `composer require nicat/htmlbuilder`
-2. Add the Service-Provider to config/app.php:  `Nicat\HtmlBuilder\HtmlBuilderServiceProvider::class`
+1. Require the package via composer:  `composer require nicat/formbuilder`
+2. Add the Service-Provider to config/app.php:  `Nicat\FormBuilder\FormBuilderServiceProvider::class`
 3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormBuilder\FormBuilderFacade::class`
-4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\HtmlBuilder\HtmlBuilderServiceProvider"`
-5. Include the published javascript-file (`public/vendor/nicat/htmlbuilder/js/formbuilder.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
+4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormBuilder\FormBuilderServiceProvider"`
+5. Include the published javascript-file (`public/vendor/nicat/formbuilder/js/formbuilder.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
 
 ## Configuration
-The package can be configured via config/htmlbuilder.php. Please see the inline-documentation of this file for explanations of the various settings:
-https://github.com/nic-at/htmlbuilder/blob/develop/src/config/htmlbuilder.php
+The package can be configured via `config/formbuilder.php`. Please see the inline-documentation of this file for explanations of the various settings:
+https://github.com/nic-at/formbuilder/blob/develop/src/config/formbuilder.php
+
+Also be sure to correctly configure the `frontend_framework` in the HtmlBuilder-config (at `config/htmlbuilder.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
 
 ## Usage
 
 ### Basics
 
-A HTML-tag for a Form (e.g. an input-field) is generated using the corresponding method of the `Form-`facade. This method may require one or more parameters for setting mandatory information (mostly the "name" attribute in case of fields). Furthermore, you can manipulate the generated output by "chaining" further methods (e.g. to set attributes). The final HTML-string is generated using the `generate()`-method. But since the `Tag`-class of the HtmlBuilder-package includes a magic `__toString()`-method doing exactly that, you can omit the `generate()`-method when using the Form-facade in a blade-template.
+Since this package extends the functionality of [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormBuilder is identical to [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder).
+
+The main difference in usage is, that FormBuilder uses it's own `Form`-facade instead of HtmlBuilder's `Html`-facade. It also provides some additional methods to control the extended form-functionality.
+
+Since this package is built IDE-friendly way, you just have to type `Form::`in your auto-completion-enabled IDE and you should immediately get a list of the available form-elements you can build.
+
+#### A minimal example to create a form
+
+A minimal form requires a form-open-tag, a field, a submit-button and a form-close-tag:
+
+```
+Blade Code:
+-----------
+{!! Form::open('MyFormID') !!}
+{!! Form::text('MyFieldName') !!}
+{!! Form::submit('MySubmitButton') !!}
+{!! Form::close() !!}
+
+Generated HTML:
+---------------
+<form role="form" accept-charset="UTF-8" enctype="multipart/form-data" id="MyFormID" method="POST" action="https://localhost/my-form-route">
+
+    <input type="hidden" name="_token" value="eIy29d5nSsCv3KJKF7pQydIHz7IR1OPVJjky9TOM" id="MyFormID__token" />
+    <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" />
+    <div role="alert" data-error-wrapper="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
+    
+    <div data-field-wrapper="1">
+        <label for="MyFormID_MyFieldName">MyFieldName</label>
+        <div role="alert" data-error-wrapper="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
+        <input type="text" name="MyFieldName" id="MyFormID_MyFieldName" placeholder="MyFieldName" aria-describedby="MyFormID_MyFieldName_errors" />
+    </div>
+    
+    <button type="submit" name="MySubmitButton" id="MyFormID_MySubmitButton">MySubmitButton</button>
+    
+</form>
+```
+
+Let's take a look at some of the magic, that is happening here:
+* The `Form::open()` call already does some stuff for us like setting some default-attributes (e.g. POST as the method or the current url as the action)
+* A hidden input including the laravel CSRF-token is automatically added. (As is a hidden input including the form-id, which is used for various on-board-functionality.)
+* A general error-wrapper is added (hidden by default) to be utilized by ajax-validation.
+* The field is automatically wrapped within a div-element (with bootstrap this element would get the 'form-group' class).
+* The field's label as well as placeholder are automatically added using the field-name (if none other is stated), or an automatic translation (explained later).
+* All relevant elements have an automatically generated ID (format for fields: `%formID%_%fieldName%`)
+* The button's content is also automatically generated from the name or via auto-translation (if none is specifically set).
+
+If you have any (supported) frontend-framework configured, the output would include the framework-specific styles and classes.
+
+As with all other tags, the opening form-tag, as well as the submit-button can be manipulated by chaining fluid setter-methods (e.g. to change the default-attributes or add additional attributes).
+
+
+
+   
 
 #### A minimal example to create a tag
 Here is a very basic example for the generation of a text-input from within a laravel-blade-template:
@@ -43,13 +101,12 @@ Blade Code:
 
 Generated HTML:
 ---------------
-<fieldset class="form-group">
-    <label for="_MyFieldName">MyFieldName</label>
-    <input id="_MyFieldName" class="form-control" name="MyFieldName" value="" placeholder="MyFieldName" type="text">
-</fieldset>
+<div data-field-wrapper="1">
+    <label for="frmTest_MyFieldName">MyFieldName</label>
+    <div role="alert" data-error-wrapper="1" id="frmTest_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden="" style="display:none"></div>
+    <input type="text" name="MyFieldName" id="frmTest_MyFieldName" placeholder="MyFieldName" aria-describedby="frmTest_MyFieldName_errors">
+</div>
 ```
-Note, that the output is Bootstrap (v4) conform and the label as well as placeholder are automatically added using the field-name (if none other is stated), or an automatic translation (explained later).
-The field also automatically gets an ID in the following format: `%formID%_%fieldName%`. (In the example above, the `%formID%` is missing, because we have not created a form-open-tag prior to our field.)
 
 Since this package is built IDE-friendly way, you just have to type `Form::`in your auto-completion-enabled IDE and you should immediately get a list of available tags.
 
@@ -94,37 +151,6 @@ But since this package is built IDE-friendly way, you just have to type e.g. `Fo
 
 Since this package strives to only output valid HTML, the available methods differ from tag to tag. E.g. you can not use the method ->selected() on an input-tag, because it is not allowed according to HTML-standards.
  
-#### A minimal example to create a full form
-
-Of course a minimal form requires a form-open-tag, a field, a submit-button and a form-close-tag.
-
-Let's do this:
-
-```
-Blade Code:
------------
-{!! Form::open('MyFormID') !!}
-{!! Form::text('MyFieldName') !!}
-{!! Form::submit('MySubmitButton') !!}
-{!! Form::close() !!}
-
-Generated HTML:
----------------
-<form action="http://localhost/formtest" method="POST" role="form" accept-charset="UTF-8" class="form-vertical" enctype="multipart/form-data" id="MyFormID">
-    <input id="MyFormID__token" class="form-control" name="_token" value="ALAPXIOaRs3gBV8vYm7vRXgqONRMsQ6cDRUVVaXW" type="hidden">
-    <input id="MyFormID__formID" class="form-control" name="_formID" value="MyFormID" type="hidden">
-    <fieldset class="form-group">
-        <label for="MyFormID_MyFieldName">MyFieldName</label>
-        <input id="MyFormID_MyFieldName" class="form-control" name="MyFieldName" value="" placeholder="MyFieldName" type="text">
-    </fieldset>
-    <button type="submit" class="btn btn-primary" id="MyFormID_MySubmitButton" name="MySubmitButton">MySubmitButton</button>
-</form>
-```
-As you can see, the `Form::open()` call already does some stuff for us like setting some default-attributes (e.g. POST as the method or the current url as the action), adding a hidden input including the laravel CSRF-token and a hidden input including the form-id (which is used for various functionality).
-
-The button already comes with a `type="submit"`, the name is automatically used as the content, and it's classes are bootstrap conform "btn btn-primary". If you want to use a different button-style (e.g. `btn-danger` instead of `btn-primary`, you can do this via the method `->context('danger')`.
-
-As with all other tags, the opening form-tag, as well as the submit-button can be manipulated by applying methods to it (e.g. to change the default-attributes or add additional attributes).
 
 ### Advanced Features
 
