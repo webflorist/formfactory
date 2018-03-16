@@ -5,6 +5,7 @@ namespace Nicat\FormBuilder\Decorators\General;
 use Nicat\FormBuilder\Components\FormControls\Button;
 use Nicat\FormBuilder\Components\FormControls\ResetButton;
 use Nicat\FormBuilder\Components\FormControls\SubmitButton;
+use Nicat\FormBuilder\FormBuilder;
 use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
 
 /**
@@ -71,7 +72,7 @@ class DecorateButtons extends Decorator
         }
 
         // Auto-generated IDs always start with formID followed by an underscore and an appropriate suffix.
-        $fieldId = form()->openForm->attributes->id . '_' . $this->getIdSuffix();
+        $fieldId = app(FormBuilder::class)->openForm->attributes->id . '_' . $this->getIdSuffix();
 
         // Set the id.
         $this->element->id($fieldId);

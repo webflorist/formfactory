@@ -11,6 +11,7 @@ use Nicat\FormBuilder\Components\FormControls\TelInput;
 use Nicat\FormBuilder\Components\FormControls\TimeInput;
 use Nicat\FormBuilder\Components\FormControls\UrlInput;
 use Nicat\FormBuilder\Components\FormControls\WeekInput;
+use Nicat\FormBuilder\FormBuilder;
 use Nicat\FormBuilder\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormBuilder\Utilities\FieldValues\FieldValueProcessor;
 use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
@@ -141,8 +142,8 @@ class DecorateFields extends Decorator
         $fieldId = '';
 
         // Auto-generated IDs always start with formID...
-        if (!is_null(form()->openForm)) {
-            $fieldId .= form()->openForm->attributes->id . '_';
+        if (!is_null(app(FormBuilder::class)->openForm)) {
+            $fieldId .= app(FormBuilder::class)->openForm->attributes->id . '_';
         }
 
         // ...followed by the field-name.
