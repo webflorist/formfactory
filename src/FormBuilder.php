@@ -39,6 +39,7 @@ use Nicat\FormBuilder\Components\FormControls\TextInput;
 use Nicat\FormBuilder\Components\FormControls\TimeInput;
 use Nicat\FormBuilder\Components\FormControls\UrlInput;
 use Nicat\FormBuilder\Components\FormControls\WeekInput;
+use Nicat\FormBuilder\Exceptions\OpenElementNotFoundException;
 use Nicat\HtmlBuilder\Elements\ButtonElement;
 use Nicat\HtmlBuilder\Elements\FieldsetElement;
 
@@ -59,14 +60,14 @@ class FormBuilder
      *
      * @var Form
      */
-    public $openForm = null;
+    protected $openForm = null;
 
     /**
      * The currently open Select.
      *
      * @var Select
      */
-    public $openSelect = null;
+    protected $openSelect = null;
 
     /**
      * Has a required-field-indicator been rendered,
@@ -504,6 +505,36 @@ class FormBuilder
             $element->content($content);
         }
         return $element;
+    }
+
+    /**
+     * Returns the currently open Form-element.
+     *
+     * @return Form
+     * @throws OpenElementNotFoundException
+     */
+    public function getOpenForm(): Form
+    {
+        if (is_null($this->openForm)) {
+            throw new OpenElementNotFoundException('FormBuilder could not find a currently open Form-element while generating a field. This is probably due to generating a form-field with FormBuilder without opening a form using Form::open() before that.');
+        }
+
+        return $this->openForm;
+    }
+
+    /**
+     * Returns the currently open Select-element.
+     *
+     * @return Select
+     * @throws OpenElementNotFoundException
+     */
+    public function getOpenSelect(): Select
+    {
+        if (is_null($this->openSelect)) {
+            throw new OpenElementNotFoundException('FormBuilder could not find a currently open Select-element while generating an Option-element. This is probably due to generating a option-field with FormBuilder without opening a select using Form::select() before that.');
+        }
+
+        return $this->openSelect;
     }
 
 

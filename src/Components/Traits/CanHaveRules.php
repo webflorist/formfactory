@@ -50,7 +50,7 @@ trait CanHaveRules
         if (is_null($this->rules)) {
             /** @var FormBuilder $formBuilderService */
             $formBuilderService = app(FormBuilder::class);
-            $this->rules =  $formBuilderService->openForm->rules->getRulesForField($this->attributes->name);
+            $this->rules =  $formBuilderService->getOpenForm()->rules->getRulesForField($this->attributes->name);
         }
 
         return $this->rules;

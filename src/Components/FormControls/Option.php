@@ -23,7 +23,7 @@ class Option extends OptionElement implements AutoTranslationInterface
         /** @var FormBuilder $formBuilderService */
         $formBuilderService = app()[FormBuilder::class];
         return
-            FormBuilderTools::arrayStripString($formBuilderService->openSelect->attributes->name) .
+            FormBuilderTools::arrayStripString($formBuilderService->getOpenSelect()->attributes->name) .
             '_' .
             $this->attributes->value;
     }

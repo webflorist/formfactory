@@ -25,7 +25,7 @@ class FieldValueProcessor
     {
 
         /** @var Form $openForm */
-        $openForm = app(FormBuilder::class)->openForm;
+        $openForm = app(FormBuilder::class)->getOpenForm();
 
         $fieldName = $element->attributes->name;
 

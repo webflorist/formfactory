@@ -340,7 +340,7 @@ class DynamicList extends FieldsetElement
             // Get the array-rules from the FormBuilder-service.
             /** @var FormBuilder $formBuilder */
             $formBuilder = app(FormBuilder::class);
-            $arrayRules = $formBuilder->openForm->rules->getRulesForField(
+            $arrayRules = $formBuilder->getOpenForm()->rules->getRulesForField(
                 $this->originalArrayName??$this->arrayName
             );
 
@@ -387,8 +387,8 @@ class DynamicList extends FieldsetElement
 
         // In case this form was submitted during last request,
         // we have to render each submitted child using the same key it was submitted with.
-        if ($this->formBuilder->openForm->wasSubmitted && $this->formBuilder->openForm->values->fieldHasSubmittedValue($this->arrayName)) {
-            $submittedArray = $this->formBuilder->openForm->values->getSubmittedValueForField($this->arrayName);
+        if ($this->formBuilder->getOpenForm()->wasSubmitted && $this->formBuilder->getOpenForm()->values->fieldHasSubmittedValue($this->arrayName)) {
+            $submittedArray = $this->formBuilder->getOpenForm()->values->getSubmittedValueForField($this->arrayName);
             if (!is_array($submittedArray)) {
                 $submittedArray = [];
             }
@@ -398,8 +398,8 @@ class DynamicList extends FieldsetElement
         // In case this form was not submitted during last request,
         // we check, if default-values were handed to the form in the Form::open call.
         // If yes, we have to render each item in the default-array to the dynamicList.
-        if (!$this->formBuilder->openForm->wasSubmitted && $this->formBuilder->openForm->values->fieldHasDefaultValue($this->arrayName)) {
-            $defaultArray = $this->formBuilder->openForm->values->getDefaultValueForField($this->arrayName);
+        if (!$this->formBuilder->getOpenForm()->wasSubmitted && $this->formBuilder->getOpenForm()->values->fieldHasDefaultValue($this->arrayName)) {
+            $defaultArray = $this->formBuilder->getOpenForm()->values->getDefaultValueForField($this->arrayName);
             if (!is_array($defaultArray)) {
                 $defaultArray = [];
             }
@@ -477,7 +477,7 @@ class DynamicList extends FieldsetElement
         $this->addItemButton = (new Button())
             ->title($addButtonLabel)
             ->content($addButtonLabel)
-            ->id($this->formBuilder->openForm->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
+            ->id($this->formBuilder->getOpenForm()->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
             ->data('dynamiclist-add', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID())
         ;
