@@ -27,6 +27,11 @@ class FormFactoryServiceProvider extends ServiceProvider
             __DIR__ . '/config/formfactory.php' => config_path('formfactory.php'),
         ]);
 
+        // Publish public stuff.
+        $this->publishes([
+            __DIR__.'/public' => public_path('vendor/nicat/formfactory'),
+        ], 'public');
+
         // Merge the config.
         $this->mergeConfigFrom(__DIR__ . '/config/formfactory.php', 'formfactory');
 

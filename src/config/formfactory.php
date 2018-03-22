@@ -49,7 +49,7 @@ return [
          * The default-limit (in seconds) to be used.
          * (Can be overridden explicitly per request via the first parameter of the 'timeLimit'-rule of the request-object.)
          */
-        'default_limit' => 2,
+        'default_limit' => 5,
 
     ],
 

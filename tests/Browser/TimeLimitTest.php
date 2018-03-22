@@ -17,7 +17,7 @@ class TimeLimitTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->submitForm($browser);
-            $browser->assertSee('This form can be sent every 2 seconds. Please wait before sending it again.');
+            $browser->assertSee('This form can be sent every 5 seconds. Please wait before sending it again.');
         });
     }
 
@@ -28,7 +28,7 @@ class TimeLimitTest extends DuskTestCase
     public function testTimeLimitSuccess()
     {
         $this->browse(function (Browser $browser) {
-            $this->submitForm($browser,2000);
+            $this->submitForm($browser,5000);
             $browser->assertSee('validated');
         });
     }
@@ -42,7 +42,9 @@ class TimeLimitTest extends DuskTestCase
     private function submitForm(Browser $browser, $pauseBeforeClick=0)
     {
         $browser->visit('/timelimit-get');
-        $browser->pause($pauseBeforeClick);
+        if ($pauseBeforeClick > 0) {
+            $browser->pause($pauseBeforeClick);
+        }
         $browser->click('#myFormId_submit');
     }
 
