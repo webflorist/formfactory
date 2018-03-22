@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
-use Nicat\FormBuilder\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\HtmlBuilder\Components\PanelComponent;
-use Nicat\HtmlBuilder\Elements\SpanElement;
+use Nicat\FormFactory\Components\DynamicLists\DynamicList;
+use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\HtmlFactory\Components\PanelComponent;
+use Nicat\HtmlFactory\Elements\SpanElement;
 
 class Panel extends PanelComponent implements DynamicListTemplateInterface
 {

@@ -7,7 +7,7 @@
  * Time: 12:01
  */
 
-namespace FormBuilderTests\Legacy\Traits\Tests;
+namespace FormFactoryTests\Legacy\Traits\Tests;
 
 trait TestsContext
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\HtmlBuilder\Components\AlertComponent;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\FormFactory\FormFactory;
+use Nicat\HtmlFactory\Components\AlertComponent;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\DivElement;
 
 class ErrorWrapper extends AlertComponent
 {
@@ -128,11 +128,11 @@ class ErrorWrapper extends AlertComponent
 
         }
 
-        // For stated fieldNames, we can only try to get errors from the $formBuilder-service.
+        // For stated fieldNames, we can only try to get errors from the $formFactory-service.
         foreach ($this->errorFieldNames as $fieldName) {
-            /** @var FormBuilder $formBuilder */
-            $formBuilder = app(FormBuilder::class);
-            $this->addErrorMessages($formBuilder->getOpenForm()->errors->getErrorsForField($fieldName));
+            /** @var FormFactory $formFactory */
+            $formFactory = app(FormFactory::class);
+            $this->addErrorMessages($formFactory->getOpenForm()->errors->getErrorsForField($fieldName));
         }
 
         $this->data('displays-errors-for',implode('|',$displaysErrorsFor));

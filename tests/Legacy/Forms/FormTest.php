@@ -6,12 +6,12 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Forms\Requests\CaptchaTestRequest;
-use FormBuilderTests\Legacy\Forms\Requests\DefaultTestRequest;
-use FormBuilderTests\Legacy\Forms\Requests\HoneypotTestRequest;
-use FormBuilderTests\Legacy\TestCase;
+use FormFactoryTests\Legacy\Forms\Requests\CaptchaTestRequest;
+use FormFactoryTests\Legacy\Forms\Requests\DefaultTestRequest;
+use FormFactoryTests\Legacy\Forms\Requests\HoneypotTestRequest;
+use FormFactoryTests\Legacy\TestCase;
 
 class FormTest extends TestCase
 {
@@ -177,7 +177,7 @@ class FormTest extends TestCase
                         ],
                         'children' => [
                             [
-                                'text' => \Session::get('formbuilder.captcha.' . $this->requestObject . '.question')
+                                'text' => \Session::get('formfactory.captcha.' . $this->requestObject . '.question')
                             ],
                             [
                                 'tag' => 'sup',

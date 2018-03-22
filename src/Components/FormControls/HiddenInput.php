@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\FormControls;
+namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormBuilder\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormBuilder\Components\Traits\CanHaveErrors;
-use Nicat\HtmlBuilder\Components\HiddenInputComponent;
+use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
+use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInterface
 {

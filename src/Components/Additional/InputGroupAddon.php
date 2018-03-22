@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\HtmlFactory\Elements\DivElement;
 
 class InputGroupAddon extends DivElement
 {

@@ -1,20 +1,20 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities;
+namespace Nicat\FormFactory\Utilities;
 
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Nicat\ExtendedValidation\ExtendedValidation;
-use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
+use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 
 /**
  * This class provides some static functions for general use.
  *
- * Class FormBuilder
- * @package Nicat\FormBuilder
+ * Class FormFactory
+ * @package Nicat\FormFactory
  *
  */
-class FormBuilderTools
+class FormFactoryTools
 {
 
     /**

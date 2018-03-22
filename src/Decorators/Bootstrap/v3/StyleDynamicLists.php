@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\DynamicLists\DynamicList;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleDynamicLists extends Decorator
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Traits;
+namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormBuilder\FormBuilder;
+use Nicat\FormFactory\FormFactory;
 
 
 trait CanHaveErrors
@@ -70,15 +70,15 @@ trait CanHaveErrors
     public function getErrors() : array
     {
         // If no errors were specifically set using the 'errors' method of this field,
-        // we try to fill them via the FormBuilder service.
+        // we try to fill them via the FormFactory service.
         if (is_null($this->errors)) {
-            /** @var FormBuilder $formBuilderService */
-            $formBuilderService = app(FormBuilder::class);
-            $this->errors =  $formBuilderService->getOpenForm()->errors->getErrorsForField($this->attributes->name);
+            /** @var FormFactory $formFactoryService */
+            $formFactoryService = app(FormFactory::class);
+            $this->errors =  $formFactoryService->getOpenForm()->errors->getErrorsForField($this->attributes->name);
 
             if (count($this->errorFields) > 0) {
                 foreach ($this->errorFields as $errorField) {
-                    $this->errors = array_merge($this->errors, $formBuilderService->getOpenForm()->errors->getErrorsForField($errorField));
+                    $this->errors = array_merge($this->errors, $formFactoryService->getOpenForm()->errors->getErrorsForField($errorField));
                 }
             }
 

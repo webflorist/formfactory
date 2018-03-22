@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\FormBuilder\Components\FormControls\ResetButton;
-use Nicat\FormBuilder\Components\FormControls\SubmitButton;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\FormControls\ResetButton;
+use Nicat\FormFactory\Components\FormControls\SubmitButton;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtons extends Decorator
 {

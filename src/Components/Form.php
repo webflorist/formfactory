@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormBuilder\Components;
+namespace Nicat\FormFactory\Components;
 
-use Nicat\FormBuilder\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormBuilder\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormBuilder\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormBuilder\Components\Additional\ErrorWrapper;
-use Nicat\FormBuilder\Components\FormControls\HiddenInput;
-use Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException;
-use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormBuilder\Utilities\FieldErrors\FieldErrorManager;
-use Nicat\FormBuilder\Utilities\FieldRules\FieldRuleManager;
-use Nicat\FormBuilder\Utilities\FieldValues\FieldValueManager;
-use Nicat\HtmlBuilder\Elements\FormElement;
+use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
+use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Components\FormControls\HiddenInput;
+use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
+use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Utilities\FieldErrors\FieldErrorManager;
+use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
+use Nicat\FormFactory\Utilities\FieldValues\FieldValueManager;
+use Nicat\HtmlFactory\Elements\FormElement;
 
 class Form extends FormElement
 {
@@ -85,7 +85,7 @@ class Form extends FormElement
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
 
-        if (config('formbuilder.ajax_validation.enabled') && config('formbuilder.ajax_validation.enable_on_form_submit_by_default')) {
+        if (config('formfactory.ajax_validation.enabled') && config('formfactory.ajax_validation.enable_on_form_submit_by_default')) {
             $this->ajaxValidation();
         }
     }
@@ -111,7 +111,7 @@ class Form extends FormElement
 
 
     /**
-     * Remove the closing tag from output, since FormBuilder closes the form-tag via method close().
+     * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
      *
      * @param string $output
      */
@@ -166,7 +166,7 @@ class Form extends FormElement
 
         // We also link the request-object to this form in the session.
         // This is utilized by ajaxValidation.
-        session()->put('formbuilder.request_objects.' . $this->attributes->id, $requestObject);
+        session()->put('formfactory.request_objects.' . $this->attributes->id, $requestObject);
 
         // Furthermore we fetch the rules from the requestObject (if no rules were manually set).
         $this->rules->fetchRulesFromRequestObject($requestObject);
@@ -180,8 +180,8 @@ class Form extends FormElement
      *
      * @param string $method
      * @return $this
-     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotFoundException
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public function method(string $method)
     {
@@ -318,7 +318,7 @@ class Form extends FormElement
      */
     public function ajaxValidation($enable = true)
     {
-        if ($enable && config('formbuilder.ajax_validation.enabled')) {
+        if ($enable && config('formfactory.ajax_validation.enabled')) {
             $this->data('ajaxvalidation', 'onSubmit');
         } else {
             $this->attributes->remove('data-ajaxvalidation');

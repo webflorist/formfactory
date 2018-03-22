@@ -6,9 +6,9 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\TestCase;
+use FormFactoryTests\Legacy\TestCase;
 
 class FieldTestCase extends TestCase
 {
@@ -44,7 +44,7 @@ class FieldTestCase extends TestCase
     protected function generateTag() {
 
         // Open the Form using $this->formTemplate.
-        $this->callFormBuilderFunction('open',[$this->formTemplate['parameters']['id']],$this->formTemplate['methods']);
+        $this->callFormFactoryFunction('open',[$this->formTemplate['parameters']['id']],$this->formTemplate['methods']);
 
         parent::generateTag();
 

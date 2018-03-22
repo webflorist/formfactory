@@ -1,24 +1,24 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\FieldRules;
+namespace Nicat\FormFactory\Utilities\FieldRules;
 
 
-use Nicat\FormBuilder\Components\Traits\CanHaveRules;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\InputElement;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsAcceptAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsMaxAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsMaxlengthAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsMinAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsPatternAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsRequiredAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsTypeAttribute;
+use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\InputElement;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsMaxAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsMaxlengthAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsMinAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsPatternAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsRequiredAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsTypeAttribute;
 
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
  *
  * Class FieldRuleProcessor
- * @package Nicat\FormBuilder
+ * @package Nicat\FormFactory
  */
 class FieldRuleProcessor
 {

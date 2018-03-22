@@ -1,8 +1,8 @@
 <?php
 
-namespace FormBuilderTests\Browser;
+namespace FormFactoryTests\Browser;
 
-use FormBuilderTests\DuskTestCase;
+use FormFactoryTests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Route;
 
@@ -67,7 +67,7 @@ class CaptchaTest extends DuskTestCase
     private function exhaustCaptchaLimit(Browser $browser)
     {
         cache()->clear();
-        for ($i = 1; $i <= config('formbuilder.captcha.default_limit'); $i++) {
+        for ($i = 1; $i <= config('formfactory.captcha.default_limit'); $i++) {
             $browser->visit('/captcha-get');
             $this->submitForm($browser);
             $browser->assertSee('validated');

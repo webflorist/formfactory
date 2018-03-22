@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Traits;
+namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormBuilder\Utilities\FieldRules\FieldRuleManager;
-use Nicat\FormBuilder\FormBuilder;
+use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
+use Nicat\FormFactory\FormFactory;
 
 trait CanHaveRules
 {
@@ -46,11 +46,11 @@ trait CanHaveRules
     public function getRules() : array
     {
         // If no rules were specifically set using the 'rules' method of this field,
-        // we try to fill them via the FormBuilder service.
+        // we try to fill them via the FormFactory service.
         if (is_null($this->rules)) {
-            /** @var FormBuilder $formBuilderService */
-            $formBuilderService = app(FormBuilder::class);
-            $this->rules =  $formBuilderService->getOpenForm()->rules->getRulesForField($this->attributes->name);
+            /** @var FormFactory $formFactoryService */
+            $formFactoryService = app(FormFactory::class);
+            $this->rules =  $formFactoryService->getOpenForm()->rules->getRulesForField($this->attributes->name);
         }
 
         return $this->rules;

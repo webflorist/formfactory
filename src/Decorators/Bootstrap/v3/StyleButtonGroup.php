@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\Additional\ButtonGroup;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\Additional\ButtonGroup;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtonGroup extends Decorator
 {

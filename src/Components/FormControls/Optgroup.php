@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\FormControls;
+namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\HtmlBuilder\Elements\OptgroupElement;
+use Nicat\HtmlFactory\Elements\OptgroupElement;
 
 class Optgroup extends OptgroupElement
 {

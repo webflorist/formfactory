@@ -1,6 +1,6 @@
 <?php
 
-namespace FormBuilderTests\Legacy\Forms\Requests;
+namespace FormFactoryTests\Legacy\Forms\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

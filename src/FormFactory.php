@@ -1,58 +1,57 @@
 <?php
 
-namespace Nicat\FormBuilder;
+namespace Nicat\FormFactory;
 
-
-use Nicat\FormBuilder\Components\Additional\ButtonGroup;
-use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
-use Nicat\FormBuilder\Components\Additional\InputGroupAddon;
-use Nicat\FormBuilder\Components\Additional\InputGroupButton;
-use Nicat\FormBuilder\Components\Additional\InputGroup;
-use Nicat\FormBuilder\Components\Additional\Panel;
-use Nicat\FormBuilder\Components\Additional\RadioGroup;
-use Nicat\FormBuilder\Components\Additional\RequiredFieldsLegend;
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
-use Nicat\FormBuilder\Components\FormControls\ColorInput;
-use Nicat\FormBuilder\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormBuilder\Components\FormControls\DateInput;
-use Nicat\FormBuilder\Components\FormControls\DatetimeInput;
-use Nicat\FormBuilder\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormBuilder\Components\FormControls\EmailInput;
-use Nicat\FormBuilder\Components\FormControls\FileInput;
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Components\FormControls\HiddenInput;
-use Nicat\FormBuilder\Components\FormControls\MonthInput;
-use Nicat\FormBuilder\Components\FormControls\NumberInput;
-use Nicat\FormBuilder\Components\FormControls\Optgroup;
-use Nicat\FormBuilder\Components\FormControls\Option;
-use Nicat\FormBuilder\Components\FormControls\PasswordInput;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\FormBuilder\Components\FormControls\RangeInput;
-use Nicat\FormBuilder\Components\FormControls\ResetButton;
-use Nicat\FormBuilder\Components\FormControls\SearchInput;
-use Nicat\FormBuilder\Components\FormControls\Select;
-use Nicat\FormBuilder\Components\FormControls\SubmitButton;
-use Nicat\FormBuilder\Components\FormControls\TelInput;
-use Nicat\FormBuilder\Components\FormControls\Textarea;
-use Nicat\FormBuilder\Components\FormControls\TextInput;
-use Nicat\FormBuilder\Components\FormControls\TimeInput;
-use Nicat\FormBuilder\Components\FormControls\UrlInput;
-use Nicat\FormBuilder\Components\FormControls\WeekInput;
-use Nicat\FormBuilder\Exceptions\OpenElementNotFoundException;
-use Nicat\HtmlBuilder\Elements\ButtonElement;
-use Nicat\HtmlBuilder\Elements\FieldsetElement;
+use Nicat\FormFactory\Components\Additional\ButtonGroup;
+use Nicat\FormFactory\Components\DynamicLists\DynamicList;
+use Nicat\FormFactory\Components\Additional\InputGroupAddon;
+use Nicat\FormFactory\Components\Additional\InputGroupButton;
+use Nicat\FormFactory\Components\Additional\InputGroup;
+use Nicat\FormFactory\Components\Additional\Panel;
+use Nicat\FormFactory\Components\Additional\RadioGroup;
+use Nicat\FormFactory\Components\Additional\RequiredFieldsLegend;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\ColorInput;
+use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Nicat\FormFactory\Components\FormControls\DateInput;
+use Nicat\FormFactory\Components\FormControls\DatetimeInput;
+use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Nicat\FormFactory\Components\FormControls\EmailInput;
+use Nicat\FormFactory\Components\FormControls\FileInput;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\HiddenInput;
+use Nicat\FormFactory\Components\FormControls\MonthInput;
+use Nicat\FormFactory\Components\FormControls\NumberInput;
+use Nicat\FormFactory\Components\FormControls\Optgroup;
+use Nicat\FormFactory\Components\FormControls\Option;
+use Nicat\FormFactory\Components\FormControls\PasswordInput;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Components\FormControls\RangeInput;
+use Nicat\FormFactory\Components\FormControls\ResetButton;
+use Nicat\FormFactory\Components\FormControls\SearchInput;
+use Nicat\FormFactory\Components\FormControls\Select;
+use Nicat\FormFactory\Components\FormControls\SubmitButton;
+use Nicat\FormFactory\Components\FormControls\TelInput;
+use Nicat\FormFactory\Components\FormControls\Textarea;
+use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Components\FormControls\TimeInput;
+use Nicat\FormFactory\Components\FormControls\UrlInput;
+use Nicat\FormFactory\Components\FormControls\WeekInput;
+use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
+use Nicat\HtmlFactory\Elements\ButtonElement;
+use Nicat\HtmlFactory\Elements\FieldsetElement;
 
 /**
  * The main class of this package.
  * Provides factory methods for all form-tags.
  *
- * Class FormBuilder
- * @package Nicat\FormBuilder
+ * Class FormFactory
+ * @package Nicat\FormFactory
  *
  *
  */
-class FormBuilder
+class FormFactory
 {
 
     /**
@@ -79,17 +78,17 @@ class FormBuilder
 
     /**
      * Generates and returns the opening form-tag.
-     * Also sets the form as app(FormBuilder::class)->openForm.
+     * Also sets the form as app(FormFactory::class)->openForm.
      *
      * @param string $id
      * @return Form
-     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlBuilder\Exceptions\AttributeNotFoundException
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public static function open(string $id): Form
     {
         $form = (new Form())->id($id)->method('post');
-        app(FormBuilder::class)->openForm = $form;
+        app(FormFactory::class)->openForm = $form;
         return $form;
     }
 
@@ -102,12 +101,12 @@ class FormBuilder
     public static function close(bool $showRequiredFieldsLegend = true)
     {
         $return = '';
-        if ($showRequiredFieldsLegend && app(FormBuilder::class)->requiredFieldIndicatorUsed) {
+        if ($showRequiredFieldsLegend && app(FormFactory::class)->requiredFieldIndicatorUsed) {
             $return .= new RequiredFieldsLegend();
         }
         $return .= '</form>';
-        app(FormBuilder::class)->openForm = null;
-        app(FormBuilder::class)->requiredFieldIndicatorUsed = false;
+        app(FormFactory::class)->openForm = null;
+        app(FormFactory::class)->requiredFieldIndicatorUsed = false;
         return $return;
     }
 
@@ -305,7 +304,7 @@ class FormBuilder
 
     /**
      * Generates form-control '<select></select>'.
-     * Also sets the Select as app(FormBuilder::class)->openSelect.
+     * Also sets the Select as app(FormFactory::class)->openSelect.
      *
      * @param string $name
      * @param array $options
@@ -314,7 +313,7 @@ class FormBuilder
     public static function select(string $name, array $options = []): Select
     {
         $select = (new Select())->name($name);
-        app(FormBuilder::class)->openSelect = $select;
+        app(FormFactory::class)->openSelect = $select;
         foreach ($options as $option) {
             $select->appendContent($option);
         }
@@ -516,7 +515,7 @@ class FormBuilder
     public function getOpenForm(): Form
     {
         if (is_null($this->openForm)) {
-            throw new OpenElementNotFoundException('FormBuilder could not find a currently open Form-element while generating a field. This is probably due to generating a form-field with FormBuilder without opening a form using Form::open() before that.');
+            throw new OpenElementNotFoundException('FormFactory could not find a currently open Form-element while generating a field. This is probably due to generating a form-field with FormFactory without opening a form using Form::open() before that.');
         }
 
         return $this->openForm;
@@ -531,7 +530,7 @@ class FormBuilder
     public function getOpenSelect(): Select
     {
         if (is_null($this->openSelect)) {
-            throw new OpenElementNotFoundException('FormBuilder could not find a currently open Select-element while generating an Option-element. This is probably due to generating a option-field with FormBuilder without opening a select using Form::select() before that.');
+            throw new OpenElementNotFoundException('FormFactory could not find a currently open Select-element while generating an Option-element. This is probably due to generating a option-field with FormFactory without opening a select using Form::select() before that.');
         }
 
         return $this->openSelect;

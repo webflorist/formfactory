@@ -6,10 +6,10 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Traits\Tests\TestsAcceptAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsValueAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsAcceptAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsValueAttribute;
 
 class InputFileTest extends InputTestCase
 {

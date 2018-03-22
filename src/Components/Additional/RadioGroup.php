@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\FormBuilder\Components\Traits\CanHaveErrors;
-use Nicat\FormBuilder\Components\Traits\UsesAutoTranslation;
-use Nicat\HtmlBuilder\Elements\FieldsetElement;
+use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\HtmlFactory\Elements\FieldsetElement;
 
 class RadioGroup extends FieldsetElement implements AutoTranslationInterface
 {

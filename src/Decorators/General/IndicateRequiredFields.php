@@ -1,20 +1,20 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\General;
+namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormBuilder\Components\Additional\RadioGroup;
-use Nicat\FormBuilder\Components\Additional\RequiredFieldIndicator;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Components\Traits\CanHaveRules;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
+use Nicat\FormFactory\Components\Additional\RadioGroup;
+use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Components\Traits\CanHaveLabel;
+use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
 
 /**
  * Adds an indication to the label of required form fields.
  *
  * Class DecorateFields
- * @package Nicat\FormBuilder\Decorators\General
+ * @package Nicat\FormFactory\Decorators\General
  */
 class IndicateRequiredFields extends Decorator
 {

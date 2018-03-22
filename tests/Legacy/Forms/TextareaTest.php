@@ -6,15 +6,15 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Traits\Tests\FieldTests;
-use FormBuilderTests\Legacy\Traits\Tests\TestsAutofocusAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsDisabledAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsMaxlengthAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsPlaceholderAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsReadonlyAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsTagContent;
+use FormFactoryTests\Legacy\Traits\Tests\FieldTests;
+use FormFactoryTests\Legacy\Traits\Tests\TestsAutofocusAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsDisabledAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsMaxlengthAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsPlaceholderAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsReadonlyAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsTagContent;
 
 class TextareaTest extends FieldTestCase
 {

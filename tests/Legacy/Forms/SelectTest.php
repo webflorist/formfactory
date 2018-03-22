@@ -6,10 +6,10 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Traits\Tests\FieldTests;
-use FormBuilderTests\Legacy\Traits\Tests\TestsDisabledAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\FieldTests;
+use FormFactoryTests\Legacy\Traits\Tests\TestsDisabledAttribute;
 
 class SelectTest extends FieldTestCase
 {
@@ -26,8 +26,8 @@ class SelectTest extends FieldTestCase
         $this->tagParameters = [
             'name' => 'myFieldName',
             'options' => [
-                $this->callFormBuilderFunction('option',['myFirstOption']),
-                $this->callFormBuilderFunction('option',['mySecondOption']),
+                $this->callFormFactoryFunction('option',['myFirstOption']),
+                $this->callFormFactoryFunction('option',['mySecondOption']),
             ]
         ];
 

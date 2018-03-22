@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Exceptions;
+namespace Nicat\FormFactory\Exceptions;
 
 use \Exception;
 

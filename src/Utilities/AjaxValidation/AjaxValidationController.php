@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AjaxValidation;
+namespace Nicat\FormFactory\Utilities\AjaxValidation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
+use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Validator;
 
 class AjaxValidationController extends Controller
@@ -16,20 +16,20 @@ class AjaxValidationController extends Controller
      * Controller-method for ajax-validation.
      *
      * @return JsonResponse
-     * @throws \Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException
+     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
      * @throws MandatoryOptionMissingException
      */
     public function process()
     {
 
-        // Ajax-validation is only possible, if the _formID was submitted (automatically done by the FormBuilder).
+        // Ajax-validation is only possible, if the _formID was submitted (automatically done by the FormFactory).
         if (!request()->has('_formID')) {
             throw new MandatoryOptionMissingException('Ajax validation was not possible due to missing "_formID" field in request.');
         }
 
-        // The FormBuilder should have saved the requestObject this form uses inside the session.
+        // The FormFactory should have saved the requestObject this form uses inside the session.
         // We check, if it is there, and can continue only, if it is.
-        $sessionKeyForRequestObject = 'formbuilder.request_objects.' . request()->input('_formID');
+        $sessionKeyForRequestObject = 'formfactory.request_objects.' . request()->input('_formID');
 
         if (!session()->has($sessionKeyForRequestObject)) {
             throw new MandatoryOptionMissingException('Ajax validation of form with ID "' . request()->input('_formID') . '" was not possible due to missing request-object-info in session.');
@@ -40,7 +40,7 @@ class AjaxValidationController extends Controller
         $return = [];
 
         // We instantiate the requestObject.
-        $formRequest = FormBuilderTools::initFormRequestObject(session()->get($sessionKeyForRequestObject));
+        $formRequest = FormFactoryTools::initFormRequestObject(session()->get($sessionKeyForRequestObject));
 
         // We instantiate a controller with the submitted request-data
         // and the rules and messages from the requestObject.
@@ -66,7 +66,7 @@ class AjaxValidationController extends Controller
     {
         $return = [];
         foreach ($errors as $fieldName => $errorMessages) {
-            $return[FormBuilderTools::convertArrayFieldDotNotation2HtmlName($fieldName)] = $errorMessages;
+            $return[FormFactoryTools::convertArrayFieldDotNotation2HtmlName($fieldName)] = $errorMessages;
         }
         return $return;
     }

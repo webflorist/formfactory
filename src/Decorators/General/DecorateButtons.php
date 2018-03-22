@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\General;
+namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\FormBuilder\Components\FormControls\ResetButton;
-use Nicat\FormBuilder\Components\FormControls\SubmitButton;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\FormControls\ResetButton;
+use Nicat\FormFactory\Components\FormControls\SubmitButton;
+use Nicat\FormFactory\FormFactory;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 /**
- * Apply various decorations to FormBuilder-fields.
+ * Apply various decorations to FormFactory-fields.
  *
  * Class AutoGenerateButtonTexts
- * @package Nicat\FormBuilder\Decorators\General
+ * @package Nicat\FormFactory\Decorators\General
  */
 class DecorateButtons extends Decorator
 {
@@ -72,7 +72,7 @@ class DecorateButtons extends Decorator
         }
 
         // Auto-generated IDs always start with formID followed by an underscore and an appropriate suffix.
-        $fieldId = app(FormBuilder::class)->getOpenForm()->attributes->id . '_' . $this->getIdSuffix();
+        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id . '_' . $this->getIdSuffix();
 
         // Set the id.
         $this->element->id($fieldId);

@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\DynamicLists;
+namespace Nicat\FormFactory\Components\DynamicLists;
 
-use Nicat\FormBuilder\Components\Additional\ErrorWrapper;
-use Nicat\FormBuilder\Utilities\AutoTranslation\AutoTranslator;
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
-use Nicat\HtmlBuilder\Components\AlertComponent;
-use Nicat\HtmlBuilder\Elements\Abstracts\ContainerElement;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\FieldsetElement;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsDisabledAttribute;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsNameAttribute;
+use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\HtmlFactory\Components\AlertComponent;
+use Nicat\HtmlFactory\Elements\Abstracts\ContainerElement;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\FieldsetElement;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsDisabledAttribute;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsNameAttribute;
 
 class DynamicList extends FieldsetElement
 {
@@ -67,11 +67,11 @@ class DynamicList extends FieldsetElement
     public $containsChildDynamicList = false;
 
     /**
-     * The formBuilder-instance.
+     * The formFactory-instance.
      *
-     * @var FormBuilder
+     * @var FormFactory
      */
-    private $formBuilder;
+    private $formFactory;
 
     /**
      * The Button used for adding a new row.
@@ -116,7 +116,7 @@ class DynamicList extends FieldsetElement
         $this->template = $template;
         $this->minItems = $minItems;
         $this->maxItems = $maxItems;
-        $this->formBuilder = app(FormBuilder::class);
+        $this->formFactory = app(FormFactory::class);
         $this->containsChildDynamicList = $this->templateContainsDynamicChild();
         $this->addButtonLabel = $addButtonLabel;
     }
@@ -334,13 +334,13 @@ class DynamicList extends FieldsetElement
      */
     protected function establishMinAndMaxItems()
     {
-        // If $minItems or $maxItems was not set via arguments, we try to get them from the FormBuilder.
+        // If $minItems or $maxItems was not set via arguments, we try to get them from the FormFactory.
         if (is_null($this->minItems) || is_null($this->maxItems)) {
 
-            // Get the array-rules from the FormBuilder-service.
-            /** @var FormBuilder $formBuilder */
-            $formBuilder = app(FormBuilder::class);
-            $arrayRules = $formBuilder->getOpenForm()->rules->getRulesForField(
+            // Get the array-rules from the FormFactory-service.
+            /** @var FormFactory $formFactory */
+            $formFactory = app(FormFactory::class);
+            $arrayRules = $formFactory->getOpenForm()->rules->getRulesForField(
                 $this->originalArrayName??$this->arrayName
             );
 
@@ -387,8 +387,8 @@ class DynamicList extends FieldsetElement
 
         // In case this form was submitted during last request,
         // we have to render each submitted child using the same key it was submitted with.
-        if ($this->formBuilder->getOpenForm()->wasSubmitted && $this->formBuilder->getOpenForm()->values->fieldHasSubmittedValue($this->arrayName)) {
-            $submittedArray = $this->formBuilder->getOpenForm()->values->getSubmittedValueForField($this->arrayName);
+        if ($this->formFactory->getOpenForm()->wasSubmitted && $this->formFactory->getOpenForm()->values->fieldHasSubmittedValue($this->arrayName)) {
+            $submittedArray = $this->formFactory->getOpenForm()->values->getSubmittedValueForField($this->arrayName);
             if (!is_array($submittedArray)) {
                 $submittedArray = [];
             }
@@ -398,8 +398,8 @@ class DynamicList extends FieldsetElement
         // In case this form was not submitted during last request,
         // we check, if default-values were handed to the form in the Form::open call.
         // If yes, we have to render each item in the default-array to the dynamicList.
-        if (!$this->formBuilder->getOpenForm()->wasSubmitted && $this->formBuilder->getOpenForm()->values->fieldHasDefaultValue($this->arrayName)) {
-            $defaultArray = $this->formBuilder->getOpenForm()->values->getDefaultValueForField($this->arrayName);
+        if (!$this->formFactory->getOpenForm()->wasSubmitted && $this->formFactory->getOpenForm()->values->fieldHasDefaultValue($this->arrayName)) {
+            $defaultArray = $this->formFactory->getOpenForm()->values->getDefaultValueForField($this->arrayName);
             if (!is_array($defaultArray)) {
                 $defaultArray = [];
             }
@@ -465,19 +465,19 @@ class DynamicList extends FieldsetElement
 
             // The default add-button-label contains an attribute.
             // We try to auto-translate it.
-            $arrayStrippedAttribute = FormBuilderTools::arrayStripString($this->arrayName);
+            $arrayStrippedAttribute = FormFactoryTools::arrayStripString($this->arrayName);
             $addButtonLabelAttribute = AutoTranslator::autoTranslate(
                 $arrayStrippedAttribute,
                 ucfirst($arrayStrippedAttribute)
             );
 
-            $addButtonLabel = trans('Nicat-FormBuilder::formbuilder.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
+            $addButtonLabel = trans('Nicat-FormFactory::formfactory.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
         }
 
         $this->addItemButton = (new Button())
             ->title($addButtonLabel)
             ->content($addButtonLabel)
-            ->id($this->formBuilder->getOpenForm()->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
+            ->id($this->formFactory->getOpenForm()->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
             ->data('dynamiclist-add', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID())
         ;
@@ -490,7 +490,7 @@ class DynamicList extends FieldsetElement
     {
         $this->maximumReachedAlert = (new AlertComponent('info'))
             ->hidden()
-            ->content(trans('Nicat-FormBuilder::formbuilder.dynamic_list_maximum_reached'))
+            ->content(trans('Nicat-FormFactory::formfactory.dynamic_list_maximum_reached'))
             ->data('dynamiclist-maxalert', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID());
     }
@@ -502,13 +502,13 @@ class DynamicList extends FieldsetElement
     {
         // The default remove-button-label contains an attribute.
         // We try to auto-translate it.
-        $arrayStrippedAttribute = FormBuilderTools::arrayStripString($this->arrayName);
+        $arrayStrippedAttribute = FormFactoryTools::arrayStripString($this->arrayName);
         $removeButtonAttribute = AutoTranslator::autoTranslate(
             $arrayStrippedAttribute,
             ucfirst($arrayStrippedAttribute)
         );
 
-        $removeButtonLabel = trans('Nicat-FormBuilder::formbuilder.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
+        $removeButtonLabel = trans('Nicat-FormFactory::formfactory.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
 
         $this->removeItemButton = (new Button())
             ->title($removeButtonLabel)

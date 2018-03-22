@@ -6,9 +6,9 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Traits\Tests\TestsCheckedAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsCheckedAttribute;
 
 class InputRadioTest extends InputTestCase
 {

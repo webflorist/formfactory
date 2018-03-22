@@ -2,11 +2,11 @@
 
 namespace {
 
-    use Nicat\FormBuilder\FormBuilder;
+    use Nicat\FormFactory\FormFactory;
 
     exit("This file should not be included, only analyzed by your IDE");
 
-    class Form extends FormBuilder
+    class Form extends FormFactory
     {
 
     }

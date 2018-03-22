@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormBuilder\Components\Additional\FieldWrapper;
-use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldWrapper extends Decorator
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\FormControls;
+namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormBuilder\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormBuilder\Components\Traits\UsesAutoTranslation;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
-use Nicat\HtmlBuilder\Elements\OptionElement;
+use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\HtmlFactory\Elements\OptionElement;
 
 class Option extends OptionElement implements AutoTranslationInterface
 {
@@ -20,10 +20,10 @@ class Option extends OptionElement implements AutoTranslationInterface
      */
     function getAutoTranslationKey(): string
     {
-        /** @var FormBuilder $formBuilderService */
-        $formBuilderService = app()[FormBuilder::class];
+        /** @var FormFactory $formFactoryService */
+        $formFactoryService = app()[FormFactory::class];
         return
-            FormBuilderTools::arrayStripString($formBuilderService->getOpenSelect()->attributes->name) .
+            FormFactoryTools::arrayStripString($formFactoryService->getOpenSelect()->attributes->name) .
             '_' .
             $this->attributes->value;
     }

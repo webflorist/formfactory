@@ -6,7 +6,7 @@
  * Time: 14:07
  */
 
-namespace FormBuilderTests\Legacy\Traits\Tests;
+namespace FormFactoryTests\Legacy\Traits\Tests;
 
 
 trait TestsMaxlengthAttribute

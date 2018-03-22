@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\HtmlFactory\Elements\DivElement;
 
 class RequiredFieldsLegend extends DivElement
 {
@@ -15,7 +15,7 @@ class RequiredFieldsLegend extends DivElement
     {
         $this->addClass('text-muted small');
         $this->appendContent(new RequiredFieldIndicator());
-        $this->appendContent(' ' . trans('Nicat-FormBuilder::formbuilder.mandatory_fields'));
+        $this->appendContent(' ' . trans('Nicat-FormFactory::formfactory.mandatory_fields'));
     }
 
 }

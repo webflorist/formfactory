@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Traits;
+namespace Nicat\FormFactory\Components\Traits;
 
 
 trait CanAutoSubmit

@@ -1,46 +1,46 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\General;
+namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormBuilder\Components\Additional\FieldWrapper;
-use Nicat\FormBuilder\Components\FormControls\MonthInput;
-use Nicat\FormBuilder\Components\FormControls\PasswordInput;
-use Nicat\FormBuilder\Components\FormControls\RangeInput;
-use Nicat\FormBuilder\Components\FormControls\SearchInput;
-use Nicat\FormBuilder\Components\FormControls\TelInput;
-use Nicat\FormBuilder\Components\FormControls\TimeInput;
-use Nicat\FormBuilder\Components\FormControls\UrlInput;
-use Nicat\FormBuilder\Components\FormControls\WeekInput;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\Utilities\FieldRules\FieldRuleProcessor;
-use Nicat\FormBuilder\Utilities\FieldValues\FieldValueProcessor;
-use Nicat\FormBuilder\Components\FormControls\CheckboxInput;
-use Nicat\FormBuilder\Components\FormControls\ColorInput;
-use Nicat\FormBuilder\Components\FormControls\DateInput;
-use Nicat\FormBuilder\Components\FormControls\DatetimeInput;
-use Nicat\FormBuilder\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormBuilder\Components\FormControls\EmailInput;
-use Nicat\FormBuilder\Components\FormControls\FileInput;
-use Nicat\FormBuilder\Components\FormControls\HiddenInput;
-use Nicat\FormBuilder\Components\FormControls\NumberInput;
-use Nicat\FormBuilder\Components\FormControls\Option;
-use Nicat\FormBuilder\Components\FormControls\RadioInput;
-use Nicat\FormBuilder\Components\FormControls\Select;
-use Nicat\FormBuilder\Components\FormControls\Textarea;
-use Nicat\FormBuilder\Components\FormControls\TextInput;
-use Nicat\FormBuilder\Components\Traits\CanHaveHelpText;
-use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Components\Traits\UsesAutoTranslation;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Attributes\Traits\AllowsPlaceholderAttribute;
+use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\FormControls\MonthInput;
+use Nicat\FormFactory\Components\FormControls\PasswordInput;
+use Nicat\FormFactory\Components\FormControls\RangeInput;
+use Nicat\FormFactory\Components\FormControls\SearchInput;
+use Nicat\FormFactory\Components\FormControls\TelInput;
+use Nicat\FormFactory\Components\FormControls\TimeInput;
+use Nicat\FormFactory\Components\FormControls\UrlInput;
+use Nicat\FormFactory\Components\FormControls\WeekInput;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
+use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\ColorInput;
+use Nicat\FormFactory\Components\FormControls\DateInput;
+use Nicat\FormFactory\Components\FormControls\DatetimeInput;
+use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Nicat\FormFactory\Components\FormControls\EmailInput;
+use Nicat\FormFactory\Components\FormControls\FileInput;
+use Nicat\FormFactory\Components\FormControls\HiddenInput;
+use Nicat\FormFactory\Components\FormControls\NumberInput;
+use Nicat\FormFactory\Components\FormControls\Option;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Components\FormControls\Select;
+use Nicat\FormFactory\Components\FormControls\Textarea;
+use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
+use Nicat\FormFactory\Components\Traits\CanHaveLabel;
+use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Attributes\Traits\AllowsPlaceholderAttribute;
 
 /**
- * Apply various decorations to FormBuilder-fields.
+ * Apply various decorations to FormFactory-fields.
  *
  * Class DecorateFields
- * @package Nicat\FormBuilder\Decorators\General
+ * @package Nicat\FormFactory\Decorators\General
  */
 class DecorateFields extends Decorator
 {
@@ -140,7 +140,7 @@ class DecorateFields extends Decorator
         }
 
         // Auto-generated IDs always start with formID...
-        $fieldId = app(FormBuilder::class)->getOpenForm()->attributes->id;
+        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id;
 
         // ...followed by the field-name.
         $fieldId .= '_' . $this->element->attributes->name;
@@ -199,7 +199,7 @@ class DecorateFields extends Decorator
     protected function autoGenerateLabelText()
     {
         if (method_exists($this->element,'label') && is_null($this->element->label)) {
-            $defaultValue = ucwords(FormBuilderTools::arrayStripString($this->element->attributes->name));
+            $defaultValue = ucwords(FormFactoryTools::arrayStripString($this->element->attributes->name));
             if ($this->element->is(RadioInput::class)) {
                 $defaultValue = ucwords($this->element->attributes->value);
             }

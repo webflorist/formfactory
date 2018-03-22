@@ -6,7 +6,7 @@
  * Time: 14:05
  */
 
-namespace FormBuilderTests\Legacy\Traits\Tests;
+namespace FormFactoryTests\Legacy\Traits\Tests;
 
 
 trait TestsPatternAttribute

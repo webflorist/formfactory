@@ -6,10 +6,10 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\Traits\Tests\TestsAutocompleteAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsValueAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsAutocompleteAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsValueAttribute;
 
 class ButtonResetTest extends ButtonTest
 {

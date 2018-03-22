@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AntiBotProtection;
+namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
-use Nicat\FormBuilder\Components\Additional\ErrorWrapper;
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 
 class TimeLimitProtection
 {
@@ -19,7 +19,7 @@ class TimeLimitProtection
     {
 
         // If timeLimit-protection is not enabled in the config, there is nothing to do here.
-        if (!config('formbuilder.time_limit.enabled')) {
+        if (!config('formfactory.time_limit.enabled')) {
             return;
         }
 
@@ -40,7 +40,7 @@ class TimeLimitProtection
 
         // Now we save the generationTime for this form in the session.
         // It will be read out by the TimeLimitValidator after submitting the form.
-        session()->put('formbuilder.generation_time.' . $form->requestObject, time());
+        session()->put('formfactory.generation_time.' . $form->requestObject, time());
 
         // We also add an errorWrapper to display any errors for '_timeLimit' to the form.
         $errorWrapper = new ErrorWrapper();
@@ -61,7 +61,7 @@ class TimeLimitProtection
     {
 
         // If timeLimit-protection is not enabled in the config, we immediately return true.
-        if (!config('formbuilder.time_limit.enabled')) {
+        if (!config('formfactory.time_limit.enabled')) {
             return true;
         }
 
@@ -69,14 +69,14 @@ class TimeLimitProtection
         $timeLimit = self::getTimeLimitFromRuleParams($parameters);
 
         // We need to get the name of the last resolved form-request-object from session.
-        if (!session()->has('formbuilder.last_form_request_object')) {
+        if (!session()->has('formfactory.last_form_request_object')) {
             return false;
         }
 
-        $requestObject = session()->get('formbuilder.last_form_request_object');
+        $requestObject = session()->get('formfactory.last_form_request_object');
 
         // We expect the generation-time of the form in the session and return a false if it is not present.
-        $generationTimeSessionKey = 'formbuilder.generation_time.' . $requestObject;
+        $generationTimeSessionKey = 'formfactory.generation_time.' . $requestObject;
         if (!session()->has($generationTimeSessionKey)) {
             return false;
         }
@@ -105,7 +105,7 @@ class TimeLimitProtection
         if (isset($parameters[0]) && is_numeric($parameters[0])) {
             return $parameters[0];
         }
-        return config('formbuilder.time_limit.default_limit');
+        return config('formfactory.time_limit.default_limit');
     }
 
 

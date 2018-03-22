@@ -1,13 +1,13 @@
 <?php
 
-namespace FormBuilderTests;
+namespace FormFactoryTests;
 
 use Gajus\Dindent\Indenter;
-use HtmlBuilderTests\Traits\AssertsHtml;
+use HtmlFactoryTests\Traits\AssertsHtml;
 use Laravel\Dusk\Browser;
-use Nicat\FormBuilder\FormBuilderFacade;
-use Nicat\FormBuilder\FormBuilderServiceProvider;
-use Nicat\HtmlBuilder\HtmlBuilderServiceProvider;
+use Nicat\FormFactory\FormFactoryFacade;
+use Nicat\FormFactory\FormFactoryServiceProvider;
+use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -18,7 +18,7 @@ abstract class DuskTestCase extends BaseTestCase
     use AssertsHtml;
 
     /**
-     * Copies FormBuilder-related javascript-files to public directory.
+     * Copies FormFactory-related javascript-files to public directory.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
@@ -26,7 +26,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $publicPath = $app->basePath() . '/public/';
         copy(__DIR__ . '/Browser/public/jquery-3.2.1.min.js', $publicPath . 'jquery-3.2.1.min.js');
-        copy(__DIR__ . '/../src/public/js/formbuilder.js', $publicPath . 'formbuilder.js');
+        copy(__DIR__ . '/../src/public/js/formfactory.js', $publicPath . 'formfactory.js');
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class DuskTestCase extends BaseTestCase
             __DIR__ . '/Browser/views'
         ]);
 
-        $app['config']->set('htmlbuilder.frontend_framework', 'bootstrap:3');
+        $app['config']->set('htmlfactory.frontend_framework', 'bootstrap:3');
 
     }
 
@@ -68,7 +68,7 @@ abstract class DuskTestCase extends BaseTestCase
             $frontendFramework .= ':' . $frameworkVersion;
         }
         $this->tweakApplication(function($app) use ($frontendFramework){
-            $app['config']->set('htmlbuilder.frontend_framework', $frontendFramework);
+            $app['config']->set('htmlfactory.frontend_framework', $frontendFramework);
         });
     }
 
@@ -107,15 +107,15 @@ abstract class DuskTestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            HtmlBuilderServiceProvider::class,
-            FormBuilderServiceProvider::class
+            HtmlFactoryServiceProvider::class,
+            FormFactoryServiceProvider::class
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'Form' => FormBuilderFacade::class,
+            'Form' => FormFactoryFacade::class,
         ];
     }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Traits;
+namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormBuilder\Utilities\AutoTranslation\AutoTranslator;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
+use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 trait UsesAutoTranslation
 {
@@ -53,6 +53,6 @@ trait UsesAutoTranslation
      */
     function getAutoTranslationKey(): string
     {
-        return FormBuilderTools::arrayStripString($this->attributes->name);
+        return FormFactoryTools::arrayStripString($this->attributes->name);
     }
 }

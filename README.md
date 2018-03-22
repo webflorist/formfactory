@@ -1,16 +1,16 @@
-# nicat/formbuilder
+# nicat/formfactory
 **Convenient and powerful form-builder for Laravel 5.5**
 
 ## Description
-This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder). 
+This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlfactory](https://github.com/nic-at/htmlfactory). 
 
 The main features are:
 * Use static factory methods for all relevant form-elements.
 * Chain fluid method-calls to set HTML-attributes and other properties.
 * Fully use the benefits of IDEs (auto-completion).
-* Style output for specific frontend-frameworks using [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
+* Style output for specific frontend-frameworks using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
 * Keep your views frontend-framework-agnostic.
-* Extend it's features using [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder)'s `Decorators` and `Components`.
+* Extend it's features using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorators` and `Components`.
 * Produce accessibility-conform valid HTML 5 output.
 * Automatic mapping of Laravel-validation-rules into HTML5-attributes for live-validation by the browser (e.g. laravel rule "required" results in the "required"-property of the HTML-field)
 * Automatic mapping and display of Laravel-error-messages next to their corresponding form-fields.
@@ -22,25 +22,25 @@ The main features are:
 * ...and many more.
 
 ## Installation
-1. Require the package via composer:  `composer require nicat/formbuilder`
-2. Add the Service-Provider to config/app.php:  `Nicat\FormBuilder\FormBuilderServiceProvider::class`
-3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormBuilder\FormBuilderFacade::class`
-4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormBuilder\FormBuilderServiceProvider"`
-5. Include the published javascript-file (`public/vendor/nicat/formbuilder/js/formbuilder.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
+1. Require the package via composer:  `composer require nicat/formfactory`
+2. Add the Service-Provider to config/app.php:  `Nicat\FormFactory\FormFactoryServiceProvider::class`
+3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormFactory\FormFactoryFacade::class`
+4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormFactory\FormFactoryServiceProvider"`
+5. Include the published javascript-file (`public/vendor/nicat/formfactory/js/formfactory.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
 
 ## Configuration
-The package can be configured via `config/formbuilder.php`. Please see the inline-documentation of this file for explanations of the various settings:
-https://github.com/nic-at/formbuilder/blob/develop/src/config/formbuilder.php
+The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
+https://github.com/nic-at/formfactory/blob/develop/src/config/formfactory.php
 
-Also be sure to correctly configure the `frontend_framework` in the HtmlBuilder-config (at `config/htmlbuilder.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
+Also be sure to correctly configure the `frontend_framework` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
 
 ## Usage
 
 ### Basics
 
-Since this package extends the functionality of [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormBuilder is identical to [nicat/htmlbuilder](https://github.com/nic-at/htmlbuilder).
+Since this package extends the functionality of [nicat/htmlfactory](https://github.com/nic-at/htmlfactory), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormFactory is identical to [nicat/htmlfactory](https://github.com/nic-at/htmlfactory).
 
-The main difference in usage is, that FormBuilder uses it's own `Form`-facade instead of HtmlBuilder's `Html`-facade. It also provides some additional methods to control the extended form-functionality.
+The main difference in usage is, that FormFactory uses it's own `Form`-facade instead of HtmlFactory's `Html`-facade. It also provides some additional methods to control the extended form-functionality.
 
 Since this package is built IDE-friendly way, you just have to type `Form::`in your auto-completion-enabled IDE and you should immediately get a list of the available form-elements you can build.
 
@@ -201,11 +201,11 @@ As you can see, the values provided from the controller to the view and then to 
 
 In a normal Laravel-application a user is redirected back to the form-page, if any validation-errors have occurred.
 
-HtmlBuilder automatically maps previously entered "old" input-values as well as error messages back to the submitted form. This even works, when multiple forms with identically named fields are present on the same page. Since the unique form-ID is submitted with the form itself and stored in the session, HtmlBuilder will always know, which form was submitted, and pre-fill any fields (incl. radiobuttons or chackboxes) with the old input accordingly and display any error messages on validation errors.
+HtmlFactory automatically maps previously entered "old" input-values as well as error messages back to the submitted form. This even works, when multiple forms with identically named fields are present on the same page. Since the unique form-ID is submitted with the form itself and stored in the session, HtmlFactory will always know, which form was submitted, and pre-fill any fields (incl. radiobuttons or chackboxes) with the old input accordingly and display any error messages on validation errors.
 
-Per default HtmlBuilder searches the in the `default`-ViewErrorBag of Laravel. If you have stated a specifically named error bag during validation, you will have to tell HtmlBuilder which error-bag it should use to look for errors for your form. You can do this by using the `->errorBag()`-method on the `Form::open()`-call.
+Per default HtmlFactory searches the in the `default`-ViewErrorBag of Laravel. If you have stated a specifically named error bag during validation, you will have to tell HtmlFactory which error-bag it should use to look for errors for your form. You can do this by using the `->errorBag()`-method on the `Form::open()`-call.
 
-If you do not want to let HtmlBuilder fetch errors from the session, but state them yourself, you have 2 possible options:
+If you do not want to let HtmlFactory fetch errors from the session, but state them yourself, you have 2 possible options:
 * You can state the complete multidimensional error-array for all fields of a form using the `->errors()`-method on the `Form::open()` call.
 * Or you can state errors for a single field by handing a simple one-dimensional array to the `->errors()`-method of any field (e.g. `Form::text('myField')->errors(['My first error message','My second error message'])`.
 
@@ -216,7 +216,7 @@ errors stated with a specific field > errors stated with the `Form::open()` call
 
 Several attributes (e.g. `required`, `max`, `min`, `pattern`, etc.) were introduced with HTML5 to add validation-relevant information to fields. With the help of these attributes, modern browsers can validate user input without any server-side requests.
 
-These attributes correspond directly to build-in Laravel-rules, so HtmlBuilder provides several ways generate these attributes from Laravel-rules. Additionally it will also change the input-type of a text-field accordingly. And it will append `<sup>*</sup>` to required fields to mark them as mandatory.
+These attributes correspond directly to build-in Laravel-rules, so HtmlFactory provides several ways generate these attributes from Laravel-rules. Additionally it will also change the input-type of a text-field accordingly. And it will append `<sup>*</sup>` to required fields to mark them as mandatory.
 
 Here is a list of Laravel-rules translated into HTML-attributes or forcing a specific input-type:
 
@@ -242,14 +242,14 @@ min:value|min="value" (when used on `type=number`- input-tag)|-
 min:value|pattern=".{min,}" (when used on any other tag)|-
 mimes:foo,bar,...|accept=".foo,.bar,...."
 
-There are 3 possible ways of telling HtmlBuilder these rules:
-* If you are using a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) with your form, you can simply state the class-name of that Form Request using the `->requestObject()`-method on the `Form::open()`-call. HtmlBuilder will then fetch the rules from that object automatically. If your Form Request Object resides in the default namespace (`App\Http\Requests`), you can simply state the simple class-name (e.g. `->requestObject('MyFormRequest')`). Otherwise, you have to state the full class-name incl. the namespace.  
+There are 3 possible ways of telling HtmlFactory these rules:
+* If you are using a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) with your form, you can simply state the class-name of that Form Request using the `->requestObject()`-method on the `Form::open()`-call. HtmlFactory will then fetch the rules from that object automatically. If your Form Request Object resides in the default namespace (`App\Http\Requests`), you can simply state the simple class-name (e.g. `->requestObject('MyFormRequest')`). Otherwise, you have to state the full class-name incl. the namespace.  
 * You can state the complete associative rules-array for all fields of a form using the `->rules()`-method on the `Form::open()` call.
 * Or you can state the rules for a single field by handing them as a string to the `->errors()`-method of any field.
 
 #### Automatic translation
 
-Another useful feature of HtmlBuilder is it's usage of auto-translation, which tries to automatically translate labels, button- or option-texts, placeholders, and general help-texts via standard laravel-translation-files.
+Another useful feature of HtmlFactory is it's usage of auto-translation, which tries to automatically translate labels, button- or option-texts, placeholders, and general help-texts via standard laravel-translation-files.
  
 Here is a list of tags, that can be auto-translated (see example below for required language-file-keys):
 * Labels
@@ -263,7 +263,7 @@ Please note, that if you specifically state this information with the appropriat
 
 There are two possible sources you can use for auto-translation:
 * If you are using the [nicat/extended-validation](https://github.com/nic-at/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
-* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package HtmlBuilder is trying to get translations from a single language-file. You have to state this in the `formbuilder.translations` config key of the htmlbuilder-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
+* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package HtmlFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
 
 Let's see an example of the second variant:
 
@@ -271,7 +271,7 @@ Let's see an example of the second variant:
 Contents of the 'attributes' sub-array of \resources\lang\en\validation.php
 ---------------------------------------------------------------------------
 'myTextField' => 'My Beautiful Field',
-'myTextFieldPlaceholder' => 'I love nicat/htmlbuilder!',
+'myTextFieldPlaceholder' => 'I love nicat/htmlfactory!',
 'myTextFieldHelpText' => 'Please enter something nice!',
 'mySelectBox' => 'My Beautiful Select-Box',
 'mySelectBox_myFirstOption' => 'My First Select-Box-Option',
@@ -303,7 +303,7 @@ Generated HTML:
     <input id="myForm__formID" class="form-control" name="_formID" value="myForm" type="hidden">
     <fieldset class="form-group">
         <label for="myForm_myTextField">My Beautiful Field</label>
-        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love nicat/htmlbuilder!" type="text">
+        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love nicat/htmlfactory!" type="text">
         <div class="text-muted small" id="myForm_myTextField_helpText">Please enter something nice!</div>
     </fieldset>
     <fieldset class="form-group">
@@ -328,22 +328,22 @@ Generated HTML:
 
 #### Ajax validation
 
-HtmlBuilder comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
-* `formbuilder.js` must be loaded with your application (see Install-instructions above).
-* The config-key `formbuilder.ajax_validation.enabled` must be set to `true` in the `htmlbuilder`-config.
+HtmlFactory comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
+* `formfactory.js` must be loaded with your application (see Install-instructions above).
+* The config-key `formfactory.ajax_validation.enabled` must be set to `true` in the `htmlfactory`-config.
 * A [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) must be handed over to the `Form::open()`-call via the `->requestObject()`-method (see `rules`-section above for details). This request-object will be used for ajax-validation.
 
 If these are fulfilled, you have the following options for ajax-validation:
-* **Complete form validation:** This will perform an ajax-validation of the complete form-data, if the submit-button is clicked. If any errors occur, they will be mapped to and displayed at the corresponding form-fields. If no errors occur with the ajax validation, the form will be properly submitted. You can enable ajax validation on form-submission by adding `->ajaxValidation()` to your `Form::open()` call. You can also set the config-key `formbuilder.ajax_validation.enable_on_form_submit_by_default` to `true` in the htmlbuilder-config, to enable this per default for all your forms. You can then also disable it for selected forms by calling `->ajaxValidation(false)` on your `Form::open()` call.
+* **Complete form validation:** This will perform an ajax-validation of the complete form-data, if the submit-button is clicked. If any errors occur, they will be mapped to and displayed at the corresponding form-fields. If no errors occur with the ajax validation, the form will be properly submitted. You can enable ajax validation on form-submission by adding `->ajaxValidation()` to your `Form::open()` call. You can also set the config-key `formfactory.ajax_validation.enable_on_form_submit_by_default` to `true` in the htmlfactory-config, to enable this per default for all your forms. You can then also disable it for selected forms by calling `->ajaxValidation(false)` on your `Form::open()` call.
 * **Single field validation:** In addition (or as an alternative) to the complete form validation, you can also validate a single field, every time a change occurs to it. You can do that by adding `->ajaxValidation()` to the generation of a field (e.g. `Form::text('myTextField')->ajaxValidation()`. There are two possible behaviours to trigger such an ajax validation of a single field:
   * `onChange`: This will validate the field, when the `onChange`-event of that field is fired (e.g. when leaving text-field or clicking a radio-button). This is the default-behaviour, when adding `->ajaxValidation()` to your field-generation-call.
   * `onKeyup`: This will validate the field, when the `onKeyup`-event of that field is fired (e.g. every time after pressing a key within a text-field). You can enable this behaviour by passing 'onKeyup' to the `ajaxValidation()`-method (e.g. `Form::text('myTextField')->ajaxValidation('onKeyup')`).
   
-Ajax validation-requests will be sent to the route `/formbuilder_validation`, which is automatically registered by the HtmlBuilderServiceProvider (if ajax-validation is enabled in the html-builder-config).
+Ajax validation-requests will be sent to the route `/formfactory_validation`, which is automatically registered by the HtmlFactoryServiceProvider (if ajax-validation is enabled in the html-builder-config).
 
 #### Anti-bot mechanisms
 
-HtmlBuilder comes with 3 built-in and easy-to-use solutions to protect a form against bots or ddos-attacks. A primary focus of these mechanisms is to maintain the accessibility of your forms, so screen-readers should have no problem with them. (This is also the reason, why the provided captcha-mechanism used a simple text-based mathematical challenge instead of an image-based captcha.) The support for each of these mechanisms must be enabled in the htmlbuilder-config (e.g. the config-key `formbuilder.honeypot.enabled` enables or disables the support for the honeypot-mechanism). Support for all three mechanisms are enabled by default, but must still be enabled individually for each form. This is done by setting the corresponding rules (either in the [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) you hand over to the `Form::open()`-call via the `->requestObject()`-method, or in the rules-array you state via the `->rules()`-method.
+HtmlFactory comes with 3 built-in and easy-to-use solutions to protect a form against bots or ddos-attacks. A primary focus of these mechanisms is to maintain the accessibility of your forms, so screen-readers should have no problem with them. (This is also the reason, why the provided captcha-mechanism used a simple text-based mathematical challenge instead of an image-based captcha.) The support for each of these mechanisms must be enabled in the htmlfactory-config (e.g. the config-key `formfactory.honeypot.enabled` enables or disables the support for the honeypot-mechanism). Support for all three mechanisms are enabled by default, but must still be enabled individually for each form. This is done by setting the corresponding rules (either in the [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) you hand over to the `Form::open()`-call via the `->requestObject()`-method, or in the rules-array you state via the `->rules()`-method.
 
 The following rules (set within the `rules`method of a request-object) would enable all three mechanisms for any form, that uses this request-object by handing it to the `Form::open()`-call via the `->requestObject()`-method.
 ```php
@@ -369,13 +369,13 @@ This will automatically generate a hidden text-field with a random field-name, t
 
 This mechanic will only successfully validate a submitted form, if a certain time has passed between generation and submission of a form. The thought behind this mechanism is, that bots tend to fill out and submit a form automatically and immediately after receiving it, while a human needs some time for filling out.
 
-A default time-limit, that is automatically used for all forms, that have time-limit-protection enabled, can be set via the config-key `formbuilder.time_limit.default_limit` of the htmlbuilder-config (2 seconds per default). But you can set an individual time-limit by passing it as a rule-parameter to the `timeLimit`-rule. E.g. `'_timeLimit' => 'timeLimit:5'` would set the time-limit for any form using this rule to 5 seconds (thus overriding the default-value in the config file).
+A default time-limit, that is automatically used for all forms, that have time-limit-protection enabled, can be set via the config-key `formfactory.time_limit.default_limit` of the htmlfactory-config (2 seconds per default). But you can set an individual time-limit by passing it as a rule-parameter to the `timeLimit`-rule. E.g. `'_timeLimit' => 'timeLimit:5'` would set the time-limit for any form using this rule to 5 seconds (thus overriding the default-value in the config file).
 
 ##### Captcha
 
-HtmlBuilder has a build-in captcha-protection based on simple mathematical calculations. There are 2 settings relevant to this mechanism:
-* The number of times a form can be submitted, before a captcha is required. (0 means, the captcha is shown always.) A default-value can be set via the config-key `formbuilder.captcha.default_limit` of the htmlbuilder-config (2 per default). It can also be overridden per form via the first parameter of the `captcha`-rule.
-* The time-span (in minutes) for which the captcha-limit is valid. After reaching the limit for captcha-less submissions, it takes this long, before the user can submit the form again without a captcha. Again, a default-value can be set via the config-key `formbuilder.captcha.decay_time` of the htmlbuilder-config (2 per default). It can also be overridden per form via the second parameter of the `captcha`-rule.
+HtmlFactory has a build-in captcha-protection based on simple mathematical calculations. There are 2 settings relevant to this mechanism:
+* The number of times a form can be submitted, before a captcha is required. (0 means, the captcha is shown always.) A default-value can be set via the config-key `formfactory.captcha.default_limit` of the htmlfactory-config (2 per default). It can also be overridden per form via the first parameter of the `captcha`-rule.
+* The time-span (in minutes) for which the captcha-limit is valid. After reaching the limit for captcha-less submissions, it takes this long, before the user can submit the form again without a captcha. Again, a default-value can be set via the config-key `formfactory.captcha.decay_time` of the htmlfactory-config (2 per default). It can also be overridden per form via the second parameter of the `captcha`-rule.
 
 E.g. the rule `'_captcha' => 'captcha:10,5'` would display and require a captcha after 10 form-submissions and for 5 minutes (thus overriding the default-values in the config file).
 

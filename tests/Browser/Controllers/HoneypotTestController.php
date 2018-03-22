@@ -1,9 +1,9 @@
 <?php
 
-namespace FormBuilderTests\Browser\Controllers;
+namespace FormFactoryTests\Browser\Controllers;
 
 use Form;
-use FormBuilderTests\Browser\Requests\HoneypotTestRequest;
+use FormFactoryTests\Browser\Requests\HoneypotTestRequest;
 use Illuminate\Routing\Controller;
 
 class HoneypotTestController extends Controller

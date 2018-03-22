@@ -1,17 +1,17 @@
 <?php
 
-namespace FormBuilderTests\Legacy;
+namespace FormFactoryTests\Legacy;
 
 use DOMDocument;
 use DOMElement;
 use Gajus\Dindent\Indenter;
-use FormBuilderTests\Legacy\Traits\AppliesTagMethodsToMatcherData;
-use FormBuilderTests\Legacy\Traits\Tests\TagTests;
+use FormFactoryTests\Legacy\Traits\AppliesTagMethodsToMatcherData;
+use FormFactoryTests\Legacy\Traits\Tests\TagTests;
 use Illuminate\Contracts\Console\Kernel;
-use Nicat\FormBuilder\FormBuilderFacade;
-use Nicat\FormBuilder\FormBuilderServiceProvider;
-use Nicat\HtmlBuilder\HtmlBuilderFacade;
-use Nicat\HtmlBuilder\HtmlBuilderServiceProvider;
+use Nicat\FormFactory\FormFactoryFacade;
+use Nicat\FormFactory\FormFactoryServiceProvider;
+use Nicat\HtmlFactory\HtmlFactoryFacade;
+use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 use Session;
@@ -31,7 +31,7 @@ class TestCase extends BaseTestCase
         | Translation key to use for automatic translations.
         |--------------------------------------------------------------------------
         |
-        | By default FormBuilder tries to automatically translate
+        | By default FormFactory tries to automatically translate
         | labels, placeholders and help-texts using this base translation-key.
         |
          */
@@ -154,16 +154,16 @@ class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            HtmlBuilderServiceProvider::class,
-            FormBuilderServiceProvider::class
+            HtmlFactoryServiceProvider::class,
+            FormFactoryServiceProvider::class
         ];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'Html' => HtmlBuilderFacade::class,
-            'Form' => FormBuilderFacade::class,
+            'Html' => HtmlFactoryFacade::class,
+            'Form' => FormFactoryFacade::class,
         ];
     }
 
@@ -186,7 +186,7 @@ class TestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('htmlbuilder', $this->config);
+        $app['config']->set('htmlfactory', $this->config);
     }
 
     protected function generateTag()
@@ -200,7 +200,7 @@ class TestCase extends BaseTestCase
         }
 
         // Generate the Tag.
-        $this->html = $this->callFormBuilderFunction($this->tagFunction, $this->tagParameters, $this->tagMethods)->generate();
+        $this->html = $this->callFormFactoryFunction($this->tagFunction, $this->tagParameters, $this->tagMethods)->generate();
 
     }
 
@@ -301,7 +301,7 @@ class TestCase extends BaseTestCase
      * @param array $methods
      * @return mixed
      */
-    protected function callFormBuilderFunction($function = '', $parameters = [], $methods = [])
+    protected function callFormFactoryFunction($function = '', $parameters = [], $methods = [])
     {
 
         $functionParameters = [];

@@ -1,17 +1,17 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\FormControls;
+namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormBuilder\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormBuilder\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormBuilder\Components\Traits\CanAutoSubmit;
-use Nicat\FormBuilder\Components\Traits\CanHaveErrors;
-use Nicat\FormBuilder\Components\Traits\CanHaveHelpText;
-use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
-use Nicat\FormBuilder\Components\Traits\CanHaveRules;
-use Nicat\FormBuilder\Components\Traits\CanPerformAjaxValidation;
-use Nicat\FormBuilder\Components\Traits\UsesAutoTranslation;
-use Nicat\HtmlBuilder\Components\CheckboxInputComponent;
+use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
+use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
+use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
+use Nicat\FormFactory\Components\Traits\CanHaveLabel;
+use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
+use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\HtmlFactory\Components\CheckboxInputComponent;
 
 class CheckboxInput extends CheckboxInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface
 {

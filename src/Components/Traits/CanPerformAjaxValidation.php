@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Traits;
+namespace Nicat\FormFactory\Components\Traits;
 
 
 trait CanPerformAjaxValidation
@@ -10,7 +10,7 @@ trait CanPerformAjaxValidation
      * Set ajax-validation-mode.
      *
      * Can be 'onChange' or 'onKeyup' .
-     * Only works, if ajax_validation is enabled in formbuilder-config.
+     * Only works, if ajax_validation is enabled in formfactory-config.
      *
      * @param string $ajaxValidation : 'onChange' or 'onKeyup'
      * @return $this
@@ -18,7 +18,7 @@ trait CanPerformAjaxValidation
     public function ajaxValidation($ajaxValidation = 'onChange')
     {
         // We only do this, if ajax-validation is generally enabled in the config.
-        if (config('formbuilder.ajax_validation.enabled')) {
+        if (config('formfactory.ajax_validation.enabled')) {
 
             // Set data-attribute for ajax-validation.
             $this->data('ajaxvalidation', $ajaxValidation);

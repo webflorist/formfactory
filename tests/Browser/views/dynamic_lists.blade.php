@@ -1,6 +1,6 @@
 @extends('master')
 @section('content')
-    {!! Form::open('myFormId')->requestObject(FormBuilderTests\Browser\Requests\DynamicListsTestRequest::class)->action('/dynamic-lists-post')->values($values??[])->novalidate() !!}
+    {!! Form::open('myFormId')->requestObject(FormFactoryTests\Browser\Requests\DynamicListsTestRequest::class)->action('/dynamic-lists-post')->values($values??[])->novalidate() !!}
     {!! Form::dynamicList(
             'outer_dynamic_list',
             Form::panel()->content([

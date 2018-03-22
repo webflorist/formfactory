@@ -1,15 +1,15 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\FieldErrors;
+namespace Nicat\FormFactory\Utilities\FieldErrors;
 
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Manages field-errors for forms.
  *
  * Class FieldErrorManager
- * @package Nicat\FormBuilder
+ * @package Nicat\FormFactory
  */
 class FieldErrorManager
 {
@@ -67,14 +67,14 @@ class FieldErrorManager
     }
 
     /**
-     * Gets the error(s) of a field currently stored in the FormBuilder-object.
+     * Gets the error(s) of a field currently stored in the FormFactory-object.
      *
      * @param string $fieldName
      * @return array
      */
     public function getErrorsForField(string $fieldName): array
     {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+        $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
 
         if (isset($this->errors[$fieldName]) > 0) {
             return $this->errors[$fieldName];

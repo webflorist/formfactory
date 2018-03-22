@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AntiBotProtection;
+namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
-use Nicat\FormBuilder\Components\Additional\FieldWrapper;
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Components\FormControls\TextInput;
+use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\TextInput;
 
 class HoneypotProtection
 {
@@ -16,7 +16,7 @@ class HoneypotProtection
      */
     public static function setUp(Form $form)
     {
-        if (config('formbuilder.honeypot.enabled')) {
+        if (config('formfactory.honeypot.enabled')) {
 
             // We retrieve the honeypot-rules.
             $honeypotRules = $form->rules->getRulesForField('_honeypot');
@@ -28,7 +28,7 @@ class HoneypotProtection
                 $honeypotField = (new TextInput())
                     ->name(self::getHoneypotFieldName())
                     ->value("")
-                    ->label(trans('Nicat-FormBuilder::formbuilder.honeypot_field_label'));
+                    ->label(trans('Nicat-FormFactory::formfactory.honeypot_field_label'));
 
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()
@@ -54,7 +54,7 @@ class HoneypotProtection
         $isValid = true;
 
         // We only validate, if honeypot-protection is basically enabled in the config.
-        if (config('formbuilder.honeypot.enabled')) {
+        if (config('formfactory.honeypot.enabled')) {
 
             $honeypotFieldName = self::getHoneypotFieldName();
 

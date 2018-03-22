@@ -1,15 +1,15 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\FieldRules;
+namespace Nicat\FormFactory\Utilities\FieldRules;
 
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Manages field-rules for forms.
  *
  * Class FieldRuleManager
- * @package Nicat\FormBuilder
+ * @package Nicat\FormFactory
  */
 class FieldRuleManager
 {
@@ -59,11 +59,11 @@ class FieldRuleManager
      */
     public function getRulesForField(string $fieldName): array
     {
-        $isArray = FormBuilderTools::isArrayField($fieldName);
+        $isArray = FormFactoryTools::isArrayField($fieldName);
 
         // If the name is an array-key (e.g. "domainName[domainLabel]"), we have to convert it into dot-notation to access it's rules
         if ($isArray) {
-            $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+            $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
         }
 
         // If rules for this field are present in $this->rules, we return them.
@@ -93,12 +93,12 @@ class FieldRuleManager
      * Fetch rules from the requestObject into $this->rules (if no rules were manually set).
      *
      * @param string $requestObjectClassName
-     * @throws \Nicat\FormBuilder\Exceptions\FormRequestClassNotFoundException
+     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
     public function fetchRulesFromRequestObject(string $requestObjectClassName)
     {
         if (count($this->rules) === 0) {
-            $requestObjectInstance = FormBuilderTools::initFormRequestObject($requestObjectClassName);
+            $requestObjectInstance = FormFactoryTools::initFormRequestObject($requestObjectClassName);
             $this->setRules($requestObjectInstance->rules());
         }
     }

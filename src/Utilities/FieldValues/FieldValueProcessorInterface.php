@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\FieldValues;
+namespace Nicat\FormFactory\Utilities\FieldValues;
 
 interface FieldValueProcessorInterface
 {

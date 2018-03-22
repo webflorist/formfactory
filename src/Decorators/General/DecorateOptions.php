@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormBuilder\Decorators\General;
+namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormBuilder\Components\FormControls\Option;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\HtmlBuilder\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Components\FormControls\Option;
+use Nicat\FormFactory\FormFactory;
+use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 /**
- * Apply various decorations to FormBuilder-options.
+ * Apply various decorations to FormFactory-options.
  *
  * Class DecorateFields
- * @package Nicat\FormBuilder\Decorators\General
+ * @package Nicat\FormFactory\Decorators\General
  */
 class DecorateOptions extends Decorator
 {
@@ -68,8 +68,8 @@ class DecorateOptions extends Decorator
             return;
         }
 
-        // We retrieve the Select this Option belongs to from the formbuilder-service
-        $select = app(FormBuilder::class)->getOpenSelect();
+        // We retrieve the Select this Option belongs to from the formfactory-service
+        $select = app(FormFactory::class)->getOpenSelect();
 
         // If this option's select-box has no 'name' attribute set, we abort,
         // because without a name we can not auto-create an id.
@@ -78,7 +78,7 @@ class DecorateOptions extends Decorator
         }
 
         // Auto-generated IDs always start with formID...
-        $fieldId = app(FormBuilder::class)->getOpenForm()->attributes->id;
+        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id;
 
         // ...followed by the field-name of the Select....
         $fieldId .= '_' . $select->attributes->name;

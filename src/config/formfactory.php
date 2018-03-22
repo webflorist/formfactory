@@ -7,7 +7,7 @@ return [
     | Translation key to use for automatic translations.
     |--------------------------------------------------------------------------
     |
-    | By default FormBuilder tries to automatically translate
+    | By default FormFactory tries to automatically translate
     | labels, placeholders and help-texts using this base translation-key.
     |
      */

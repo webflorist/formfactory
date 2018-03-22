@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AutoTranslation;
+namespace Nicat\FormFactory\Utilities\AutoTranslation;
 
 use Lang;
 use Nicat\ExtendedValidation\ExtendedValidation;
@@ -38,8 +38,8 @@ class AutoTranslator
         }
 
         // Otherwise, we try to translate from the language file,
-        // that is defined under the config key "formbuilder.translations".
-        $translationString = config('formbuilder.translations') . '.' . $translationKey;
+        // that is defined under the config key "formfactory.translations".
+        $translationString = config('formfactory.translations') . '.' . $translationKey;
         if (Lang::has($translationString)) {
             return trans($translationString);
         }

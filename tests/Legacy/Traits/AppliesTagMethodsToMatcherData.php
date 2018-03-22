@@ -7,7 +7,7 @@
  * Time: 18:43
  */
 
-namespace FormBuilderTests\Legacy\Traits;
+namespace FormFactoryTests\Legacy\Traits;
 
 trait AppliesTagMethodsToMatcherData
 {

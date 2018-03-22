@@ -1,40 +1,40 @@
 <?php
 
-namespace Nicat\FormBuilder;
+namespace Nicat\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
-use Nicat\FormBuilder\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormBuilder\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormBuilder\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\HtmlBuilder\HtmlBuilder;
+use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
+use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Nicat\HtmlFactory\HtmlFactory;
 use Route;
 use Validator;
 
-class FormBuilderServiceProvider extends ServiceProvider
+class FormFactoryServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
      *
      * @return void
-     * @throws \Nicat\HtmlBuilder\Exceptions\DecoratorNotFoundException
+     * @throws \Nicat\HtmlFactory\Exceptions\DecoratorNotFoundException
      */
     public function boot()
     {
 
         // Publish the config.
         $this->publishes([
-            __DIR__ . '/config/formbuilder.php' => config_path('formbuilder.php'),
+            __DIR__ . '/config/formfactory.php' => config_path('formfactory.php'),
         ]);
 
         // Merge the config.
-        $this->mergeConfigFrom(__DIR__ . '/config/formbuilder.php', 'formbuilder');
+        $this->mergeConfigFrom(__DIR__ . '/config/formfactory.php', 'formfactory');
 
         // Load translations.
-        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormBuilder");
+        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormFactory");
 
         // Register included decorators.
-        $this->registerHtmlBuilderDecorators();
+        $this->registerHtmlFactoryDecorators();
 
         // Every time a FormRequest is resolved, we store the last used FormRequest-class in the session.
         // This is used by the CaptchaValidator and TimeLimitValidator to retrieve the corresponding FormRequest.
@@ -61,27 +61,27 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(FormBuilder::class, function () {
-            return new FormBuilder();
+        $this->app->singleton(FormFactory::class, function () {
+            return new FormFactory();
         });
 
     }
 
     /**
-     * Register included decorators with HtmlBuilder.
+     * Register included decorators with HtmlFactory.
      *
-     * @throws \Nicat\HtmlBuilder\Exceptions\DecoratorNotFoundException
+     * @throws \Nicat\HtmlFactory\Exceptions\DecoratorNotFoundException
      */
-    private function registerHtmlBuilderDecorators()
+    private function registerHtmlFactoryDecorators()
     {
-        /** @var HtmlBuilder $htmlBuilder */
-        $htmlBuilder = app(HtmlBuilder::class);
-        $htmlBuilder->decorators->registerFromFolder(
-            'Nicat\FormBuilder\Decorators\General',
+        /** @var HtmlFactory $htmlFactory */
+        $htmlFactory = app(HtmlFactory::class);
+        $htmlFactory->decorators->registerFromFolder(
+            'Nicat\FormFactory\Decorators\General',
             __DIR__ . '/Decorators/General'
         );
-        $htmlBuilder->decorators->registerFromFolder(
-            'Nicat\FormBuilder\Decorators\Bootstrap\v3',
+        $htmlFactory->decorators->registerFromFolder(
+            'Nicat\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'
         );
     }
@@ -93,7 +93,7 @@ class FormBuilderServiceProvider extends ServiceProvider
     private function registerFormRequestResolverCallback()
     {
         app()->resolving(FormRequest::class, function ($object) {
-            session()->put('formbuilder.last_form_request_object', get_class($object));
+            session()->put('formfactory.last_form_request_object', get_class($object));
         });
     }
 
@@ -102,13 +102,13 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     private function registerCaptchaValidator()
     {
-        if (config('formbuilder.captcha.enabled')) {
+        if (config('formfactory.captcha.enabled')) {
 
             Validator::extendImplicit('captcha', CaptchaProtection::class . '@validate');
 
-            // We deliver the error configured in the htmlbuilder-language-file.
+            // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('captcha', function ($message, $attribute, $rule, $parameters) {
-                return trans('Nicat-FormBuilder::formbuilder.captcha_error');
+                return trans('Nicat-FormFactory::formfactory.captcha_error');
             });
         }
     }
@@ -118,14 +118,14 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     private function registerTimeLimitValidator()
     {
-        if (config('formbuilder.time_limit.enabled')) {
+        if (config('formfactory.time_limit.enabled')) {
 
             Validator::extendImplicit('timeLimit', TimeLimitProtection::class . '@validate');
 
-            // We deliver the error configured in the htmlbuilder-language-file and replace the time-limit.
+            // We deliver the error configured in the htmlfactory-language-file and replace the time-limit.
             Validator::replacer('timeLimit', function ($message, $attribute, $rule, $parameters) {
 
-                return trans('Nicat-FormBuilder::formbuilder.time_limit_error', [
+                return trans('Nicat-FormFactory::formfactory.time_limit_error', [
                     'timeLimit' => TimeLimitProtection::getTimeLimitFromRuleParams($parameters)
                 ]);
             });
@@ -137,13 +137,13 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     private function registerHoneypotValidator()
     {
-        if (config('formbuilder.honeypot.enabled')) {
+        if (config('formfactory.honeypot.enabled')) {
 
             Validator::extendImplicit('honeypot', HoneypotProtection::class . '@validate');
 
-            // We deliver the error configured in the htmlbuilder-language-file.
+            // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
-                return trans('Nicat-FormBuilder::formbuilder.honeypot_error');
+                return trans('Nicat-FormFactory::formfactory.honeypot_error');
             });
         }
     }
@@ -153,10 +153,10 @@ class FormBuilderServiceProvider extends ServiceProvider
      */
     private function registerAjaxValidationRoutes()
     {
-        if (config('formbuilder.ajax_validation.enabled')) {
-            Route::middleware('web')->post('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->put('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->delete('/formbuilder_validation', 'Nicat\FormBuilder\Utilities\AjaxValidation\AjaxValidationController@process');
+        if (config('formfactory.ajax_validation.enabled')) {
+            Route::middleware('web')->post('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->put('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->delete('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
         }
     }
 }

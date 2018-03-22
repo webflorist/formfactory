@@ -1,14 +1,14 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\Components\DynamicLists\DynamicList;
-use Nicat\FormBuilder\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormBuilder\Components\FormControls\Button;
-use Nicat\FormBuilder\Components\Traits\CanHaveLabel;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\DivElement;
-use Nicat\HtmlBuilder\Elements\LabelElement;
+use Nicat\FormFactory\Components\DynamicLists\DynamicList;
+use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\Traits\CanHaveLabel;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\DivElement;
+use Nicat\HtmlFactory\Elements\LabelElement;
 
 class InputGroup extends DivElement implements DynamicListTemplateInterface
 {

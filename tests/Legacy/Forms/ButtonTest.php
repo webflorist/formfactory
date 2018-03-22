@@ -6,14 +6,14 @@
  * Time: 13:24
  */
 
-namespace FormBuilderTests\Legacy\Forms;
+namespace FormFactoryTests\Legacy\Forms;
 
-use FormBuilderTests\Legacy\TestCase;
-use FormBuilderTests\Legacy\Traits\Tests\TestsAutofocusAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsContext;
-use FormBuilderTests\Legacy\Traits\Tests\TestsDisabledAttribute;
-use FormBuilderTests\Legacy\Traits\Tests\TestsTagContent;
-use FormBuilderTests\Legacy\Traits\Tests\TestsValueAttribute;
+use FormFactoryTests\Legacy\TestCase;
+use FormFactoryTests\Legacy\Traits\Tests\TestsAutofocusAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsContext;
+use FormFactoryTests\Legacy\Traits\Tests\TestsDisabledAttribute;
+use FormFactoryTests\Legacy\Traits\Tests\TestsTagContent;
+use FormFactoryTests\Legacy\Traits\Tests\TestsValueAttribute;
 
 class ButtonTest extends TestCase
 {
@@ -46,7 +46,7 @@ class ButtonTest extends TestCase
     protected function generateTag() {
 
         // Open the Form using $this->formTemplate.
-        $this->callFormBuilderFunction('open',[$this->formTemplate['parameters']['id']],$this->formTemplate['methods']);
+        $this->callFormFactoryFunction('open',[$this->formTemplate['parameters']['id']],$this->formTemplate['methods']);
 
         parent::generateTag();
 

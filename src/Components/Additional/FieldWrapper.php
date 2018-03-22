@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
-use Nicat\HtmlBuilder\Elements\DivElement;
-use Nicat\HtmlBuilder\Elements\LabelElement;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\DivElement;
+use Nicat\HtmlFactory\Elements\LabelElement;
 
 class FieldWrapper extends DivElement
 {

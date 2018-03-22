@@ -34,7 +34,7 @@ $(document).ready(function () {
         if (performAjaxValidation) {
 
             $.ajax({
-                url: '/formbuilder_validation', // form action url
+                url: '/formfactory_validation', // form action url
                 type: 'POST', // form submit method get/post
                 dataType: 'json', // request type html/json/xml
                 data: $(this).serialize(), // serialize form data
@@ -121,7 +121,7 @@ $(document).ready(function () {
     function validateField(jqField) {
 
         $.ajax({
-            url: 'formbuilder_validation', // form action url
+            url: 'formfactory_validation', // form action url
             type: 'POST', // form submit method get/post
             dataType: 'json', // request type html/json/xml
             data: jqField.closest('form').serialize(), // serialize form data

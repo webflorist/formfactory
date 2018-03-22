@@ -1,17 +1,17 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\FieldValues;
+namespace Nicat\FormFactory\Utilities\FieldValues;
 
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\FormBuilder\Utilities\FormBuilderTools;
-use Nicat\HtmlBuilder\Elements\Abstracts\Element;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
 
 /**
  * Manages field-values for forms.
  *
  * Class FieldValueProcessor
- * @package Nicat\FormBuilder
+ * @package Nicat\FormFactory
  */
 class FieldValueManager
 {
@@ -58,7 +58,7 @@ class FieldValueManager
      */
     public function getDefaultValueForField(string $fieldName)
     {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+        $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
         if (array_has($this->defaultValues, $fieldName)) {
             return (array_get($this->defaultValues, $fieldName));
         }
@@ -73,7 +73,7 @@ class FieldValueManager
      */
     public function fieldHasDefaultValue(string $fieldName)
     {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+        $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
         return array_has($this->defaultValues, $fieldName);
     }
 
@@ -86,7 +86,7 @@ class FieldValueManager
     public function getSubmittedValueForField(string $fieldName)
     {
         if ($this->form->wasSubmitted) {
-            $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+            $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
             return request()->old($fieldName);
         }
         return null;
@@ -100,7 +100,7 @@ class FieldValueManager
      */
     public function fieldHasSubmittedValue(string $fieldName) : bool
     {
-        $fieldName = FormBuilderTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+        $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
         return $this->form->wasSubmitted && !is_null(request()->old($fieldName));
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\HtmlFactory\Elements\DivElement;
 
 class ButtonGroup extends DivElement
 {

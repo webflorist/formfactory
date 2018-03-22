@@ -6,7 +6,7 @@
  * Time: 13:52
  */
 
-namespace FormBuilderTests\Legacy\Traits\Tests;
+namespace FormFactoryTests\Legacy\Traits\Tests;
 
 trait FieldTests
 {

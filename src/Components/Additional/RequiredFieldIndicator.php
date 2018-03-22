@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormBuilder\FormBuilder;
-use Nicat\HtmlBuilder\Elements\SupElement;
+use Nicat\FormFactory\FormFactory;
+use Nicat\HtmlFactory\Elements\SupElement;
 
 class RequiredFieldIndicator extends SupElement
 {
@@ -15,7 +15,7 @@ class RequiredFieldIndicator extends SupElement
     protected function setUp()
     {
         $this->appendContent('*');
-        app(FormBuilder::class)->requiredFieldIndicatorUsed = true;
+        app(FormFactory::class)->requiredFieldIndicatorUsed = true;
     }
 
 }

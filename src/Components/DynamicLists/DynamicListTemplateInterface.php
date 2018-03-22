@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\DynamicLists;
+namespace Nicat\FormFactory\Components\DynamicLists;
 
-use Nicat\FormBuilder\Components\FormControls\Button;
+use Nicat\FormFactory\Components\FormControls\Button;
 
 interface DynamicListTemplateInterface
 {

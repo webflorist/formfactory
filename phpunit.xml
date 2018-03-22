@@ -11,10 +11,10 @@
          syntaxCheck="false">
 
     <testsuites>
-        <testsuite name="FormBuilder Legacy Tests">
+        <testsuite name="FormFactory Legacy Tests">
             <directory>./tests/Legacy</directory>
         </testsuite>
-        <testsuite name="FormBuilder Browser Tests">
+        <testsuite name="FormFactory Browser Tests">
             <directory>./tests/Browser</directory>
         </testsuite>
     </testsuites>

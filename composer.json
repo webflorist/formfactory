@@ -1,5 +1,5 @@
 {
-    "name": "nicat/formbuilder",
+    "name": "nicat/formfactory",
     "description": "Convenient and powerful form-builder for Laravel 5.5",
     "authors": [
         {
@@ -9,7 +9,7 @@
     ],
     "require": {
 		"laravel/framework": "5.5.*",
-		"nicat/htmlbuilder": "dev-rewrite@dev"
+		"nicat/htmlfactory": "dev-develop@dev"
 	},
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -18,8 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Nicat\\FormBuilder\\": "src/",
-            "FormBuilderTests\\": "tests/"
+            "Nicat\\FormFactory\\": "src/",
+            "FormFactoryTests\\": "tests/"
         }
     }
 }

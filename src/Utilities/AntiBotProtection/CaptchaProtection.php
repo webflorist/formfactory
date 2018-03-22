@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AntiBotProtection;
+namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
-use Nicat\FormBuilder\Components\Form;
-use Nicat\FormBuilder\Components\FormControls\TextInput;
-use Nicat\FormBuilder\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 
 class CaptchaProtection
 {
@@ -20,7 +20,7 @@ class CaptchaProtection
     {
 
         // If captcha-protection is not enabled in the config, there is nothing to do here.
-        if (!config('formbuilder.captcha.enabled')) {
+        if (!config('formfactory.captcha.enabled')) {
             return;
         }
 
@@ -43,7 +43,7 @@ class CaptchaProtection
         }
 
         // Set where the captcha-answer will be stored in the session.
-        $sessionKeyForCaptchaData = 'formbuilder.captcha.' . $form->requestObject;
+        $sessionKeyForCaptchaData = 'formfactory.captcha.' . $form->requestObject;
 
         // We unset any old captcha-answer (from the previous request) currently set in the session for this request-object.
         $oldFlashKeys = session()->get('flash.old');
@@ -74,8 +74,8 @@ class CaptchaProtection
                     ->required(true)
                     ->value('')
                     ->label($captchaData['question'])
-                    ->placeholder(trans('Nicat-FormBuilder::formbuilder.captcha_placeholder'))
-                    ->helpText(trans('Nicat-FormBuilder::formbuilder.captcha_help_text'))
+                    ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
+                    ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'))
             );
 
         }
@@ -84,12 +84,12 @@ class CaptchaProtection
     public static function validate($attribute, $value, $parameters, $validator)
     {
         // If captcha-protection is not enabled in the config, we immediately return true.
-        if (!config('formbuilder.captcha.enabled')) {
+        if (!config('formfactory.captcha.enabled')) {
             return true;
         }
 
         // We need to get the name of the last resolved form-request-object from session.
-        if (!session()->has('formbuilder.last_form_request_object')) {
+        if (!session()->has('formfactory.last_form_request_object')) {
             return false;
         }
 
@@ -103,7 +103,7 @@ class CaptchaProtection
         // Therefore we try to get the name of the form-request-object,
         // which is the key for the RateLimiter.
         // (A requestLimit of 0 means, a captcha is always required.)
-        $requestObject = session()->get('formbuilder.last_form_request_object');
+        $requestObject = session()->get('formfactory.last_form_request_object');
         $rateLimiterKey = sha1($requestObject . request()->ip());
         if (($requestLimit === 0) || app(RateLimiter::class)->tooManyAttempts($rateLimiterKey, $requestLimit, $decayTime)) {
 
@@ -113,8 +113,8 @@ class CaptchaProtection
             }
 
             // We get the required answer for this request from the session,
-            // which was stored there by the FormBuilder.
-            $requiredAnswer = session()->get('formbuilder.captcha.' . $requestObject . '.answer');
+            // which was stored there by the FormFactory.
+            $requiredAnswer = session()->get('formfactory.captcha.' . $requestObject . '.answer');
 
             // Check, if the submitted value is indeed the required answer.
             // If it is not, we return false.
@@ -144,7 +144,7 @@ class CaptchaProtection
         if (isset($parameters[0]) && is_numeric($parameters[0])) {
             return (int)$parameters[0];
         }
-        return (int)config('formbuilder.captcha.default_limit');
+        return (int)config('formfactory.captcha.default_limit');
     }
 
     /**
@@ -160,7 +160,7 @@ class CaptchaProtection
         if (isset($parameters[1]) && is_numeric($parameters[1])) {
             return (int)$parameters[1];
         }
-        return (int)config('formbuilder.captcha.decay_time');
+        return (int)config('formfactory.captcha.decay_time');
     }
 
     /**
@@ -173,7 +173,7 @@ class CaptchaProtection
         $num1 = rand(1, 10) * rand(1, 3);
         $num2 = rand(1, 10) * rand(1, 3);
         $answer = $num1 + $num2;
-        $question = trans('Nicat-FormBuilder::formbuilder.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
+        $question = trans('Nicat-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
         return [
             'question' => $question,
             'answer' => $answer,

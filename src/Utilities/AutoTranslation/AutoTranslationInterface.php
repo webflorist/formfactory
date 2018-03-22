@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormBuilder\Utilities\AutoTranslation;
+namespace Nicat\FormFactory\Utilities\AutoTranslation;
 
 interface AutoTranslationInterface
 {

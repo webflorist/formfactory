@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormBuilder\Components\Additional;
+namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\HtmlBuilder\Elements\ButtonElement;
-use Nicat\HtmlBuilder\Elements\DivElement;
+use Nicat\HtmlFactory\Elements\ButtonElement;
+use Nicat\HtmlFactory\Elements\DivElement;
 
 class InputGroupButton extends DivElement
 {
