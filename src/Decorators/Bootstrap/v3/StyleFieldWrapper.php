@@ -46,8 +46,9 @@ class StyleFieldWrapper extends Decorator
      */
     public function decorate()
     {
+        $this->element->addClass($this->getFieldWrapperClass());
+
         if (!is_null($this->element->field)) {
-            $this->element->addClass($this->getFieldWrapperClass());
 
             // Add error-class to wrapper, if field has errors.
             if ($this->element->field->hasErrors()) {
@@ -63,11 +64,11 @@ class StyleFieldWrapper extends Decorator
      */
     private function getFieldWrapperClass()
     {
-        if ($this->element->field->is(CheckboxInput::class)) {
+        if (!is_null($this->element->field) && $this->element->field->is(CheckboxInput::class)) {
             return 'checkbox';
         }
 
-        if ($this->element->field->is(RadioInput::class)) {
+        if (!is_null($this->element->field) && $this->element->field->is(RadioInput::class)) {
             return 'radio';
         }
 

@@ -2,16 +2,19 @@
 
 namespace Nicat\FormFactory\Components\Additional;
 
+use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\Traits\CanHaveErrors;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 
-class RadioGroup extends FieldsetElement implements AutoTranslationInterface
+class RadioGroup extends FieldsetElement implements AutoTranslationInterface, HelpTextInterface
 {
 
-    use UsesAutoTranslation;
+    use UsesAutoTranslation,
+        CanHaveHelpText;
 
     /**
      * Any errors for radio-buttons contained in this radio-group will be displayed here.

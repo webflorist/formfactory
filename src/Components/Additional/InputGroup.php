@@ -8,6 +8,7 @@ use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveLabel;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\DivElement;
 use Nicat\HtmlFactory\Elements\LabelElement;
 
@@ -49,8 +50,8 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     private function getFieldChildren()
     {
         $fieldChildren = [];
-        foreach ($this->content->get() as $child) {
-            if ($child->attributes->isAllowed('name')) {
+        foreach ($this->content->getChildrenByClassName(Element::class,true) as $child) {
+            if ($child->attributes->isAllowed('name') && !$child->is(ButtonElement::class)) {
                 $fieldChildren[] = $child;
             }
         }
@@ -62,6 +63,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
      */
     private function formatFieldChildren()
     {
+
         foreach ($this->getFieldChildren() as $child) {
 
             // Disable the standard-wrapping of the child.
@@ -69,7 +71,6 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
 
             /** @var CanHaveLabel $child */
             if ($child->labelMode !== 'none') {
-                $child->labelMode('sr-only');
 
                 // We tell $this->fieldWrapper->label to display
                 // the label for the first child.

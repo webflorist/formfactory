@@ -117,7 +117,7 @@ class FormFactory
      * @param string $value
      * @return CheckboxInput
      */
-    public static function checkbox(string $name, string $value): CheckboxInput
+    public static function checkbox(string $name, string $value="1"): CheckboxInput
     {
         return (new CheckboxInput())->name($name)->value($value)->labelMode('bound');
     }
@@ -505,6 +505,30 @@ class FormFactory
             $element->content($content);
         }
         return $element;
+    }
+
+    /**
+     * Helper-function to create an array of Option-Tag-Objects to be used as a parameter for Form::select()
+     * out of a one-dimensional array of "value=>label"-pairs.
+     *
+     * @param array $items
+     * @param bool|true $prependEmptyOption
+     * @param null $defaultValue
+     * @return array
+     */
+    public static function createOptions($items = [], $prependEmptyOption=true, $defaultValue=null) {
+        $return = [];
+        if ($prependEmptyOption) {
+            $return[] = self::option();
+        }
+        foreach ($items as $value => $label) {
+            $optionTag = self::option($value)->content($label);
+            if ($defaultValue === $value) {
+                $optionTag->selected();
+            }
+            $return[] = $optionTag;
+        }
+        return $return;
     }
 
     /**
