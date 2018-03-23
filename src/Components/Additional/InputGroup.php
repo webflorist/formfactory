@@ -96,8 +96,9 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
      */
     function performDynamicListModifications(DynamicList $dynamicList, Button $removeItemButton)
     {
+        $this->formatFieldChildren();
         $this->wrap(false);
-        $this->prependContent($this->fieldWrapper->errorContainer);
+        $this->insertBefore($this->fieldWrapper->errorContainer);
         $this->addClass('m-b-1');
         $this->prependContent(new InputGroupButton($removeItemButton));
 

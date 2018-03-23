@@ -177,7 +177,7 @@ $(document).ready(function () {
 
         // If no suitable error-container was found, we use the general-error container of the form.
         if (jqErrorContainer === null) {
-            jqErrorContainer = jqForm.children('[data-displays-general-errors').first();
+            jqErrorContainer = jqForm.children('[data-displays-general-errors]').first();
         }
 
         // Put errors inside the error-container.
