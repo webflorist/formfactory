@@ -104,4 +104,12 @@ class FieldErrorManager
         }
     }
 
+    /**
+     * Does this form have any errors set?
+     */
+    public function hasErrors()
+    {
+        return count($this->errors) > 0;
+    }
+
 }

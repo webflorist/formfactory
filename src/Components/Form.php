@@ -74,6 +74,13 @@ class Form extends FormElement
     public $requestObject = null;
 
     /**
+     * ID of the modal-box, that should be opened on page-load, if errors occur.
+     *
+     * @var null|string
+     */
+    protected $modalId = null;
+
+    /**
      * Set some default-setting.
      */
     protected function setUp()
@@ -104,6 +111,7 @@ class Form extends FormElement
         $this->appendHiddenMethodSpoof();
         $this->setDefaultAction();
         $this->appendHiddenGeneralErrorWrapper();
+        $this->applyOpenModalOnLoad();
         HoneypotProtection::setUp($this);
         TimeLimitProtection::setUp($this);
         CaptchaProtection::setUp($this);
@@ -193,6 +201,18 @@ class Form extends FormElement
         }
 
         $this->attributes->establish('method')->setValue(strtoupper($method));
+        return $this;
+    }
+
+    /**
+     * Sets the ID of a modal, that should be opened on page-load, if any errors occur.
+     * This is useful, if the form is located inside a bootstrap modal.
+     *
+     * @param $modalId
+     * @return $this
+     */
+    public function modalId($modalId) {
+        $this->modalId = $modalId;
         return $this;
     }
 
@@ -334,6 +354,18 @@ class Form extends FormElement
         $this->appendContent(
             (new ErrorWrapper())->data('displays-general-errors',true)
         );
+    }
+
+    /**
+     * If the ID of a modal was set via 'modalId()', and the form has errors,
+     * we apply a corresponding data-attribute, so that our JS knows to open
+     * that modal on page-load.
+     */
+    private function applyOpenModalOnLoad()
+    {
+        if (!is_null($this->modalId) && $this->errors->hasErrors()) {
+            $this->data('openmodalonload', $this->modalId);
+        }
     }
 
 }

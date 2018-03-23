@@ -50,7 +50,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
         // We extract the label of the first field-element and render it' label before the InputGroup.
         if (!isset($this->isDynamicListTemplate) || ($this->isDynamicListTemplate === false)) {
             foreach ($this->content->get() as $childKey => $child) {
-                if (property_exists($child, 'label') and $child->labelMode != 'none') {
+                if (property_exists($child, 'label') and $child->labelMode !== 'none') {
                     /** @var CanHaveLabel $child */
                     $output = (new LabelElement())->content($child->label)->for($child->attributes->id)->generate() . $output;
                     break;
@@ -87,7 +87,9 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
             $child->wrap(false);
 
             /** @var CanHaveLabel $child */
-            $child->labelMode('sr-only');
+            if ($child->labelMode !== 'none') {
+                $child->labelMode('sr-only');
+            }
 
             // Tell $this->errorWrapper to display errors for $child.
             $this->errorWrapper->addErrorField($child);

@@ -227,7 +227,7 @@ class DecorateFields extends Decorator
      */
     protected function autoGenerateHelpText()
     {
-        if (method_exists($this->element,'hasHelpText') && !$this->element->hasHelpText()) {
+        if (method_exists($this->element,'hasHelpText') && ($this->element->getHelpText() === null)) {
             $helpText = $this->element->performAutoTranslation(null, 'HelpText');
             if ($helpText !== null) {
                 $this->element->helpText($helpText);
