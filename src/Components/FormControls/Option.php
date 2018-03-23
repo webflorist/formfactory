@@ -17,6 +17,7 @@ class Option extends OptionElement implements AutoTranslationInterface
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     function getAutoTranslationKey(): string
     {

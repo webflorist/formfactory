@@ -62,11 +62,11 @@ Generated HTML:
 
     <input type="hidden" name="_token" value="eIy29d5nSsCv3KJKF7pQydIHz7IR1OPVJjky9TOM" id="MyFormID__token" />
     <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" />
-    <div role="alert" data-error-wrapper="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
+    <div role="alert" data-error-container="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
     
     <div data-field-wrapper="1">
         <label for="MyFormID_MyFieldName">MyFieldName</label>
-        <div role="alert" data-error-wrapper="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
+        <div role="alert" data-error-container="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
         <input type="text" name="MyFieldName" id="MyFormID_MyFieldName" placeholder="MyFieldName" aria-describedby="MyFormID_MyFieldName_errors" />
     </div>
     
@@ -78,7 +78,7 @@ Generated HTML:
 Let's take a look at some of the magic, that is happening here:
 * The `Form::open()` call already does some stuff for us like setting some default-attributes (e.g. POST as the method or the current url as the action)
 * A hidden input including the laravel CSRF-token is automatically added. (As is a hidden input including the form-id, which is used for various on-board-functionality.)
-* A general error-wrapper is added (hidden by default) to be utilized by ajax-validation.
+* A general error-container is added (hidden by default) to be utilized by ajax-validation.
 * The field is automatically wrapped within a div-element (with bootstrap this element would get the 'form-group' class).
 * The field's label as well as placeholder are automatically added using the field-name (if none other is stated), or an automatic translation (explained later).
 * All relevant elements have an automatically generated ID (format for fields: `%formID%_%fieldName%`)
@@ -103,7 +103,7 @@ Generated HTML:
 ---------------
 <div data-field-wrapper="1">
     <label for="frmTest_MyFieldName">MyFieldName</label>
-    <div role="alert" data-error-wrapper="1" id="frmTest_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden="" style="display:none"></div>
+    <div role="alert" data-error-container="1" id="frmTest_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden="" style="display:none"></div>
     <input type="text" name="MyFieldName" id="frmTest_MyFieldName" placeholder="MyFieldName" aria-describedby="frmTest_MyFieldName_errors">
 </div>
 ```

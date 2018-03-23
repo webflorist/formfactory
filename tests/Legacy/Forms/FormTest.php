@@ -96,12 +96,12 @@ class FormTest extends TestCase
             $this->matchTagAttributes['method'] = 'POST';
         }
 
-        // Add hidden-error-wrapper for general errors.
+        // Add hidden-error-container for general errors.
         $this->matchTagChildren[] = [
             'tag' => 'div',
             'attributes' => [
                 'role' => 'alert',
-                'data-error-wrapper' => '1',
+                'data-error-container' => '1',
                 'data-displays-general-errors' => '1',
                 'class' => 'alert m-b-1 alert-danger',
                 'id' => 'd41d8cd98f00b204e9800998ecf8427e_errors',
@@ -138,7 +138,7 @@ class FormTest extends TestCase
                             'role' => 'alert',
                             'class' => 'alert m-b-1 alert-danger',
                             'id' => $this->matchTagAttributes['id'].'_'.$this->honeypotFieldName.'_errors',
-                            'data-error-wrapper' => '1',
+                            'data-error-container' => '1',
                             'data-displays-errors-for' => $this->honeypotFieldName,
                             'hidden' => true,
                             'style' => 'display:none'
@@ -195,7 +195,7 @@ class FormTest extends TestCase
                             'role' => 'alert',
                             'class' => 'alert m-b-1 alert-danger',
                             'id' => $this->matchTagAttributes['id'].'__captcha_errors',
-                            'data-error-wrapper' => '1',
+                            'data-error-container' => '1',
                             'data-displays-errors-for' => '_captcha',
                             'hidden' => true,
                             'style' => 'display:none'
@@ -206,7 +206,7 @@ class FormTest extends TestCase
                         'attributes' => [
                             'type' => 'text',
                             'id' => $this->matchTagAttributes['id'].'__captcha',
-                            'aria-describedby' => $this->matchTagAttributes['id'].'__captcha_helpText '.$this->matchTagAttributes['id'].'__captcha_errors',
+                            'aria-describedby' => $this->matchTagAttributes['id'].'__captcha_errors ' . $this->matchTagAttributes['id'].'__captcha_helpText',
                             'class' => 'form-control',
                             'required' => true,
                             'name' => '_captcha',

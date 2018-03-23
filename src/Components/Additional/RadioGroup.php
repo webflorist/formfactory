@@ -16,9 +16,9 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
     /**
      * Any errors for radio-buttons contained in this radio-group will be displayed here.
      *
-     * @var ErrorWrapper
+     * @var ErrorContainer
      */
-    private $errorWrapper;
+    private $errorContainer;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -46,10 +46,10 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
         // Set radio-buttons as content.
         $this->content($radioInputs);
 
-        // Set $this->errorWrapper and prepend it.
-        $this->errorWrapper = (new ErrorWrapper());
-        $this->errorWrapper->addErrorField($name);
-        $this->prependContent($this->errorWrapper);
+        // Set $this->errorContainer and prepend it.
+        $this->errorContainer = (new ErrorContainer());
+        $this->errorContainer->addErrorField($name);
+        $this->prependContent($this->errorContainer);
 
         // Auto-translate legend.
         $this->legend($this->performAutoTranslation($this->radioName));

@@ -112,7 +112,7 @@ $(document).ready(function () {
     function clearErrors(container){
         container.removeClass('has-error');
         container.find('[data-field-wrapper]').removeClass('has-error');
-        container.find('[data-error-wrapper]').empty().hide();
+        container.find('[data-error-container]').empty().hide();
     }
 
     /*
@@ -157,37 +157,37 @@ $(document).ready(function () {
     }
 
     /*
-     *  Displays errors for fields within their designated error-wrappers..
+     *  Displays errors for fields within their designated error-containers..
      */
     function displayFieldErrors(jqField,fieldErrors, jqForm) {
 
-        var jqErrorWrapper = null;
+        var jqErrorContainer = null;
 
-        // Find the error-wrapper responsible for displaying errors for jqField
-        jqForm.find('[data-error-wrapper]').each(function (i) {
-            var jqErrorWrapperCandidate = $(this);
-            var displaysErrorsFor = jqErrorWrapperCandidate.attr('data-displays-errors-for').split('|');
+        // Find the error-container responsible for displaying errors for jqField
+        jqForm.find('[data-error-container]').each(function (i) {
+            var jqErrorContainerCandidate = $(this);
+            var displaysErrorsFor = jqErrorContainerCandidate.attr('data-displays-errors-for').split('|');
             displaysErrorsFor.forEach(function(fieldName) {
                 if (fieldName === jqField.attr('name')) {
-                    jqErrorWrapper = jqErrorWrapperCandidate;
+                    jqErrorContainer = jqErrorContainerCandidate;
                 }
             });
 
         });
 
-        // If no suitable error-wrapper was found, we use the general-error wrapper of the form.
-        if (jqErrorWrapper === null) {
-            jqErrorWrapper = jqForm.children('[data-displays-general-errors').first();
+        // If no suitable error-container was found, we use the general-error container of the form.
+        if (jqErrorContainer === null) {
+            jqErrorContainer = jqForm.children('[data-displays-general-errors').first();
         }
 
-        // Put errors inside the error-wrapper.
+        // Put errors inside the error-container.
         $.each( fieldErrors, function( errorKey, errorText ) {
-            jqErrorWrapper.append('<div>'+errorText+'</div>');
+            jqErrorContainer.append('<div>'+errorText+'</div>');
         });
 
-        // Unhide the error-wrapper.
-        jqErrorWrapper.removeAttr('hidden');
-        jqErrorWrapper.show();
+        // Unhide the error-container.
+        jqErrorContainer.removeAttr('hidden');
+        jqErrorContainer.show();
 
         // Set the field-wrapper this field belongs to to 'has-error'.
         jqField.closest('[data-field-wrapper]').addClass('has-error');

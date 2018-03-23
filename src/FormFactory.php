@@ -447,11 +447,12 @@ class FormFactory
     /**
      * Generates InputGroup.
      *
+     * @param array $content
      * @return InputGroup
      */
-    public static function inputGroup(): InputGroup
+    public static function inputGroup(array $content=[]): InputGroup
     {
-        return (new InputGroup());
+        return (new InputGroup())->content($content);
     }
 
     /**

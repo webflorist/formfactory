@@ -41,13 +41,13 @@ trait FieldTests
             ];
         }
 
-        // Hidden error-wrapper
+        // Hidden error-container
         $this->errorMatcher = [
             'tag' => 'div',
             'attributes' => [
                 'role' => 'alert',
                 'class' => 'alert m-b-1 alert-danger',
-                'data-error-wrapper' => '1',
+                'data-error-container' => '1',
                 'data-displays-errors-for' => $fieldName,
                 'hidden' => true,
                 'style' => 'display:none'

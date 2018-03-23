@@ -5,6 +5,7 @@ namespace Nicat\FormFactory\Components\Additional;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
 use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveLabel;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
@@ -14,11 +15,11 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
 {
 
     /**
-     * Any errors for fields contained in this input-group will be displayed here.
+     * The FieldWrapper for this InputGroup.
      *
-     * @var ErrorWrapper
+     * @var FieldWrapper
      */
-    private $errorWrapper;
+    private $fieldWrapper;
 
     /**
      * Gets called during construction.
@@ -26,8 +27,8 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
      */
     protected function setUp()
     {
-        $this->errorWrapper = new ErrorWrapper();
-        $this->insertBefore($this->errorWrapper);
+        $this->fieldWrapper = new FieldWrapper();
+        $this->wrap($this->fieldWrapper);
         $this->addClass('input-group');
     }
 
@@ -39,26 +40,6 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     {
         $this->formatFieldChildren();
     }
-
-    /**
-     * Manipulate the generated HTML.
-     *
-     * @param string $output
-     */
-    protected function manipulateOutput(string &$output)
-    {
-        // We extract the label of the first field-element and render it' label before the InputGroup.
-        if (!isset($this->isDynamicListTemplate) || ($this->isDynamicListTemplate === false)) {
-            foreach ($this->content->get() as $childKey => $child) {
-                if (property_exists($child, 'label') and $child->labelMode !== 'none') {
-                    /** @var CanHaveLabel $child */
-                    $output = (new LabelElement())->content($child->label)->for($child->attributes->id)->generate() . $output;
-                    break;
-                }
-            }
-        }
-    }
-
 
     /**
      * Returns all children, that are fields (=can have the "name" attribute).
@@ -89,10 +70,19 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
             /** @var CanHaveLabel $child */
             if ($child->labelMode !== 'none') {
                 $child->labelMode('sr-only');
+
+                // We tell $this->fieldWrapper->label to display
+                // the label for the first child.
+                if (is_null($this->fieldWrapper->label->field)) {
+                    $this->fieldWrapper->label->field = $child;
+                }
             }
 
-            // Tell $this->errorWrapper to display errors for $child.
-            $this->errorWrapper->addErrorField($child);
+            // Tell the ErrorContainer to display errors for $child.
+            $this->fieldWrapper->errorContainer->addErrorField($child);
+
+            // Tell the HelpTextContainer to display help-texts for $child.
+            $this->fieldWrapper->helpTextContainer->addHelpTextField($child);
         }
     }
 
@@ -106,8 +96,10 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
      */
     function performDynamicListModifications(DynamicList $dynamicList, Button $removeItemButton)
     {
+        $this->wrap(false);
+        $this->prependContent($this->fieldWrapper->errorContainer);
         $this->addClass('m-b-1');
         $this->prependContent(new InputGroupButton($removeItemButton));
-    }
 
+    }
 }

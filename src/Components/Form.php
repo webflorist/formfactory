@@ -5,7 +5,7 @@ namespace Nicat\FormFactory\Components;
 use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Components\Additional\ErrorContainer;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
@@ -110,7 +110,7 @@ class Form extends FormElement
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
         $this->setDefaultAction();
-        $this->appendHiddenGeneralErrorWrapper();
+        $this->appendHiddenGeneralErrorContainer();
         $this->applyOpenModalOnLoad();
         HoneypotProtection::setUp($this);
         TimeLimitProtection::setUp($this);
@@ -347,12 +347,12 @@ class Form extends FormElement
     }
 
     /**
-     * Append a hidden general-error-wrapper for displaying general field-errors.
+     * Append a hidden general-error-container for displaying general field-errors.
      */
-    protected function appendHiddenGeneralErrorWrapper()
+    protected function appendHiddenGeneralErrorContainer()
     {
         $this->appendContent(
-            (new ErrorWrapper())->data('displays-general-errors',true)
+            (new ErrorContainer())->data('displays-general-errors',true)
         );
     }
 

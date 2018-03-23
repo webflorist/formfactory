@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\DynamicLists;
 
-use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Components\Additional\ErrorContainer;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\FormFactory;
@@ -141,7 +141,7 @@ class DynamicList extends FieldsetElement
 
         parent::afterDecoration();
 
-        $this->addErrorWrapperForArrayErrors();
+        $this->addErrorContainerForArrayErrors();
 
         $this->establishMinAndMaxItems();
 
@@ -367,14 +367,14 @@ class DynamicList extends FieldsetElement
     }
 
     /**
-     * Adds an error-wrapper to display errors for $this->arrayName.
+     * Adds an error-container to display errors for $this->arrayName.
      * These are mainly min- or max-errors.
      */
-    private function addErrorWrapperForArrayErrors()
+    private function addErrorContainerForArrayErrors()
     {
-        $errorWrapper = new ErrorWrapper();
-        $errorWrapper->addErrorField($this->arrayName);
-        $this->prependContent($errorWrapper);
+        $errorContainer = new ErrorContainer();
+        $errorContainer->addErrorField($this->arrayName);
+        $this->prependContent($errorContainer);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
-use Nicat\FormFactory\Components\Additional\ErrorWrapper;
+use Nicat\FormFactory\Components\Additional\ErrorContainer;
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 
@@ -42,10 +42,10 @@ class TimeLimitProtection
         // It will be read out by the TimeLimitValidator after submitting the form.
         session()->put('formfactory.generation_time.' . $form->requestObject, time());
 
-        // We also add an errorWrapper to display any errors for '_timeLimit' to the form.
-        $errorWrapper = new ErrorWrapper();
-        $errorWrapper->addErrorField('_timeLimit');
-        $form->appendContent($errorWrapper);
+        // We also add an errorContainer to display any errors for '_timeLimit' to the form.
+        $errorContainer = new ErrorContainer();
+        $errorContainer->addErrorField('_timeLimit');
+        $form->appendContent($errorContainer);
     }
 
     /**

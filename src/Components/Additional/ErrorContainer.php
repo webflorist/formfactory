@@ -7,7 +7,7 @@ use Nicat\HtmlFactory\Components\AlertComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
 
-class ErrorWrapper extends AlertComponent
+class ErrorContainer extends AlertComponent
 {
 
     /**
@@ -25,12 +25,19 @@ class ErrorWrapper extends AlertComponent
     public $errorFieldNames = [];
 
     /**
-     * ErrorWrapper constructor.
+     * ErrorContainer constructor.
+     *
+     * @param Element|null $field
      */
-    public function __construct()
+    public function __construct($field = null)
     {
         parent::__construct('danger');
-        $this->data('error-wrapper',true);
+
+        if (!is_null($field)) {
+            $this->addErrorField($field);
+        }
+
+        $this->data('error-container', true);
     }
 
     /**
@@ -44,7 +51,7 @@ class ErrorWrapper extends AlertComponent
     public function addErrorField($field)
     {
         if (is_a($field, Element::class)) {
-            if (method_exists($field, 'errors') && array_search($field, $this->errorFieldElements) === false) {
+            if (method_exists($field, 'errors') && array_search($field, $this->errorFieldElements, true) === false) {
                 $this->errorFieldElements[] = $field;
             }
         }
@@ -60,12 +67,12 @@ class ErrorWrapper extends AlertComponent
      */
     protected function afterDecoration()
     {
-        // Establish id of this error-wrapper.
+        // Establish id of this error-container.
         $this->establishId();
 
         $this->addErrors();
 
-        // If this error-wrapper has nothing to display, we simply hide it.
+        // If this error-container has nothing to display, we simply hide it.
         if (!$this->content->hasContent()) {
             $this->hidden();
             $this->addStyle('display:none');
@@ -73,19 +80,19 @@ class ErrorWrapper extends AlertComponent
     }
 
     /**
-     * Establishes the ID for this error-wrapper.
+     * Establishes the ID for this error-container.
      */
     private function establishId()
     {
-        // If the errorWrapper should only display errors for a single field-element,
-        // we use the field's ID plus the suffix '_errors' as this errorWrapper's ID.
+        // If the errorContainer should only display errors for a single field-element,
+        // we use the field's ID plus the suffix '_errors' as this errorContainer's ID.
         if ((count($this->errorFieldNames) === 0) && count($this->errorFieldElements) == 1) {
             $this->id($this->errorFieldElements[0]->attributes->id . '_errors');
             return;
         }
 
-        // Otherwise we create a md5-hash of all field-id's and fieldNames this errorWrapper should display errors for,
-        // append the suffix '_errors' and use it as this errorWrapper's ID.
+        // Otherwise we create a md5-hash of all field-id's and fieldNames this errorContainer should display errors for,
+        // append the suffix '_errors' and use it as this errorContainer's ID.
         $fieldIDs = '';
         foreach ($this->errorFieldElements as $fieldElement) {
             $fieldIDs .= $fieldElement->attributes->id;
@@ -135,11 +142,11 @@ class ErrorWrapper extends AlertComponent
             $this->addErrorMessages($formFactory->getOpenForm()->errors->getErrorsForField($fieldName));
         }
 
-        $this->data('displays-errors-for',implode('|',$displaysErrorsFor));
+        $this->data('displays-errors-for', implode('|', $displaysErrorsFor));
     }
 
     /**
-     * Adds the all $errorMessages to this errorWrapper's content.
+     * Adds the all $errorMessages to this errorContainer's content.
      *
      * @param string[] $errorMessages
      */

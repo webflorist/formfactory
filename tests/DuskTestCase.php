@@ -9,9 +9,6 @@ use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
 use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
-use Facebook\WebDriver\Chrome\ChromeOptions;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Facebook\WebDriver\Remote\DesiredCapabilities;
 
 abstract class DuskTestCase extends BaseTestCase
 {

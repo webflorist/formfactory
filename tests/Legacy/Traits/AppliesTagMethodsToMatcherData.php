@@ -137,7 +137,7 @@ trait AppliesTagMethodsToMatcherData
         if (!isset($this->matchTagAttributes['aria-describedby'])) {
             $this->matchTagAttributes['aria-describedby'] = '';
         }
-        $this->matchTagAttributes['aria-describedby'] = $this->matchTagAttributes['id'].'_helpText'.' '.$this->matchTagAttributes['aria-describedby'];
+        $this->matchTagAttributes['aria-describedby'] .= ' '.$this->matchTagAttributes['id'].'_helpText';
     }
 
     protected function tagMethod2Matcher_errors($errors=[]) {

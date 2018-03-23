@@ -31,13 +31,6 @@ trait CanHaveErrors
     protected $errorFields = [];
 
     /**
-     * Where the errors should be displayed.
-     *
-     * @var string: before|after|append|prepend
-     */
-    public $errorsLocation = 'before';
-
-    /**
      * Set array of errors for this tag.
      * (omit for automatic adoption from session)
      *
