@@ -57,7 +57,7 @@ class FieldLabel extends LabelElement
      */
     protected function render(): string
     {
-        // We only render this HelpTextContainer, if it actually has content.
+        // We only render this FieldLabel, if it actually has content.
         if (!$this->content->hasContent()) {
             return '';
         }

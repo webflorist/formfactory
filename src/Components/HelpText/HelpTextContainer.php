@@ -107,7 +107,7 @@ class HelpTextContainer extends DivElement
      */
     private function addHelpText(string $helpText)
     {
-        $this->content((new DivElement())->content($helpText));
+        $this->content($helpText);
     }
 
     /**

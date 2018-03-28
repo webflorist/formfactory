@@ -89,6 +89,7 @@ class FormFactory
     {
         $form = (new Form())->id($id)->method('post');
         app(FormFactory::class)->openForm = $form;
+        app(FormFactory::class)->requiredFieldIndicatorUsed = false;
         return $form;
     }
 
