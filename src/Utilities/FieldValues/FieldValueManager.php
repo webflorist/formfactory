@@ -79,8 +79,9 @@ class FieldValueManager
             return false;
         }
 
-        // An empty array is not considered as a default-value
-        if (is_array($this->defaultValues[$fieldName]) && (count($this->defaultValues[$fieldName])===0)) {
+        // An empty array is not considered as a default-value.
+        $value = array_get($this->defaultValues, $fieldName);
+        if (is_array($value) && (count($value)===0)) {
             return false;
         }
 
