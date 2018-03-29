@@ -184,6 +184,8 @@ class DynamicList extends FieldsetElement
     /**
      * Establishes list of itemKeys, that should already be rendered on output.
      * (e.g. default-values or submitted values).
+     *
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function addPreRenderedItems()
     {
@@ -381,6 +383,7 @@ class DynamicList extends FieldsetElement
      * Establishes a list of item-keys, that should be pre-rendered with this dynamic list.
      *
      * @return int[]
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function getItemListToPreRender(): array
     {
@@ -413,6 +416,7 @@ class DynamicList extends FieldsetElement
             $items2PreRender[] = $i;
             $i++;
         }
+
         return $items2PreRender;
     }
 

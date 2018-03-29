@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory\Components\Additional;
 
+use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
@@ -22,6 +23,13 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
      * @var ErrorContainer
      */
     private $errorContainer;
+
+    /**
+     * Any help-texts for radio-buttons contained in this radio-group will be displayed here.
+     *
+     * @var HelpTextContainer
+     */
+    private $helpTextContainer;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -54,8 +62,21 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
         $this->errorContainer->addErrorField($name);
         $this->prependContent($this->errorContainer);
 
+        // Set $this->helpTextContainer and append it.
+        $this->helpTextContainer = (new HelpTextContainer($this));
+        $this->appendContent($this->helpTextContainer);
+    }
+
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
         // Auto-translate legend.
-        $this->legend($this->performAutoTranslation($this->radioName));
+        if ($this->legend !== false) {
+            $this->legend($this->performAutoTranslation($this->radioName));
+        }
     }
 
     /**

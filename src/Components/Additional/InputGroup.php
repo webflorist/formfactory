@@ -7,6 +7,8 @@ use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveLabel;
+use Nicat\HtmlFactory\Components\CheckboxInputComponent;
+use Nicat\HtmlFactory\Components\RadioInputComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\DivElement;
@@ -59,6 +61,18 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     }
 
     /**
+     * Adds a field-name to the list of fields, the FieldWrapper of this InputGroup should display errors for.
+     *
+     * @param string $fieldName
+     * @return InputGroup
+     */
+    public function addErrorField(string $fieldName)
+    {
+        $this->fieldWrapper->errorContainer->addErrorField($fieldName);
+        return $this;
+    }
+
+    /**
      * Formats all children of this input-group, that are fields.
      */
     private function formatFieldChildren()
@@ -77,6 +91,12 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
                 if (is_null($this->fieldWrapper->label->field)) {
                     $this->fieldWrapper->label->field = $child;
                 }
+
+                // Only checkbox- or radio-children are allowed to have labels themselves.
+                if ($child->is(RadioInputComponent::class) || $child->is(CheckboxInputComponent::class)) {
+                    $child->wrap(new FieldLabel($child));
+                }
+
             }
 
             // Tell the ErrorContainer to display errors for $child.

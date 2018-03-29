@@ -74,7 +74,17 @@ class FieldValueManager
     public function fieldHasDefaultValue(string $fieldName)
     {
         $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        return array_has($this->defaultValues, $fieldName);
+
+        if (!array_has($this->defaultValues, $fieldName)) {
+            return false;
+        }
+
+        // An empty array is not considered as a default-value
+        if (is_array($this->defaultValues[$fieldName]) && (count($this->defaultValues[$fieldName])===0)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

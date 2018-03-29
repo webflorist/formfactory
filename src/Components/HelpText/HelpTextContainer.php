@@ -24,7 +24,8 @@ class HelpTextContainer extends DivElement
      *
      * @param Element|null|HelpTextInterface $field
      */
-    public function __construct(HelpTextInterface $field = null) {
+    public function __construct(HelpTextInterface $field = null)
+    {
         parent::__construct();
         if (!is_null($field)) {
             $this->addHelpTextField($field);
@@ -107,6 +108,9 @@ class HelpTextContainer extends DivElement
      */
     private function addHelpText(string $helpText)
     {
+        if ($this->content->hasContent()) {
+            $helpText = ' ' . $helpText;
+        }
         $this->content($helpText);
     }
 

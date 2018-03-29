@@ -6,7 +6,6 @@ use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
-use Nicat\HtmlFactory\Elements\LabelElement;
 
 class FieldWrapper extends DivElement
 {
@@ -25,6 +24,13 @@ class FieldWrapper extends DivElement
     public $errorContainer;
 
     /**
+     * Should this FieldWrapper display errors?
+     *
+     * @var bool
+     */
+    public $displayErrors = true;
+
+    /**
      * The HelpTextContainer, that will display any help-texts.
      *
      * @var ErrorContainer
@@ -32,11 +38,25 @@ class FieldWrapper extends DivElement
     public $helpTextContainer;
 
     /**
+     * Should this FieldWrapper display a HelpText?
+     *
+     * @var bool
+     */
+    public $displayHelpText = true;
+
+    /**
      * The FieldLabel for this field.
      *
      * @var FieldLabel
      */
     public $label;
+
+    /**
+     * Should this FieldWrapper display a label?
+     *
+     * @var bool
+     */
+    public $displayLabel = true;
 
     /**
      * FieldWrapper constructor.
@@ -61,9 +81,15 @@ class FieldWrapper extends DivElement
      */
     protected function afterDecoration()
     {
-        $this->addErrors();
-        $this->addLabel();
-        $this->addHelpText();
+        if ($this->displayErrors) {
+            $this->addErrors();
+        }
+        if ($this->displayLabel) {
+            $this->addLabel();
+        }
+        if ($this->displayHelpText) {
+            $this->addHelpText();
+        }
     }
 
     private function addLabel()

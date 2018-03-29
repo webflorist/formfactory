@@ -71,8 +71,7 @@ $(document).ready(function () {
                         }
                         else {
                             $.each( jsonResponse.errors, function( fieldName, fieldErrors ) {
-                                var jqField = jqForm.find('[name="'+fieldName+'"]');
-                                displayFieldErrors(jqField,fieldErrors, jqForm);
+                                displayFieldErrors(fieldName,fieldErrors, jqForm);
                             });
                         }
                     }
@@ -142,11 +141,14 @@ $(document).ready(function () {
                     // Get the full response.
                     var jsonResponse = jqXhr.responseJSON;
 
+                    // Get the field-name
+                    var fieldName = jqField.attr('name');
+
                     // Get errors for this field.
-                    var fieldErrors = jsonResponse.errors[jqField.attr('name')];
+                    var fieldErrors = jsonResponse.errors[fieldName];
 
                     if (fieldErrors) {
-                        displayFieldErrors(jqField,fieldErrors, jqField.closest('form'));
+                        displayFieldErrors(fieldName,fieldErrors, jqField.closest('form'));
                     }
 
                 } else {
@@ -159,16 +161,17 @@ $(document).ready(function () {
     /*
      *  Displays errors for fields within their designated error-containers..
      */
-    function displayFieldErrors(jqField,fieldErrors, jqForm) {
+    function displayFieldErrors(fieldName,fieldErrors, jqForm) {
 
         var jqErrorContainer = null;
 
-        // Find the error-container responsible for displaying errors for jqField
+        // Find the error-container responsible for displaying errors for the field
         jqForm.find('[data-error-container]').each(function (i) {
             var jqErrorContainerCandidate = $(this);
             var displaysErrorsFor = jqErrorContainerCandidate.attr('data-displays-errors-for').split('|');
+            console.log(jqErrorContainerCandidate.attr('data-displays-errors-for').split('|'));
             displaysErrorsFor.forEach(function(fieldName) {
-                if (fieldName === jqField.attr('name')) {
+                if (fieldName === fieldName) {
                     jqErrorContainer = jqErrorContainerCandidate;
                 }
             });
@@ -190,6 +193,7 @@ $(document).ready(function () {
         jqErrorContainer.show();
 
         // Set the field-wrapper this field belongs to to 'has-error'.
+        var jqField = jqForm.find('[name="'+fieldName+'"]');
         jqField.closest('[data-field-wrapper]').addClass('has-error');
     }
 
@@ -319,7 +323,7 @@ function addDynamicListItem(groupID) {
 
     // Remove the hidden-property.
     newItem.removeAttr('hidden');
-    newItem.show();
+    newItem.removeAttr('style');
 
     // Remove the data-dynamiclist-template-attribute.
     newItem.removeAttr('data-dynamiclist-template');
