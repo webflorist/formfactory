@@ -169,13 +169,11 @@ $(document).ready(function () {
         jqForm.find('[data-error-container]').each(function (i) {
             var jqErrorContainerCandidate = $(this);
             var displaysErrorsFor = jqErrorContainerCandidate.attr('data-displays-errors-for').split('|');
-            console.log(jqErrorContainerCandidate.attr('data-displays-errors-for').split('|'));
-            displaysErrorsFor.forEach(function(fieldName) {
-                if (fieldName === fieldName) {
+            displaysErrorsFor.forEach(function(displaysErrorsForFieldName) {
+                if (displaysErrorsForFieldName === fieldName) {
                     jqErrorContainer = jqErrorContainerCandidate;
                 }
             });
-
         });
 
         // If no suitable error-container was found, we use the general-error container of the form.
