@@ -2,9 +2,9 @@
 
 namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleButtons as Boostrap3StyleButtons;
+use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleButtons as Bootstrap3StyleButtons;
 
-class StyleButtons extends Boostrap3StyleButtons
+class StyleButtons extends Bootstrap3StyleButtons
 {
 
     /**

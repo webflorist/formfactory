@@ -5,14 +5,12 @@ namespace Nicat\FormFactory\Components\Additional;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
 use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveLabel;
 use Nicat\HtmlFactory\Components\CheckboxInputComponent;
 use Nicat\HtmlFactory\Components\RadioInputComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\DivElement;
-use Nicat\HtmlFactory\Elements\LabelElement;
 
 class InputGroup extends DivElement implements DynamicListTemplateInterface
 {

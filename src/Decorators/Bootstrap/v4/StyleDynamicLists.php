@@ -2,9 +2,9 @@
 
 namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleDynamicLists as Boostrap3StyleDynamicLists;
+use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleDynamicLists as Bootstrap3StyleDynamicLists;
 
-class StyleDynamicLists extends Boostrap3StyleDynamicLists
+class StyleDynamicLists extends Bootstrap3StyleDynamicLists
 {
 
     /**

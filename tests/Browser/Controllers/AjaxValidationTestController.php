@@ -2,7 +2,6 @@
 
 namespace FormFactoryTests\Browser\Controllers;
 
-use Form;
 use FormFactoryTests\Browser\Requests\AjaxValidationTestRequest;
 use Illuminate\Routing\Controller;
 

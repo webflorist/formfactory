@@ -135,6 +135,8 @@ class DynamicList extends FieldsetElement
     /**
      * Gets called after applying decorators.
      * Overwrite to perform manipulations.
+     *
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function afterDecoration()
     {
@@ -333,6 +335,8 @@ class DynamicList extends FieldsetElement
     /**
      * Tries to get $this->dynamicListMinItems and $this->dynamicListMaxItems from the rules,
      * if not set on dynamicList()-call.
+     *
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function establishMinAndMaxItems()
     {
@@ -460,6 +464,8 @@ class DynamicList extends FieldsetElement
 
     /**
      * Generates the Button used for $this->addItemButton.
+     *
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     private function generateAddItemButton()
     {

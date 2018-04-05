@@ -2,7 +2,6 @@
 
 namespace FormFactoryTests\Browser;
 
-use Facebook\WebDriver\WebDriverKeys;
 use FormFactoryTests\DuskTestCase;
 use Laravel\Dusk\Browser;
 

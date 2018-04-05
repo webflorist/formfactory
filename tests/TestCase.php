@@ -52,6 +52,8 @@ class TestCase extends BaseTestCase
      * Setup the test environment.
      *
      * @return void
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     protected function setUp()
     {

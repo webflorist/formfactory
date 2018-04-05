@@ -7,7 +7,6 @@ use DOMElement;
 use Gajus\Dindent\Indenter;
 use FormFactoryTests\Legacy\Traits\AppliesTagMethodsToMatcherData;
 use FormFactoryTests\Legacy\Traits\Tests\TagTests;
-use Illuminate\Contracts\Console\Kernel;
 use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
 use Nicat\HtmlFactory\HtmlFactoryFacade;
@@ -371,6 +370,13 @@ class TestCase extends BaseTestCase
         return $text;
     }
 
+    /**
+     * @param DOMElement $parentNode
+     * @param int $key
+     * @param array $matcher
+     * @throws \Gajus\Dindent\Exception\InvalidArgumentException
+     * @throws \Gajus\Dindent\Exception\RuntimeException
+     */
     protected function assertHtmlNode(DOMElement $parentNode, $key = 0, $matcher = [])
     {
         $nodePath = $parentNode->getNodePath();

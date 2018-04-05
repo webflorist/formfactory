@@ -2,9 +2,7 @@
 
 namespace Nicat\FormFactory\Utilities;
 
-use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
-use Nicat\ExtendedValidation\ExtendedValidation;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 
 /**

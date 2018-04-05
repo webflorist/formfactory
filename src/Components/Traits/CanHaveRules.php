@@ -32,6 +32,7 @@ trait CanHaveRules
      * Does this field have any rules set?
      *
      * @return bool
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function hasRules() : bool
     {
@@ -42,6 +43,7 @@ trait CanHaveRules
      * Get the rules for this field.
      *
      * @return array
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getRules() : array
     {

@@ -59,6 +59,7 @@ trait CanHaveErrors
      * Get array of errors for this field.
      *
      * @return array
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getErrors() : array
     {
@@ -84,6 +85,7 @@ trait CanHaveErrors
      * Does this field have errors?
      *
      * @return bool
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function hasErrors()
     {

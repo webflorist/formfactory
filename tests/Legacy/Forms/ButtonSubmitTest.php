@@ -8,9 +8,6 @@
 
 namespace FormFactoryTests\Legacy\Forms;
 
-use FormFactoryTests\Legacy\Traits\Tests\TestsAutocompleteAttribute;
-use FormFactoryTests\Legacy\Traits\Tests\TestsValueAttribute;
-
 class ButtonSubmitTest extends ButtonTest
 {
 

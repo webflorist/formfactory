@@ -163,6 +163,11 @@ class DecorateFields extends Decorator
             return;
         }
 
+        // If wrapper is specifically set to false, we do not apply one.
+        if ($this->element->wrapper === false) {
+            return;
+        }
+
         if (is_null($this->element->wrapper)) {
             $this->element->wrap(
                 new FieldWrapper($this->element)

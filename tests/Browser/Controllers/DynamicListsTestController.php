@@ -2,7 +2,6 @@
 
 namespace FormFactoryTests\Browser\Controllers;
 
-use Form;
 use FormFactoryTests\Browser\Requests\DynamicListsTestRequest;
 use Illuminate\Routing\Controller;
 

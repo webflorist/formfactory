@@ -106,6 +106,8 @@ class ErrorContainer extends AlertComponent
 
     /**
      * Adds all errors for all fields within $this->errorFieldElements and $this->errorFieldNames.
+     *
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     private function addErrors()
     {

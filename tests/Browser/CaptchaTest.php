@@ -4,7 +4,6 @@ namespace FormFactoryTests\Browser;
 
 use FormFactoryTests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Route;
 
 class CaptchaTest extends DuskTestCase
 {

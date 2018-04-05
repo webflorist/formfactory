@@ -4,7 +4,6 @@ namespace Nicat\FormFactory\Utilities\AjaxValidation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Validator;
