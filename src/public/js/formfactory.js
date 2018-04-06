@@ -38,7 +38,7 @@ $(document).ready(function () {
                 type: 'POST', // form submit method get/post
                 dataType: 'json', // request type html/json/xml
                 data: $(this).serialize(), // serialize form data
-                async:false,    // must be false to allow validation
+                async: false,    // must be false to allow validation
                 beforeSend: function () {
 
                     // Clear all error elements before submit.
@@ -48,18 +48,18 @@ $(document).ready(function () {
                 success: function (data, textStatus, jqXHR) {
 
                 },
-                error :function( jqXhr ) {
+                error: function (jqXhr) {
 
                     // Per default, we do not submit the form, if an error occurred.
                     submitForm = false;
 
                     // Redirect if not authenticated user.
-                    if( jqXhr.status === 401 ) {
-                        $( location ).prop( 'pathname', 'auth/login' );
+                    if (jqXhr.status === 401) {
+                        $(location).prop('pathname', 'auth/login');
                     }
 
                     // If a validation error occurred...
-                    if( jqXhr.status === 422 ) {
+                    if (jqXhr.status === 422) {
 
                         // Get the full response.
                         var jsonResponse = jqXhr.responseJSON;
@@ -70,14 +70,14 @@ $(document).ready(function () {
                             submitForm = true;
                         }
                         else {
-                            $.each( jsonResponse.errors, function( fieldName, fieldErrors ) {
-                                displayFieldErrors(fieldName,fieldErrors, jqForm);
+                            $.each(jsonResponse.errors, function (fieldName, fieldErrors) {
+                                displayFieldErrors(fieldName, fieldErrors, jqForm);
                             });
                         }
                     }
 
                     // A 500 error may indicate a token mismatch, so we submit the form to get a new one.
-                    if( jqXhr.status === 500 ) {
+                    if (jqXhr.status === 500) {
                         submitForm = true;
                     }
                 }
@@ -108,7 +108,7 @@ $(document).ready(function () {
     /*
      *  Clears errors within container.
      */
-    function clearErrors(container){
+    function clearErrors(container) {
         container.removeClass('has-error');
         container.find('[data-field-wrapper]').removeClass('has-error');
         container.find('[data-error-container]').empty().hide();
@@ -124,7 +124,7 @@ $(document).ready(function () {
             type: 'POST', // form submit method get/post
             dataType: 'json', // request type html/json/xml
             data: jqField.closest('form').serialize(), // serialize form data
-            async:false,
+            async: false,
             beforeSend: function () {
 
                 // Clear all error elements in this field-wrapper before submit.
@@ -134,9 +134,9 @@ $(document).ready(function () {
             success: function (data, textStatus, jqXHR) {
 
             },
-            error :function( jqXhr ) {
+            error: function (jqXhr) {
 
-                if( jqXhr.status === 422 ) {
+                if (jqXhr.status === 422) {
 
                     // Get the full response.
                     var jsonResponse = jqXhr.responseJSON;
@@ -148,7 +148,7 @@ $(document).ready(function () {
                     var fieldErrors = jsonResponse.errors[fieldName];
 
                     if (fieldErrors) {
-                        displayFieldErrors(fieldName,fieldErrors, jqField.closest('form'));
+                        displayFieldErrors(fieldName, fieldErrors, jqField.closest('form'));
                     }
 
                 } else {
@@ -161,7 +161,7 @@ $(document).ready(function () {
     /*
      *  Displays errors for fields within their designated error-containers..
      */
-    function displayFieldErrors(fieldName,fieldErrors, jqForm) {
+    function displayFieldErrors(fieldName, fieldErrors, jqForm) {
 
         var jqErrorContainer = null;
 
@@ -169,7 +169,7 @@ $(document).ready(function () {
         jqForm.find('[data-error-container]').each(function (i) {
             var jqErrorContainerCandidate = $(this);
             var displaysErrorsFor = jqErrorContainerCandidate.attr('data-displays-errors-for').split('|');
-            displaysErrorsFor.forEach(function(displaysErrorsForFieldName) {
+            displaysErrorsFor.forEach(function (displaysErrorsForFieldName) {
                 if (displaysErrorsForFieldName === fieldName) {
                     jqErrorContainer = jqErrorContainerCandidate;
                 }
@@ -182,8 +182,8 @@ $(document).ready(function () {
         }
 
         // Put errors inside the error-container.
-        $.each( fieldErrors, function( errorKey, errorText ) {
-            jqErrorContainer.append('<div>'+errorText+'</div>');
+        $.each(fieldErrors, function (errorKey, errorText) {
+            jqErrorContainer.append('<div>' + errorText + '</div>');
         });
 
         // Unhide the error-container.
@@ -191,7 +191,7 @@ $(document).ready(function () {
         jqErrorContainer.show();
 
         // Set the field-wrapper this field belongs to to 'has-error'.
-        var jqField = jqForm.find('[name="'+fieldName+'"]');
+        var jqField = jqForm.find('[name="' + fieldName + '"]');
         jqField.closest('[data-field-wrapper]').addClass('has-error');
     }
 
@@ -247,13 +247,13 @@ $(document).ready(function () {
 function evaluateDynamicList(groupID) {
 
     // Count the current items of dynamicList.
-    var itemCount = $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-id]').not('[data-dynamiclist-template]').length;
+    var itemCount = $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-id]').not('[data-dynamiclist-template]').length;
     if (itemCount == null) {
         itemCount = 0;
     }
 
     // Get the add-button-element for this dynamicList, since minimum and maximum item-count is set via data-attributes there.
-    var groupAddButton = $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-add]');
+    var groupAddButton = $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-add]');
 
     // Get the minimum item count of this dynamicList (default is 1).
     var minimumItems = groupAddButton.data('dynamiclist-min');
@@ -272,7 +272,7 @@ function evaluateDynamicList(groupID) {
 
         // ...we display a maximum-reached-message, but only if minimumItems and maximumItems is not identical (since it makes no sense then).
         if (minimumItems != maximumItems) {
-            $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-maxalert]').show().removeAttr('hidden');
+            $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-maxalert]').show().removeAttr('hidden');
         }
 
         // ...and hide the add-item-button.
@@ -282,7 +282,7 @@ function evaluateDynamicList(groupID) {
     else {
 
         // ...we make sure, the maximum-reached-message is hidden and add-item-button is shown.
-        $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-maxalert]').hide();
+        $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-maxalert]').hide();
         groupAddButton.show();
 
         // Additionally, we check if the current item-count is below the minimum item-count.
@@ -305,7 +305,7 @@ function addDynamicListItem(groupID) {
 
     // Get the highest id of the items of this group and add 1 for the id of the new item.
     var newItemID = 0;
-    $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-id]').each(function (index) {
+    $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-id]').each(function (index) {
         var itemID = $(this).data('dynamiclist-id');
         itemID = parseInt(itemID);
         if (itemID >= newItemID) {
@@ -314,7 +314,7 @@ function addDynamicListItem(groupID) {
     });
 
     // Get the template for the new item.
-    var template = $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-template]');
+    var template = $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-template]');
 
     // Clone the template for the new item.
     var newItem = template.clone();
@@ -327,7 +327,7 @@ function addDynamicListItem(groupID) {
     newItem.removeAttr('data-dynamiclist-template');
 
     // Enable all input fields, that do not belong to a nested dynamic list.
-    newItem.find('[disabled]').each(function( index ) {
+    newItem.find('[disabled]').each(function (index) {
         if ($(this).parents('[data-dynamiclist-template]').length === 0) {
             $(this).prop("disabled", false);
         }
@@ -337,20 +337,20 @@ function addDynamicListItem(groupID) {
     var newItemHtml = newItem[0].outerHTML;
 
     // Replace the itemID-placeholder of the template with the newItemID.
-    var replaceRegex = new RegExp('%group'+groupID+'itemID%',"g");
+    var replaceRegex = new RegExp('%group' + groupID + 'itemID%', "g");
     newItemHtml = newItemHtml.replace(replaceRegex, newItemID);
 
     // The template might include further child-dynamic-list-templates.
     // In this case, the child-templates contain the %parentItemID%-marker,
     // wich we must replace with the newItemID to prevent duplicate group-IDs.
-    replaceRegex = new RegExp('%parentItemID%',"g");
+    replaceRegex = new RegExp('%parentItemID%', "g");
     newItemHtml = newItemHtml.replace(replaceRegex, newItemID);
 
     // Add the new item just before the template.
     template.before(newItemHtml);
 
     // And set focus on the first input-element of it.
-    $('[data-dynamiclist-group="'+groupID+'"][data-dynamiclist-id='+newItemID+'] :input[type="text"]').first().focus();
+    $('[data-dynamiclist-group="' + groupID + '"][data-dynamiclist-id=' + newItemID + '] :input[type="text"]').first().focus();
 
 }
 
@@ -360,16 +360,16 @@ function addDynamicListItem(groupID) {
  filechange-functionality
  ----------------------------
  */
-$(function(){
+$(function () {
     // We can attach the `fileselect` event to all file inputs on the page
-    $(document).on('change', ':file', function() {
+    $(document).on('change', ':file', function () {
         var input = $(this),
             label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
         input.trigger('fileselect', [label]);
     });
 
     // We can watch for our custom `fileselect` event like this
-    $(':file').on('fileselect', function(event, label) {
+    $(':file').on('fileselect', function (event, label) {
         $(this).parents('.input-group').find(':text').val(label);
     });
 });
@@ -385,7 +385,23 @@ $(document).ready(function () {
     // whose ID is present somewhere in a "data-openmodalonload"-data-attribute.
     $('[data-openmodalonload]').each(function (i) {
         var modalId = $(this).data('openmodalonload');
-        $('#'+modalId).modal({show: true});
+        $('#' + modalId).modal({show: true});
     });
 
+});
+
+/*
+ ----------------------------
+ Functionality to automatically scroll and set focus to the first 'error' element of the page.
+ This is useful for usability and accessibility.
+ ----------------------------
+ */
+$(document).ready(function () {
+    var firstVisibleError = $('div[data-error-container]:visible:first');
+    if (firstVisibleError.length > 0) {
+        $("html").animate({
+            scrollTop: firstVisibleError.offset().top - 100
+        }, '300');
+    }
+    $(firstVisibleError).focus();
 });
