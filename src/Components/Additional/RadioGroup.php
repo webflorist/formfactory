@@ -74,7 +74,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
     protected function beforeDecoration()
     {
         // Auto-translate legend.
-        if ($this->legend !== false) {
+        if (is_null($this->legend) && $this->legend !== false) {
             $this->legend($this->performAutoTranslation($this->radioName));
         }
     }
