@@ -37,7 +37,9 @@ $(document).ready(function () {
                 url: '/formfactory_validation', // form action url
                 type: 'POST', // form submit method get/post
                 dataType: 'json', // request type html/json/xml
-                data: $(this).serialize(), // serialize form data
+                data: new FormData(this), // serialize form data
+                contentType: false,
+                processData: false,
                 async: false,    // must be false to allow validation
                 beforeSend: function () {
 
@@ -123,7 +125,9 @@ $(document).ready(function () {
             url: 'formfactory_validation', // form action url
             type: 'POST', // form submit method get/post
             dataType: 'json', // request type html/json/xml
-            data: jqField.closest('form').serialize(), // serialize form data
+            data: new FormData(jqField.closest('form')), // serialize form data
+            contentType: false,
+            processData: false,
             async: false,
             beforeSend: function () {
 
