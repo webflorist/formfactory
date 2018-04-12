@@ -4,6 +4,7 @@ namespace Nicat\FormFactory;
 
 use Nicat\FormFactory\Components\Additional\ButtonGroup;
 use Nicat\FormFactory\Components\Additional\ErrorContainer;
+use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\Additional\InputGroupAddon;
 use Nicat\FormFactory\Components\Additional\InputGroupButton;
@@ -518,6 +519,16 @@ class FormFactory
     public static function errorContainer(string $fieldName)
     {
         return new ErrorContainer($fieldName);
+    }
+
+    /**
+     * Generates an indicator for a required field.
+     *
+     * @return RequiredFieldIndicator
+     */
+    public static function requiredFieldIndicator()
+    {
+        return new RequiredFieldIndicator();
     }
 
     /**
