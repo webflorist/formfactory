@@ -71,10 +71,17 @@ class FormFactoryTools
     public static function arrayStripString(string $string): string
     {
         if ((strpos($string, '[') !== false) AND (strpos($string, ']') !== false)) {
-            return substr($string, strrpos($string, '[') + 1, -1);
-        } else {
-            return $string;
+            $explodedArray = explode('.',self::convertArrayFieldHtmlName2DotNotation($string));
+            $return = $explodedArray[0];
+            foreach($explodedArray as $segment) {
+                if ((strlen($segment) > 0) && (!is_numeric($segment)) && (preg_match('/^%group\w+itemID%/',$segment) === 0)) {
+                    $return = $segment;
+                }
+            }
+            return $return;
         }
+
+        return $string;
     }
 
     /**
