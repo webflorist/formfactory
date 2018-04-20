@@ -364,7 +364,8 @@ function addDynamicListItem(groupID) {
  filechange-functionality
  ----------------------------
  */
-$(function () {
+$(document).ready(function () {
+
     // We can attach the `fileselect` event to all file inputs on the page
     $(document).on('change', ':file', function () {
         var input = $(this),
@@ -373,7 +374,7 @@ $(function () {
     });
 
     // We can watch for our custom `fileselect` event like this
-    $(':file').on('fileselect', function (event, label) {
+    $(document).on('fileselect', ':file', function (event, label) {
         $(this).parents('.input-group').find(':text').val(label);
     });
 });
