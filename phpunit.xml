@@ -14,6 +14,12 @@
         <testsuite name="FormFactory Legacy Tests">
             <directory>./tests/Legacy</directory>
         </testsuite>
+        <testsuite name="FormFactory Feature Tests">
+            <directory>./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="FormFactory Unit Tests">
+            <directory>./tests/Unit</directory>
+        </testsuite>
         <testsuite name="FormFactory Browser Tests">
             <directory>./tests/Browser</directory>
         </testsuite>
