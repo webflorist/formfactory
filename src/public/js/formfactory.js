@@ -122,10 +122,10 @@ $(document).ready(function () {
     function validateField(jqField) {
 
         $.ajax({
-            url: 'formfactory_validation', // form action url
+            url: '/formfactory_validation', // form action url
             type: 'POST', // form submit method get/post
             dataType: 'json', // request type html/json/xml
-            data: new FormData(jqField.closest('form')), // serialize form data
+            data: new FormData(jqField.closest('form')[0]), // serialize form data
             contentType: false,
             processData: false,
             async: false,
