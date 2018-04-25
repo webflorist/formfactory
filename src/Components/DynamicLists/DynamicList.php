@@ -10,6 +10,7 @@ use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Components\AlertComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\ContainerElement;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\DivElement;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 use Nicat\HtmlFactory\Attributes\Traits\AllowsDisabledAttribute;
 use Nicat\HtmlFactory\Attributes\Traits\AllowsNameAttribute;
@@ -37,6 +38,13 @@ class DynamicList extends FieldsetElement
      * @var Element|DynamicListTemplateInterface
      */
     private $template;
+
+    /**
+     * The container, a dynamic list item is placed in.
+     *
+     * @var DivElement
+     */
+    private $container;
 
     /**
      * Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible. Defaults to 1.)
@@ -114,6 +122,7 @@ class DynamicList extends FieldsetElement
         $this->arrayName = $arrayName;
         $template->isDynamicListTemplate = true;
         $this->template = $template;
+        $this->container = new DivElement();
         $this->minItems = $minItems;
         $this->maxItems = $maxItems;
         $this->formFactory = app(FormFactory::class);
@@ -147,7 +156,7 @@ class DynamicList extends FieldsetElement
 
         $this->establishMinAndMaxItems();
 
-        $this->template->data('dynamiclist-group', $this->getDynamicListGroupID());
+        $this->container->data('dynamiclist-group', $this->getDynamicListGroupID());
 
         $this->template->performDynamicListModifications($this,$this->removeItemButton);
 
@@ -212,32 +221,42 @@ class DynamicList extends FieldsetElement
      *
      * @param int|string $itemID
      * @param bool $disableFields
+     * @param bool $isTemplate
      */
-    protected function addDynamicListItem($itemID, $disableFields = false)
+    protected function addDynamicListItem($itemID, $disableFields = false, $isTemplate = false)
     {
 
+        // Clone template and container and set template as child of container as the new item.
         $template = $this->cloneTemplate();
+        $container = $this->cloneContainer();
+        $item = $container->content($template);
+
+        if ($isTemplate) {
+            $item->hidden();
+            $item->addStyle('display:none');
+            $item->data('dynamiclist-template', true);
+        }
 
         // If the template of this dynamic list contains additional nested dynamic lists,
         // we must inject the $itemID to the arrayName of these child dynamic lists.
         if ($this->containsChildDynamicList) {
-            $this->injectItemIDToChildDynamicLists($template, $itemID);
+            $this->injectItemIDToChildDynamicLists($item, $itemID);
         }
 
-        // Set the specific id of this dynamic-list-item.
-        $template->data('dynamiclist-id', $itemID);
+        // Set the specific id of this dynamic-list-item within the container.
+        $item->data('dynamiclist-id', $itemID);
 
         // Sets the itemKey in all field-names of all fields contained within this item.
-        $this->setHtmlArrayKeyInNameRecursively($template, $itemID);
+        $this->setHtmlArrayKeyInNameRecursively($item, $itemID);
 
         // If $disableFields is set to true, we disable all fields contained within this child.
         // This is used for the empty and hidden template, that is used by javascript to create new rows.
         if ($disableFields) {
-            $this->disableFieldsRecursively($template);
+            $this->disableFieldsRecursively($item);
         }
 
-        // Finally append the child to this tag.
-        $this->appendContent($template);
+        // Finally append the item as a child to this element.
+        $this->appendContent($item);
     }
 
     /**
@@ -296,14 +315,14 @@ class DynamicList extends FieldsetElement
     /**
      * Searches $children for any nested dynamic lists and injects and $itemID to it's arrayName.
      *
-     * @param ContainerElement|DynamicListTemplateInterface $template
+     * @param DivElement $item
      * @param $itemID
      */
-    public function injectItemIDToChildDynamicLists($template, $itemID)
+    public function injectItemIDToChildDynamicLists($item, $itemID)
     {
         $arrayName = $this->originalArrayName ?? $this->arrayName;
 
-        foreach ($template->content->getChildrenByClassName(DynamicList::class) as $childDynamicList) {
+        foreach ($item->content->getChildrenByClassName(DynamicList::class) as $childDynamicList) {
             /** @var DynamicList $childDynamicList */
             $childDynamicList->injectDynamicListParentItemID($arrayName, $itemID);
         }
@@ -446,10 +465,7 @@ class DynamicList extends FieldsetElement
      */
     protected function addJavaScriptTemplate()
     {
-        $this->template->hidden();
-        $this->template->addStyle('display:none');
-        $this->template->data('dynamiclist-template', true);
-        $this->addDynamicListItem('%group'.$this->getDynamicListGroupID().'itemID%', true);
+        $this->addDynamicListItem('%group'.$this->getDynamicListGroupID().'itemID%', true, true);
     }
 
     /**
@@ -460,6 +476,16 @@ class DynamicList extends FieldsetElement
     protected function cloneTemplate(): DynamicListTemplateInterface
     {
         return unserialize(serialize($this->template));
+    }
+
+    /**
+     * Deep clones $this->container.
+     *
+     * @return DivElement
+     */
+    protected function cloneContainer(): DivElement
+    {
+        return unserialize(serialize($this->container));
     }
 
     /**
