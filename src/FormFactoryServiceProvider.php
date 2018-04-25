@@ -32,9 +32,6 @@ class FormFactoryServiceProvider extends ServiceProvider
             __DIR__.'/public' => public_path('vendor/nicat/formfactory'),
         ], 'public');
 
-        // Merge the config.
-        $this->mergeConfigFrom(__DIR__ . '/config/formfactory.php', 'formfactory');
-
         // Load translations.
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormFactory");
 
@@ -69,6 +66,9 @@ class FormFactoryServiceProvider extends ServiceProvider
         $this->app->singleton(FormFactory::class, function () {
             return new FormFactory();
         });
+
+        // Merge the config.
+        $this->mergeConfigFrom(__DIR__ . '/config/formfactory.php', 'formfactory');
 
     }
 
