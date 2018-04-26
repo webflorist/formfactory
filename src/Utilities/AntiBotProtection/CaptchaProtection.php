@@ -46,7 +46,7 @@ class CaptchaProtection
         $sessionKeyForCaptchaData = 'formfactory.captcha.' . $form->requestObject;
 
         // We unset any old captcha-answer (from the previous request) currently set in the session for this request-object.
-        $oldFlashKeys = session()->get('flash.old');
+        $oldFlashKeys = session()->get('_flash.old');
         if (is_array($oldFlashKeys) && in_array($sessionKeyForCaptchaData, $oldFlashKeys)) {
             session()->forget($sessionKeyForCaptchaData);
         }
