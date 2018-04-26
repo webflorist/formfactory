@@ -5,6 +5,7 @@ namespace Nicat\FormFactory\Utilities\AjaxValidation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Validator;
 
@@ -33,13 +34,14 @@ class AjaxValidationController extends Controller
         if (!session()->has($sessionKeyForRequestObject)) {
             throw new MandatoryOptionMissingException('Ajax validation of form with ID "' . request()->input('_formID') . '" was not possible due to missing request-object-info in session.');
         }
+        $formRequestObjectClass = session()->get($sessionKeyForRequestObject);
 
         // Normally we assume a successful submission and return just an empty JSON-array.
         $returnCode = 200;
         $return = [];
 
         // We instantiate the requestObject.
-        $formRequest = FormFactoryTools::initFormRequestObject(session()->get($sessionKeyForRequestObject));
+        $formRequest = FormFactoryTools::initFormRequestObject($formRequestObjectClass);
 
         // We instantiate a controller with the submitted request-data
         // and the rules and messages from the requestObject.
@@ -49,6 +51,9 @@ class AjaxValidationController extends Controller
             $formRequest->messages(),
             $formRequest->attributes()
         );
+
+        // We also make sure, any current captcha-answer for this request-object stays in session.
+        CaptchaProtection::reflashCaptchaData($formRequestObjectClass);
 
         // Perform validation, extract error-messages for all fields on failure, put them inside a $return['errors']-array, and return status code 422.
         if ($validator->fails()) {

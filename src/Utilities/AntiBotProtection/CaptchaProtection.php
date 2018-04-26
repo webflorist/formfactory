@@ -81,6 +81,15 @@ class CaptchaProtection
         }
     }
 
+    /**
+     * Validates a captcha-secured request.
+     *
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @param $validator
+     * @return bool
+     */
     public static function validate($attribute, $value, $parameters, $validator)
     {
         // If captcha-protection is not enabled in the config, we immediately return true.
@@ -204,6 +213,20 @@ class CaptchaProtection
         session()->flash($sessionKeyForCaptchaData, $captchaData);
 
         return $captchaData;
+    }
+
+    /**
+     * Reflashes existing captcha-data for a specific form-requesst-object into session.
+     * This keeps the answer valid for the next request.
+     *
+     * @param $requestObjectClassName
+     */
+    public static function reflashCaptchaData(string $requestObjectClassName)
+    {
+        $sessionKeyForCaptchaData = 'formfactory.captcha.' . $requestObjectClassName;
+        if (session()->has($sessionKeyForCaptchaData)) {
+            session()->keep($sessionKeyForCaptchaData);
+        }
     }
 
 

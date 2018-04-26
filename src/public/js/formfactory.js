@@ -25,12 +25,6 @@ $(document).ready(function () {
         var submitForm = true;
         var performAjaxValidation = true;
 
-        // We do not make an ajax-validation, if a captcha-field is present,
-        // because a complete reload is necessary to get the currently valid captcha-question.
-        if (jqForm.find('[name="_captcha"]').length > 0) {
-            performAjaxValidation = false;
-        }
-
         if (performAjaxValidation) {
 
             $.ajax({
