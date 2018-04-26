@@ -40,8 +40,11 @@ class AjaxValidationController extends Controller
         $returnCode = 200;
         $return = [];
 
-        // We instantiate the requestObject.
+        // We instantiate the requestObject and make sure,
+        // it is save in session as last_form_request_object,
+        // since captcha-validation uses this info.
         $formRequest = FormFactoryTools::initFormRequestObject($formRequestObjectClass);
+        FormFactoryTools::saveLastFormRequestObject($formRequestObjectClass);
 
         // We instantiate a controller with the submitted request-data
         // and the rules and messages from the requestObject.

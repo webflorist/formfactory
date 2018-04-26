@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\HtmlFactory;
 use Route;
 use Validator;
@@ -102,7 +103,7 @@ class FormFactoryServiceProvider extends ServiceProvider
     private function registerFormRequestResolverCallback()
     {
         app()->resolving(FormRequest::class, function ($object) {
-            session()->put('formfactory.last_form_request_object', get_class($object));
+            FormFactoryTools::saveLastFormRequestObject(get_class($object));
         });
     }
 

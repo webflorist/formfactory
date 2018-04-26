@@ -99,5 +99,15 @@ class FormFactoryTools
         return new $objectName();
     }
 
+    /**
+     * Saves last_form_request_object key inside session.
+     *
+     * @param string $fullClassName
+     */
+    public static function saveLastFormRequestObject(string $fullClassName)
+    {
+        session()->put('formfactory.last_form_request_object', $fullClassName);
+    }
+
 
 }
