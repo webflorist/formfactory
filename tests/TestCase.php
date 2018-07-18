@@ -46,6 +46,7 @@ class TestCase extends BaseTestCase
         }
         $this->frontendFramework = $frontendFramework;
         $this->refreshApplication();
+        $this->setUp();
     }
 
     /**
