@@ -36,7 +36,7 @@ class TextInputTest extends TestCase
             ->generate();
 
         $this->assertHtmlEquals(
-            '<div data-field-wrapper="1" class="form-group"><label for="myFormId_text">Text</label><div role="alert" data-error-container="1" class="alert m-b-1 alert-danger" id="myFormId_text_errors" data-displays-errors-for="text" hidden style="display:none"></div><input type="text" name="text" class="form-control" id="myFormId_text" placeholder="Text" aria-describedby="myFormId_text_errors" /></div>',
+            '<div data-field-wrapper="1" class="field"><label class="label" for="myFormId_text">Text</label><div role="alert" data-error-container="1" class="notification is-danger" id="myFormId_text_errors" data-displays-errors-for="text" hidden style="display:none"></div><div class="control"><input type="text" name="text" class="input" id="myFormId_text" placeholder="Text" aria-describedby="myFormId_text_errors" /></div></div>',
             $html
         );
     }

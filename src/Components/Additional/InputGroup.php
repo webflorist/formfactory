@@ -30,7 +30,6 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     {
         $this->fieldWrapper = new FieldWrapper();
         $this->wrap($this->fieldWrapper);
-        $this->addClass('input-group');
     }
 
     /**

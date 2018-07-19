@@ -100,7 +100,7 @@ class FieldWrapper extends DivElement
         if (!is_null($this->field) && $this->field->labelMode === 'bound') {
             $this->content->replaceChild(
                 $this->field,
-                $this->label->content([$this->field,' '])
+                $this->label->content($this->field)
             );
             return;
         }
