@@ -49,7 +49,7 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
     private function getFieldChildren()
     {
         $fieldChildren = [];
-        foreach ($this->content->getChildrenByClassName(Element::class,true) as $child) {
+        foreach ($this->content->getChildrenByClassName(Element::class, true) as $child) {
             if ($child->attributes->isAllowed('name') && !$child->is(ButtonElement::class)) {
                 $fieldChildren[] = $child;
             }

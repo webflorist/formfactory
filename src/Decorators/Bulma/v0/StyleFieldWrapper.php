@@ -98,4 +98,5 @@ class StyleFieldWrapper extends Decorator
         }
         return 'control';
     }
+
 }
