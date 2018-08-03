@@ -43,4 +43,14 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
     {
         return $this->attributes->name . '_' . $this->attributes->value;
     }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('checked');
+    }
 }

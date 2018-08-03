@@ -34,4 +34,14 @@ class Textarea extends TextareaElement implements FieldValueProcessorInterface, 
         $this->content->clear();
         $this->content($value);
     }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->content->hasContent();
+    }
 }
