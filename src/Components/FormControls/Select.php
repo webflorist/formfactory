@@ -47,4 +47,23 @@ class Select extends SelectElement implements FieldValueProcessorInterface, Auto
 
         }
     }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        foreach ($this->content->getChildrenByClassName(Option::class) as $optionKey => $option) {
+
+            /** @var Option $option */
+            if ($option->attributes->isSet('selected')) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
 }

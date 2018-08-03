@@ -12,4 +12,11 @@ interface FieldValueProcessorInterface
      */
     public function applyFieldValue($value);
 
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue();
+
 }

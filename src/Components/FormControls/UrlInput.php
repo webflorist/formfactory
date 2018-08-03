@@ -34,4 +34,14 @@ class UrlInput extends UrlInputComponent implements FieldValueProcessorInterface
         $this->value($value);
     }
 
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('value');
+    }
+
 }
