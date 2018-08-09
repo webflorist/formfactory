@@ -4,6 +4,7 @@ namespace Nicat\FormFactory\Utilities\AutoTranslation;
 
 use Lang;
 use Nicat\ExtendedValidation\ExtendedValidation;
+use Nicat\RouteTree\RouteTree;
 
 class AutoTranslator
 {
@@ -30,6 +31,15 @@ class AutoTranslator
      */
     public static function autoTranslate(string $translationKey, string $defaultValue = null)
     {
+
+        // If the nicat/routetree package is installed,
+        // we try getting a translation from the 'form' array of the node's contentLangFile.
+        if (isset(app()[RouteTree::class])) {
+            $translationString = route_tree()->getCurrentNode()->getContentLangFile() . '.form.' . $translationKey;
+            if (Lang::has($translationString)) {
+                return trans($translationString);
+            }
+        }
 
         // If the nicat/extended-validation package is installed,
         // we try getting a translation from it's registered attributes.
