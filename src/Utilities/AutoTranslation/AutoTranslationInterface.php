@@ -10,6 +10,6 @@ interface AutoTranslationInterface
      *
      * @return string
      */
-    function getAutoTranslationKey() : string;
+    public function getAutoTranslationKey() : string;
 
 }

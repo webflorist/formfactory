@@ -123,13 +123,15 @@ class FieldRuleManager
         }
         if (is_array($explodedRules) && (count($explodedRules) > 0)) {
             foreach ($explodedRules as $key => $rule) {
-                $parameters = [];
-                if (str_contains($rule, ':')) {
-                    $ruleWithParameters = explode(':', $rule);
-                    $rule = $ruleWithParameters[0];
-                    $parameters = explode(',', $ruleWithParameters[1]);
+                if (is_string($rule)) {
+                    $parameters = [];
+                    if (str_contains($rule, ':')) {
+                        $ruleWithParameters = explode(':', $rule);
+                        $rule = $ruleWithParameters[0];
+                        $parameters = explode(',', $ruleWithParameters[1]);
+                    }
+                    $return[$rule] = $parameters;
                 }
-                $return[$rule] = $parameters;
             }
         }
         return $return;

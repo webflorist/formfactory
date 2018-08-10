@@ -39,7 +39,7 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
      *
      * @return string
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         return $this->attributes->name . '_' . $this->attributes->value;
     }

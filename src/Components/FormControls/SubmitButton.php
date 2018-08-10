@@ -17,7 +17,7 @@ class SubmitButton extends SubmitButtonComponent implements AutoTranslationInter
      *
      * @return string
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         // If the "name"-attribute is set, we use that as the translation-key.
         if ($this->attributes->isSet('name')) {
