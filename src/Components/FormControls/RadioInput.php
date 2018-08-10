@@ -31,6 +31,9 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
      */
     public function applyFieldValue($value)
     {
+        if (is_bool($value)) {
+            $value = (int)$value;
+        }
         $this->checked((string)$value === $this->attributes->value);
     }
 
