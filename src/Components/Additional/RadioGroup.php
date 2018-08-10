@@ -96,7 +96,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
      *
      * @return string
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         return $this->radioName;
     }
