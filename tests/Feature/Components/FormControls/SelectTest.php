@@ -66,6 +66,31 @@ class SelectTest extends TestCase
         );
     }
 
+    public function testSelectUsingCreateOptionsHelper()
+    {
+        $element = \Form::select('select', \Form::createOptions([
+            'value1' => 'label1',
+            'value2' => 'label2',
+            'value3' => 'label3',
+        ]));
+
+        $this->assertHtmlEquals(
+            '
+<div data-field-wrapper="1">
+    <label for="myFormId_select">Select</label>
+    <div role="alert" data-error-container="1" id="myFormId_select_errors" data-displays-errors-for="select" hidden style="display:none"></div>
+    <select name="select" id="myFormId_select" aria-describedby="myFormId_select_errors">
+        <option value="" id="myFormId_select_"></option>
+        <option value="value1" id="myFormId_select_value1">label1</option>
+        <option value="value2" id="myFormId_select_value2">label2</option>
+        <option value="value3" id="myFormId_select_value3">label3</option>
+    </select>
+</div>
+',
+            $element->generate()
+        );
+    }
+
 
     public function testSimpleSelectComponentForBootstrap3()
     {

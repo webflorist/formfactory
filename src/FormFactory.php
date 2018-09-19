@@ -335,10 +335,10 @@ class FormFactory
     public static function createOptions($items = [], $prependEmptyOption=true, $defaultValue=null) {
         $return = [];
         if ($prependEmptyOption) {
-            $return[] = self::option();
+            $return[] = self::singleton()->option();
         }
         foreach ($items as $value => $label) {
-            $optionTag = self::option($value)->content($label);
+            $optionTag = self::singleton()->option($value)->content($label);
             if ($defaultValue === $value) {
                 $optionTag->selected();
             }
