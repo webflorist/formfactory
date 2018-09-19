@@ -3,8 +3,8 @@
 namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
 use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 class TimeLimitProtection
 {
@@ -12,10 +12,10 @@ class TimeLimitProtection
     /**
      * Handle setting the session-info for timeLimit-protection, if timeLimit-protection is enabled in the config.
      *
-     * @param Form $form
+     * @param FormInstance $form
      * @throws MandatoryOptionMissingException
      */
-    public static function setUp(Form $form)
+    public static function setUp(FormInstance $form)
     {
 
         // If timeLimit-protection is not enabled in the config, there is nothing to do here.
@@ -32,7 +32,7 @@ class TimeLimitProtection
         // so we throw an exception, if this was not the case.
         if (is_null($form->requestObject)) {
             throw new MandatoryOptionMissingException(
-                'The form with ID "' . $form->attributes->id . '" should be protected by a time-limit, ' .
+                'The form with ID "' . $form->getId() . '" should be protected by a time-limit, ' .
                 'but no request-object was stated via the Form::open()->requestObject() method. ' .
                 'TimeLimit-protection only works if this is the case.'
             );
@@ -45,7 +45,7 @@ class TimeLimitProtection
         // We also add an errorContainer to display any errors for '_timeLimit' to the form.
         $errorContainer = new ErrorContainer();
         $errorContainer->addErrorField('_timeLimit');
-        $form->appendContent($errorContainer);
+        $form->getFormElement()->appendContent($errorContainer);
     }
 
     /**

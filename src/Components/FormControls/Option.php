@@ -14,6 +14,17 @@ class Option extends OptionElement implements AutoTranslationInterface
     use UsesAutoTranslation;
 
     /**
+     * Option constructor.
+     *
+     * @param string $value
+     */
+    public function __construct($value = '')
+    {
+        parent::__construct();
+        $this->value($value);
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string
@@ -24,7 +35,7 @@ class Option extends OptionElement implements AutoTranslationInterface
         /** @var FormFactory $formFactoryService */
         $formFactoryService = app()[FormFactory::class];
         return
-            FormFactoryTools::arrayStripString($formFactoryService->getOpenSelect()->attributes->name) .
+            FormFactoryTools::arrayStripString($formFactoryService->getOpenForm()->getLastSelect()->attributes->name) .
             '_' .
             $this->attributes->value;
     }

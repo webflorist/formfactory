@@ -72,7 +72,7 @@ class DecorateButtons extends Decorator
         }
 
         // Auto-generated IDs always start with formID followed by an underscore and an appropriate suffix.
-        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id . '_' . $this->getIdSuffix();
+        $fieldId = FormFactory::singleton()->getOpenForm()->getId() . '_' . $this->getIdSuffix();
 
         // Set the id.
         $this->element->id($fieldId);

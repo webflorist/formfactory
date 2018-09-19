@@ -15,7 +15,7 @@ class RequiredFieldIndicator extends SupElement
     protected function setUp()
     {
         $this->appendContent('*');
-        app(FormFactory::class)->requiredFieldIndicatorUsed = true;
+        FormFactory::singleton()->getOpenForm()->setRequiredFieldIndicatorUsed();
     }
 
 }

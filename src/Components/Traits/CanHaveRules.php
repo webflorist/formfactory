@@ -51,7 +51,7 @@ trait CanHaveRules
         // we try to fill them via the FormFactory service.
         if (is_null($this->rules)) {
             /** @var FormFactory $formFactoryService */
-            $formFactoryService = app(FormFactory::class);
+            $formFactoryService = FormFactory::singleton();
             $this->rules =  $formFactoryService->getOpenForm()->rules->getRulesForField($this->attributes->name);
         }
 

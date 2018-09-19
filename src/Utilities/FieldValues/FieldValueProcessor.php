@@ -5,6 +5,7 @@ namespace Nicat\FormFactory\Utilities\FieldValues;
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\FileInput;
 use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 
 /**
@@ -25,8 +26,8 @@ class FieldValueProcessor
     public static function process(FieldValueProcessorInterface $element)
     {
 
-        /** @var Form $openForm */
-        $openForm = app(FormFactory::class)->getOpenForm();
+        /** @var FormInstance $openForm */
+        $openForm = FormFactory::singleton()->getOpenForm();
 
         $fieldName = $element->attributes->name;
 

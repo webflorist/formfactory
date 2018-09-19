@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Utilities\FieldValues;
 
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 /**
  * Manages field-values for forms.
@@ -15,9 +15,9 @@ class FieldValueManager
 {
 
     /**
-     * The Form this ValueManager belongs to.
+     * The FormInstance this ValueManager belongs to.
      *
-     * @var Form
+     * @var FormInstance
      */
     private $form;
 
@@ -31,9 +31,9 @@ class FieldValueManager
     /**
      * ValueManager constructor.
      *
-     * @param Form $form
+     * @param FormInstance $form
      */
-    public function __construct(Form $form)
+    public function __construct(FormInstance $form)
     {
         $this->form = $form;
     }

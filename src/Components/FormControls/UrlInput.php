@@ -25,6 +25,17 @@ class UrlInput extends UrlInputComponent implements FieldValueProcessorInterface
         CanPerformAjaxValidation;
 
     /**
+     * UrlInput constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        parent::__construct();
+        $this->name($name);
+    }
+
+    /**
      * Apply a value to a field.
      *
      * @param $value

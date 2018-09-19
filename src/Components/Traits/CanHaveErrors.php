@@ -67,7 +67,7 @@ trait CanHaveErrors
         // we try to fill them via the FormFactory service.
         if (is_null($this->errors)) {
             /** @var FormFactory $formFactoryService */
-            $formFactoryService = app(FormFactory::class);
+            $formFactoryService = FormFactory::singleton();
             $this->errors =  $formFactoryService->getOpenForm()->errors->getErrorsForField($this->attributes->name);
 
             if (count($this->errorFields) > 0) {

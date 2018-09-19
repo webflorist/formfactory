@@ -69,7 +69,7 @@ class DecorateOptions extends Decorator
         }
 
         // We retrieve the Select this Option belongs to from the formfactory-service
-        $select = app(FormFactory::class)->getOpenSelect();
+        $select = FormFactory::singleton()->getOpenForm()->getLastSelect();
 
         // If this option's select-box has no 'name' attribute set, we abort,
         // because without a name we can not auto-create an id.
@@ -78,7 +78,7 @@ class DecorateOptions extends Decorator
         }
 
         // Auto-generated IDs always start with formID...
-        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id;
+        $fieldId = FormFactory::singleton()->getOpenForm()->getId();
 
         // ...followed by the field-name of the Select....
         $fieldId .= '_' . $select->attributes->name;

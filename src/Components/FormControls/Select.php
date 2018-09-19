@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Components\FormControls;
 
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
 use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
@@ -23,6 +24,21 @@ class Select extends SelectElement implements FieldValueProcessorInterface, Auto
         CanHaveErrors,
         CanAutoSubmit,
         CanPerformAjaxValidation;
+
+    /**
+     * Select constructor.
+     * @param string $name
+     * @param array $options
+     */
+    public function __construct(string $name, array $options = [])
+    {
+        parent::__construct();
+        $this->name($name);
+        foreach ($options as $option) {
+            $this->appendContent($option);
+        }
+    }
+
 
     /**
      * Apply a value to a field.

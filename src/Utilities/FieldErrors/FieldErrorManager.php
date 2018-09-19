@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Utilities\FieldErrors;
 
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 /**
  * Manages field-errors for forms.
@@ -15,9 +15,9 @@ class FieldErrorManager
 {
 
     /**
-     * The Form this FieldErrorManager belongs to.
+     * The FormInstance this FieldErrorManager belongs to.
      *
-     * @var Form
+     * @var FormInstance
      */
     private $form;
 
@@ -38,11 +38,14 @@ class FieldErrorManager
     /**
      * ValueManager constructor.
      *
-     * @param Form $form
+     * @param FormInstance $form
      */
-    public function __construct(Form $form)
+    public function __construct(FormInstance $form)
     {
         $this->form = $form;
+        if ($this->form->wasSubmitted) {
+            $this->fetchErrorsFromSession();
+        }
     }
 
     /**

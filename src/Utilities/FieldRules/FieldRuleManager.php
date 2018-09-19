@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Utilities\FieldRules;
 
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 /**
  * Manages field-rules for forms.
@@ -15,9 +15,9 @@ class FieldRuleManager
 {
 
     /**
-     * The Form this FieldRuleManager belongs to.
+     * The FormInstance this FieldRuleManager belongs to.
      *
-     * @var Form
+     * @var FormInstance
      */
     private $form;
 
@@ -31,9 +31,9 @@ class FieldRuleManager
     /**
      * ValueManager constructor.
      *
-     * @param Form $form
+     * @param FormInstance $form
      */
-    public function __construct(Form $form)
+    public function __construct(FormInstance $form)
     {
         $this->form = $form;
     }

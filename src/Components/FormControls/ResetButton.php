@@ -13,6 +13,17 @@ class ResetButton extends ResetButtonComponent implements AutoTranslationInterfa
         HasContext;
 
     /**
+     * ResetButton constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name = 'reset')
+    {
+        parent::__construct();
+        $this->name($name);
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string

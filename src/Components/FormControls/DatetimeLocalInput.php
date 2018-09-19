@@ -25,6 +25,17 @@ class DatetimeLocalInput extends DatetimeLocalInputComponent implements FieldVal
         CanPerformAjaxValidation;
 
     /**
+     * DatetimeLocalInput constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        parent::__construct();
+        $this->name($name);
+    }
+
+    /**
      * Apply a value to a field.
      *
      * @param $value

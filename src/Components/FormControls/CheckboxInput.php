@@ -25,6 +25,20 @@ class CheckboxInput extends CheckboxInputComponent implements FieldValueProcesso
         CanPerformAjaxValidation;
 
     /**
+     * CheckboxInput constructor.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function __construct(string $name, string $value="1")
+    {
+        parent::__construct();
+        $this->name($name);
+        $this->value($value);
+        $this->labelMode('bound');
+    }
+
+    /**
      * Apply a value to a field.
      *
      * @param $value

@@ -3,8 +3,9 @@
 namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 class HoneypotProtection
 {
@@ -12,9 +13,9 @@ class HoneypotProtection
     /**
      * Append the honeypot-field to the Form, if honeypot-protection is enabled in the config.
      *
-     * @param Form $form
+     * @param FormInstance $form
      */
-    public static function setUp(Form $form)
+    public static function setUp(FormInstance $form)
     {
         if (config('formfactory.honeypot.enabled')) {
 
@@ -25,15 +26,14 @@ class HoneypotProtection
             if (count($honeypotRules) > 0) {
 
                 // ...we add the honeypot-field wrapped in a hidden wrapper.
-                $honeypotField = (new TextInput())
-                    ->name(self::getHoneypotFieldName())
+                $honeypotField = FormFactory::singleton()->text(self::getHoneypotFieldName())
                     ->value("")
                     ->label(trans('Nicat-FormFactory::formfactory.honeypot_field_label'));
 
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()
                 );
-                $form->appendContent(
+                $form->getFormElement()->appendContent(
                     $honeypotField
                 );
             }

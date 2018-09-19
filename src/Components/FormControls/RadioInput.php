@@ -25,6 +25,20 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
         CanPerformAjaxValidation;
 
     /**
+     * RadioInput constructor.
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function __construct(string $value, string $name = '')
+    {
+        parent::__construct();
+        $this->name($name);
+        $this->value($value);
+        $this->labelMode('bound');
+    }
+
+    /**
      * Apply a value to a field.
      *
      * @param $value

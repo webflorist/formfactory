@@ -140,7 +140,7 @@ class ErrorContainer extends AlertComponent
         // For stated fieldNames, we can only try to get errors from the $formFactory-service.
         foreach ($this->errorFieldNames as $fieldName) {
             /** @var FormFactory $formFactory */
-            $formFactory = app(FormFactory::class);
+            $formFactory = FormFactory::singleton();
             $this->addErrorMessages($formFactory->getOpenForm()->errors->getErrorsForField($fieldName));
         }
 

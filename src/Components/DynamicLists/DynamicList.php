@@ -125,7 +125,7 @@ class DynamicList extends FieldsetElement
         $this->container = new DivElement();
         $this->minItems = $minItems;
         $this->maxItems = $maxItems;
-        $this->formFactory = app(FormFactory::class);
+        $this->formFactory = FormFactory::singleton();
         $this->containsChildDynamicList = $this->templateContainsDynamicChild();
         $this->addButtonLabel = $addButtonLabel;
     }
@@ -364,7 +364,7 @@ class DynamicList extends FieldsetElement
 
             // Get the array-rules from the FormFactory-service.
             /** @var FormFactory $formFactory */
-            $formFactory = app(FormFactory::class);
+            $formFactory = FormFactory::singleton();
             $arrayRules = $formFactory->getOpenForm()->rules->getRulesForField(
                 $this->originalArrayName??$this->arrayName
             );
@@ -513,7 +513,7 @@ class DynamicList extends FieldsetElement
         $this->addItemButton = (new Button())
             ->title($addButtonLabel)
             ->content($addButtonLabel)
-            ->id($this->formFactory->getOpenForm()->attributes->id.'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
+            ->id($this->formFactory->getOpenForm()->getId().'_dynamic_list_'.$this->getDynamicListGroupID().'_add_button')
             ->data('dynamiclist-add', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID())
         ;

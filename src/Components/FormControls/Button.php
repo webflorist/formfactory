@@ -13,6 +13,19 @@ class Button extends ButtonElement implements AutoTranslationInterface
         HasContext;
 
     /**
+     * Button constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name=null)
+    {
+        parent::__construct();
+        if (!is_null($name)) {
+            $this->name($name);
+        }
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string

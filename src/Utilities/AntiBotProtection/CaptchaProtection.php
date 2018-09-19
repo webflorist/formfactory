@@ -3,9 +3,10 @@
 namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 class CaptchaProtection
 {
@@ -13,10 +14,10 @@ class CaptchaProtection
     /**
      * Handle setting the session-info and generation of the captcha-field, if captcha-protection is enabled in the config.
      *
-     * @param Form $form
+     * @param FormInstance $form
      * @throws MandatoryOptionMissingException
      */
-    public static function setUp(Form $form)
+    public static function setUp(FormInstance $form)
     {
 
         // If captcha-protection is not enabled in the config, there is nothing to do here.
@@ -36,7 +37,7 @@ class CaptchaProtection
         // so we throw an exception, if this was not the case.
         if (is_null($form->requestObject)) {
             throw new MandatoryOptionMissingException(
-                'The form with ID "' . $form->attributes->id . '" should display a captcha, ' .
+                'The form with ID "' . $form->getId() . '" should display a captcha, ' .
                 'but no request-object was stated via the Form::open()->requestObject() method. ' .
                 'Captcha only works if this is the case.'
             );
@@ -67,10 +68,9 @@ class CaptchaProtection
             // Establish captcha-data.
             $captchaData = self::establishCaptchaData($sessionKeyForCaptchaData);
 
-            // Then we add the captcha-field to the output.
-            $form->appendContent(
-                (new TextInput())
-                    ->name('_captcha')
+            // Then we add the captcha-field to the content of the FormElement.
+            $form->getFormElement()->appendContent(
+                FormFactory::singleton()->text('_captcha')
                     ->required(true)
                     ->value('')
                     ->label($captchaData['question'])

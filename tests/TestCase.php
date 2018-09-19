@@ -5,8 +5,13 @@ namespace FormFactoryTests;
 use Form;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
+use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\FormFactory\Components\Traits\CanHaveRules;
 use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\ButtonElement;
+use Nicat\HtmlFactory\Elements\InputElement;
 use Nicat\HtmlFactory\HtmlFactoryFacade;
 use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -70,6 +75,35 @@ class TestCase extends BaseTestCase
     protected function tearDown()
     {
         Form::close();
+    }
+
+    /**
+     * Applies various attributes for a complex test.
+     *
+     * @param Element $element
+     */
+    protected function applyComplexAttributes(Element $element)
+    {
+        $this->applyGeneralAttributes($element);
+
+        if ($element->is(InputElement::class)) {
+            $this->applyInputAttributes($element);
+        }
+
+        if ($element->is(ButtonElement::class)) {
+            $this->applyButtonAttributes($element);
+        }
+
+        if (method_exists($element,'errors')) {
+            /** @var CanHaveErrors $element */
+            $element->errors(['myFirstError','mySecondError']);
+        }
+
+        if (method_exists($element,'rules')) {
+            /** @var CanHaveRules $element */
+            $element->rules('required|alpha|max:10');
+        }
+
     }
 
 

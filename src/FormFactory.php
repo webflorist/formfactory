@@ -41,47 +41,123 @@ use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Components\FormControls\TimeInput;
 use Nicat\FormFactory\Components\FormControls\UrlInput;
 use Nicat\FormFactory\Components\FormControls\WeekInput;
+use Nicat\FormFactory\Exceptions\ElementNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
+use Nicat\FormFactory\Utilities\Forms\FormManager;
+use Nicat\FormFactory\Utilities\Forms\forms;
+use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 
 /**
  * The main class of this package.
- * Provides factory methods for all form-tags.
+ * Provides factory methods for all FormControls
+ * as well as general service-methods.
  *
  * Class FormFactory
  * @package Nicat\FormFactory
  *
+ * Input-FormControls:
+ * =========
+ * @method static CheckboxInput         checkbox(string $name, string $value="1")
+ * @method static TextInput             text(string $name)
+ * @method static ColorInput            color(string $name)
+ * @method static DateInput             date(string $name)
+ * @method static DatetimeInput         datetime(string $name)
+ * @method static DatetimeLocalInput    datetimeLocal(string $name)
+ * @method static EmailInput            email(string $name)
+ * @method static FileInput             file(string $name)
+ * @method static HiddenInput           hidden(string $name)
+ * @method static MonthInput            month(string $name)
+ * @method static NumberInput           number(string $name)
+ * @method static PasswordInput         password(string $name)
+ * @method static RadioInput            radio(string $value, string $name = '')
+ * @method static RangeInput            range(string $name)
+ * @method static SearchInput           search(string $name)
+ * @method static TelInput              tel(string $name)
+ * @method static TimeInput             time(string $name)
+ * @method static UrlInput              url(string $name)
+ * @method static WeekInput             week(string $name)
+ *
+ * Select- and Option-FormControls:
+ * =========
+ * @method static Optgroup              optgroup(string $label, array $options)
+ * @method static Option                option(string $value = '')
+ * @method static Select                select(string $name, array $options = [])
+ *
+ * Button FormControls:
+ * =========
+ * @method static Button                button(string $name = null)
+ * @method static ResetButton           reset(string $name = 'reset')
+ * @method static SubmitButton          submit(string $name = 'submit')
+ *
+ * Misc FormControls:
+ * =========
+ * @method static Textarea              textarea(string $name)
  *
  */
 class FormFactory
 {
 
     /**
-     * The currently open Form.
+     * The FormManager object, that manages all created forms.
      *
-     * @var Form
+     * @var FormManager
      */
-    protected $openForm = null;
+    protected $forms;
 
     /**
-     * The currently open Select.
-     *
-     * @var Select
+     * FormFactory constructor.
      */
-    protected $openSelect = null;
+    public function __construct()
+    {
+        $this->forms = new FormManager();
+    }
 
     /**
-     * Has a required-field-indicator been rendered,
-     * and thus should the required-fields-legend be displayed?
+     * Magic method to construct a FormControl.
+     * See '@method' declarations of class-phpdoc
+     * for available methods.
      *
-     * @var bool
+     * @param $accessor
+     * @param $arguments
+     * @return Element
+     *
+     * @throws ElementNotFoundException
+     * @throws OpenElementNotFoundException
      */
-    public $requiredFieldIndicatorUsed = false;
+    public function __call($accessor, $arguments)
+    {
+
+        $formControlClass = $this->getFormControlClassNameForAccessor($accessor);
+
+        if (class_exists($formControlClass)) {
+            $formControlElement = new $formControlClass(...$arguments);
+            if ($this->forms->hasOpenForm()) {
+                $this->getOpenForm()->addFormControl($formControlElement);
+            }
+            return $formControlElement;
+        }
+
+        // If the accessor is neither a element nor a component, we throw an exception.
+        throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
+
+    }
+
+    /**
+     * Returns the FormFactory singleton from Laravel's Service Container.
+     *
+     * @return FormFactory
+     */
+    public static function singleton(): FormFactory
+    {
+        return app(FormFactory::class);
+    }
 
     /**
      * Generates and returns the opening form-tag.
-     * Also sets the form as app(FormFactory::class)->openForm.
+     * Also adds the form to $this->forms.
      *
      * @param string $id
      * @return Form
@@ -91,8 +167,9 @@ class FormFactory
     public static function open(string $id): Form
     {
         $form = (new Form())->id($id)->method('post');
-        app(FormFactory::class)->openForm = $form;
-        app(FormFactory::class)->requiredFieldIndicatorUsed = false;
+        FormFactory::singleton()->forms->addForm(
+            new FormInstance($form)
+        );
         return $form;
     }
 
@@ -101,175 +178,17 @@ class FormFactory
      *
      * @param bool $showRequiredFieldsLegend
      * @return string
+     * @throws OpenElementNotFoundException
      */
     public static function close(bool $showRequiredFieldsLegend = true)
     {
         $return = '';
-        if ($showRequiredFieldsLegend && app(FormFactory::class)->requiredFieldIndicatorUsed) {
+        if ($showRequiredFieldsLegend && FormFactory::singleton()->getOpenForm()->wasRequiredFieldIndicatorUsed()) {
             $return .= new RequiredFieldsLegend();
         }
         $return .= '</form>';
-        app(FormFactory::class)->openForm = null;
-        app(FormFactory::class)->requiredFieldIndicatorUsed = false;
+        FormFactory::singleton()->getOpenForm()->closeForm();
         return $return;
-    }
-
-    /**
-     * Generates form-control '<input type="checkbox" />'.
-     *
-     * @param string $name
-     * @param string $value
-     * @return CheckboxInput
-     */
-    public static function checkbox(string $name, string $value="1"): CheckboxInput
-    {
-        return (new CheckboxInput())->name($name)->value($value)->labelMode('bound');
-    }
-
-    /**
-     * Generates form-control '<input type="color" />'.
-     *
-     * @param string $name
-     * @return ColorInput
-     */
-    public static function color(string $name): ColorInput
-    {
-        return (new ColorInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="date" />'.
-     *
-     * @param string $name
-     * @return DateInput
-     */
-    public static function date(string $name): DateInput
-    {
-        return (new DateInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="datetime" />'.
-     *
-     * @param string $name
-     * @return DatetimeInput
-     */
-    public static function datetime(string $name): DatetimeInput
-    {
-        return (new DatetimeInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="datetime-local" />'.
-     *
-     * @param string $name
-     * @return DatetimeLocalInput
-     */
-    public static function datetimeLocal(string $name): DatetimeLocalInput
-    {
-        return (new DatetimeLocalInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="email" />'.
-     *
-     * @param string $name
-     * @return EmailInput
-     */
-    public static function email(string $name): EmailInput
-    {
-        return (new EmailInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="file" />'.
-     *
-     * @param string $name
-     * @return FileInput
-     */
-    public static function file(string $name): FileInput
-    {
-        return (new FileInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="hidden" />'.
-     *
-     * @param string $name
-     * @return HiddenInput
-     */
-    public static function hidden(string $name): HiddenInput
-    {
-        return (new HiddenInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="month" />'.
-     *
-     * @param string $name
-     * @return MonthInput
-     */
-    public static function month(string $name): MonthInput
-    {
-        return (new MonthInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="number" />'.
-     *
-     * @param string $name
-     * @return NumberInput
-     */
-    public static function number(string $name): NumberInput
-    {
-        return (new NumberInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<optgroup></optgroup>'.
-     *
-     * @param string $label
-     * @param Option[] $options
-     * @return Optgroup
-     */
-    public static function optgroup($label, array $options): Optgroup
-    {
-        return (new Optgroup())->label($label)->content($options);
-    }
-
-
-    /**
-     * Generates form-control '<option></option>'.
-     *
-     * @param string $value
-     * @return Option
-     */
-    public static function option(string $value = ''): Option
-    {
-        return (new Option())->value($value);
-    }
-
-    /**
-     * Generates form-control '<input type="password" />'.
-     *
-     * @param string $name
-     * @return PasswordInput
-     */
-    public static function password(string $name): PasswordInput
-    {
-        return (new PasswordInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="radio" />'.
-     *
-     * @param string $value
-     * @param string $name
-     * @return RadioInput
-     */
-    public static function radio(string $value, string $name = ''): RadioInput
-    {
-        return (new RadioInput())->name($name)->value($value)->labelMode('bound');
     }
 
     /**
@@ -282,145 +201,6 @@ class FormFactory
     public static function radioGroup(string $name, array $children) : RadioGroup
     {
         return new RadioGroup($name, $children);
-    }
-
-    /**
-     * Generates form-control '<input type="range" />'.
-     *
-     * @param string $name
-     * @return RangeInput
-     */
-    public static function range(string $name): RangeInput
-    {
-        return (new RangeInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="search" />'.
-     *
-     * @param string $name
-     * @return SearchInput
-     */
-    public static function search(string $name): SearchInput
-    {
-        return (new SearchInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<select></select>'.
-     * Also sets the Select as app(FormFactory::class)->openSelect.
-     *
-     * @param string $name
-     * @param array $options
-     * @return Select
-     */
-    public static function select(string $name, array $options = []): Select
-    {
-        $select = (new Select())->name($name);
-        app(FormFactory::class)->openSelect = $select;
-        foreach ($options as $option) {
-            $select->appendContent($option);
-        }
-        return $select;
-    }
-
-    /**
-     * Generates form-control '<input type="tel" />'.
-     *
-     * @param string $name
-     * @return TelInput
-     */
-    public static function tel(string $name): TelInput
-    {
-        return (new TelInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<textarea></textarea>'.
-     *
-     * @param string $name
-     * @return Textarea
-     */
-    public static function textarea(string $name): Textarea
-    {
-        return (new Textarea())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="text" />'.
-     *
-     * @param string $name
-     * @return TextInput
-     */
-    public static function text(string $name): TextInput
-    {
-        return (new TextInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="time" />'.
-     *
-     * @param string $name
-     * @return TimeInput
-     */
-    public static function time(string $name): TimeInput
-    {
-        return (new TimeInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="url" />'.
-     *
-     * @param string $name
-     * @return UrlInput
-     */
-    public static function url(string $name): UrlInput
-    {
-        return (new UrlInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<input type="week" />'.
-     *
-     * @param string $name
-     * @return WeekInput
-     */
-    public static function week(string $name): WeekInput
-    {
-        return (new WeekInput())->name($name);
-    }
-
-    /**
-     * Generates form-control '<button type="reset"></button>'.
-     *
-     * @param string $name
-     * @return ResetButton
-     */
-    public static function reset(string $name = 'reset'): ResetButton
-    {
-        return (new ResetButton())->name($name);
-    }
-
-    /**
-     * Generates form-control '<button type="submit"></button>'.
-     *
-     * @param string $name
-     * @return SubmitButton
-     */
-    public static function submit(string $name = 'submit'): SubmitButton
-    {
-        return (new SubmitButton())->name($name);
-    }
-
-    /**
-     * Generates form-control '<button></button>'.
-     *
-     * @param string $name
-     * @return Button
-     */
-    public static function button(string $name = ''): Button
-    {
-        return (new Button())->name($name);
     }
 
     /**
@@ -511,6 +291,7 @@ class FormFactory
         return $element;
     }
 
+
     /**
      * Generates an error-container for a specific field.
      *
@@ -567,33 +348,70 @@ class FormFactory
     }
 
     /**
-     * Returns the currently open Form-element.
+     * Returns the currently open FormInstance-element.
      *
-     * @return Form
+     * @return FormInstance
      * @throws OpenElementNotFoundException
      */
-    public function getOpenForm(): Form
+    public function getOpenForm(): FormInstance
     {
-        if (is_null($this->openForm)) {
-            throw new OpenElementNotFoundException('FormFactory could not find a currently open Form-element while generating a field. This is probably due to generating a form-field with FormFactory without opening a form using Form::open() before that.');
-        }
-
-        return $this->openForm;
+        return $this->forms->getOpenForm();
     }
 
     /**
-     * Returns the currently open Select-element.
+     * Returns the FormInstance with the specified id.
      *
-     * @return Select
-     * @throws OpenElementNotFoundException
+     * @param string $id
+     * @return FormInstance
+     * @throws Exceptions\FormInstanceNotFoundException
      */
-    public function getOpenSelect(): Select
+    public function getForm(string $id): FormInstance
     {
-        if (is_null($this->openSelect)) {
-            throw new OpenElementNotFoundException('FormFactory could not find a currently open Select-element while generating an Option-element. This is probably due to generating a option-field with FormFactory without opening a select using Form::select() before that.');
+        return $this->forms->getForm($id);
+    }
+
+    /**
+     * Returns FQCN for a FormControl by it's accessor.
+     *
+     * @param $accessor
+     * @return string
+     */
+    private function getFormControlClassNameForAccessor(string $accessor) : string
+    {
+        $shortClassName = ucfirst($accessor);
+        $buttonAccessors = [
+            'submit',
+            'reset'
+        ];
+        $inputAccessors = [
+            'checkbox',
+            'color',
+            'date',
+            'datetime',
+            'datetimeLocal',
+            'email',
+            'file',
+            'hidden',
+            'month',
+            'number',
+            'password',
+            'radio',
+            'range',
+            'search',
+            'tel',
+            'text',
+            'time',
+            'url',
+            'week'
+        ];
+        if (array_search($accessor,$buttonAccessors) !== false) {
+            $shortClassName .= 'Button';
+        }
+        if (array_search($accessor,$inputAccessors) !== false) {
+            $shortClassName .= 'Input';
         }
 
-        return $this->openSelect;
+        return 'Nicat\\FormFactory\\Components\\FormControls\\'.$shortClassName;
     }
 
 }

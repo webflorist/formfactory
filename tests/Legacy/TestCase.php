@@ -174,7 +174,6 @@ class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->app['request']->setLaravelSession($this->app['session']->driver('array'));
-
     }
 
     /**

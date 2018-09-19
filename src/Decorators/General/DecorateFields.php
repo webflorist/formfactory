@@ -140,7 +140,7 @@ class DecorateFields extends Decorator
         }
 
         // Auto-generated IDs always start with formID...
-        $fieldId = app(FormFactory::class)->getOpenForm()->attributes->id;
+        $fieldId = FormFactory::singleton()->getOpenForm()->getId();
 
         // ...followed by the field-name.
         $fieldId .= '_' . $this->element->attributes->name;

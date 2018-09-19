@@ -2,16 +2,12 @@
 
 namespace Nicat\FormFactory\Components;
 
-use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Components\Additional\ErrorContainer;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\Utilities\FieldErrors\FieldErrorManager;
-use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueManager;
+use Nicat\FormFactory\Utilities\Forms\FormInstance;
 use Nicat\HtmlFactory\Elements\FormElement;
 
 class Form extends FormElement
@@ -32,46 +28,11 @@ class Form extends FormElement
     protected $displayMandatoryFieldsLegend = true;
 
     /**
-     * Instance of the FieldRuleManager that handles management of field-rules.
-     *
-     * @var FieldRuleManager
-     */
-    public $rules = null;
-
-    /**
-     * Instance of the FieldErrorManager that handles management of field-errors.
-     *
-     * @var FieldErrorManager
-     */
-    public $errors = null;
-
-    /**
-     * Instance of the FieldValueManager that handles management of field-values.
-     *
-     * @var FieldValueManager
-     */
-    public $values = null;
-
-    /**
-     * Has this form been submitted with the last request?
-     *
-     * @var bool
-     */
-    public $wasSubmitted = false;
-
-    /**
      * A method to spoof for laravel.
      *
      * @var string
      */
     protected $spoofedMethod;
-
-    /**
-     * Class-name of the form-request-object this form will validate against.
-     *
-     * @var null|string
-     */
-    public $requestObject = null;
 
     /**
      * ID of the modal-box, that should be opened on page-load, if errors occur.
@@ -85,9 +46,6 @@ class Form extends FormElement
      */
     protected function setUp()
     {
-        $this->values = new FieldValueManager($this);
-        $this->errors = new FieldErrorManager($this);
-        $this->rules = new FieldRuleManager($this);
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -104,19 +62,15 @@ class Form extends FormElement
      */
     protected function beforeDecoration()
     {
-        $this->evaluateSubmittedState();
-        $this->errors->fetchErrorsFromSession();
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
         $this->setDefaultAction();
         $this->appendHiddenGeneralErrorContainer();
         $this->applyOpenModalOnLoad();
-        HoneypotProtection::setUp($this);
-        TimeLimitProtection::setUp($this);
-        CaptchaProtection::setUp($this);
-    }
 
+        $this->getFormInstance()->setUpAntiBotProtections();
+    }
 
     /**
      * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
@@ -129,27 +83,13 @@ class Form extends FormElement
     }
 
     /**
-     * Evaluates, if this form been submitted via the last request.
-     *
-     * If there is a submitted field called "_formID", and it's value is the current form-id,
-     * this form was indeed submitted during the last request.
-     *
-     */
-    private function evaluateSubmittedState()
-    {
-        if (request()->old('_formID') === $this->attributes->id) {
-            $this->wasSubmitted = true;
-        }
-    }
-
-    /**
      * Set the class-name of the request object.
      * (used for auto-adoption of rules, ajaxValidation, etc.)
      *
      * Also loads rules from the requestObject.
      *
      * Also saves in session, which request object is used for this particular form.
-     * This ist required for ajaxValidation.
+     * This is required for ajaxValidation.
      *
      * @param string $requestObject
      * @return $this
@@ -157,28 +97,7 @@ class Form extends FormElement
      */
     public function requestObject(string $requestObject)
     {
-        // Make sure, the submittedState of this form is correctly evaluated.
-        $this->evaluateSubmittedState();
-
-        // If class $requestObject does not exist, we try to prepend the namespace 'App\Http\Requests\'
-        if (!class_exists($requestObject)) {
-            if (class_exists('App\Http\Requests\\' . $requestObject)) {
-                $requestObject = 'App\Http\Requests\\' . $requestObject;
-            } else {
-                throw new FormRequestClassNotFoundException('The form request class ' . $requestObject . ' could not be found!');
-            }
-        }
-
-        // We set it as a property of this object.
-        $this->requestObject = $requestObject;
-
-        // We also link the request-object to this form in the session.
-        // This is utilized by ajaxValidation.
-        session()->put('formfactory.request_objects.' . $this->attributes->id, $requestObject);
-
-        // Furthermore we fetch the rules from the requestObject (if no rules were manually set).
-        $this->rules->fetchRulesFromRequestObject($requestObject);
-
+        $this->getFormInstance()->setRequestObject($requestObject);
         return $this;
     }
 
@@ -241,7 +160,7 @@ class Form extends FormElement
                 $csrfToken = '';
             }
             $this->appendContent(
-                (new HiddenInput())->name('_token')->value($csrfToken)
+                FormFactory::singleton()->hidden('_token')->value($csrfToken)
             );
         }
     }
@@ -253,7 +172,7 @@ class Form extends FormElement
     {
         if (!is_null($this->spoofedMethod)) {
             $this->appendContent(
-                (new HiddenInput())->name('_method')->value($this->spoofedMethod)
+                FormFactory::singleton()->hidden('_method')->value($this->spoofedMethod)
             );
         }
     }
@@ -265,7 +184,7 @@ class Form extends FormElement
     protected function appendHiddenFormId()
     {
         $this->appendContent(
-            (new HiddenInput())->name('_formID')->value($this->attributes->id)
+            FormFactory::singleton()->hidden('_formID')->value($this->attributes->id)
         );
     }
 
@@ -287,7 +206,7 @@ class Form extends FormElement
      */
     public function values(array $values)
     {
-        $this->values->setDefaultValues($values);
+        $this->getFormInstance()->values->setDefaultValues($values);
         return $this;
     }
 
@@ -300,7 +219,7 @@ class Form extends FormElement
      */
     public function errors(array $errors)
     {
-        $this->errors->setErrors($errors);
+        $this->getFormInstance()->errors->setErrors($errors);
         return $this;
     }
 
@@ -313,7 +232,7 @@ class Form extends FormElement
      */
     public function errorBag(string $errorBag)
     {
-        $this->errors->setErrorBag($errorBag);
+        $this->getFormInstance()->errors->setErrorBag($errorBag);
         return $this;
     }
 
@@ -326,7 +245,7 @@ class Form extends FormElement
      */
     public function rules(array $rules)
     {
-        $this->rules->setRules($rules);
+        $this->getFormInstance()->rules->setRules($rules);
         return $this;
     }
 
@@ -363,9 +282,19 @@ class Form extends FormElement
      */
     private function applyOpenModalOnLoad()
     {
-        if (!is_null($this->modalId) && $this->errors->hasErrors()) {
+        if (!is_null($this->modalId) && $this->getFormInstance()->errors->hasErrors()) {
             $this->data('openmodalonload', $this->modalId);
         }
+    }
+
+    /**
+     * Returns the FormInstance this FormElement belongs to.
+     *
+     * @return FormInstance
+     */
+    private function getFormInstance()
+    {
+        return FormFactory::singleton()->singleton()->getForm($this->attributes->id);
     }
 
 }

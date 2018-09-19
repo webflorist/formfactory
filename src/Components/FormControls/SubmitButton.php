@@ -13,6 +13,17 @@ class SubmitButton extends SubmitButtonComponent implements AutoTranslationInter
         HasContext;
 
     /**
+     * SubmitButton constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name = 'submit')
+    {
+        parent::__construct();
+        $this->name($name);
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string
