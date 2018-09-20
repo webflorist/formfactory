@@ -25,7 +25,7 @@ class FileInputTest extends TestCase
 
     public function testSimpleFileInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::file('file')
             ->generate();
 
@@ -43,7 +43,7 @@ class FileInputTest extends TestCase
 
     public function testSimpleFileInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::file('file')
             ->generate();
 
@@ -61,7 +61,7 @@ class FileInputTest extends TestCase
 
     public function testComplexFileInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::file('file');
 
         $this->applyComplexAttributes($element);

@@ -21,7 +21,7 @@ class HiddenInputTest extends TestCase
 
     public function testSimpleHiddenInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::hidden('hidden')
             ->generate();
 
@@ -35,7 +35,7 @@ class HiddenInputTest extends TestCase
 
     public function testSimpleHiddenInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::hidden('hidden')
             ->generate();
 
@@ -49,7 +49,7 @@ class HiddenInputTest extends TestCase
 
     public function testComplexHiddenInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::hidden('hidden');
 
         $this->applyComplexAttributes($element);

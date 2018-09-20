@@ -23,14 +23,15 @@ class DecorateOptions extends Decorator
     protected $element;
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
-     * Returning an empty array means all frameworks are supported.
+     * Returns the group-ID of this decorator.
      *
-     * @return string[]
+     * Returning null means this decorator will always be applied.
+     *
+     * @return string|null
      */
-    public static function getSupportedFrameworks(): array
+    public static function getGroupId()
     {
-        return [];
+        return null;
     }
 
     /**

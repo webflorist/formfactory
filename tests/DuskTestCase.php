@@ -54,18 +54,14 @@ abstract class DuskTestCase extends BaseTestCase
             __DIR__ . '/Browser/views'
         ]);
 
-        $app['config']->set('htmlfactory.frontend_framework', 'bootstrap:3');
+        $app['config']->set('htmlfactory.decorators', ['bootstrap:v3']);
 
     }
 
-    protected function setFrontendFramework(string $frameworkId, string $frameworkVersion = null)
+    protected function setDecorators(array $decorators)
     {
-        $frontendFramework = $frameworkId;
-        if (!is_null($frameworkVersion)) {
-            $frontendFramework .= ':' . $frameworkVersion;
-        }
-        $this->tweakApplication(function($app) use ($frontendFramework){
-            $app['config']->set('htmlfactory.frontend_framework', $frontendFramework);
+        $this->tweakApplication(function($app) use ($decorators){
+            $app['config']->set('htmlfactory.decorators', $decorators);
         });
     }
 

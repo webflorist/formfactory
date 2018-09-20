@@ -21,7 +21,7 @@ class ResetButtonTest extends TestCase
 
     public function testSimpleButtonForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::reset('reset')
             ->generate();
 
@@ -35,7 +35,7 @@ class ResetButtonTest extends TestCase
 
     public function testSimpleButtonForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::reset('reset')
             ->generate();
 
@@ -49,7 +49,7 @@ class ResetButtonTest extends TestCase
 
     public function testComplexButtonForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::reset('reset');
 
         $this->applyComplexAttributes($element);

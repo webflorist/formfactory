@@ -25,7 +25,7 @@ class PasswordInputTest extends TestCase
 
     public function testSimplePasswordInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::password('password')
             ->generate();
 
@@ -43,7 +43,7 @@ class PasswordInputTest extends TestCase
 
     public function testSimplePasswordInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::password('password')
             ->generate();
 
@@ -61,7 +61,7 @@ class PasswordInputTest extends TestCase
 
     public function testComplexPasswordInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::password('password');
 
         $this->applyComplexAttributes($element);

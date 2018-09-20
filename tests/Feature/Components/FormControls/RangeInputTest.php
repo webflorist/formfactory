@@ -25,7 +25,7 @@ class RangeInputTest extends TestCase
 
     public function testSimpleRangeInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::range('range')
             ->generate();
 
@@ -43,7 +43,7 @@ class RangeInputTest extends TestCase
 
     public function testSimpleRangeInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::range('range')
             ->generate();
 
@@ -61,7 +61,7 @@ class RangeInputTest extends TestCase
 
     public function testComplexRangeInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::range('range');
 
         $this->applyComplexAttributes($element);

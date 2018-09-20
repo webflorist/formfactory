@@ -25,7 +25,7 @@ class TelInputTest extends TestCase
 
     public function testSimpleTelInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::tel('tel')
             ->generate();
 
@@ -43,7 +43,7 @@ class TelInputTest extends TestCase
 
     public function testSimpleTelInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::tel('tel')
             ->generate();
 
@@ -61,7 +61,7 @@ class TelInputTest extends TestCase
 
     public function testComplexTelInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::tel('tel');
 
         $this->applyComplexAttributes($element);

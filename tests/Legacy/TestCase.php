@@ -185,6 +185,7 @@ class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('formfactory', $this->config);
+        $app['config']->set('htmlfactory.decorators', ['bootstrap:v3']);
     }
 
     protected function generateTag()

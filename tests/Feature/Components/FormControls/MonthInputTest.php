@@ -25,7 +25,7 @@ class MonthInputTest extends TestCase
 
     public function testSimpleMonthInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::month('month')
             ->generate();
 
@@ -43,7 +43,7 @@ class MonthInputTest extends TestCase
 
     public function testSimpleMonthInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::month('month')
             ->generate();
 
@@ -61,7 +61,7 @@ class MonthInputTest extends TestCase
 
     public function testComplexMonthInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::month('month');
 
         $this->applyComplexAttributes($element);

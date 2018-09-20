@@ -25,7 +25,7 @@ class TextInputTest extends TestCase
 
     public function testSimpleTextInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::text('text')
             ->generate();
 
@@ -43,7 +43,7 @@ class TextInputTest extends TestCase
 
     public function testSimpleTextInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::text('text')
             ->generate();
 
@@ -61,7 +61,7 @@ class TextInputTest extends TestCase
 
     public function testComplexTextInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::text('text');
 
         $this->applyComplexAttributes($element);

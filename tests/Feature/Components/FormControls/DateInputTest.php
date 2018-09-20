@@ -25,7 +25,7 @@ class DateInputTest extends TestCase
 
     public function testSimpleDateInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::date('date')
             ->generate();
 
@@ -43,7 +43,7 @@ class DateInputTest extends TestCase
 
     public function testSimpleDateInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::date('date')
             ->generate();
 
@@ -61,7 +61,7 @@ class DateInputTest extends TestCase
 
     public function testComplexDateInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::date('date');
 
         $this->applyComplexAttributes($element);

@@ -25,7 +25,7 @@ class NumberInputTest extends TestCase
 
     public function testSimpleNumberInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::number('number')
             ->generate();
 
@@ -43,7 +43,7 @@ class NumberInputTest extends TestCase
 
     public function testSimpleNumberInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::number('number')
             ->generate();
 
@@ -61,7 +61,7 @@ class NumberInputTest extends TestCase
 
     public function testComplexNumberInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::number('number');
 
         $this->applyComplexAttributes($element);

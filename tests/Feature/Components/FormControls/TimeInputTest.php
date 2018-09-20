@@ -25,7 +25,7 @@ class TimeInputTest extends TestCase
 
     public function testSimpleTimeInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::time('time')
             ->generate();
 
@@ -43,7 +43,7 @@ class TimeInputTest extends TestCase
 
     public function testSimpleTimeInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::time('time')
             ->generate();
 
@@ -61,7 +61,7 @@ class TimeInputTest extends TestCase
 
     public function testComplexTimeInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::time('time');
 
         $this->applyComplexAttributes($element);

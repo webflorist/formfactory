@@ -25,7 +25,7 @@ class WeekInputTest extends TestCase
 
     public function testSimpleWeekInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::week('week')
             ->generate();
 
@@ -43,7 +43,7 @@ class WeekInputTest extends TestCase
 
     public function testSimpleWeekInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::week('week')
             ->generate();
 
@@ -61,7 +61,7 @@ class WeekInputTest extends TestCase
 
     public function testComplexWeekInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::week('week');
 
         $this->applyComplexAttributes($element);

@@ -8,7 +8,7 @@ The main features are:
 * Use static factory methods for all relevant form-elements.
 * Chain fluid method-calls to set HTML-attributes and other properties.
 * Fully use the benefits of IDEs (auto-completion).
-* Style output for specific frontend-frameworks using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
+* Style output for specific frontend-frameworks using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorator`-Classes.
 * Keep your views frontend-framework-agnostic.
 * Extend it's features using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorators` and `Components`.
 * Produce accessibility-conform valid HTML 5 output.
@@ -32,7 +32,7 @@ The main features are:
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
 https://github.com/nic-at/formfactory/blob/develop/src/config/formfactory.php
 
-Also be sure to correctly configure the `frontend_framework` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
+Also be sure to correctly configure the `decorators` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use.
 
 ## Usage
 
@@ -87,10 +87,6 @@ Let's take a look at some of the magic, that is happening here:
 If you have any (supported) frontend-framework configured, the output would include the framework-specific styles and classes.
 
 As with all other tags, the opening form-tag, as well as the submit-button can be manipulated by chaining fluid setter-methods (e.g. to change the default-attributes or add additional attributes).
-
-
-
-   
 
 #### A minimal example to create a tag
 Here is a very basic example for the generation of a text-input from within a laravel-blade-template:

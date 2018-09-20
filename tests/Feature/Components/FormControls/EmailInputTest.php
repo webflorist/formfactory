@@ -25,7 +25,7 @@ class EmailInputTest extends TestCase
 
     public function testSimpleEmailInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::email('email')
             ->generate();
 
@@ -43,7 +43,7 @@ class EmailInputTest extends TestCase
 
     public function testSimpleEmailInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::email('email')
             ->generate();
 
@@ -61,7 +61,7 @@ class EmailInputTest extends TestCase
 
     public function testComplexEmailInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::email('email');
 
         $this->applyComplexAttributes($element);

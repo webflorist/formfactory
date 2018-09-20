@@ -25,7 +25,7 @@ class SearchInputTest extends TestCase
 
     public function testSimpleSearchInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::search('search')
             ->generate();
 
@@ -43,7 +43,7 @@ class SearchInputTest extends TestCase
 
     public function testSimpleSearchInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::search('search')
             ->generate();
 
@@ -61,7 +61,7 @@ class SearchInputTest extends TestCase
 
     public function testComplexSearchInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::search('search');
 
         $this->applyComplexAttributes($element);

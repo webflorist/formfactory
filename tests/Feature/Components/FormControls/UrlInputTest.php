@@ -25,7 +25,7 @@ class UrlInputTest extends TestCase
 
     public function testSimpleUrlInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::url('url')
             ->generate();
 
@@ -43,7 +43,7 @@ class UrlInputTest extends TestCase
 
     public function testSimpleUrlInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::url('url')
             ->generate();
 
@@ -61,7 +61,7 @@ class UrlInputTest extends TestCase
 
     public function testComplexUrlInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::url('url');
 
         $this->applyComplexAttributes($element);

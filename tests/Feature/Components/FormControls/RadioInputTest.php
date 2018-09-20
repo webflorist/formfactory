@@ -27,7 +27,7 @@ class RadioInputTest extends TestCase
 
     public function testSimpleRadioInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::radio('1','radio')
             ->generate();
 
@@ -47,7 +47,7 @@ class RadioInputTest extends TestCase
 
     public function testSimpleRadioInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::radio('1','radio')
             ->generate();
 
@@ -67,7 +67,7 @@ class RadioInputTest extends TestCase
 
     public function testComplexRadioInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::radio('1','radio');
 
         $this->applyComplexAttributes($element);

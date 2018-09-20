@@ -25,7 +25,7 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testSimpleDatetimeLocalInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::datetimeLocal('datetimeLocal')
             ->generate();
 
@@ -43,7 +43,7 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testSimpleDatetimeLocalInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::datetimeLocal('datetimeLocal')
             ->generate();
 
@@ -61,7 +61,7 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testComplexDatetimeLocalInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::datetimeLocal('datetimeLocal');
 
         $this->applyComplexAttributes($element);

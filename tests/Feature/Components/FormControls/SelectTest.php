@@ -94,7 +94,7 @@ class SelectTest extends TestCase
 
     public function testSimpleSelectComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::select('select')
             ->generate();
 
@@ -112,7 +112,7 @@ class SelectTest extends TestCase
 
     public function testSimpleSelectComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::select('select')
             ->generate();
 
@@ -130,7 +130,7 @@ class SelectTest extends TestCase
 
     public function testComplexSelectComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::select('select', [
             \Form::option('option1'),
             \Form::optgroup('optgroup1',[

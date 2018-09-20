@@ -23,7 +23,7 @@ class InputGroupTest extends TestCase
 
     public function testInputGroupForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = Form::inputGroup([
             Form::text('input_group_text')->helpText('My Help-Text')->errors(['My First Error', 'My Second Error']),
             Form::text('input_group_text2')->helpText('My Second Help-Text')->errors(['My Third Error', 'My Fourth Error'])
@@ -37,7 +37,7 @@ class InputGroupTest extends TestCase
 
     public function testInputGroupForBulma0()
     {
-        $this->setFrontendFramework('bulma', '0');
+        $this->setDecorators(['bulma:v0']);
         $html = Form::inputGroup([
             Form::text('input_group_text')->helpText('My Help-Text')->errors(['My First Error', 'My Second Error']),
             Form::text('input_group_text2')->helpText('My Second Help-Text')->errors(['My Third Error', 'My Fourth Error'])

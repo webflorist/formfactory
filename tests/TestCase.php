@@ -21,7 +21,7 @@ class TestCase extends BaseTestCase
 
     use AssertsHtml, AppliesAttributeSets;
 
-    protected $frontendFramework;
+    protected $decorators = [];
 
     protected function getPackageProviders($app)
     {
@@ -41,15 +41,11 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('htmlfactory.frontend_framework', $this->frontendFramework);
+        $app['config']->set('htmlfactory.decorators', $this->decorators);
     }
 
-    protected function setFrontendFramework(string $frameworkId,string $frameworkVersion=null) {
-        $frontendFramework = $frameworkId;
-        if (!is_null($frameworkVersion)) {
-            $frontendFramework .= ':'.$frameworkVersion;
-        }
-        $this->frontendFramework = $frontendFramework;
+    protected function setDecorators(array $decorators) {
+        $this->decorators = $decorators;
         $this->refreshApplication();
         $this->setUp();
     }

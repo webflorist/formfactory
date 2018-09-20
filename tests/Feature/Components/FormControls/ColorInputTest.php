@@ -25,7 +25,7 @@ class ColorInputTest extends TestCase
 
     public function testSimpleColorInputComponentForBootstrap3()
     {
-        $this->setFrontendFramework('bootstrap', '3');
+        $this->setDecorators(['bootstrap:v3']);
         $html = \Form::color('color')
             ->generate();
 
@@ -43,7 +43,7 @@ class ColorInputTest extends TestCase
 
     public function testSimpleColorInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $html = \Form::color('color')
             ->generate();
 
@@ -61,7 +61,7 @@ class ColorInputTest extends TestCase
 
     public function testComplexColorInputComponentForBootstrap4()
     {
-        $this->setFrontendFramework('bootstrap', '4');
+        $this->setDecorators(['bootstrap:v4']);
         $element = \Form::color('color');
 
         $this->applyComplexAttributes($element);
