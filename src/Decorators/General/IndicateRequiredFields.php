@@ -118,13 +118,15 @@ class IndicateRequiredFields extends Decorator
 
 
         // If the field is not required, we also do nothing.
-        if (!$this->isFieldRequired($this->element)) {
+        // The only exception is, if vue is being used. In this case a required field-indicator is always added.
+        // TODO: this is smelly. think of better solution.
+        if (!$this->isFieldRequired($this->element) && !$this->vueIsUsed()) {
             return;
         }
 
         // Otherwise we append the RequiredFieldIndicator to the label-text.
         $this->element->label(
-            $this->element->label . new RequiredFieldIndicator()
+            $this->element->label . new RequiredFieldIndicator($this->element)
         );
     }
 
@@ -139,7 +141,7 @@ class IndicateRequiredFields extends Decorator
 
             if ($this->isFieldRequired($radioElement) && !is_null($radioGroup->legend) && ($radioGroup->legend !== false)) {
                 $radioGroup->legend(
-                    $radioGroup->legend . new RequiredFieldIndicator()
+                    $radioGroup->legend . new RequiredFieldIndicator($radioElement)
                 );
                 break;
             }
@@ -151,6 +153,7 @@ class IndicateRequiredFields extends Decorator
      *
      * @param CanHaveRules|Element $field
      * @return bool
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function isFieldRequired($field)
     {
@@ -180,6 +183,16 @@ class IndicateRequiredFields extends Decorator
 
         return true;
 
+    }
+
+    private function vueIsUsed()
+    {
+        foreach (config('htmlfactory.decorators') as $decoratorGroupId) {
+            if (substr($decoratorGroupId,0,4) === 'vue:') {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

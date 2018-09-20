@@ -87,6 +87,10 @@ class FormFactoryServiceProvider extends ServiceProvider
             __DIR__ . '/Decorators/General'
         );
         $htmlFactory->decorators->registerFromFolder(
+            'Nicat\FormFactory\Decorators\Vue',
+            __DIR__ . '/Decorators/Vue'
+        );
+        $htmlFactory->decorators->registerFromFolder(
             'Nicat\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'
         );

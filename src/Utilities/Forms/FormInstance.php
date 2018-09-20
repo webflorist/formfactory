@@ -3,6 +3,8 @@
 namespace Nicat\FormFactory\Utilities\Forms;
 
 use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
@@ -260,6 +262,16 @@ class FormInstance
         if ($formControlElement->is(Select::class)) {
             $this->lastSelect = $formControlElement;
         }
+    }
+
+    /**
+     * Returns $this->formControls.
+     *
+     * @return Element[]
+     */
+    public function getFormControls()
+    {
+        return $this->formControls;
     }
 
 }

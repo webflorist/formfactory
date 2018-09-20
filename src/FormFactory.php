@@ -45,7 +45,7 @@ use Nicat\FormFactory\Exceptions\ElementNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
 use Nicat\FormFactory\Utilities\Forms\FormManager;
-use Nicat\FormFactory\Utilities\Forms\forms;
+use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
@@ -412,6 +412,18 @@ class FormFactory
         }
 
         return 'Nicat\\FormFactory\\Components\\FormControls\\'.$shortClassName;
+    }
+
+    /**
+     * Generates a vue-app for an already closed form..
+     *
+     * @param string $id
+     * @return string
+     * @throws Exceptions\FormInstanceNotFoundException
+     */
+    public static function generateVueApp(string $id): string
+    {
+        return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->generate();
     }
 
 }

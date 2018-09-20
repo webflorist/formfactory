@@ -22,6 +22,8 @@ class TestCase extends BaseTestCase
     use AssertsHtml, AppliesAttributeSets;
 
     protected $decorators = [];
+    protected $openForm = true;
+    protected $closeForm = true;
 
     protected function getPackageProviders($app)
     {
@@ -60,17 +62,22 @@ class TestCase extends BaseTestCase
     protected function setUp()
     {
         parent::setUp();
-        Form::open('myFormId');
+        if ($this->openForm) {
+            Form::open('myFormId');
+        }
     }
 
     /**
      * Clean up the testing environment before the next test.
      *
      * @return void
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function tearDown()
     {
-        Form::close();
+        if ($this->closeForm) {
+            Form::close();
+        }
     }
 
     /**

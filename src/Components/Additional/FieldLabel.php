@@ -18,7 +18,7 @@ class FieldLabel extends LabelElement
     public $field;
 
     /**
-     * ErrorContainer constructor.
+     * FieldLabel constructor.
      *
      * @param Element|null $field
      */
