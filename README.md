@@ -19,6 +19,7 @@ The main features are:
 * Easy pre-population of form-fields via a predefined value-array.
 * On-board AJAX-validation-functionality (onSubmit of form and/or onKeyup/onChange of field)
 * Anti-bot-mechanisms (honeypot-field, captcha, time-limit)
+* Generate a Vue Instance for a form and use it to interact with it.
 * ...and many more.
 
 ## Installation
@@ -404,4 +405,66 @@ If you want to disable this behaviour, simply pass a boolean `false` as the firs
 Example:
 ```
 {!! Form::close(false) !!}
+```
+
+#### Vue Support
+
+This package allows the generation of JavaScript code to create a Vue instance for a form.
+Prerequisite is, that `'vue:v2'` is stated within the `htmlfactory.decorators` config.
+
+Currently the following parts of the form will be reactive:
+- Field-values will be bound to `fields.fieldName.value`.
+- The 'required' attribute and the indicator for required fields next to the label (by default `<sup>*</sup>`) will be bound to `fields.fieldName.required`.
+- The 'disabled' attribute will be bound to `fields.fieldName.disabled`.
+
+Example:
+```
+Blade Code:
+-----------
+{!! Form::open('MyFormID') !!}
+{!! Form::text('MyFieldName') !!}
+{!! Form::close() !!}
+
+<script>
+    let app = {!! Form::vue('MyFormID') !!}
+</script>
+
+Generated HTML & JS:
+---------------
+<form role="form" accept-charset="UTF-8" enctype="multipart/form-data" id="MyFormID" method="POST" action="http://nicat-registrar.testbox.dev.local/de/form-test">
+    <input type="hidden" name="_token" value="6x5MBYkJnGPLuUwvhq5k4YmculpPcbI6z90xwjsH" id="MyFormID__token" v-model="fields._token.value" v-bind="{ required: fields._token.isRequired, disabled: fields._token.isDisabled }" />
+    <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" v-model="fields._formID.value" v-bind="{ required: fields._formID.isRequired, disabled: fields._formID.isDisabled }" />
+    <div role="alert" data-error-container="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
+    <div data-field-wrapper="1">
+        <label for="MyFormID_MyFieldName">MyFieldName<sup v-if="fields.MyFieldName.isRequired">*</sup></label>
+        <div role="alert" data-error-container="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
+        <input type="text" name="MyFieldName" id="MyFormID_MyFieldName" placeholder="MyFieldName" v-model="fields.MyFieldName.value" v-bind="{ required: fields.MyFieldName.isRequired, disabled: fields.MyFieldName.isDisabled }" aria-describedby="MyFormID_MyFieldName_errors" />
+    </div>
+    <div class="text-muted small"><sup>*</sup> Pflichtfelder</div>
+</form>
+
+<script>
+    let app = new Vue({
+        "el": "#MyFormID",
+        "data": {
+            "fields": {
+                "_token": {
+                    "value": "6x5MBYkJnGPLuUwvhq5k4YmculpPcbI6z90xwjsH",
+                    "isRequired": false,
+                    "isDisabled": false
+                },
+                "_formID": {
+                    "value": "MyFormID",
+                    "isRequired": false,
+                    "isDisabled": false
+                },
+                "MyFieldName": {
+                    "value": "",
+                    "isRequired": false,
+                    "isDisabled": false
+                }
+            }
+        }
+    });
+</script>
 ```

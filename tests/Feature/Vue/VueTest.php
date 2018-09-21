@@ -10,13 +10,18 @@ class VueTest extends TestCase
     protected $closeForm = false;
     protected $decorators = ['bootstrap:v4','vue:v2'];
 
-    public function testComplexTextInputComponentForBootstrap4()
+    public function test_simple_vue_app()
     {
         \Form::open('myFormId');
         \Form::text('text');
         \Form::close();
 
-        \Form::generateVueApp('myFormId');
+        $vue = \Form::vue('myFormId')->generate();
+
+        $this->assertEquals(
+            'new Vue({"el":"#myFormId","data":{"fields":{"text":{"value":"","isRequired":false,"isDisabled":false}}}});',
+            $vue
+        );
     }
 
 

@@ -102,13 +102,13 @@ class DecorateFields extends Decorator
      */
     public function decorate()
     {
-        $fieldBase = 'fields.'.$this->element->attributes->name;
+        $fieldBase = 'fields.' . FormFactoryTools::convertArrayFieldHtmlName2JsNotation($this->element->attributes->name);
         if (!$this->element->attributes->isSet('v-model')) {
-            $this->element->vModel($fieldBase.'.value');
+            $this->element->vModel($fieldBase . '.value');
         }
         if (!$this->element->attributes->isSet('v-bind')) {
             $this->element->vBind(null,
-                '{ required: '.$fieldBase.'.isRequired, disabled: '.$fieldBase.'.isDisabled }'
+                '{ required: ' . $fieldBase . '.isRequired, disabled: ' . $fieldBase . '.isDisabled }'
             );
         }
 

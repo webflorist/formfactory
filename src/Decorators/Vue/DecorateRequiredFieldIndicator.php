@@ -84,7 +84,7 @@ class DecorateRequiredFieldIndicator extends Decorator
     public function decorate()
     {
         if (!is_null($this->element->field)) {
-            $this->element->vIf('fields.'.$this->element->field->attributes->name.'.isRequired');
+            $this->element->vIf('fields.'.FormFactoryTools::convertArrayFieldHtmlName2JsNotation($this->element->field->attributes->name).'.isRequired');
         }
 
     }

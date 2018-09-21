@@ -49,6 +49,7 @@ use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
+use Nicat\VueFactory\VueInstance;
 
 /**
  * The main class of this package.
@@ -415,15 +416,15 @@ class FormFactory
     }
 
     /**
-     * Generates a vue-app for an already closed form..
+     * Generates a Vue instance for the form with ID $id.
      *
      * @param string $id
-     * @return string
+     * @return VueInstance
      * @throws Exceptions\FormInstanceNotFoundException
      */
-    public static function generateVueApp(string $id): string
+    public static function vue(string $id): VueInstance
     {
-        return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->generate();
+        return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->getVueInstance();
     }
 
 }

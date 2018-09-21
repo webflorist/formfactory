@@ -45,6 +45,24 @@ class FormFactoryTools
     }
 
     /**
+     * Converts the HTML-name of an array-field (e.g. "domainlist[0][domainName][domainLabel]")
+     * to a JavaScript/Vue friendly notation (e.g. "domainlist.0.domainName.domainLabel")
+     *
+     * @param string $fieldName
+     * @return string
+     */
+    public static function convertArrayFieldHtmlName2JsNotation(string $fieldName): string
+    {
+        if (static::isArrayField($fieldName)) {
+            $fieldName = str_replace('[', '_', $fieldName);
+            $fieldName = str_replace(']', '', $fieldName);
+        }
+        // Remove any dots from the end of the name.
+        $fieldName = rtrim($fieldName, '_');
+        return $fieldName;
+    }
+
+    /**
      * Converts the DOT-notation of an array-field (e.g. "domainlist.0.domainName.domainLabel")
      * to it's HTML-name (e.g. "domainlist[0][domainName][domainLabel]").
      *
