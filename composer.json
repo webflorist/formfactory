@@ -9,7 +9,8 @@
     ],
     "require": {
 		"laravel/framework": "5.5.*",
-		"nicat/htmlfactory": "dev-develop@dev"
+		"nicat/htmlfactory": "dev-develop@dev",
+        "nicat/vuefactory": "dev-develop@dev"
 	},
     "require-dev": {
         "phpunit/phpunit": "~4.0",
