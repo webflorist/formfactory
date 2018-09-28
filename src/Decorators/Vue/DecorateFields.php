@@ -103,7 +103,7 @@ class DecorateFields extends Decorator
     public function decorate()
     {
         $fieldBase = 'fields.' . FormFactoryTools::convertArrayFieldHtmlName2JsNotation($this->element->attributes->name);
-        if (!$this->element->attributes->isSet('v-model')) {
+        if (!$this->element->attributes->isSet('v-model') && !$this->element->is(FileInput::class)) {
             $this->element->vModel($fieldBase . '.value');
         }
         if (!$this->element->attributes->isSet('v-bind')) {
