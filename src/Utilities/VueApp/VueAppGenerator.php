@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory\Utilities\VueApp;
 
+use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
 use Nicat\VueFactory\VueInstance;
 use stdClass;
@@ -57,7 +58,7 @@ class VueAppGenerator
     private function parseFormControls()
     {
         foreach ($this->form->getFormControls() as $control) {
-            if ($control->attributes->isSet('name')) {
+            if (array_search(get_class($control),ComponentLists::fields()) !== false) {
                 new Field($control, $this->fields);
             }
         }
