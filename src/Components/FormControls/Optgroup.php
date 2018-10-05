@@ -2,10 +2,13 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\HtmlFactory\Elements\OptgroupElement;
 
 class Optgroup extends OptgroupElement
 {
+
+    use CanBelongToFormInstance;
 
     /**
      * Optgroup constructor.

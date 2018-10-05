@@ -5,6 +5,8 @@ namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldWrapper extends Decorator
@@ -43,17 +45,14 @@ class StyleFieldWrapper extends Decorator
 
     /**
      * Perform decorations on $this->element.
+     * @throws \Nicat\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     public function decorate()
     {
         $this->element->addClass($this->getFieldWrapperClass());
 
         if (!is_null($this->element->field)) {
-
-            // Add error-class to wrapper, if field has errors.
-            if ($this->element->field->hasErrors()) {
-                $this->element->addClass('has-error');
-            }
+            $this->applyErrorClass();
         }
     }
 
@@ -62,7 +61,7 @@ class StyleFieldWrapper extends Decorator
      *
      * @return string
      */
-    private function getFieldWrapperClass()
+    protected function getFieldWrapperClass()
     {
         if (!is_null($this->element->field) && $this->element->field->is(CheckboxInput::class)) {
             return 'checkbox';
@@ -73,5 +72,30 @@ class StyleFieldWrapper extends Decorator
         }
 
         return 'form-group';
+    }
+
+    /**
+     * Applies error-class, if field has errors.
+     * If vue is used, this will be bound.
+     *
+     * @throws \Nicat\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
+     */
+    protected function applyErrorClass()
+    {
+        $field = $this->element->field;
+
+        // We make this reactive, if vue is used.
+        if (FormFactoryConfig::isVueEnabled()) {
+            $fieldName = FormFactoryTools::convertArrayFieldHtmlName2JsNotation($field->attributes->name);
+            $this->element->vBind('class',
+                "{ 'has-error': fields.$fieldName.errors.length }"
+            );
+            return;
+        }
+
+        // If vue is not used, we simply add the error-class to the wrapper, if the field has errors.
+        if ($field->hasErrors()) {
+            $this->element->addClass('has-error');
+        }
     }
 }

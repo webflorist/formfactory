@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\HtmlFactory\Components\Traits\HasContext;
@@ -10,6 +11,7 @@ use Nicat\HtmlFactory\Elements\ButtonElement;
 class Button extends ButtonElement implements AutoTranslationInterface
 {
     use UsesAutoTranslation,
+        CanBelongToFormInstance,
         HasContext;
 
     /**

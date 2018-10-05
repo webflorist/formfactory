@@ -85,4 +85,22 @@ class FormManager
         return true;
     }
 
+    /**
+     * Returns the FormInstance, that owns the stated field.
+     *
+     * @param string $id
+     * @return FormInstance
+     * @throws FormInstanceNotFoundException
+     */
+    public function getFormInstanceOfField(string $id)
+    {
+        foreach ($this->forms as $form) {
+            if ($form->getId() === $id) {
+                return $form;
+            }
+        }
+
+        throw new FormInstanceNotFoundException('FormFactory could not find a form-instance with id "$id". This is probably due to generating a form-field with FormFactory without opening a form using Form::open() before that.');
+    }
+
 }

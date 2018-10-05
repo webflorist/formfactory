@@ -4,7 +4,6 @@ namespace Nicat\FormFactory\Components;
 
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
@@ -59,6 +58,7 @@ class Form extends FormElement
      * Apply some modifications.
      *
      * @throws MandatoryOptionMissingException
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     protected function beforeDecoration()
     {
@@ -94,6 +94,7 @@ class Form extends FormElement
      * @param string $requestObject
      * @return $this
      * @throws FormRequestClassNotFoundException
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     public function requestObject(string $requestObject)
     {
@@ -203,6 +204,7 @@ class Form extends FormElement
      *
      * @param array $values
      * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     public function values(array $values)
     {
@@ -216,6 +218,7 @@ class Form extends FormElement
      *
      * @param array $errors
      * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     public function errors(array $errors)
     {
@@ -229,6 +232,7 @@ class Form extends FormElement
      *
      * @param string $errorBag
      * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     public function errorBag(string $errorBag)
     {
@@ -242,6 +246,7 @@ class Form extends FormElement
      *
      * @param array $rules
      * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     public function rules(array $rules)
     {
@@ -291,6 +296,7 @@ class Form extends FormElement
      * Returns the FormInstance this FormElement belongs to.
      *
      * @return FormInstance
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
      */
     private function getFormInstance()
     {

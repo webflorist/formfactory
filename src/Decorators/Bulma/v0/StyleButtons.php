@@ -5,6 +5,7 @@ namespace Nicat\FormFactory\Decorators\Bulma\v0;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\ResetButton;
 use Nicat\FormFactory\Components\FormControls\SubmitButton;
+use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtons extends Decorator
@@ -36,11 +37,7 @@ class StyleButtons extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            Button::class,
-            SubmitButton::class,
-            ResetButton::class
-        ];
+        return ComponentLists::buttons();
     }
 
     /**

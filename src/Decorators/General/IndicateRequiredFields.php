@@ -7,27 +7,10 @@ use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\Traits\CanHaveLabel;
 use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\FormFactory\Utilities\ComponentLists;
+use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
 
 /**
  * Adds an indication to the label of required form fields.
@@ -64,29 +47,7 @@ class IndicateRequiredFields extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            CheckboxInput::class,
-            ColorInput::class,
-            DateInput::class,
-            DatetimeInput::class,
-            DatetimeLocalInput::class,
-            EmailInput::class,
-            FileInput::class,
-            RadioGroup::class,
-            MonthInput::class,
-            NumberInput::class,
-            PasswordInput::class,
-            RadioInput::class,
-            RangeInput::class,
-            SearchInput::class,
-            Select::class,
-            TelInput::class,
-            Textarea::class,
-            TextInput::class,
-            TimeInput::class,
-            UrlInput::class,
-            WeekInput::class
-        ];
+        return ComponentLists::labelableFields();
     }
 
     /**
@@ -116,11 +77,10 @@ class IndicateRequiredFields extends Decorator
             return;
         }
 
-
         // If the field is not required, we also do nothing.
         // The only exception is, if vue is being used. In this case a required field-indicator is always added.
         // TODO: this is smelly. think of better solution.
-        if (!$this->isFieldRequired($this->element) && !$this->vueIsUsed()) {
+        if (!$this->isFieldRequired($this->element) && !FormFactoryConfig::isVueEnabled()) {
             return;
         }
 
@@ -183,16 +143,6 @@ class IndicateRequiredFields extends Decorator
 
         return true;
 
-    }
-
-    private function vueIsUsed()
-    {
-        foreach (config('htmlfactory.decorators') as $decoratorGroupId) {
-            if (substr($decoratorGroupId,0,4) === 'vue:') {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

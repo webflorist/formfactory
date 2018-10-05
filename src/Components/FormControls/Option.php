@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\FormFactory\FormFactory;
@@ -11,7 +12,8 @@ use Nicat\HtmlFactory\Elements\OptionElement;
 class Option extends OptionElement implements AutoTranslationInterface
 {
 
-    use UsesAutoTranslation;
+    use UsesAutoTranslation,
+        CanBelongToFormInstance;
 
     /**
      * Option constructor.

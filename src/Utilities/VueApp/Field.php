@@ -29,7 +29,7 @@ class Field
 
     /**
      * Is this field required?
-     * 
+     *
      * Both the field's 'required' attribute as well as
      * the display of its RequiredFieldIndicator will react to this setting.
      *
@@ -47,17 +47,24 @@ class Field
     public $isDisabled = false;
 
     /**
-     * Is this field disabled?
+     * Array of errors for this field
      *
      * The field's 'required' attribute will react to this setting.
      *
-     * @var bool
+     * @var array
+     */
+    public $errors = [];
+
+    /**
+     * The fields-object this field is a part of.
+     *
+     * @var \stdClass
      */
     private $fields;
 
     /**
      * Field constructor.
-     * 
+     *
      * @param Element $field
      * @param \stdClass $fields
      */
@@ -65,6 +72,7 @@ class Field
     {
         $this->fields = $fields;
         $this->value = $this->evaluateFieldValue($field);
+        $this->errors = $field->getErrors();
         $this->isRequired = ($field->attributes->required === true) ? true : false;
         $this->isDisabled = ($field->attributes->disabled === true) ? true : false;
         $this->fields->{FormFactoryTools::convertArrayFieldHtmlName2JsNotation($field->attributes->name)} = $this;
@@ -110,7 +118,7 @@ class Field
         $fieldName = $radio->attributes->name;
 
         // If a valid value for this field-name was already saved from a different radio with the same name, we keep it.
-        if (property_exists($this->fields,$fieldName) && (strlen($this->fields->{$fieldName}->value) > 0)) {
+        if (property_exists($this->fields, $fieldName) && (strlen($this->fields->{$fieldName}->value) > 0)) {
             return $this->fields->{$fieldName}->value;
         }
 

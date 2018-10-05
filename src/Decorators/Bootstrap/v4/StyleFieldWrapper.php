@@ -5,9 +5,9 @@ namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
 
-class StyleFieldWrapper extends Decorator
+class StyleFieldWrapper extends Bootstrap3StyleFieldWrapper
 {
 
     /**
@@ -43,18 +43,15 @@ class StyleFieldWrapper extends Decorator
 
     /**
      * Perform decorations on $this->element.
+     * @throws \Nicat\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     public function decorate()
     {
         $this->element->addClass($this->getFieldWrapperClass());
-		$this->element->addClass($this->getFieldWrapperInlineClass());
 
         if (!is_null($this->element->field)) {
 
-            // Add error-class to wrapper, if field has errors.
-            if ($this->element->field->hasErrors()) {
-                $this->element->addClass('has-error');
-            }
+            $this->applyErrorClass();
         }
     }
 
@@ -63,26 +60,20 @@ class StyleFieldWrapper extends Decorator
      *
      * @return string
      */
-    private function getFieldWrapperClass()
+    protected function getFieldWrapperClass()
     {
+        $class = 'form-group';
+
         if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class))) {
-            return 'form-check';
+            $class = 'form-check';
+
+            if ($this->element->field->isInline()) {
+                $class .= ' form-check-inline';
+            }
+
         }
 
-        return 'form-group';
+        return $class;
     }
 
-    /**
-     * Returns the correct class for the field's wrapper, if the field should be displayed inline.
-     *
-     * @return string
-     */
-    private function getFieldWrapperInlineClass()
-    {
-        if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class)) && $this->element->field->isInline()) {
-            return 'form-check-inline';
-        }
-		
-		return '';
-    }
 }

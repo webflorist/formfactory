@@ -15,7 +15,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 'Honeypot anti-bot protection.
+    | Honeypot anti-bot protection.
     |--------------------------------------------------------------------------
     |
     | Settings regarding anti-bot protection of forms using a honeypot-field.
@@ -27,6 +27,24 @@ return [
          * Whether honeypot-protection should be enabled at all.
          */
         'enabled' => true,
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Vue.js Support
+    |--------------------------------------------------------------------------
+    |
+    | Settings regarding support for vue.js.
+    | This requires vue.js (2.x) to be available in the frontend.
+    |
+     */
+    'vue' => [
+
+        /*
+         * Whether vue-functionality should be enabled at all.
+         */
+        'enabled' => false,
 
     ],
 

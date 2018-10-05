@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Components\FormControls;
 
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
 use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
@@ -22,6 +23,7 @@ class ColorInput extends ColorInputComponent implements FieldValueProcessorInter
         UsesAutoTranslation,
         CanHaveErrors,
         CanAutoSubmit,
+        CanBelongToFormInstance,
         CanPerformAjaxValidation;
 
     /**

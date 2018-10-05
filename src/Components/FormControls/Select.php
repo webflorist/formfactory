@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Components\FormControls;
 
 use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
@@ -23,6 +24,7 @@ class Select extends SelectElement implements FieldValueProcessorInterface, Auto
         UsesAutoTranslation,
         CanHaveErrors,
         CanAutoSubmit,
+        CanBelongToFormInstance,
         CanPerformAjaxValidation;
 
     /**

@@ -44,10 +44,11 @@ class VueAppGenerator
     public function __construct(FormInstance $form)
     {
         $this->form = $form;
-        $this->vueInstance = new VueInstance('#'.$this->form->getId());
+        $this->vueInstance = new VueInstance('#' . $this->form->getId());
         $this->fields = new stdClass();
         $this->parseFormControls();
         $this->vueInstance->addData('fields', $this->fields);
+        $this->addComputedErrorFlag();
     }
 
     /**
@@ -57,7 +58,7 @@ class VueAppGenerator
     {
         foreach ($this->form->getFormControls() as $control) {
             if ($control->attributes->isSet('name')) {
-                 new Field($control, $this->fields);
+                new Field($control, $this->fields);
             }
         }
     }
@@ -70,6 +71,21 @@ class VueAppGenerator
     public function getVueInstance(): VueInstance
     {
         return $this->vueInstance;
+    }
+
+    /**
+     * Adds a computed boolean attribute
+     * indicating a current error in any field.
+     */
+    private function addComputedErrorFlag()
+    {
+        $jsStatements = [];
+        foreach ($this->fields as $fieldName => $field) {
+            $jsStatements[] = "this.fields.$fieldName.errors.length > 0";
+        }
+        $jsStatements = implode(' || ',$jsStatements);
+
+        $this->vueInstance->addComputed('hasErrors', "function () {return $jsStatements;}");
     }
 
 }

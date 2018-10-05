@@ -2,13 +2,15 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
+use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveErrors;
 use Nicat\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInterface
 {
-    use CanHaveErrors;
+    use CanHaveErrors,
+        CanBelongToFormInstance;
 
     /**
      * HiddenInput constructor.

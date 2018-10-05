@@ -3,9 +3,7 @@
 namespace Nicat\FormFactory\Decorators\General;
 
 use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 /**
@@ -43,11 +41,7 @@ class DecorateButtons extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            Button::class,
-            SubmitButton::class,
-            ResetButton::class
-        ];
+        return ComponentLists::buttons();
     }
 
     /**
@@ -73,7 +67,11 @@ class DecorateButtons extends Decorator
         }
 
         // Auto-generated IDs always start with formID followed by an underscore and an appropriate suffix.
-        $fieldId = FormFactory::singleton()->getOpenForm()->getId() . '_' . $this->getIdSuffix();
+        $fieldId = '';
+        if ($this->element->hasFormInstance()) {
+            $fieldId = $this->element->getFormInstance()->getId() . '_';
+        }
+        $fieldId .= $this->getIdSuffix();
 
         // Set the id.
         $this->element->id($fieldId);

@@ -550,6 +550,7 @@ class DynamicList extends FieldsetElement
             ->title($removeButtonLabel)
             ->content($removeButtonLabel)
             ->context('danger')
+            ->id($this->formFactory->getOpenForm()->getId().'_dynamic_list_'.$this->getDynamicListGroupID().'_remove_button')
             ->data('dynamiclist-remove', true)
         ;
     }

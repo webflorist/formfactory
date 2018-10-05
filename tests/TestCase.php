@@ -24,6 +24,7 @@ class TestCase extends BaseTestCase
     protected $decorators = [];
     protected $openForm = true;
     protected $closeForm = true;
+    protected $enableVue = false;
 
     protected function getPackageProviders($app)
     {
@@ -44,6 +45,7 @@ class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('htmlfactory.decorators', $this->decorators);
+        $app['config']->set('formfactory.vue.enabled', $this->enableVue);
     }
 
     protected function setDecorators(array $decorators) {

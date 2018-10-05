@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\HtmlFactory;
 use Route;
@@ -86,10 +87,14 @@ class FormFactoryServiceProvider extends ServiceProvider
             'Nicat\FormFactory\Decorators\General',
             __DIR__ . '/Decorators/General'
         );
-        $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\Vue',
-            __DIR__ . '/Decorators/Vue'
-        );
+
+        if (FormFactoryConfig::isVueEnabled()) {
+            $htmlFactory->decorators->registerFromFolder(
+                'Nicat\FormFactory\Decorators\Vue',
+                __DIR__ . '/Decorators/Vue'
+            );
+        }
+
         $htmlFactory->decorators->registerFromFolder(
             'Nicat\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'
@@ -98,6 +103,7 @@ class FormFactoryServiceProvider extends ServiceProvider
             'Nicat\FormFactory\Decorators\Bootstrap\v4',
             __DIR__ . '/Decorators/Bootstrap/v4'
         );
+
         $htmlFactory->decorators->registerFromFolder(
             'Nicat\FormFactory\Decorators\Bulma\v0',
             __DIR__ . '/Decorators/Bulma/v0'

@@ -68,7 +68,7 @@ trait CanHaveErrors
         if (is_null($this->errors)) {
             /** @var FormFactory $formFactoryService */
             $formFactoryService = FormFactory::singleton();
-            $this->errors =  $formFactoryService->getOpenForm()->errors->getErrorsForField($this->attributes->name);
+            $this->errors =  $this->getFormInstance()->errors->getErrorsForField($this->attributes->name);
 
             if (count($this->errorFields) > 0) {
                 foreach ($this->errorFields as $errorField) {

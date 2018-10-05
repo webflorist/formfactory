@@ -12,6 +12,7 @@ use Nicat\FormFactory\Components\FormControls\TimeInput;
 use Nicat\FormFactory\Components\FormControls\UrlInput;
 use Nicat\FormFactory\Components\FormControls\WeekInput;
 use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
@@ -62,7 +63,7 @@ class DecorateFields extends Decorator
      */
     public static function getGroupId()
     {
-        return 'vue:v2';
+        return null;
     }
 
     /**
@@ -72,29 +73,7 @@ class DecorateFields extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            CheckboxInput::class,
-            ColorInput::class,
-            DateInput::class,
-            DatetimeInput::class,
-            DatetimeLocalInput::class,
-            EmailInput::class,
-            FileInput::class,
-            HiddenInput::class,
-            MonthInput::class,
-            NumberInput::class,
-            PasswordInput::class,
-            RadioInput::class,
-            RangeInput::class,
-            SearchInput::class,
-            Select::class,
-            TelInput::class,
-            Textarea::class,
-            TextInput::class,
-            TimeInput::class,
-            UrlInput::class,
-            WeekInput::class
-        ];
+        return ComponentLists::fields();
     }
 
     /**

@@ -63,7 +63,7 @@ class DecorateRequiredFieldIndicator extends Decorator
      */
     public static function getGroupId()
     {
-        return 'vue:v2';
+        return null;
     }
 
     /**
