@@ -2,26 +2,42 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
+use Nicat\FormFactory\Components\Additional\FieldLabel;
+
 trait CanHaveLabel
 {
     /**
-     * Content of the label.
+     * The FieldLabel-element for this field.
      *
-     * @var null|string
+     * @var null|false|FieldLabel
      */
     public $label = null;
 
     /**
-     * Set content used for the label.
-     * (omit for auto-translation)
+     * Set content to be used for the label.
+     * Omit for auto-translation.
+     * Set to false to avoid rendering of label.
      *
-     * @param string $label
+     * @param string|false $label
      * @return $this
      */
-    public function label(string $label)
+    public function label($label)
     {
+        if (is_string($label)) {
+            $label = (new FieldLabel($this))->setText($label);
+        }
         $this->label = $label;
         return $this;
+    }
+
+    /**
+     * Does this field currently have a label set to be displayed.
+     *
+     * @return bool
+     */
+    public function hasLabel()
+    {
+        return is_a($this->label, FieldLabel::class);
     }
 
     /**
@@ -45,4 +61,5 @@ trait CanHaveLabel
         $this->labelMode = $labelMode;
         return $this;
     }
+
 }

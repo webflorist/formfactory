@@ -45,13 +45,6 @@ class FieldWrapper extends DivElement
     public $displayHelpText = true;
 
     /**
-     * The FieldLabel for this field.
-     *
-     * @var FieldLabel
-     */
-    public $label;
-
-    /**
      * Should this FieldWrapper display a label?
      *
      * @var bool
@@ -70,7 +63,6 @@ class FieldWrapper extends DivElement
         $this->field = $field;
         $this->errorContainer = new ErrorContainer($field);
         $this->helpTextContainer = new HelpTextContainer($field);
-        $this->label = new FieldLabel($field);
 
         $this->data('field-wrapper', true);
     }
@@ -97,21 +89,21 @@ class FieldWrapper extends DivElement
 
         // If labelMode is set to 'bound', we simply wrap the field with the label,
         // and replace the field-element with the label-element in $this.
-        if (!is_null($this->field) && $this->field->labelMode === 'bound') {
+        if (!is_null($this->field) && $this->field->hasLabel() && $this->field->labelMode === 'bound') {
             $this->content->replaceChild(
                 $this->field,
-                $this->label->content($this->field)
+                $this->field->label->content($this->field)
             );
             return;
         }
 
         // Standard-procedure is simply prepend the label.
-        $this->prependContent($this->label);
+        $this->prependContent($this->field->label);
     }
 
     private function addHelpText()
     {
-        $this->appendContent($this->helpTextContainer);
+        $this->appendContent($this->field->getHelpText());
     }
 
     private function addErrors()

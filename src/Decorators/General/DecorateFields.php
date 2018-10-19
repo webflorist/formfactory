@@ -64,9 +64,6 @@ class DecorateFields extends Decorator
         // Automatically generate a meaningful id for fields without a manually set id.
         //$this->autoGenerateID();
 
-        //Wrap fields with the FieldWrapper.
-        $this->applyFieldWrapper();
-
         // Apply laravel-rules to the field's attributes for browser-live-validation.
         $this->applyRules();
 
@@ -81,6 +78,9 @@ class DecorateFields extends Decorator
 
         // Automatically generate help-texts for fields without a manually set help-text using auto-translation.
         $this->autoGenerateHelpText();
+
+        //Wrap fields with the FieldWrapper.
+        $this->applyFieldWrapper();
 
     }
 
@@ -181,7 +181,7 @@ class DecorateFields extends Decorator
     private function autoGeneratePlaceholder()
     {
         if ($this->element->attributes->isAllowed('placeholder') && !$this->element->attributes->isSet('placeholder')) {
-            $defaultValue = $this->element->label;
+            $defaultValue = $this->element->hasLabel() ? $this->element->label->text : null;
             $this->element->placeholder(
                 $this->element->performAutoTranslation($defaultValue,'Placeholder')
             );
