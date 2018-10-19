@@ -426,5 +426,4 @@ class FormFactory
     {
         return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->getVueInstance();
     }
-
 }

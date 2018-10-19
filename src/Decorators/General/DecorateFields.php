@@ -62,7 +62,7 @@ class DecorateFields extends Decorator
     public function decorate()
     {
         // Automatically generate a meaningful id for fields without a manually set id.
-        $this->autoGenerateID();
+        //$this->autoGenerateID();
 
         //Wrap fields with the FieldWrapper.
         $this->applyFieldWrapper();

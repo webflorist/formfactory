@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Utilities\Forms;
 
 use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
@@ -261,6 +262,7 @@ class FormInstance
             $this->lastSelect = $formControlElement;
         }
         $formControlElement->setFormInstance($this);
+        $this->autoGenerateFormControlId($formControlElement);
     }
 
     /**
@@ -271,6 +273,33 @@ class FormInstance
     public function getFormControls()
     {
         return $this->formControls;
+    }
+
+    /**
+     * Automatically generates a meaningful id for a form-control.
+     *
+     * @param Element $formControlElement
+     */
+    private function autoGenerateFormControlId(Element $formControlElement)
+    {
+        // If $this->element has no 'name' attribute set, we abort,
+        // because without a name we can not auto-create an id.
+        if (!$formControlElement->attributes->isSet('name')) {
+            return;
+        }
+
+        // Auto-generated IDs always start with formID...
+        $fieldId = $this->getId();
+
+        // ...followed by the field-name.
+        $fieldId .= '_' . $formControlElement->attributes->name;
+
+        // For radio-buttons and options we also append the value.
+        if ($formControlElement->is(RadioInput::class)) {
+            $fieldId .= '_' . $formControlElement->attributes->value;
+        }
+
+        $formControlElement->id($fieldId);
     }
 
 }
