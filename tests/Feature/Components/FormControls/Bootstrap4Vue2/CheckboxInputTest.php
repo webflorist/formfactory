@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
 
 use FormFactoryTests\TestCase;
 
@@ -18,7 +18,7 @@ class CheckboxInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check">
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" />
+                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" v-model="fields.text.value" v-bind="{ required: fields.text.isRequired, disabled: fields.text.isDisabled }" />
                     <label for="myFormId_checkbox">Checkbox</label>
                 </div>
             ',
@@ -40,8 +40,8 @@ class CheckboxInputTest extends TestCase
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" required aria-describedby="myFormId_checkbox_errors myFormId_checkbox_helpText" aria-invalid="true" />
-                    <label for="myFormId_checkbox">Checkbox<sup>*</sup></label>
+                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" required aria-describedby="myFormId_checkbox_errors myFormId_checkbox_helpText" aria-invalid="true" v-model="fields.text.value" v-bind="{ required: fields.text.isRequired, disabled: fields.text.isDisabled }" />
+                    <label for="myFormId_checkbox">Checkbox<sup v-if="fields.checkbox.isRequired">*</sup></label>
                     <small id="myFormId_checkbox_helpText">myHelpText</small>
                 </div>
             ',

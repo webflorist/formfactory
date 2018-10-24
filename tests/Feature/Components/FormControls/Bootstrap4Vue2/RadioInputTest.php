@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
 
 use FormFactoryTests\TestCase;
 
@@ -41,7 +41,7 @@ class RadioInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" />
-                    <label for="myFormId_radio_myValue">MyValue<sup>*</sup></label>
+                    <label for="myFormId_radio_myValue">MyValue<sup v-if="fields.week.isRequired">*</sup></label>
                     <small id="myFormId_radio_myValue_helpText">myHelpText</small>
                 </div>
             ',

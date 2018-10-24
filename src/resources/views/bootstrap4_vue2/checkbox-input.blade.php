@@ -1,1 +1,1 @@
-@include('formfactory::bootstrap4._general.checkable-field')
+@include('formfactory::bootstrap4_vue2._general.checkable-field')

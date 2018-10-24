@@ -1,1 +1,1 @@
-@include('formfactory::bootstrap4._general.default-field')
+@include('formfactory::bootstrap4_vue2._general.default-field')

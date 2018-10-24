@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
 
 use FormFactoryTests\TestCase;
 
@@ -17,9 +17,9 @@ class TextInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group form-check" v-bind:class="{ \'has-error\': \'fields.text.errors.length\' }">
                     <label for="myFormId_text">Text</label>
-                    <input type="text" name="text" id="myFormId_text" class="form-control" placeholder="Text" />
+                    <input type="text" name="text" id="myFormId_text" class="form-control" placeholder="Text" v-model="fields.text.value" v-bind="{ required: fields.text.isRequired, disabled: fields.text.isDisabled }" />
                 </div>
             ',
             $element->generate()
@@ -35,13 +35,12 @@ class TextInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
-                    <label for="myFormId_text">Text<sup>*</sup></label>
-                    <div id="myFormId_text_errors">
-                        <div>myFirstError</div>
-                        <div>mySecondError</div>
+                <div class="form-group form-check" v-bind:class="{ \'has-error\': \'fields.text.errors.length\' }">
+                    <label for="myFormId_text">Text<sup v-if="fields.text.isRequired">*</sup></label>
+                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_text_errors" v-if="fields.text.errors.length">
+                        <div v-for="error in fields.text.errors"> {{ error }} </div>
                     </div>
-                    <input type="text" name="text" id="myFormId_text" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Text" aria-describedby="myFormId_text_errors myFormId_text_helpText" aria-invalid="true" />
+                    <input type="text" name="text" id="myFormId_text" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Text" aria-describedby="myFormId_text_errors myFormId_text_helpText" aria-invalid="true" v-model="fields.text.value" v-bind="{ required: fields.text.isRequired, disabled: fields.text.isDisabled }" />
                     <small id="myFormId_text_helpText">myHelpText</small>
                 </div>
             ',

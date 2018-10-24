@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
 
 use FormFactoryTests\TestCase;
 
@@ -36,7 +36,7 @@ class RangeInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_range">Range<sup>*</sup></label>
+                    <label for="myFormId_range">Range<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_range_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>

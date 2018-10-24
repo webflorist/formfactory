@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
 
 use FormFactoryTests\TestCase;
 
@@ -36,7 +36,7 @@ class DatetimeInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_datetime">Datetime<sup>*</sup></label>
+                    <label for="myFormId_datetime">Datetime<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_datetime_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>

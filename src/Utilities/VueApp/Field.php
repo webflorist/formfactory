@@ -72,7 +72,7 @@ class Field
     {
         $this->fields = $fields;
         $this->value = $this->evaluateFieldValue($field);
-        $this->errors = $field->getErrors();
+        $this->errors = $this->evaluateFieldErrors($field);
         $this->isRequired = ($field->attributes->required === true) ? true : false;
         $this->isDisabled = ($field->attributes->disabled === true) ? true : false;
         $this->fields->{FormFactoryTools::convertArrayFieldHtmlName2JsNotation($field->attributes->name)} = $this;
@@ -105,6 +105,21 @@ class Field
 
         return e($field->attributes->value);
 
+    }
+
+    /**
+     * Evaluates the field's current errors.
+     *
+     * @param Element $field
+     * @return array
+     */
+    private function evaluateFieldErrors(Element $field)
+    {
+        if ($field->errors) {
+            return $field->errors->getErrors();
+        }
+
+        return [];
     }
 
     /**
