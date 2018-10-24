@@ -110,7 +110,7 @@ class FieldLabel extends LabelElement
 
     /**
      * Adds indication to normal fields
-     * 
+     *
      * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function indicateField()
@@ -129,12 +129,12 @@ class FieldLabel extends LabelElement
         }
 
         // Otherwise we append the RequiredFieldIndicator to the label-text.
-        $this->appendContent( new RequiredFieldIndicator($this->field));
+        $this->appendContent(new RequiredFieldIndicator($this->field));
     }
 
     /**
      * Adds indication to radio-groups.
-     * 
+     *
      * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function indicateRadioGroup()

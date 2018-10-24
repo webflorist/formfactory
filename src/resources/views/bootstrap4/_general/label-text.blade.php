@@ -1,0 +1,1 @@
+{{$el->label}}@if($el->attributes->required)<sup>*</sup>@endif

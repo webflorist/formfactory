@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Utilities\Forms;
 
 use Nicat\FormFactory\Components\Form;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
@@ -261,7 +262,9 @@ class FormInstance
         if ($formControlElement->is(Select::class)) {
             $this->lastSelect = $formControlElement;
         }
+
         $formControlElement->setFormInstance($this);
+
         $this->autoGenerateFormControlId($formControlElement);
     }
 

@@ -17,25 +17,11 @@ class FieldWrapper extends DivElement
     public $field;
 
     /**
-     * The ErrorContainer, that will display any field-errors.
-     *
-     * @var ErrorContainer
-     */
-    public $errorContainer;
-
-    /**
      * Should this FieldWrapper display errors?
      *
      * @var bool
      */
     public $displayErrors = true;
-
-    /**
-     * The HelpTextContainer, that will display any help-texts.
-     *
-     * @var ErrorContainer
-     */
-    public $helpTextContainer;
 
     /**
      * Should this FieldWrapper display a HelpText?
@@ -61,8 +47,6 @@ class FieldWrapper extends DivElement
         parent::__construct();
 
         $this->field = $field;
-        $this->errorContainer = new ErrorContainer($field);
-        $this->helpTextContainer = new HelpTextContainer($field);
 
         $this->data('field-wrapper', true);
     }
@@ -103,12 +87,12 @@ class FieldWrapper extends DivElement
 
     private function addHelpText()
     {
-        $this->appendContent($this->field->getHelpText());
+        $this->appendContent($this->field->helpTextContainer);
     }
 
     private function addErrors()
     {
-        $this->prependContent($this->errorContainer);
+        $this->prependContent($this->field->errorContainer);
     }
 
 

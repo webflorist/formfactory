@@ -37,7 +37,6 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
         parent::__construct();
         $this->name($name);
         $this->value($value);
-        $this->labelMode('bound');
     }
 
     /**

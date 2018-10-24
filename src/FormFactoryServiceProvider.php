@@ -37,6 +37,9 @@ class FormFactoryServiceProvider extends ServiceProvider
         // Load translations.
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormFactory");
 
+        // Load views.
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'formfactory');
+
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
 

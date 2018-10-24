@@ -17,11 +17,9 @@ class RegressionTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-<div data-field-wrapper="1">
-    <label for="myFormId_text">Text</label>
-    <div role="alert" data-error-container="1" id="myFormId_text_errors" data-displays-errors-for="text" hidden style="display:none"></div>
-    <input type="text" name="text" value="new" id="myFormId_text" placeholder="Text" aria-describedby="myFormId_text_errors" />
-</div>',
+                <label for="myFormId_text">Text</label>
+                <input type="text" name="text" id="myFormId_text" value="new" placeholder="Text" />
+            ',
             Form::text('text')->value('new')->generate()
         );
     }

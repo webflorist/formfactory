@@ -37,7 +37,6 @@ class CheckboxInput extends CheckboxInputComponent implements FieldValueProcesso
         parent::__construct();
         $this->name($name);
         $this->value($value);
-        $this->labelMode('bound');
     }
 
     /**

@@ -6,6 +6,7 @@ use Form;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
 use Nicat\FormFactory\Components\Traits\CanHaveRules;
 use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
@@ -25,6 +26,7 @@ class TestCase extends BaseTestCase
     protected $openForm = true;
     protected $closeForm = true;
     protected $enableVue = false;
+    protected $viewBase = 'formfactory::raw';
 
     protected function getPackageProviders($app)
     {
@@ -46,6 +48,7 @@ class TestCase extends BaseTestCase
     {
         $app['config']->set('htmlfactory.decorators', $this->decorators);
         $app['config']->set('formfactory.vue.enabled', $this->enableVue);
+        $app['config']->set('formfactory.views.base', $this->viewBase);
     }
 
     protected function setDecorators(array $decorators) {
@@ -89,14 +92,10 @@ class TestCase extends BaseTestCase
      */
     protected function applyComplexAttributes(Element $element)
     {
-        $this->applyGeneralAttributes($element);
 
-        if ($element->is(InputElement::class)) {
-            $this->applyInputAttributes($element);
-        }
-
-        if ($element->is(ButtonElement::class)) {
-            $this->applyButtonAttributes($element);
+        if (method_exists($element,'helpText')) {
+            /** @var CanHaveHelpText $element */
+            $element->helpText('myHelpText');
         }
 
         if (method_exists($element,'errors')) {

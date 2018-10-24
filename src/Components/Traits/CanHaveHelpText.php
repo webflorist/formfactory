@@ -2,55 +2,33 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
+use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
 
 trait CanHaveHelpText
 {
 
     /**
-     * A help-text to display with the field.
+     * The FieldHelp object used to store manage helpText for this field.
      *
-     * @var null|string
+     * @var null|false|FieldHelpText
      */
-    protected $helpText = null;
+    public $helpText = null;
 
     /**
-     * Where the help-text should be displayed.
+     * Set content to be used for the help-text.
+     * Omit for auto-translation.
+     * Set to false to avoid rendering of help-text.
      *
-     * @var string: before|after|append|prepend
-     */
-    public $helpTextLocation = 'after';
-
-    /**
-     * Set help-text to display.
-     * (omit for auto-translation)
-     *
-     * @param string $helpText
+     * @param string|false $helpText
      * @return $this
      */
     public function helpText($helpText)
     {
+        if (is_string($helpText)) {
+            $helpText = (strlen($helpText) > 0) ? (new FieldHelpText($this))->setText($helpText) : null;
+        }
         $this->helpText = $helpText;
         return $this;
-    }
-
-    /**
-     * Get help-text to display.
-     *
-     * @return null|string
-     */
-    public function getHelpText()
-    {
-        return $this->helpText;
-    }
-
-    /**
-     * Is help-text set?
-     *
-     * @return bool
-     */
-    public function hasHelpText()
-    {
-        return strlen($this->helpText) > 0;
     }
 
 }

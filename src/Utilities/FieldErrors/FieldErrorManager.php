@@ -6,7 +6,7 @@ use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 /**
- * Manages field-errors for forms.
+ * Manages field-errors for form-instances.
  *
  * Class FieldErrorManager
  * @package Nicat\FormFactory
@@ -70,7 +70,7 @@ class FieldErrorManager
     }
 
     /**
-     * Gets the error(s) of a field currently stored in the FormFactory-object.
+     * Gets the error(s) of a field currently stored in this FieldErrorManager.
      *
      * @param string $fieldName
      * @return array
@@ -79,12 +79,27 @@ class FieldErrorManager
     {
         $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
 
-        if (isset($this->errors[$fieldName]) > 0) {
+        if (isset($this->errors[$fieldName])) {
             return $this->errors[$fieldName];
         }
 
         // If no errors were found, we simply return an empty array.
         return [];
+    }
+
+    /**
+     *  Are any error(s) of a specific field currently stored in this FieldErrorManager?
+     *
+     * @param string $fieldName
+     * @return bool
+     */
+    public function hasErrorsForField(string $fieldName): bool
+    {
+        if (isset($this->errors[FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName)])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -11,18 +11,18 @@ class ErrorContainer extends AlertComponent
 {
 
     /**
-     * List of field-elements, this tag should display errors for.
+     * The field this ErrorContainer belongs to.
      *
-     * @var Element[]
+     * @var Element
      */
-    public $errorFieldElements = [];
+    public $field;
 
     /**
-     * List of additional field-names, this tag should display errors for.
+     * Array of errors to display in this ErrorContainer.
      *
-     * @var Element[]|string[]
+     * @var array
      */
-    public $errorFieldNames = [];
+    protected $errors = [];
 
     /**
      * ErrorContainer constructor.
@@ -33,33 +33,35 @@ class ErrorContainer extends AlertComponent
     {
         parent::__construct('danger');
 
-        if (!is_null($field)) {
-            $this->addErrorField($field);
-        }
+        $this->field = $field;
 
         $this->data('error-container', true);
+
+        $this->id($this->field->attributes->id . '_errors');
     }
 
     /**
-     * Adds an element to the list of fields, this tag should display errors for.
+     * Sets the errors to display.
      *
-     * $field can either be an Element (which must use the 'CanHaveErrors' trait),
-     * or simply a field-name.
-     *
-     * @param Element|string $field
+     * @param array $errors
+     * @return ErrorContainer
      */
-    public function addErrorField($field)
+    public function setErrors(array $errors)
     {
-        if (is_a($field, Element::class)) {
-            if (method_exists($field, 'errors') && array_search($field, $this->errorFieldElements, true) === false) {
-                $this->errorFieldElements[] = $field;
-            }
-        }
-
-        if (is_string($field)) {
-            $this->errorFieldNames[] = $field;
-        }
+        $this->errors = $errors;
+        return $this;
     }
+
+    /**
+     * Are any errors set?
+     *
+     * @return bool
+     */
+    public function hasErrors() : bool
+    {
+        return count($this->errors) > 0;
+    }
+
 
     /**
      * Gets called before applying decorators.

@@ -10,14 +10,14 @@ interface HelpTextInterface
      *
      * @return null|string
      */
-    public function getHelpText();
+    //public function getHelpText();
 
     /**
      * Is help-text set?
      *
      * @return bool
      */
-    public function hasHelpText();
+    //public function hasHelpText();
 
     /**
      * Should a help-text be shown?

@@ -2,18 +2,16 @@
 
 namespace Nicat\FormFactory\Utilities\Forms;
 
-use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Exceptions\FormInstanceNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 /**
- * Manages persistent data for generated forms.
+ * Manages FormInstances.
  *
- * Class FormsManager
+ * Class FormInstanceManager
  * @package Nicat\FormFactory
  */
-class FormManager
+class FormInstanceManager
 {
 
     /**

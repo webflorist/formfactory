@@ -10,105 +10,30 @@ class HelpTextContainer extends DivElement
 {
 
     /**
-     * Array of field-elements, this tag should display errors for.
+     * Array of field-elements, this tag should display help-text for.
      *
-     * @var AllowsAriaDescribedbyAttribute[]|Element[]|HelpTextInterface[]
+     * @var AllowsAriaDescribedbyAttribute|Element|HelpTextInterface
      */
-    public $helpTextFields = [];
+    public $field;
 
     /**
      * HelpTextContainer constructor.
      *
-     * @param Element|null|HelpTextInterface $field
-     */
-    public function __construct(HelpTextInterface $field = null)
-    {
-        parent::__construct();
-        if (!is_null($field)) {
-            $this->addHelpTextField($field);
-        }
-    }
-
-
-    /**
-     * Adds an element to the list of fields, this tag should display help-texts for.
-     *
-     * $field must implement HelpTextInterface.
-     *
      * @param HelpTextInterface $field
      */
-    public function addHelpTextField(HelpTextInterface $field)
+    public function __construct(HelpTextInterface $field)
     {
-        $this->helpTextFields[] = $field;
-    }
+        parent::__construct();
 
-    /**
-     * Gets called before applying decorators.
-     * Overwrite to perform manipulations.
-     */
-    protected function afterDecoration()
-    {
-        // Establish id of this HelpTextContainer.
-        $this->establishId();
+        $this->field = $field;
 
-        $this->addHelpTexts();
-    }
+        if ($this->field->hasHelpText()) {
 
-    /**
-     * Establishes the ID for this HelpTextContainer.
-     */
-    private function establishId()
-    {
-        // If the HelpTextContainer should only display helpTexts for a single field-element,
-        // we use the field's ID plus the suffix '_helpText' as this HelpTextContainer's ID.
-        if (count($this->helpTextFields) == 1) {
-            $this->id($this->helpTextFields[0]->attributes->id . '_helpText');
-            return;
+            // Set field's helpText as this container's content.
+            $this->content($this->field->getHelpText());
+            $this->id($this->field->attributes->id . '_helpText');
+            $this->field->addAriaDescribedby($this->attributes->id);
         }
-
-        // Otherwise we create a md5-hash of all field-id's and fieldNames this HelpTextContainer should display help-texts for,
-        // append the suffix '_helpText' and use it as this HelpTextContainer's ID.
-        $fieldIDs = '';
-        foreach ($this->helpTextFields as $fieldElement) {
-            $fieldIDs .= $fieldElement->attributes->id;
-        }
-        $this->id(md5($fieldIDs) . '_helpText');
-
-    }
-
-    /**
-     * Adds all help-texts for all fields within $this->helpTextFields.
-     */
-    private function addHelpTexts()
-    {
-
-        foreach ($this->helpTextFields as $field) {
-
-            // In case the field has a help-text.
-            if ($field->hasHelpText()) {
-
-
-                $this->addHelpText($field->getHelpText());
-
-                // Add the 'aria-describedby' attribute to the field-element.
-                $field->addAriaDescribedby($this->attributes->id);
-            }
-
-        }
-
-    }
-
-    /**
-     * Adds a help-text this HelpTextContainer's content.
-     *
-     * @param string $helpText
-     */
-    private function addHelpText(string $helpText)
-    {
-        if ($this->content->hasContent()) {
-            $helpText = ' ' . $helpText;
-        }
-        $this->content($helpText);
     }
 
     /**
@@ -118,13 +43,12 @@ class HelpTextContainer extends DivElement
      */
     protected function render(): string
     {
-        // We only render this HelpTextContainer, if it actually has content.
-        if (!$this->content->hasContent()) {
+        // We only render this HelpTextContainer, if the field actually has a help-text.
+        if (!$this->field->hasHelpText()) {
             return '';
         }
         return parent::render();
 
     }
-
 
 }

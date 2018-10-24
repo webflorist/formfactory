@@ -12,46 +12,52 @@ namespace FormFactoryTests\Legacy\Traits;
 trait AppliesTagMethodsToMatcherData
 {
 
-    protected function tagMethod2Matcher_defaultAttribute($attribute='',$value='') {
+    protected function tagMethod2Matcher_defaultAttribute($attribute = '', $value = '')
+    {
         $this->matchTagAttributes[$attribute] = $value;
     }
 
-    protected function tagMethod2Matcher_id($id='') {
+    protected function tagMethod2Matcher_id($id = '')
+    {
         $this->matchTagAttributes['id'] = $id;
-        if (isset($this->labelMatcher) && (count($this->labelMatcher)>0)) {
+        if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0)) {
             $this->labelMatcher['attributes']['for'] = $id;
         }
-        $this->errorMatcher['attributes']['id'] = $id.'_errors';
+        $this->errorMatcher['attributes']['id'] = $id . '_errors';
         if (isset($this->matchTagAttributes['aria-describedby'])) {
-            $this->matchTagAttributes['aria-describedby'] = $id.'_errors';
+            $this->matchTagAttributes['aria-describedby'] = $id . '_errors';
         }
     }
 
-    protected function tagMethod2Matcher_addClass($class='') {
-        $this->addHtmlClass2String($this->matchTagAttributes['class'],$class);
+    protected function tagMethod2Matcher_addClass($class = '')
+    {
+        $this->addHtmlClass2String($this->matchTagAttributes['class'], $class);
     }
 
-    protected function addHtmlClass2String(&$classString='', $class2Add='') {
+    protected function addHtmlClass2String(&$classString = '', $class2Add = '')
+    {
 
-        $classesToAdd = explode(' ',trim($class2Add));
+        $classesToAdd = explode(' ', trim($class2Add));
 
         // We only add classes, that don't already exist.
         $existingClasses = explode(' ', $classString);
         foreach ($classesToAdd as $key => $className) {
             if (array_search($className, $existingClasses) === false) {
-                $classString .= ' '.$className;
+                $classString .= ' ' . $className;
             }
         }
         $classString = trim($classString);
 
     }
 
-    protected function tagMethod2Matcher_data($dataAttribute='', $dataValue) {
-        $this->matchTagAttributes['data-'.$dataAttribute] = $dataValue;
+    protected function tagMethod2Matcher_data($dataAttribute = '', $dataValue)
+    {
+        $this->matchTagAttributes['data-' . $dataAttribute] = $dataValue;
     }
 
-    protected function tagMethod2Matcher_label($label='') {
-        if (isset($this->labelMatcher) && (count($this->labelMatcher)>0)) {
+    protected function tagMethod2Matcher_label($label = '')
+    {
+        if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0)) {
             $this->labelMatcher['children'] = [
                 [
                     'text' => $label
@@ -63,7 +69,8 @@ trait AppliesTagMethodsToMatcherData
         }
     }
 
-    protected function tagMethod2Matcher_content($content='') {
+    protected function tagMethod2Matcher_content($content = '')
+    {
         $this->matchTagChildren = [
             [
                 'text' => $content
@@ -71,33 +78,40 @@ trait AppliesTagMethodsToMatcherData
         ];
     }
 
-    protected function tagMethod2Matcher_context($context='') {
+    protected function tagMethod2Matcher_context($context = '')
+    {
         $this->context = $context;
     }
 
-    protected function tagMethod2Matcher_disabled($disabled=true) {
-        $this->handleProperty('disabled',$disabled);
+    protected function tagMethod2Matcher_disabled($disabled = true)
+    {
+        $this->handleProperty('disabled', $disabled);
     }
 
-    protected function tagMethod2Matcher_checked($checked=true) {
-        $this->handleProperty('checked',$checked);
+    protected function tagMethod2Matcher_checked($checked = true)
+    {
+        $this->handleProperty('checked', $checked);
     }
 
-    protected function tagMethod2Matcher_autofocus($autofocus=true) {
-        $this->handleProperty('autofocus',$autofocus);
+    protected function tagMethod2Matcher_autofocus($autofocus = true)
+    {
+        $this->handleProperty('autofocus', $autofocus);
     }
 
-    protected function tagMethod2Matcher_hidden($hidden=true) {
-        $this->handleProperty('hidden',$hidden);
+    protected function tagMethod2Matcher_hidden($hidden = true)
+    {
+        $this->handleProperty('hidden', $hidden);
     }
 
-    protected function tagMethod2Matcher_readonly($readonly=true) {
-        $this->handleProperty('readonly',$readonly);
+    protected function tagMethod2Matcher_readonly($readonly = true)
+    {
+        $this->handleProperty('readonly', $readonly);
     }
 
-    protected function tagMethod2Matcher_required($required=true) {
-        $this->handleProperty('required',$required);
-        if (isset($this->labelMatcher) && (count($this->labelMatcher)>0) && ($this->tagFunction !== 'radio')) {
+    protected function tagMethod2Matcher_required($required = true)
+    {
+        $this->handleProperty('required', $required);
+        if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0) && ($this->tagFunction !== 'radio')) {
             $this->labelMatcher['children'][] = [
                 'tag' => 'sup',
                 'children' => [
@@ -109,23 +123,24 @@ trait AppliesTagMethodsToMatcherData
         }
     }
 
-    protected function tagMethod2Matcher_labelMode($labelMode='bound') {
+    protected function tagMethod2Matcher_labelMode($labelMode = 'bound')
+    {
         if ($labelMode === 'sr-only') {
-            if (isset($this->labelMatcher) && (count($this->labelMatcher)>0)) {
+            if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0)) {
                 $this->labelMatcher['attributes']['class'] = 'sr-only';
             }
-        }
-        else if ($labelMode === 'none') {
+        } else if ($labelMode === 'none') {
             unset($this->labelMatcher);
         }
     }
 
-    protected function tagMethod2Matcher_helpText($helpText='') {
+    protected function tagMethod2Matcher_helpText($helpText = '')
+    {
         $this->helpTextMatcher = [
             'tag' => 'div',
             'attributes' => [
                 'class' => 'text-muted small',
-                'id' => $this->matchTagAttributes['id'].'_helpText',
+                'id' => $this->matchTagAttributes['id'] . '_helpText',
             ],
             'children' => [
                 [
@@ -137,13 +152,14 @@ trait AppliesTagMethodsToMatcherData
         if (!isset($this->matchTagAttributes['aria-describedby'])) {
             $this->matchTagAttributes['aria-describedby'] = '';
         }
-        $this->matchTagAttributes['aria-describedby'] .= ' '.$this->matchTagAttributes['id'].'_helpText';
+        $this->matchTagAttributes['aria-describedby'] .= ' ' . $this->matchTagAttributes['id'] . '_helpText';
     }
 
-    protected function tagMethod2Matcher_errors($errors=[]) {
+    protected function tagMethod2Matcher_errors($errors = [])
+    {
 
-        if (isset($this->wrapperMatcher) && (count($this->wrapperMatcher)>0)) {
-            $this->addHtmlClass2String($this->wrapperMatcher['attributes']['class'],'has-error');
+        if (isset($this->wrapperMatcher) && (count($this->wrapperMatcher) > 0)) {
+            $this->addHtmlClass2String($this->wrapperMatcher['attributes']['class'], 'has-error');
         }
 
         unset($this->errorMatcher['attributes']['hidden']);
@@ -164,48 +180,52 @@ trait AppliesTagMethodsToMatcherData
 
     }
 
-    protected function tagMethod2Matcher_autocomplete($autocomplete=true) {
+    protected function tagMethod2Matcher_autocomplete($autocomplete = true)
+    {
         if ($autocomplete) {
             $this->matchTagAttributes['autocomplete'] = 'on';
-        }
-        else {
+        } else {
             $this->matchTagAttributes['autocomplete'] = 'off';
         }
     }
 
-    protected function tagMethod2Matcher_autoSubmit($autoSubmit=true) {
+    protected function tagMethod2Matcher_autoSubmit($autoSubmit = true)
+    {
         if ($autoSubmit) {
             $this->matchTagAttributes['data-autosubmit'] = 'onChange';
-        }
-        else if (isset($this->matchTagAttributes['data-autosubmit'])) {
+        } else if (isset($this->matchTagAttributes['data-autosubmit'])) {
             unset($this->matchTagAttributes['data-autosubmit']);
         }
     }
 
-    protected function tagMethod2Matcher_ajaxValidation($ajaxValidation='') {
+    protected function tagMethod2Matcher_ajaxValidation($ajaxValidation = '')
+    {
         $this->matchTagAttributes['data-ajaxvalidation'] = $ajaxValidation;
     }
 
-    protected function handleProperty($name='',$value=true) {
+    protected function handleProperty($name = '', $value = true)
+    {
         if ($value) {
             $this->matchTagAttributes[$name] = true;
-        }
-        else if (isset($this->matchTagAttributes[$name])) {
+        } else if (isset($this->matchTagAttributes[$name])) {
             unset($this->matchTagAttributes[$name]);
         }
     }
 
-    protected function tagSupportsPattern() {
-        return method_exists($this,'testFieldTag_setPattern');
+    protected function tagSupportsPattern()
+    {
+        return method_exists($this, 'testFieldTag_setPattern');
     }
 
-    protected function tagSupportsMaxlength() {
-        return method_exists($this,'testFieldTag_setMaxlength');
+    protected function tagSupportsMaxlength()
+    {
+        return method_exists($this, 'testFieldTag_setMaxlength');
     }
 
-    protected function tagMethod2Matcher_rules($ruleString='') {
+    protected function tagMethod2Matcher_rules($ruleString = '')
+    {
 
-        $explodedRules = explode('|',$ruleString);
+        $explodedRules = explode('|', $ruleString);
         foreach ($explodedRules as $key => $rule) {
             $parameters = [];
             if (str_contains($rule, ':')) {
@@ -214,14 +234,14 @@ trait AppliesTagMethodsToMatcherData
                 $parameters = explode(',', $ruleWithParameters[1]);
             }
 
-            switch($rule) {
+            switch ($rule) {
                 case 'accepted':
                 case 'required':
                     $this->tagMethod2Matcher_required();
                     break;
                 case 'not_numeric':
                     if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','\D+');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '\D+');
                     }
                     break;
                 case 'url':
@@ -230,39 +250,37 @@ trait AppliesTagMethodsToMatcherData
                     break;
                 case 'alpha':
                     if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','[a-zA-Z]+');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '[a-zA-Z]+');
                     }
                     break;
                 case 'alpha_dash':
                     if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','[a-zA-Z0-9_\-]+');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '[a-zA-Z0-9_\-]+');
                     }
                     break;
                 case 'alpha_num':
                     if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','[a-zA-Z0-9]+');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '[a-zA-Z0-9]+');
                     }
                     break;
                 case 'between':
                     if ($this->tag === 'input') {
                         if ($this->matchTagAttributes['type'] === 'number') {
-                            $this->tagMethod2Matcher_defaultAttribute('min',$parameters[0]);
-                            $this->tagMethod2Matcher_defaultAttribute('max',$parameters[1]);
+                            $this->tagMethod2Matcher_defaultAttribute('min', $parameters[0]);
+                            $this->tagMethod2Matcher_defaultAttribute('max', $parameters[1]);
+                        } else {
+                            $this->tagMethod2Matcher_defaultAttribute('pattern', $this->matchTagAttributes['pattern'] . '.{' . $parameters[0] . ',' . $parameters[1] . '}');
+                            $this->tagMethod2Matcher_defaultAttribute('maxlength', $parameters[1]);
                         }
-                        else {
-                            $this->tagMethod2Matcher_defaultAttribute('pattern',$this->matchTagAttributes['pattern'].'.{' . $parameters[0] . ',' . $parameters[1] . '}');
-                            $this->tagMethod2Matcher_defaultAttribute('maxlength',$parameters[1]);
-                        }
-                    }
-                    else if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('maxlength',$parameters[1]);
+                    } else if ($this->tagSupportsPattern()) {
+                        $this->tagMethod2Matcher_defaultAttribute('maxlength', $parameters[1]);
                     }
 
                     break;
                 case 'in':
                     if ($this->tagSupportsPattern()) {
-                        $parameters = (sizeof($parameters) == 1) ? $parameters[0] : '('.join('|', $parameters).')';
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','^'.$parameters.'$');
+                        $parameters = (sizeof($parameters) == 1) ? $parameters[0] : '(' . join('|', $parameters) . ')';
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '^' . $parameters . '$');
                     }
                     break;
                 case 'ip':
@@ -271,45 +289,41 @@ trait AppliesTagMethodsToMatcherData
                 case 'max':
                     if ($this->tag === 'input') {
                         if ($this->matchTagAttributes['type'] === 'number') {
-                            $this->tagMethod2Matcher_defaultAttribute('max',$parameters[0]);
+                            $this->tagMethod2Matcher_defaultAttribute('max', $parameters[0]);
+                        } else if ($this->tagSupportsMaxlength()) {
+                            $this->tagMethod2Matcher_defaultAttribute('maxlength', $parameters[0]);
                         }
-                        else if ($this->tagSupportsMaxlength()) {
-                            $this->tagMethod2Matcher_defaultAttribute('maxlength',$parameters[0]);
-                        }
-                    }
-                    else if ($this->tag === 'textarea') {
-                        $this->tagMethod2Matcher_defaultAttribute('maxlength',$parameters[0]);
+                    } else if ($this->tag === 'textarea') {
+                        $this->tagMethod2Matcher_defaultAttribute('maxlength', $parameters[0]);
                     }
                     break;
                 case 'min':
                     if ($this->matchTagAttributes['type'] === 'number') {
-                        $this->tagMethod2Matcher_defaultAttribute('min',$parameters[0]);
-                    }
-                    else if ($this->tagSupportsPattern()) {
+                        $this->tagMethod2Matcher_defaultAttribute('min', $parameters[0]);
+                    } else if ($this->tagSupportsPattern()) {
                         if (isset($this->matchTagAttributes['pattern'])) {
-                            $this->tagMethod2Matcher_defaultAttribute('pattern',$this->matchTagAttributes['pattern'].".{".$parameters[0].",}");
-                        }
-                        else {
-                            $this->tagMethod2Matcher_defaultAttribute('pattern',".{".$parameters[0].",}");
+                            $this->tagMethod2Matcher_defaultAttribute('pattern', $this->matchTagAttributes['pattern'] . ".{" . $parameters[0] . ",}");
+                        } else {
+                            $this->tagMethod2Matcher_defaultAttribute('pattern', ".{" . $parameters[0] . ",}");
                         }
                     }
                     break;
                 case 'not_in':
                     if ($this->tagSupportsPattern()) {
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','(?:(?!^'.join('$|^', $parameters).'$).)*');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '(?:(?!^' . join('$|^', $parameters) . '$).)*');
                     }
                     break;
                 case 'numeric':
                     if ($this->tagSupportsPattern()) {
                         $this->matchTagAttributes['type'] = 'number';
-                        $this->tagMethod2Matcher_defaultAttribute('pattern','[+-]?\d*\.?\d+');
+                        $this->tagMethod2Matcher_defaultAttribute('pattern', '[+-]?\d*\.?\d+');
                     }
                     break;
                 case 'mimes':
-                    if (array_search('jpeg',$parameters) !== false) {
-                        array_push($parameters,'jpg');
+                    if (array_search('jpeg', $parameters) !== false) {
+                        array_push($parameters, 'jpg');
                     }
-                    $this->tagMethod2Matcher_defaultAttribute('accept','.'.implode(',.',$parameters));
+                    $this->tagMethod2Matcher_defaultAttribute('accept', '.' . implode(',.', $parameters));
                     break;
 
             }

@@ -44,7 +44,7 @@ use Nicat\FormFactory\Components\FormControls\WeekInput;
 use Nicat\FormFactory\Exceptions\ElementNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
-use Nicat\FormFactory\Utilities\Forms\FormManager;
+use Nicat\FormFactory\Utilities\Forms\FormInstanceManager;
 use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\ButtonElement;
@@ -102,18 +102,18 @@ class FormFactory
 {
 
     /**
-     * The FormManager object, that manages all created forms.
+     * The FormInstanceManager, that manages all created FormInstances.
      *
-     * @var FormManager
+     * @var FormInstanceManager
      */
-    protected $forms;
+    protected $formInstances;
 
     /**
      * FormFactory constructor.
      */
     public function __construct()
     {
-        $this->forms = new FormManager();
+        $this->formInstances = new FormInstanceManager();
     }
 
     /**
@@ -135,7 +135,7 @@ class FormFactory
 
         if (class_exists($formControlClass)) {
             $formControlElement = new $formControlClass(...$arguments);
-            if ($this->forms->hasOpenForm()) {
+            if ($this->formInstances->hasOpenForm()) {
                 $this->getOpenForm()->addFormControl($formControlElement);
             }
             return $formControlElement;
@@ -158,7 +158,7 @@ class FormFactory
 
     /**
      * Generates and returns the opening form-tag.
-     * Also adds the form to $this->forms.
+     * Also creates a new FormInstance and adds it to $this->formInstances.
      *
      * @param string $id
      * @return Form
@@ -168,7 +168,7 @@ class FormFactory
     public static function open(string $id): Form
     {
         $form = (new Form())->id($id)->method('post');
-        FormFactory::singleton()->forms->addForm(
+        FormFactory::singleton()->formInstances->addForm(
             new FormInstance($form)
         );
         return $form;
@@ -356,7 +356,7 @@ class FormFactory
      */
     public function getOpenForm(): FormInstance
     {
-        return $this->forms->getOpenForm();
+        return $this->formInstances->getOpenForm();
     }
 
     /**
@@ -368,7 +368,7 @@ class FormFactory
      */
     public function getForm(string $id): FormInstance
     {
-        return $this->forms->getForm($id);
+        return $this->formInstances->getForm($id);
     }
 
     /**
@@ -424,6 +424,6 @@ class FormFactory
      */
     public static function vue(string $id): VueInstance
     {
-        return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->getVueInstance();
+        return (new VueAppGenerator(FormFactory::singleton()->formInstances->getForm($id)))->getVueInstance();
     }
 }

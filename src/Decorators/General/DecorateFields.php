@@ -61,8 +61,6 @@ class DecorateFields extends Decorator
      */
     public function decorate()
     {
-        // Automatically generate a meaningful id for fields without a manually set id.
-        //$this->autoGenerateID();
 
         // Apply laravel-rules to the field's attributes for browser-live-validation.
         $this->applyRules();
@@ -80,38 +78,13 @@ class DecorateFields extends Decorator
         $this->autoGenerateHelpText();
 
         //Wrap fields with the FieldWrapper.
-        $this->applyFieldWrapper();
+        $this->autoPopulateErrors();
 
-    }
+        //Wrap fields with the FieldWrapper.
+        $this->applyAriaTagsOnErrors();
 
-    /**
-     * Automatically generates a meaningful id for fields without a manually set id.
-     */
-    protected function autoGenerateID()
-    {
-        // If the element already has an id, we leave it be.
-        if ($this->element->attributes->isSet('id')) {
-            return;
-        }
+        $this->addAriaDescribedByOnHelpText();
 
-        // If $this->element has no 'name' attribute set, we abort,
-        // because without a name we can not auto-create an id.
-        if (!$this->element->attributes->isSet('name')) {
-            return;
-        }
-
-        // Auto-generated IDs always start with formID...
-        $fieldId = FormFactory::singleton()->getOpenForm()->getId();
-
-        // ...followed by the field-name.
-        $fieldId .= '_' . $this->element->attributes->name;
-
-        // For radio-buttons and options we also append the value.
-        if ($this->element->is(RadioInput::class)) {
-            $fieldId .= '_' . $this->element->attributes->value;
-        }
-
-        $this->element->id($fieldId);
     }
 
     /**
@@ -181,7 +154,7 @@ class DecorateFields extends Decorator
     private function autoGeneratePlaceholder()
     {
         if ($this->element->attributes->isAllowed('placeholder') && !$this->element->attributes->isSet('placeholder')) {
-            $defaultValue = $this->element->hasLabel() ? $this->element->label->text : null;
+            $defaultValue = $this->element->label ? $this->element->label->getText() : null;
             $this->element->placeholder(
                 $this->element->performAutoTranslation($defaultValue,'Placeholder')
             );
@@ -193,11 +166,38 @@ class DecorateFields extends Decorator
      */
     protected function autoGenerateHelpText()
     {
-        if (method_exists($this->element,'hasHelpText') && ($this->element->getHelpText() === null)) {
+        if (method_exists($this->element,'helpText') && ($this->element->helpText === null)) {
             $helpText = $this->element->performAutoTranslation(null, 'HelpText');
             if ($helpText !== null) {
                 $this->element->helpText($helpText);
             }
+        }
+    }
+
+    /**
+     * Tries to retrieves errors from the FormInstance, if no errors have been set yet.
+     */
+    private function autoPopulateErrors()
+    {
+        if ($this->element->errors === null) {
+            $this->element->errors(
+                $this->element->getFormInstance()->errors->getErrorsForField($this->element->attributes->name)
+            );
+        }
+    }
+
+    private function applyAriaTagsOnErrors()
+    {
+        if ($this->element->errors) {
+            $this->element->addAriaDescribedby($this->element->attributes->id . '_errors');
+            $this->element->ariaInvalid();
+        }
+    }
+
+    private function addAriaDescribedByOnHelpText()
+    {
+        if ($this->element->helpText) {
+            $this->element->addAriaDescribedby($this->element->attributes->id . '_helpText');
         }
     }
 

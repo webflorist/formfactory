@@ -66,7 +66,6 @@ class Form extends FormElement
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
         $this->setDefaultAction();
-        $this->appendHiddenGeneralErrorContainer();
         $this->applyOpenModalOnLoad();
 
         $this->getFormInstance()->setUpAntiBotProtections();
@@ -268,16 +267,6 @@ class Form extends FormElement
             $this->attributes->remove('data-ajaxvalidation');
         }
         return $this;
-    }
-
-    /**
-     * Append a hidden general-error-container for displaying general field-errors.
-     */
-    protected function appendHiddenGeneralErrorContainer()
-    {
-        $this->appendContent(
-            (new ErrorContainer())->data('displays-general-errors',true)
-        );
     }
 
     /**
