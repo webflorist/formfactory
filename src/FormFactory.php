@@ -3,16 +3,11 @@
 namespace Nicat\FormFactory;
 
 use Nicat\FormFactory\Components\Additional\ButtonGroup;
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
-use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\Additional\InputGroupAddon;
 use Nicat\FormFactory\Components\Additional\InputGroupButton;
 use Nicat\FormFactory\Components\Additional\InputGroup;
-use Nicat\FormFactory\Components\Additional\Panel;
 use Nicat\FormFactory\Components\Additional\RadioGroup;
-use Nicat\FormFactory\Components\Additional\RequiredFieldsLegend;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\ColorInput;
@@ -136,7 +131,7 @@ class FormFactory
         if (class_exists($formControlClass)) {
             $formControlElement = new $formControlClass(...$arguments);
             if ($this->formInstances->hasOpenForm()) {
-                $this->getOpenForm()->addFormControl($formControlElement);
+                $this->getOpenForm()->registerFormControl($formControlElement);
             }
             return $formControlElement;
         }
@@ -177,19 +172,13 @@ class FormFactory
     /**
      * Creates the closing-tag of the form
      *
-     * @param bool $showRequiredFieldsLegend
      * @return string
      * @throws OpenElementNotFoundException
      */
-    public static function close(bool $showRequiredFieldsLegend = true)
+    public static function close()
     {
-        $return = '';
-        if ($showRequiredFieldsLegend && FormFactory::singleton()->getOpenForm()->wasRequiredFieldIndicatorUsed()) {
-            $return .= new RequiredFieldsLegend();
-        }
-        $return .= '</form>';
         FormFactory::singleton()->getOpenForm()->closeForm();
-        return $return;
+        return '</form>';
     }
 
     /**
@@ -217,16 +206,6 @@ class FormFactory
     public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel = null, $minItems = null, $maxItems = null): DynamicList
     {
         return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
-    }
-
-    /**
-     * Generates Panel.
-     *
-     * @return Panel
-     */
-    public static function panel(): Panel
-    {
-        return (new Panel());
     }
 
     /**
@@ -290,38 +269,6 @@ class FormFactory
             $element->content($content);
         }
         return $element;
-    }
-
-
-    /**
-     * Generates an error-container for a specific field.
-     *
-     * @param $fieldName
-     * @return ErrorContainer
-     */
-    public static function errorContainer(string $fieldName)
-    {
-        return new ErrorContainer($fieldName);
-    }
-
-    /**
-     * Generates an empty HelpText-container.
-     *
-     * @return HelpTextContainer
-     */
-    public static function helpTextContainer()
-    {
-        return new HelpTextContainer();
-    }
-
-    /**
-     * Generates an indicator for a required field.
-     *
-     * @return RequiredFieldIndicator
-     */
-    public static function requiredFieldIndicator()
-    {
-        return new RequiredFieldIndicator();
     }
 
     /**

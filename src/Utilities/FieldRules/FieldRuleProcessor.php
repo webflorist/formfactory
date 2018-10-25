@@ -32,6 +32,7 @@ class FieldRuleProcessor
      * Apply any rules for/to $element.
      *
      * @param Element|CanHaveRules $element
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public static function process($element)
     {

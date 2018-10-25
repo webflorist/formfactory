@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+
 use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
@@ -15,7 +15,7 @@ use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\HtmlFactory\Components\TelInputComponent;
 
-class TelInput extends TelInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface, HelpTextInterface
+class TelInput extends TelInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface
 {
     use CanHaveLabel,
         CanHaveRules,

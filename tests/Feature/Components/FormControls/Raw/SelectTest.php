@@ -50,15 +50,15 @@ class SelectTest extends TestCase
                     <div>mySecondError</div>
                 </div>
                 <select name="select" id="myFormId_select" required aria-describedby="myFormId_select_errors myFormId_select_helpText" aria-invalid="true">
-                    <option value="option1" id="myFormId_select_option1">option1</option>
+                    <option value="option1">option1</option>
                     <optgroup label="optgroup1">
-                        <option value="optgroup1-option1" id="myFormId_select_optgroup1-option1">optgroup1-option1</option>
-                        <option value="optgroup1-option2" id="myFormId_select_optgroup1-option2">optgroup1-option2</option>
+                        <option value="optgroup1-option1">optgroup1-option1</option>
+                        <option value="optgroup1-option2">optgroup1-option2</option>
                     </optgroup>
-                    <option value="option2" id="myFormId_select_option2">option2</option>
+                    <option value="option2">option2</option>
                     <optgroup label="optgroup2">
-                        <option value="optgroup2-option1" id="myFormId_select_optgroup2-option1">optgroup2-option1</option>
-                        <option value="optgroup2-option2" id="myFormId_select_optgroup2-option2">optgroup2-option2</option>
+                        <option value="optgroup2-option1">optgroup2-option1</option>
+                        <option value="optgroup2-option2">optgroup2-option2</option>
                     </optgroup>
                 </select>
                 <small id="myFormId_select_helpText">myHelpText</small>

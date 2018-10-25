@@ -1,1 +1,0 @@
-{{$el->label}}@if($el->attributes->required)<sup v-if="fields.{{\Nicat\FormFactory\Utilities\FormFactoryTools::convertArrayFieldHtmlName2JsNotation($el->attributes->name)}}.isRequired">*</sup>@endif

@@ -35,7 +35,7 @@ class VueAppGenerator
      *
      * @var stdClass
      */
-    private $fields;
+    private $fieldData;
 
     /**
      * FormInstance constructor.
@@ -46,20 +46,22 @@ class VueAppGenerator
     {
         $this->form = $form;
         $this->vueInstance = new VueInstance('#' . $this->form->getId());
-        $this->fields = new stdClass();
+        $this->fieldData = new stdClass();
         $this->parseFormControls();
-        $this->vueInstance->addData('fields', $this->fields);
-        $this->addComputedErrorFlag();
+        $this->vueInstance->addData('fields', $this->fieldData);
+        $this->vueInstance->addMethod('fieldHasError','function (fieldName) {return this.fields[fieldName].errors.length > 0;}');
+        //$this->vueInstance->addMethod('normalizeFieldName','function (fieldName) {return fieldName.replace("[","_").replace("]","");}');
+        $this->addComputeErrorFlags();
     }
 
     /**
-     * Parses form-controls and adds structured field-info to $this->fields.
+     * Parses form-controls and adds structured field-info to $this->fieldData.
      */
     private function parseFormControls()
     {
         foreach ($this->form->getFormControls() as $control) {
             if (array_search(get_class($control),ComponentLists::fields()) !== false) {
-                new Field($control, $this->fields);
+                $this->fieldData->{$control->attributes->name} = new Field($control, $this->fieldData);
             }
         }
     }
@@ -75,14 +77,14 @@ class VueAppGenerator
     }
 
     /**
-     * Adds a computed boolean attribute
+     * Adds computed boolean properties for each flag.
      * indicating a current error in any field.
      */
-    private function addComputedErrorFlag()
+    private function addComputeErrorFlags()
     {
         $jsStatements = [];
-        foreach ($this->fields as $fieldName => $field) {
-            $jsStatements[] = "this.fields.$fieldName.errors.length > 0";
+        foreach ($this->fieldData as $fieldName => $field) {
+            $jsStatements[] = "this.fields['$fieldName'].errors.length > 0";
         }
         $jsStatements = implode(' || ',$jsStatements);
 

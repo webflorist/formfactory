@@ -2,7 +2,6 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-
 trait CanAutoSubmit
 {
 

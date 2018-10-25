@@ -22,6 +22,7 @@ class FieldValueProcessor
      * Apply values to $element.
      *
      * @param FieldValueProcessorInterface|Element $element
+     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public static function process(FieldValueProcessorInterface $element)
     {

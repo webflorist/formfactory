@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+
 use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
@@ -17,7 +17,7 @@ use Nicat\HtmlFactory\Components\TextInputComponent;
 
 class TextInput
     extends TextInputComponent
-    implements FieldValueProcessorInterface, AutoTranslationInterface, HelpTextInterface
+    implements FieldValueProcessorInterface, AutoTranslationInterface
 {
     use CanHaveLabel,
         CanHaveRules,

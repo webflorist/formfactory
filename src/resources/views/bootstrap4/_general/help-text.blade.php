@@ -1,3 +1,3 @@
 @if($el->helpText)
-    <small id="{{$el->attributes->id}}_helpText">{{$el->helpText}}</small>
+    <small id="{{$el->attributes->id}}_helpText" class="form-text text-muted">{{$el->helpText}}</small>
 @endif

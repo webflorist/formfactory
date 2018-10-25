@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
+
 use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
@@ -16,7 +16,7 @@ use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\HtmlFactory\Elements\SelectElement;
 
-class Select extends SelectElement implements FieldValueProcessorInterface, AutoTranslationInterface, HelpTextInterface
+class Select extends SelectElement implements FieldValueProcessorInterface, AutoTranslationInterface
 {
     use CanHaveLabel,
         CanHaveRules,

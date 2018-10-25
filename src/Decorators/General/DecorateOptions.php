@@ -52,7 +52,7 @@ class DecorateOptions extends Decorator
     public function decorate()
     {
         // Automatically generate a meaningful id for elements without a manually set id.
-        $this->autoGenerateID();
+        //$this->autoGenerateID();
 
         // Automatically generate the content-text for options without a manually set content using auto-translation.
         $this->autoGenerateContentText();

@@ -11,7 +11,7 @@ use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\TextareaElement;
 
 /**
- * Object representing a "field" inside the "fields" object of a VueApp.
+ * Object representing a "field" inside the "data.fieldData" object of a VueApp.
  *
  * Class VueAppGenerator
  * @package Nicat\FormFactory
@@ -56,26 +56,25 @@ class Field
     public $errors = [];
 
     /**
-     * The fields-object this field is a part of.
+     * The fieldData-object this field is a part of.
      *
      * @var \stdClass
      */
-    private $fields;
+    private $fieldData;
 
     /**
      * Field constructor.
      *
      * @param Element $field
-     * @param \stdClass $fields
+     * @param \stdClass $fieldData
      */
-    public function __construct(Element $field, \stdClass $fields)
+    public function __construct(Element $field, \stdClass $fieldData)
     {
-        $this->fields = $fields;
+        $this->fieldData = $fieldData;
         $this->value = $this->evaluateFieldValue($field);
         $this->errors = $this->evaluateFieldErrors($field);
         $this->isRequired = ($field->attributes->required === true) ? true : false;
         $this->isDisabled = ($field->attributes->disabled === true) ? true : false;
-        $this->fields->{FormFactoryTools::convertArrayFieldHtmlName2JsNotation($field->attributes->name)} = $this;
     }
 
     /**
@@ -133,8 +132,8 @@ class Field
         $fieldName = $radio->attributes->name;
 
         // If a valid value for this field-name was already saved from a different radio with the same name, we keep it.
-        if (property_exists($this->fields, $fieldName) && (strlen($this->fields->{$fieldName}->value) > 0)) {
-            return $this->fields->{$fieldName}->value;
+        if (property_exists($this->fieldData, $fieldName) && (strlen($this->fieldData->{$fieldName}->value) > 0)) {
+            return $this->fieldData->{$fieldName}->value;
         }
 
         // Otherwise, if $radio is checked, we return it's "value"-attribute.

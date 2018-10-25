@@ -2,8 +2,6 @@
 
 namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
@@ -11,25 +9,11 @@ use Nicat\FormFactory\Components\Traits\CanHaveErrors;
 use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 
-class RadioGroup extends FieldsetElement implements AutoTranslationInterface, HelpTextInterface
+class RadioGroup extends FieldsetElement implements AutoTranslationInterface
 {
 
     use UsesAutoTranslation,
         CanHaveHelpText;
-
-    /**
-     * Any errors for radio-buttons contained in this radio-group will be displayed here.
-     *
-     * @var ErrorContainer
-     */
-    private $errorContainer;
-
-    /**
-     * Any help-texts for radio-buttons contained in this radio-group will be displayed here.
-     *
-     * @var HelpTextContainer
-     */
-    private $helpTextContainer;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -57,14 +41,6 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
         // Set radio-buttons as content.
         $this->content($radioInputs);
 
-        // Set $this->errorContainer and prepend it.
-        $this->errorContainer = (new ErrorContainer());
-        $this->errorContainer->addErrorField($name);
-        $this->prependContent($this->errorContainer);
-
-        // Set $this->helpTextContainer and append it.
-        $this->helpTextContainer = (new HelpTextContainer($this));
-        $this->appendContent($this->helpTextContainer);
     }
 
     /**
@@ -87,7 +63,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface, He
     {
         foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
             /** @var CanHaveErrors $child */
-            $child->showErrors(false);
+           //$child->showErrors(false);
         }
     }
 

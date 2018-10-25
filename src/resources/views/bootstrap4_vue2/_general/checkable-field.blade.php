@@ -1,12 +1,10 @@
-<div class="form-group form-check" v-bind:class="{ 'has-error': 'fields.{{\Nicat\FormFactory\Utilities\FormFactoryTools::convertArrayFieldHtmlName2JsNotation($el->attributes->name)}}.errors.length' }">
+<div class="form-group form-check{{ ($el->isInline() ? ' form-check-inline' : '') }}" v-bind:class="{ 'has-error': fieldHasError('{{$el->attributes->name}}') }">
 
     @include('formfactory::bootstrap4_vue2._general.errors')
 
     {!! $el->renderHtml() !!}
 
-    @if($el->label)
-        <label for="{{$el->attributes->id}}">@include('formfactory::bootstrap4_vue2._general.label-text')</label>
-    @endif
+    @include('formfactory::bootstrap4_vue2._general.label', ['class' => 'form-check-label'])
 
     @include('formfactory::bootstrap4_vue2._general.help-text')
 

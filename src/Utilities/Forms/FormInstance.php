@@ -4,6 +4,8 @@ namespace Nicat\FormFactory\Utilities\Forms;
 
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\Optgroup;
+use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
@@ -252,11 +254,12 @@ class FormInstance
     }
 
     /**
-     * Adds a FormControl to this FormInstance
+     * Registers a FormControl with this FormInstance
      *
      * @param Element $formControlElement
+     * @throws OpenElementNotFoundException
      */
-    public function addFormControl(Element $formControlElement)
+    public function registerFormControl(Element $formControlElement)
     {
         $this->formControls[] = $formControlElement;
         if ($formControlElement->is(Select::class)) {
@@ -285,13 +288,13 @@ class FormInstance
      */
     private function autoGenerateFormControlId(Element $formControlElement)
     {
-        // If $this->element has no 'name' attribute set, we abort,
-        // because without a name we can not auto-create an id.
+
+        // We only create IDs for form-controls with the name-attribute.
         if (!$formControlElement->attributes->isSet('name')) {
             return;
         }
 
-        // Auto-generated IDs always start with formID...
+        // The Auto-generated IDs always start with formID...
         $fieldId = $this->getId();
 
         // ...followed by the field-name.
