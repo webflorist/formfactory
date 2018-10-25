@@ -65,7 +65,7 @@ class SelectTest extends TestCase
                             <option value="optgroup2-option2">optgroup2-option2</option>
                         </optgroup>
                     </select>
-                    <small id="myFormId_select_helpText">myHelpText</small>
+                    <small id="myFormId_select_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

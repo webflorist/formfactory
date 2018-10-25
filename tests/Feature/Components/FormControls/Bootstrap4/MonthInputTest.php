@@ -41,7 +41,7 @@ class MonthInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="month" name="month" id="myFormId_month" class="form-control" required aria-describedby="myFormId_month_errors myFormId_month_helpText" aria-invalid="true" />
-                    <small id="myFormId_month_helpText">myHelpText</small>
+                    <small id="myFormId_month_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

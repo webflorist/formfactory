@@ -41,7 +41,7 @@ class TextInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="text" name="text" id="myFormId_text" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Text" aria-describedby="myFormId_text_errors myFormId_text_helpText" aria-invalid="true" />
-                    <small id="myFormId_text_helpText">myHelpText</small>
+                    <small id="myFormId_text_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

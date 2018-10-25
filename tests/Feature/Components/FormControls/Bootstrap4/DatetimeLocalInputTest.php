@@ -41,7 +41,7 @@ class DatetimeLocalInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" class="form-control" required aria-describedby="myFormId_datetime-local_errors myFormId_datetime-local_helpText" aria-invalid="true" />
-                    <small id="myFormId_datetime-local_helpText">myHelpText</small>
+                    <small id="myFormId_datetime-local_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

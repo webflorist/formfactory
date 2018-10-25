@@ -41,7 +41,7 @@ class CheckboxInputTest extends TestCase
                     </div>
                     <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" required aria-describedby="myFormId_checkbox_errors myFormId_checkbox_helpText" aria-invalid="true" />
                     <label for="myFormId_checkbox">Checkbox<sup>*</sup></label>
-                    <small id="myFormId_checkbox_helpText">myHelpText</small>
+                    <small id="myFormId_checkbox_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

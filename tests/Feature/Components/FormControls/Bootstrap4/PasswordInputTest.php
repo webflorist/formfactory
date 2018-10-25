@@ -41,7 +41,7 @@ class PasswordInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="password" name="password" id="myFormId_password" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Password" aria-describedby="myFormId_password_errors myFormId_password_helpText" aria-invalid="true" />
-                    <small id="myFormId_password_helpText">myHelpText</small>
+                    <small id="myFormId_password_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

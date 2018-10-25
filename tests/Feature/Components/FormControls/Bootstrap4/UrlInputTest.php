@@ -41,7 +41,7 @@ class UrlInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="url" name="url" id="myFormId_url" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Url" aria-describedby="myFormId_url_errors myFormId_url_helpText" aria-invalid="true" />
-                    <small id="myFormId_url_helpText">myHelpText</small>
+                    <small id="myFormId_url_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

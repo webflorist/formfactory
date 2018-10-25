@@ -41,7 +41,7 @@ class TelInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="tel" name="tel" id="myFormId_tel" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Tel" aria-describedby="myFormId_tel_errors myFormId_tel_helpText" aria-invalid="true" />
-                    <small id="myFormId_tel_helpText">myHelpText</small>
+                    <small id="myFormId_tel_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

@@ -41,7 +41,7 @@ class NumberInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="number" name="number" id="myFormId_number" class="form-control" required max="10" aria-describedby="myFormId_number_errors myFormId_number_helpText" aria-invalid="true" />
-                    <small id="myFormId_number_helpText">myHelpText</small>
+                    <small id="myFormId_number_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

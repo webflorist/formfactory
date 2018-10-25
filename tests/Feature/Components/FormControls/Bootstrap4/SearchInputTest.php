@@ -41,7 +41,7 @@ class SearchInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="search" name="search" id="myFormId_search" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Search" aria-describedby="myFormId_search_errors myFormId_search_helpText" aria-invalid="true" />
-                    <small id="myFormId_search_helpText">myHelpText</small>
+                    <small id="myFormId_search_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

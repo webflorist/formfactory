@@ -41,7 +41,7 @@ class RadioInputTest extends TestCase
                     </div>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" />
                     <label for="myFormId_radio_myValue">MyValue<sup>*</sup></label>
-                    <small id="myFormId_radio_myValue_helpText">myHelpText</small>
+                    <small id="myFormId_radio_myValue_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

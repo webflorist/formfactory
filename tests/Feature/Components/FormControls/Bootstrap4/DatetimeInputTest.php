@@ -41,7 +41,7 @@ class DatetimeInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="datetime" name="datetime" id="myFormId_datetime" class="form-control" required aria-describedby="myFormId_datetime_errors myFormId_datetime_helpText" aria-invalid="true" />
-                    <small id="myFormId_datetime_helpText">myHelpText</small>
+                    <small id="myFormId_datetime_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

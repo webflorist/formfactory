@@ -41,7 +41,7 @@ class DateInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="date" name="date" id="myFormId_date" class="form-control" required pattern="[a-zA-Z]+" aria-describedby="myFormId_date_errors myFormId_date_helpText" aria-invalid="true" />
-                    <small id="myFormId_date_helpText">myHelpText</small>
+                    <small id="myFormId_date_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

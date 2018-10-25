@@ -41,7 +41,7 @@ class RangeInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="range" name="range" id="myFormId_range" class="form-control" required aria-describedby="myFormId_range_errors myFormId_range_helpText" aria-invalid="true" />
-                    <small id="myFormId_range_helpText">myHelpText</small>
+                    <small id="myFormId_range_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

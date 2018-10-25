@@ -41,7 +41,7 @@ class EmailInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="email" name="email" id="myFormId_email" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Email" aria-describedby="myFormId_email_errors myFormId_email_helpText" aria-invalid="true" />
-                    <small id="myFormId_email_helpText">myHelpText</small>
+                    <small id="myFormId_email_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

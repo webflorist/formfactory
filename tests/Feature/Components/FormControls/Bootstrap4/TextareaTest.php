@@ -41,7 +41,7 @@ class TextareaTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <textarea name="textarea" id="myFormId_textarea" class="form-control" required maxlength="10" placeholder="Textarea" aria-describedby="myFormId_textarea_errors myFormId_textarea_helpText" aria-invalid="true"></textarea>
-                    <small id="myFormId_textarea_helpText">myHelpText</small>
+                    <small id="myFormId_textarea_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

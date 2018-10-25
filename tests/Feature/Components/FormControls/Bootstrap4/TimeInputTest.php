@@ -41,7 +41,7 @@ class TimeInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="time" name="time" id="myFormId_time" class="form-control" required pattern="[a-zA-Z]+" aria-describedby="myFormId_time_errors myFormId_time_helpText" aria-invalid="true" />
-                    <small id="myFormId_time_helpText">myHelpText</small>
+                    <small id="myFormId_time_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

@@ -41,7 +41,7 @@ class ColorInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="color" name="color" id="myFormId_color" class="form-control" required aria-describedby="myFormId_color_errors myFormId_color_helpText" aria-invalid="true" />
-                    <small id="myFormId_color_helpText">myHelpText</small>
+                    <small id="myFormId_color_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

@@ -21,8 +21,8 @@ class RadioInputTest extends TestCase
                     <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_radio_myValue_errors" v-if="fieldHasError(\'radio\')">
                         <div v-for="error in fields[\'radio\'].errors">{{ error }}</div>
                     </div>
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue</label>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" v-model="fields[\'radio\'].value" v-bind="{ required: fields[\'radio\'].isRequired, disabled: fields[\'radio\'].isDisabled }" />
+                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue</label>
                 </div>
             ',
             $element->generate()
@@ -42,8 +42,8 @@ class RadioInputTest extends TestCase
                     <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_radio_myValue_errors" v-if="fieldHasError(\'radio\')">
                         <div v-for="error in fields[\'radio\'].errors">{{ error }}</div>
                     </div>
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup v-if="fields[\'radio\'].isRequired">*</sup></label>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" v-model="fields[\'radio\'].value" v-bind="{ required: fields[\'radio\'].isRequired, disabled: fields[\'radio\'].isDisabled }" />
+                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup v-if="fields[\'radio\'].isRequired">*</sup></label>
                     <small id="myFormId_radio_myValue_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',

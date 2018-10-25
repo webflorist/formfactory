@@ -41,7 +41,7 @@ class WeekInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="week" name="week" id="myFormId_week" class="form-control" required aria-describedby="myFormId_week_errors myFormId_week_helpText" aria-invalid="true" />
-                    <small id="myFormId_week_helpText">myHelpText</small>
+                    <small id="myFormId_week_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()

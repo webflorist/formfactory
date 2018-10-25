@@ -41,7 +41,7 @@ class FileInputTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <input type="file" name="file" id="myFormId_file" class="form-control-file" required aria-describedby="myFormId_file_errors myFormId_file_helpText" aria-invalid="true" />
-                    <small id="myFormId_file_helpText">myHelpText</small>
+                    <small id="myFormId_file_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',
             $element->generate()
