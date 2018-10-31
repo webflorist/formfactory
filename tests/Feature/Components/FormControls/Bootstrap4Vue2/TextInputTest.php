@@ -18,7 +18,7 @@ class TextInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
-                    <label for="myFormId_text">Text</label>
+                    <label for="myFormId_text">Text<sup v-if="fields[\'text\'].isRequired">*</sup></label>
                     <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_text_errors" v-if="fieldHasError(\'text\')">
                         <div v-for="error in fields[\'text\'].errors"> {{ error }} </div>
                     </div>

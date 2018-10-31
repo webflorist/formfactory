@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Decorators\General;
 
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Additional\RadioGroup;
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\MonthInput;
 use Nicat\FormFactory\Components\FormControls\PasswordInput;
@@ -25,6 +26,7 @@ use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Components\FormControls\Textarea;
 use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\FormFactory\Components\FormControls\Button;
@@ -66,33 +68,13 @@ class ApplyViews extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            Form::class,
-            CheckboxInput::class,
-            ColorInput::class,
-            DateInput::class,
-            DatetimeInput::class,
-            DatetimeLocalInput::class,
-            EmailInput::class,
-            FileInput::class,
-            HiddenInput::class,
-            MonthInput::class,
-            NumberInput::class,
-            PasswordInput::class,
-            RadioInput::class,
-            RangeInput::class,
-            SearchInput::class,
-            Select::class,
-            TelInput::class,
-            Textarea::class,
-            TextInput::class,
-            TimeInput::class,
-            UrlInput::class,
-            WeekInput::class,
-            Button::class,
-            SubmitButton::class,
-            ResetButton::class
-        ];
+        return array_merge(
+            ComponentLists::fields(),
+            [
+                Form::class,
+                RadioGroup::class
+            ]
+        );
     }
 
     /**

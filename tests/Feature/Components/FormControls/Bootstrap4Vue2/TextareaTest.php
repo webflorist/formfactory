@@ -17,7 +17,7 @@ class TextareaTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_textarea">Textarea</label>
                     <textarea name="textarea" id="myFormId_textarea" class="form-control" placeholder="Textarea"></textarea>
                 </div>
@@ -35,7 +35,7 @@ class TextareaTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_textarea">Textarea<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_textarea_errors">
                         <div>myFirstError</div>

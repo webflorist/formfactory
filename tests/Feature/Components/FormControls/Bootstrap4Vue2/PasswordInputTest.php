@@ -17,7 +17,7 @@ class PasswordInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_password">Password</label>
                     <input type="password" name="password" id="myFormId_password" class="form-control" placeholder="Password" />
                 </div>
@@ -35,7 +35,7 @@ class PasswordInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_password">Password<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_password_errors">
                         <div>myFirstError</div>

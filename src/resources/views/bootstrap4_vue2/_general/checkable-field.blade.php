@@ -1,6 +1,8 @@
 <div class="form-group form-check{{ ($el->isInline() ? ' form-check-inline' : '') }}" v-bind:class="{ 'has-error': fieldHasError('{{$el->attributes->name}}') }">
 
-    @include('formfactory::bootstrap4_vue2._general.errors')
+    @if($el->errors !== false)
+        @include('formfactory::bootstrap4_vue2._general.errors', ['fieldName' => $el->attributes->name, 'fieldId' => $el->attributes->id])
+    @endif
 
     {!! $el->renderHtml() !!}
 

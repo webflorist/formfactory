@@ -7,6 +7,7 @@ use Nicat\FormFactory\Components\Additional\ErrorContainer;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
+use Nicat\HtmlFactory\Attributes\MethodAttribute;
 use Nicat\HtmlFactory\Elements\FormElement;
 
 class Form extends FormElement
@@ -107,8 +108,6 @@ class Form extends FormElement
      *
      * @param string $method
      * @return $this
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public function method(string $method)
     {
@@ -119,7 +118,7 @@ class Form extends FormElement
             $method = 'POST';
         }
 
-        $this->attributes->establish('method')->setValue(strtoupper($method));
+        $this->attributes->establish(MethodAttribute::class)->setValue(strtoupper($method));
         return $this;
     }
 

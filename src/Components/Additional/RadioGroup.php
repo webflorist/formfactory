@@ -20,7 +20,21 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
      *
      * @var string
      */
-    protected $radioName;
+    public $radioName;
+
+    /**
+     * The radio-input-elements contained in this radio-group.
+     *
+     * @var string
+     */
+    public $radioInputs;
+
+    /**
+     * Legend-Text for this radio-group.
+     *
+     * @var null|string
+     */
+    public $legend = null;
 
     /**
      * RadioGroup constructor.
@@ -32,6 +46,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
     {
         parent::__construct();
         $this->radioName = $name;
+        $this->radioInputs = $radioInputs;
 
         // Set name for all radio-buttons.
         foreach ($radioInputs as $radioInput) {
@@ -44,6 +59,17 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
     }
 
     /**
+     * Set content to be used for the legend-tag.
+     *
+     * @param string|false $legend
+     * @return $this
+     */
+    public function legend($legend) {
+        $this->legend = $legend;
+        return $this;
+    }
+
+    /**
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
@@ -53,17 +79,10 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
         if (is_null($this->legend) && $this->legend !== false) {
             $this->legend($this->performAutoTranslation($this->radioName));
         }
-    }
 
-    /**
-     * Gets called after applying decorators to the child-elements.
-     * Overwrite to perform manipulations.
-     */
-    protected function afterChildrenDecoration()
-    {
         foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
             /** @var CanHaveErrors $child */
-           //$child->showErrors(false);
+            $child->errors(false);
         }
     }
 

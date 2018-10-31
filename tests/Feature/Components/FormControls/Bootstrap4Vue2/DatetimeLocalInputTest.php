@@ -17,7 +17,7 @@ class DatetimeLocalInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_datetime-local">Datetime-local</label>
                     <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" class="form-control" />
                 </div>
@@ -35,7 +35,7 @@ class DatetimeLocalInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_datetime-local">Datetime-local<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_datetime-local_errors">
                         <div>myFirstError</div>

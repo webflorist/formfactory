@@ -22,7 +22,7 @@ class RadioInputTest extends TestCase
                         <div v-for="error in fields[\'radio\'].errors">{{ error }}</div>
                     </div>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" v-model="fields[\'radio\'].value" v-bind="{ required: fields[\'radio\'].isRequired, disabled: fields[\'radio\'].isDisabled }" />
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue</label>
+                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup v-if="fields[\'radio\'].isRequired">*</sup></label>
                 </div>
             ',
             $element->generate()

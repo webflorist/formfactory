@@ -17,7 +17,7 @@ class UrlInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_url">Url</label>
                     <input type="url" name="url" id="myFormId_url" class="form-control" placeholder="Url" />
                 </div>
@@ -35,7 +35,7 @@ class UrlInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_url">Url<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_url_errors">
                         <div>myFirstError</div>

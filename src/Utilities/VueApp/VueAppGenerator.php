@@ -50,7 +50,6 @@ class VueAppGenerator
         $this->parseFormControls();
         $this->vueInstance->addData('fields', $this->fieldData);
         $this->vueInstance->addMethod('fieldHasError','function (fieldName) {return this.fields[fieldName].errors.length > 0;}');
-        //$this->vueInstance->addMethod('normalizeFieldName','function (fieldName) {return fieldName.replace("[","_").replace("]","");}');
         $this->addComputeErrorFlags();
     }
 

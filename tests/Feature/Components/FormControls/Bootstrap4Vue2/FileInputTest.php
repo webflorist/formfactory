@@ -17,7 +17,7 @@ class FileInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_file">File</label>
                     <input type="file" name="file" id="myFormId_file" class="form-control-file" />
                 </div>
@@ -35,7 +35,7 @@ class FileInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_file">File<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_file_errors">
                         <div>myFirstError</div>

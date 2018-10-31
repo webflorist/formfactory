@@ -17,7 +17,7 @@ class TelInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_tel">Tel</label>
                     <input type="tel" name="tel" id="myFormId_tel" class="form-control" placeholder="Tel" />
                 </div>
@@ -35,7 +35,7 @@ class TelInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_tel">Tel<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_tel_errors">
                         <div>myFirstError</div>

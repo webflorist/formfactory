@@ -267,8 +267,6 @@ class FormInstance
         }
 
         $formControlElement->setFormInstance($this);
-
-        $this->autoGenerateFormControlId($formControlElement);
     }
 
     /**
@@ -279,33 +277,6 @@ class FormInstance
     public function getFormControls()
     {
         return $this->formControls;
-    }
-
-    /**
-     * Automatically generates a meaningful id for a form-control.
-     *
-     * @param Element $formControlElement
-     */
-    private function autoGenerateFormControlId(Element $formControlElement)
-    {
-
-        // We only create IDs for form-controls with the name-attribute.
-        if (!$formControlElement->attributes->isSet('name')) {
-            return;
-        }
-
-        // The Auto-generated IDs always start with formID...
-        $fieldId = $this->getId();
-
-        // ...followed by the field-name.
-        $fieldId .= '_' . $formControlElement->attributes->name;
-
-        // For radio-buttons and options we also append the value.
-        if ($formControlElement->is(RadioInput::class)) {
-            $fieldId .= '_' . $formControlElement->attributes->value;
-        }
-
-        $formControlElement->id($fieldId);
     }
 
 }

@@ -1,0 +1,1 @@
+<sup v-if="fields['{{$fieldName}}'].isRequired">*</sup>

@@ -17,7 +17,7 @@ class ColorInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_color">Color</label>
                     <input type="color" name="color" id="myFormId_color" class="form-control" />
                 </div>
@@ -35,7 +35,7 @@ class ColorInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
                     <label for="myFormId_color">Color<sup v-if="fields.week.isRequired">*</sup></label>
                     <div id="myFormId_color_errors">
                         <div>myFirstError</div>

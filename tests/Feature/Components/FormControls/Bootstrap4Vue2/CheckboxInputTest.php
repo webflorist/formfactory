@@ -35,7 +35,7 @@ class CheckboxInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check has-error">
+                <div class="form-group form-check">
                     <div id="myFormId_checkbox_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>

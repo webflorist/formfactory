@@ -157,7 +157,6 @@ class FormFactory
      *
      * @param string $id
      * @return Form
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
      * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public static function open(string $id): Form
