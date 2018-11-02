@@ -24,6 +24,7 @@ class Optgroup
         parent::__construct();
         $this->label($label);
         $this->content($options);
+        $this->setupFormControl();
     }
 
 }

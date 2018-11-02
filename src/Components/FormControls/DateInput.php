@@ -33,6 +33,7 @@ class DateInput
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
 }

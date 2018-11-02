@@ -1,13 +1,17 @@
-<div class="form-group form-check{{ ($el->errors) ? ' has-error' : '' }}">
+<div class="form-group form-check{{ ($el->isInline() ? ' form-check-inline' : '') }}{{ ($el->errors->hasErrors()) ? ' has-error' : '' }}">
 
-    @include('formfactory::bootstrap4._general.errors')
+    @if($el->errors->hasErrors() && $el->errors->displayErrors)
+        @include('formfactory::bootstrap4._general.errors')
+    @endif
 
     {!! $el->renderHtml() !!}
 
-    @if($el->label)
-        <label for="{{$el->attributes->id}}">@include('formfactory::bootstrap4._general.label-text')</label>
+    @if($el->label->hasLabel() && $el->label->displayLabel)
+        @include('formfactory::bootstrap4._general.label', ['class' => 'form-check-label'])
     @endif
 
-    @include('formfactory::bootstrap4._general.help-text')
+    @if($el->helpText->hasHelpText() && $el->helpText->displayHelpText)
+        @include('formfactory::bootstrap4._general.help-text')
+    @endif
 
 </div>

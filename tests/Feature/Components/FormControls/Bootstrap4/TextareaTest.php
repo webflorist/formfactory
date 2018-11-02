@@ -36,7 +36,7 @@ class TextareaTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_textarea">Textarea<sup>*</sup></label>
-                    <div id="myFormId_textarea_errors">
+                    <div id="myFormId_textarea_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

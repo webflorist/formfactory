@@ -35,6 +35,7 @@ class CheckboxInput
         parent::__construct();
         $this->name($name);
         $this->value($value);
+        $this->setupFormControl();
     }
 
     /**

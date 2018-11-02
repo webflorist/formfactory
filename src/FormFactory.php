@@ -131,7 +131,6 @@ class FormFactory
      * @return Element
      *
      * @throws ElementNotFoundException
-     * @throws OpenElementNotFoundException
      */
     public function __call($accessor, $arguments)
     {
@@ -139,11 +138,7 @@ class FormFactory
         $formControlClass = $this->getFormControlClassNameForAccessor($accessor);
 
         if (class_exists($formControlClass)) {
-            $formControlElement = new $formControlClass(...$arguments);
-            if ($this->formInstances->hasOpenForm()) {
-                $this->getOpenForm()->registerFormControl($formControlElement);
-            }
-            return $formControlElement;
+            return new $formControlClass(...$arguments);
         }
 
         // If the accessor is neither a element nor a component, we throw an exception.

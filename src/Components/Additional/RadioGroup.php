@@ -2,21 +2,28 @@
 
 namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Traits\HelpTextTrait;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
+use Nicat\FormFactory\Components\Traits\FieldTrait;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Traits\LabelTrait;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 
 class RadioGroup
     extends FieldsetElement
-    implements HelpTextInterface, AutoTranslationInterface
+    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
 {
-
-    use AutoTranslationTrait,
-        HelpTextTrait;
+    use FormControlTrait,
+        FieldTrait,
+        LabelTrait,
+        HelpTextTrait,
+        AutoTranslationTrait;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -51,9 +58,17 @@ class RadioGroup
         $this->radioName = $name;
         $this->radioInputs = $radioInputs;
 
-        // Set name for all radio-buttons.
+        $this->setupFormControl();
+
+
         foreach ($radioInputs as $radioInput) {
+
+            // Set name for all radio-buttons.
             $radioInput->name($name);
+
+            // Share FieldErrors and FieldHelpText between Radio-buttons.
+            $radioInput->errors = $this->errors;
+            $radioInput->helpText = $this->helpText;
         }
 
         // Set radio-buttons as content.
@@ -84,8 +99,8 @@ class RadioGroup
         }
 
         foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
-            /** @var FieldInterface $child */
-            $child->errors(false);
+            /** @var FieldTrait $child */
+            $child->errors->hideErrors();
         }
     }
 
@@ -98,5 +113,14 @@ class RadioGroup
     {
         return $this->radioName;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFieldName(): string
+    {
+        return $this->radioName;
+    }
+
 
 }

@@ -37,6 +37,7 @@ class Select
         foreach ($options as $option) {
             $this->appendContent($option);
         }
+        $this->setupFormControl();
     }
 
     /**

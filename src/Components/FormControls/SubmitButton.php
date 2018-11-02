@@ -26,6 +26,7 @@ class SubmitButton
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
     /**

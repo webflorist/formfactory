@@ -11,14 +11,12 @@ class CheckboxInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::checkbox('checkbox', 'myValue');
+        $element = \Form::checkbox('myFieldName', 'myValue');
 
         $this->assertHtmlEquals(
             '
-                <label>
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" />
-                    Checkbox
-                </label>
+                <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" />
+                <label for="myFormId_myFieldName"> MyFieldName </label>
             ',
             $element->generate()
         );
@@ -26,22 +24,20 @@ class CheckboxInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::checkbox('checkbox', 'myValue')
+        $element = \Form::checkbox('myFieldName', 'myValue')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <div id="myFormId_checkbox_errors">
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <label>
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" required aria-describedby="myFormId_checkbox_errors myFormId_checkbox_helpText" aria-invalid="true" />
-                    Checkbox<sup>*</sup>
-                </label>
-                <small id="myFormId_checkbox_helpText">myHelpText</small>
+                <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                <label for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

@@ -33,6 +33,7 @@ class Textarea
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
     /**

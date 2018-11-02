@@ -26,6 +26,7 @@ class ResetButton
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
     /**

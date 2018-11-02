@@ -22,6 +22,20 @@ class FieldLabel
     protected $text;
 
     /**
+     * Should the label be displayed?
+     *
+     * @var bool
+     */
+    public $displayLabel = true;
+
+    /**
+     * Should the label include an indicator for required fields?
+     *
+     * @var bool
+     */
+    public $displayRequiredFieldIndicator = true;
+
+    /**
      * FieldLabel constructor.
      *
      * @param Element|null $field
@@ -51,6 +65,24 @@ class FieldLabel
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * Is a label-text present?
+     *
+     * @return string
+     */
+    public function hasLabel()
+    {
+        return strlen($this->text) > 0;
+    }
+
+    /**
+     * Do not display label.
+     */
+    public function hideLabel()
+    {
+        $this->displayLabel = false;
     }
 
     /**

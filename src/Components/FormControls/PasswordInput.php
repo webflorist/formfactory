@@ -33,6 +33,7 @@ class PasswordInput
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
 }

@@ -13,6 +13,13 @@ interface FieldInterface
 {
 
     /**
+     * Get the name of this field.
+     *
+     * @return string
+     */
+    public function getFieldName() : string;
+
+    /**
      * Set array of errors for this Field.
      * (Omit for automatic adoption from session)
      * Set to false to avoid rendering of errors.

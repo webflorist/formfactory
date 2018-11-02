@@ -16,7 +16,7 @@ trait LabelTrait
     /**
      * The FieldLabel object used to manage the label for this field.
      *
-     * @var null|false|FieldLabel
+     * @var FieldLabel
      */
     public $label = null;
 
@@ -31,9 +31,11 @@ trait LabelTrait
     public function label($label)
     {
         if (is_string($label)) {
-            $label = (strlen($label) > 0) ? (new FieldLabel($this))->setText($label) : null;
+            $this->label->setText($label);
         }
-        $this->label = $label;
+        if ($label === false) {
+            $this->label->hideLabel();
+        }
         return $this;
     }
 

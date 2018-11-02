@@ -33,6 +33,7 @@ class TimeInput
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
 }

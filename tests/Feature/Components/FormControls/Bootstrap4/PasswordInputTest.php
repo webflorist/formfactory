@@ -36,7 +36,7 @@ class PasswordInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_password">Password<sup>*</sup></label>
-                    <div id="myFormId_password_errors">
+                    <div id="myFormId_password_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

@@ -11,14 +11,12 @@ class RadioInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::radio('myValue', 'radio');
+        $element = \Form::radio('myValue', 'myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label>
-                    <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" />
-                    MyValue
-                </label>
+                <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" />
+                <label for="myFormId_myFieldName_myValue"> MyValue </label>
             ',
             $element->generate()
         );
@@ -26,22 +24,20 @@ class RadioInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::radio('myValue', 'radio')
+        $element = \Form::radio('myValue', 'myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <div id="myFormId_radio_myValue_errors">
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <label>
-                    <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" />
-                    MyValue<sup>*</sup>
-                </label>
-                <small id="myFormId_radio_myValue_helpText">myHelpText</small>
+                <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                <label for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

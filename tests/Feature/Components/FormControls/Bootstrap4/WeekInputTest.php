@@ -36,7 +36,7 @@ class WeekInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_week">Week<sup>*</sup></label>
-                    <div id="myFormId_week_errors">
+                    <div id="myFormId_week_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

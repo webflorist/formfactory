@@ -11,12 +11,12 @@ class FileInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::file('file');
+        $element = \Form::file('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_file">File</label>
-                <input type="file" name="file" id="myFormId_file" />
+                <label for="myFormId_myFieldName">MyFieldName</label>
+                <input type="file" name="myFieldName" id="myFormId_myFieldName" />
             ',
             $element->generate()
         );
@@ -24,20 +24,20 @@ class FileInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::file('file')
+        $element = \Form::file('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_file">File<sup>*</sup></label>
-                <div id="myFormId_file_errors">
+                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <input type="file" name="file" id="myFormId_file" required aria-describedby="myFormId_file_errors myFormId_file_helpText" aria-invalid="true" />
-                <small id="myFormId_file_helpText">myHelpText</small>
+                <input type="file" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

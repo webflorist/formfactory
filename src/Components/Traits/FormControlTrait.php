@@ -2,6 +2,13 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
+use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FieldErrors\FieldErrors;
+use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
+use Nicat\FormFactory\Utilities\FieldLabels\FieldLabel;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
 
 /**
@@ -18,6 +25,30 @@ trait FormControlTrait
      * @var null|FormInstance
      */
     private $formInstance = null;
+
+    /**
+     * Performs various Setup-tasks for this FormControl.
+     */
+    protected function setupFormControl()
+    {
+        try {
+            $this->formInstance = FormFactory::singleton()->getOpenForm();
+            $this->formInstance->registerFormControl($this);
+        } catch (OpenElementNotFoundException $e) {
+        }
+
+        if ($this->isAField()) {
+            $this->errors = new FieldErrors($this);
+
+            if ($this->canHaveLabel()) {
+                $this->label = new FieldLabel($this);
+            }
+        }
+
+        if ($this->canHaveHelpText()) {
+            $this->helpText = new FieldHelpText($this);
+        }
+    }
 
     /**
      * Sets the FormInstance this Field belongs to.

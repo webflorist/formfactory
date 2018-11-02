@@ -18,7 +18,7 @@ class RadioInputTest extends TestCase
             '
                 <div class="form-group form-check">
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" />
-                    <label for="myFormId_radio_myValue">MyValue</label>
+                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue</label>
                 </div>
             ',
             $element->generate()
@@ -35,12 +35,12 @@ class RadioInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check has-error">
-                    <div id="myFormId_radio_myValue_errors">
+                    <div id="myFormId_radio_myValue_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
                     <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" />
-                    <label for="myFormId_radio_myValue">MyValue<sup>*</sup></label>
+                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup>*</sup></label>
                     <small id="myFormId_radio_myValue_helpText" class="form-text text-muted">myHelpText</small>
                 </div>
             ',

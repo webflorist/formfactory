@@ -1,13 +1,17 @@
-<div class="form-group{{ ($el->errors) ? ' has-error' : '' }}">
+<div class="form-group{{ ($el->errors->hasErrors()) ? ' has-error' : '' }}">
 
-    @if($el->label)
-        <label for="{{$el->attributes->id}}">@include('formfactory::bootstrap4._general.label-text')</label>
+    @if($el->label->hasLabel() && $el->label->displayLabel)
+        @include('formfactory::bootstrap4._general.label')
     @endif
 
-    @include('formfactory::bootstrap4._general.errors')
+    @if($el->errors->hasErrors() && $el->errors->displayErrors)
+        @include('formfactory::bootstrap4._general.errors')
+    @endif
 
     {!! $el->renderHtml() !!}
 
-    @include('formfactory::bootstrap4._general.help-text')
+    @if($el->helpText->hasHelpText() && $el->helpText->displayHelpText)
+        @include('formfactory::bootstrap4._general.help-text')
+    @endif
 
 </div>

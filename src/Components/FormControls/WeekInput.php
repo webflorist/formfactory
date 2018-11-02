@@ -33,6 +33,7 @@ class WeekInput
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
 }

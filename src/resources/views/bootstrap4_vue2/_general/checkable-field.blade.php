@@ -1,13 +1,17 @@
-<div class="form-group form-check{{ ($el->isInline() ? ' form-check-inline' : '') }}" v-bind:class="{ 'has-error': fieldHasError('{{$el->attributes->name}}') }">
+<div class="form-group form-check{{ ($el->isInline() ? ' form-check-inline' : '') }}" v-bind:class="{ 'has-error': fieldHasError('{{$el->getFieldName()}}') }">
 
-    @if($el->errors !== false)
-        @include('formfactory::bootstrap4_vue2._general.errors', ['fieldName' => $el->attributes->name, 'fieldId' => $el->attributes->id])
+    @if($el->errors->displayErrors)
+        @include('formfactory::bootstrap4_vue2._general.errors', ['fieldName' => $el->getFieldName()])
     @endif
 
     {!! $el->renderHtml() !!}
 
-    @include('formfactory::bootstrap4_vue2._general.label', ['class' => 'form-check-label'])
+    @if($el->label->hasLabel() && $el->label->displayLabel)
+        @include('formfactory::bootstrap4_vue2._general.label', ['class' => 'form-check-label'])
+    @endif
 
-    @include('formfactory::bootstrap4_vue2._general.help-text')
+    @if($el->helpText->hasHelpText() && $el->helpText->displayHelpText)
+        @include('formfactory::bootstrap4_vue2._general.help-text')
+    @endif
 
 </div>

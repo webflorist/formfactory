@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
+use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\FieldErrors\FieldErrors;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
@@ -17,7 +18,7 @@ trait FieldTrait
     /**
      * The FieldErrors object used to manage errors for this Field.
      *
-     * @var null|false|FieldErrors
+     * @var FieldErrors
      */
     public $errors;
 
@@ -27,6 +28,16 @@ trait FieldTrait
      * @var null|array
      */
     protected $rules = null;
+
+    /**
+     * The the name of this field.
+     *
+     * @return string
+     */
+    public function getFieldName(): string
+    {
+        return $this->attributes->name;
+    }
 
     /**
      * Set array of errors for this Field.
@@ -39,9 +50,11 @@ trait FieldTrait
     public function errors($errors)
     {
         if (is_array($errors)) {
-            $errors = (count($errors) > 0) ? (new FieldErrors($this))->setErrors($errors) : null;
+            $this->errors->setErrors($errors);
         }
-        $this->errors = $errors;
+        if ($errors === false) {
+            $this->errors->hideErrors();
+        }
         return $this;
     }
 
@@ -64,7 +77,7 @@ trait FieldTrait
      * @return bool
      * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
-    public function hasRules() : bool
+    public function hasRules(): bool
     {
         return count($this->getRules()) > 0;
     }
@@ -75,14 +88,14 @@ trait FieldTrait
      * @return array
      * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
-    public function getRules() : array
+    public function getRules(): array
     {
         // If no rules were specifically set using the 'rules' method of this field,
         // we try to fill them via the FormFactory service.
         if (is_null($this->rules)) {
             /** @var FormFactory $formFactoryService */
             $formFactoryService = FormFactory::singleton();
-            $this->rules =  $formFactoryService->getOpenForm()->rules->getRulesForField($this->attributes->name);
+            $this->rules = $formFactoryService->getOpenForm()->rules->getRulesForField($this->attributes->name);
         }
 
         return $this->rules;

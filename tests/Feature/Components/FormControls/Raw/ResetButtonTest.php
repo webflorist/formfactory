@@ -11,11 +11,11 @@ class ResetButtonTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::reset('reset');
+        $element = \Form::reset('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <button type="reset" name="reset" id="myFormId_reset">Reset</button>
+                <button type="reset" name="myFieldName" id="myFormId_myFieldName">MyFieldName</button>
             ',
             $element->generate()
         );

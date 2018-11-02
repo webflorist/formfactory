@@ -28,6 +28,7 @@ class Button
         if (!is_null($name)) {
             $this->name($name);
         }
+        $this->setupFormControl();
     }
 
     /**

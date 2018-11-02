@@ -27,6 +27,7 @@ class Option
     {
         parent::__construct();
         $this->value($value);
+        $this->setupFormControl();
     }
 
     /**
