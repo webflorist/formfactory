@@ -2,11 +2,24 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
 use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Utilities\FieldErrors\FieldErrors;
+use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
 
-trait CanHaveRules
+/**
+ * This traits provides basic functionality for Fields.
+ *
+ * @package Nicat\FormFactory
+ */
+trait FieldTrait
 {
+
+    /**
+     * The FieldErrors object used to manage errors for this Field.
+     *
+     * @var null|false|FieldErrors
+     */
+    public $errors;
 
     /**
      * Rules for this field.
@@ -14,6 +27,23 @@ trait CanHaveRules
      * @var null|array
      */
     protected $rules = null;
+
+    /**
+     * Set array of errors for this Field.
+     * (Omit for automatic adoption from session)
+     * Set to false to avoid rendering of errors.
+     *
+     * @param array|false $errors
+     * @return $this
+     */
+    public function errors($errors)
+    {
+        if (is_array($errors)) {
+            $errors = (count($errors) > 0) ? (new FieldErrors($this))->setErrors($errors) : null;
+        }
+        $this->errors = $errors;
+        return $this;
+    }
 
     /**
      * Set rules for this field in Laravel-syntax (either in array- or string-format)
@@ -58,5 +88,34 @@ trait CanHaveRules
         return $this->rules;
     }
 
+    /**
+     * Can this Field have a label?
+     *
+     * @return bool
+     */
+    public function canHaveLabel(): bool
+    {
+        return array_search(LabelInterface::class, class_implements($this));
+    }
+
+    /**
+     * Apply a value to a field.
+     *
+     * @param $value
+     */
+    public function applyFieldValue($value)
+    {
+        $this->value($value);
+    }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('value');
+    }
 
 }

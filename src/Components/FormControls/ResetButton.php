@@ -2,16 +2,19 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\ResetButtonComponent;
 use Nicat\HtmlFactory\Components\Traits\HasContext;
 
-class ResetButton extends ResetButtonComponent implements AutoTranslationInterface
+class ResetButton
+    extends ResetButtonComponent
+    implements FormControlInterface, AutoTranslationInterface
 {
-    use UsesAutoTranslation,
-        CanBelongToFormInstance,
+    use FormControlTrait,
+        AutoTranslationTrait,
         HasContext;
 
     /**

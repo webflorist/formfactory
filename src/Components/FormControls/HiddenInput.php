@@ -2,15 +2,18 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
+use Nicat\FormFactory\Components\Traits\FieldTrait;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\HtmlFactory\Components\HiddenInputComponent;
 
-class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInterface
+class HiddenInput
+    extends HiddenInputComponent
+    implements FormControlInterface, FieldInterface
 {
-    use CanHaveErrors,
-        CanBelongToFormInstance;
+    use FormControlTrait,
+        FieldTrait;
 
     /**
      * HiddenInput constructor.
@@ -21,25 +24,5 @@ class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInt
     {
         parent::__construct();
         $this->name($name);
-    }
-
-    /**
-     * Apply a value to a field.
-     *
-     * @param $value
-     */
-    public function applyFieldValue($value)
-    {
-        $this->value($value);
-    }
-
-    /**
-     * Does this field currently have a value set?
-     *
-     * @return bool
-     */
-    public function fieldHasValue()
-    {
-        return $this->attributes->isSet('value');
     }
 }

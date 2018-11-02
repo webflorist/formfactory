@@ -4,7 +4,13 @@ namespace Nicat\FormFactory\Components\Traits;
 
 use Nicat\FormFactory\Utilities\FieldLabels\FieldLabel;
 
-trait CanHaveLabel
+/**
+ * This traits provides a default implementation
+ * for the LabelInterface.
+ *
+ * @package Nicat\FormFactory
+ */
+trait LabelTrait
 {
 
     /**

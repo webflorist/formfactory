@@ -2,18 +2,21 @@
 
 namespace Nicat\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 
-class RadioGroup extends FieldsetElement implements AutoTranslationInterface
+class RadioGroup
+    extends FieldsetElement
+    implements HelpTextInterface, AutoTranslationInterface
 {
 
-    use UsesAutoTranslation,
-        CanHaveHelpText;
+    use AutoTranslationTrait,
+        HelpTextTrait;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -81,7 +84,7 @@ class RadioGroup extends FieldsetElement implements AutoTranslationInterface
         }
 
         foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
-            /** @var CanHaveErrors $child */
+            /** @var FieldInterface $child */
             $child->errors(false);
         }
     }

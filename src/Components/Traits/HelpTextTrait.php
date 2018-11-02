@@ -4,7 +4,13 @@ namespace Nicat\FormFactory\Components\Traits;
 
 use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
 
-trait CanHaveHelpText
+/**
+ * This traits provides a default implementation
+ * for the HelpTextInterface.
+ *
+ * @package Nicat\FormFactory
+ */
+trait HelpTextTrait
 {
 
     /**

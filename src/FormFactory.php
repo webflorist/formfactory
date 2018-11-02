@@ -112,6 +112,16 @@ class FormFactory
     }
 
     /**
+     * Returns the FormFactory singleton from Laravel's Service Container.
+     *
+     * @return FormFactory
+     */
+    public static function singleton(): FormFactory
+    {
+        return app(FormFactory::class);
+    }
+
+    /**
      * Magic method to construct a FormControl.
      * See '@method' declarations of class-phpdoc
      * for available methods.
@@ -142,22 +152,11 @@ class FormFactory
     }
 
     /**
-     * Returns the FormFactory singleton from Laravel's Service Container.
-     *
-     * @return FormFactory
-     */
-    public static function singleton(): FormFactory
-    {
-        return app(FormFactory::class);
-    }
-
-    /**
      * Generates and returns the opening form-tag.
      * Also creates a new FormInstance and adds it to $this->formInstances.
      *
      * @param string $id
      * @return Form
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public static function open(string $id): Form
     {

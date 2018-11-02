@@ -5,33 +5,9 @@ namespace Nicat\FormFactory\Decorators\General;
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
 use Nicat\FormFactory\Components\Additional\RadioGroup;
 use Nicat\FormFactory\Components\Form;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
 
 /**
  * Apply various decorations to FormFactory-fields.

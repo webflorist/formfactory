@@ -5,8 +5,14 @@ namespace Nicat\FormFactory\Components\Traits;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 
-trait UsesAutoTranslation
+/**
+ * This traits provides functionality regarding auto-translation.
+ *
+ * @package Nicat\FormFactory
+ */
+trait AutoTranslationTrait
 {
+
     /**
      * Perform auto-translations for this object?
      *
@@ -55,4 +61,5 @@ trait UsesAutoTranslation
     {
         return FormFactoryTools::arrayStripString($this->attributes->name);
     }
+
 }

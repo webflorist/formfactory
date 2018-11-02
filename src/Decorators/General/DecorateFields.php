@@ -2,23 +2,18 @@
 
 namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Apply various decorations to FormFactory-fields.
@@ -32,7 +27,7 @@ class DecorateFields extends Decorator
     /**
      * The element to be decorated.
      *
-     * @var Element|CanHaveLabel|UsesAutoTranslation|AllowsPlaceholderAttribute|CanHaveHelpText
+     * @var Element|FieldInterface|FormControlInterface
      */
     protected $element;
 
