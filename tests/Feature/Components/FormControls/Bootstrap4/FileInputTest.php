@@ -36,7 +36,7 @@ class FileInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_file">File<sup>*</sup></label>
-                    <div id="myFormId_file_errors">
+                    <div id="myFormId_file_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

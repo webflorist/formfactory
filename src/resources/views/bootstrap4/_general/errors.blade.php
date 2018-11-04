@@ -1,7 +1,5 @@
-@if($el->errors)
-    <div id="{{$el->attributes->id}}_errors">
-        @foreach($el->errors->getErrors() as $error)
-            <div>{{$error}}</div>
-        @endforeach
-    </div>
-@endif
+<div role="alert" class="alert m-b-1 alert-danger" id="{{$el->getFieldName()}}_errors">
+    @foreach($el->errors->getErrors() as $error)
+        <div>{{$error}}</div>
+    @endforeach
+</div>

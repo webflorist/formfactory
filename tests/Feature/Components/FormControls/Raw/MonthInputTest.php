@@ -11,12 +11,12 @@ class MonthInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::month('month');
+        $element = \Form::month('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_month">Month</label>
-                <input type="month" name="month" id="myFormId_month" />
+                <label for="myFormId_myFieldName">MyFieldName</label>
+                <input type="month" name="myFieldName" id="myFormId_myFieldName" />
             ',
             $element->generate()
         );
@@ -24,20 +24,20 @@ class MonthInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::month('month')
+        $element = \Form::month('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_month">Month<sup>*</sup></label>
-                <div id="myFormId_month_errors">
+                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <input type="month" name="month" id="myFormId_month" required aria-describedby="myFormId_month_errors myFormId_month_helpText" aria-invalid="true" />
-                <small id="myFormId_month_helpText">myHelpText</small>
+                <input type="month" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

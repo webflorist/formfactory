@@ -2,29 +2,27 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
-use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Components\Traits\FieldTrait;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\LabelTrait;
+use Nicat\FormFactory\Components\Contracts\LabelInterface;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\CheckboxInputComponent;
 
-class CheckboxInput extends CheckboxInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface
+class CheckboxInput
+    extends CheckboxInputComponent
+    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
 {
-    use CanHaveLabel,
-        CanHaveRules,
-        CanHaveHelpText,
-        UsesAutoTranslation,
-        CanHaveErrors,
-        CanAutoSubmit,
-        CanBelongToFormInstance,
-        CanPerformAjaxValidation;
+    use FormControlTrait,
+        FieldTrait,
+        LabelTrait,
+        HelpTextTrait,
+        AutoTranslationTrait;
 
     /**
      * CheckboxInput constructor.
@@ -32,11 +30,12 @@ class CheckboxInput extends CheckboxInputComponent implements FieldValueProcesso
      * @param string $name
      * @param string $value
      */
-    public function __construct(string $name, string $value="1")
+    public function __construct(string $name, string $value = "1")
     {
         parent::__construct();
         $this->name($name);
         $this->value($value);
+        $this->setupFormControl();
     }
 
     /**

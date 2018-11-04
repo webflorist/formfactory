@@ -11,12 +11,12 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::datetimeLocal('datetime-local');
+        $element = \Form::datetimeLocal('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_datetime-local">Datetime-local</label>
-                <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" />
+                <label for="myFormId_myFieldName">MyFieldName</label>
+                <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" />
             ',
             $element->generate()
         );
@@ -24,20 +24,20 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::datetimeLocal('datetime-local')
+        $element = \Form::datetimeLocal('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_datetime-local">Datetime-local<sup>*</sup></label>
-                <div id="myFormId_datetime-local_errors">
+                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" required aria-describedby="myFormId_datetime-local_errors myFormId_datetime-local_helpText" aria-invalid="true" />
-                <small id="myFormId_datetime-local_helpText">myHelpText</small>
+                <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

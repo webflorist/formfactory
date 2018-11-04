@@ -2,23 +2,26 @@
 
 namespace Nicat\FormFactory\Decorators\General;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\FormFactory;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
+use Nicat\FormFactory\Components\Traits\FieldTrait;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Traits\LabelTrait;
 use Nicat\FormFactory\Utilities\ComponentLists;
 use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Apply various decorations to FormFactory-fields.
@@ -32,7 +35,7 @@ class DecorateFields extends Decorator
     /**
      * The element to be decorated.
      *
-     * @var Element|CanHaveLabel|UsesAutoTranslation|AllowsPlaceholderAttribute|CanHaveHelpText
+     * @var Element|FieldInterface|FormControlInterface|HelpTextInterface|LabelInterface|FieldTrait|FormControlTrait|HelpTextTrait|LabelTrait|AutoTranslationInterface|AutoTranslationTrait
      */
     protected $element;
 
@@ -81,8 +84,6 @@ class DecorateFields extends Decorator
 
         // Automatically generate help-texts for fields without a manually set help-text using auto-translation.
         $this->autoGenerateHelpText();
-
-        $this->autoPopulateErrors();
 
         if (FormFactoryConfig::isVueEnabled()) {
             $this->applyVueDirectives();
@@ -156,7 +157,7 @@ class DecorateFields extends Decorator
      */
     protected function autoGenerateLabelText()
     {
-        if (method_exists($this->element,'label') && is_null($this->element->label)) {
+        if ($this->element->canHaveLabel() && ! $this->element->label->hasLabel()) {
             $defaultValue = ucwords(FormFactoryTools::arrayStripString($this->element->attributes->name));
             if ($this->element->is(RadioInput::class)) {
                 $defaultValue = ucwords($this->element->attributes->value);
@@ -173,7 +174,7 @@ class DecorateFields extends Decorator
     private function autoGeneratePlaceholder()
     {
         if ($this->element->attributes->isAllowed('placeholder') && !$this->element->attributes->isSet('placeholder')) {
-            $defaultValue = $this->element->label ? $this->element->label->getText() : null;
+            $defaultValue = $this->element->label->hasLabel() ? $this->element->label->getText() : null;
             $this->element->placeholder(
                 $this->element->performAutoTranslation($defaultValue,'Placeholder')
             );
@@ -185,7 +186,7 @@ class DecorateFields extends Decorator
      */
     protected function autoGenerateHelpText()
     {
-        if (method_exists($this->element,'helpText') && ($this->element->helpText === null)) {
+        if ($this->element->canHaveHelpText() && !$this->element->helpText->hasHelpText()) {
             $helpText = $this->element->performAutoTranslation(null, 'HelpText');
             if ($helpText !== null) {
                 $this->element->helpText($helpText);
@@ -193,30 +194,18 @@ class DecorateFields extends Decorator
         }
     }
 
-    /**
-     * Tries to retrieves errors from the FormInstance, if no errors have been set yet.
-     */
-    private function autoPopulateErrors()
-    {
-        if ($this->element->errors === null) {
-            $this->element->errors(
-                $this->element->getFormInstance()->errors->getErrorsForField($this->element->attributes->name)
-            );
-        }
-    }
-
     private function applyAriaTagsOnErrors()
     {
-        if ($this->element->errors) {
-            $this->element->addAriaDescribedby($this->element->attributes->id . '_errors');
+        if ($this->element->errors->hasErrors()) {
+            $this->element->addAriaDescribedby($this->element->errors->getContainerId());
             $this->element->ariaInvalid();
         }
     }
 
     private function addAriaDescribedByOnHelpText()
     {
-        if (method_exists($this->element,'helpText') && ($this->element->helpText)) {
-            $this->element->addAriaDescribedby($this->element->attributes->id . '_helpText');
+        if ($this->element->canHaveHelpText() && $this->element->helpText->hasHelpText()) {
+            $this->element->addAriaDescribedby($this->element->helpText->getContainerId());
         }
     }
 

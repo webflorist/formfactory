@@ -4,15 +4,21 @@ namespace Nicat\FormFactory\Components\Traits;
 
 use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
 
-trait CanHaveHelpText
+/**
+ * This traits provides a default implementation
+ * for the HelpTextInterface.
+ *
+ * @package Nicat\FormFactory
+ */
+trait HelpTextTrait
 {
 
     /**
      * The FieldHelp object used to store manage helpText for this field.
      *
-     * @var null|false|FieldHelpText
+     * @var FieldHelpText
      */
-    public $helpText = null;
+    public $helpText;
 
     /**
      * Set content to be used for the help-text.
@@ -25,9 +31,11 @@ trait CanHaveHelpText
     public function helpText($helpText)
     {
         if (is_string($helpText)) {
-            $helpText = (strlen($helpText) > 0) ? (new FieldHelpText($this))->setText($helpText) : null;
+            $this->helpText->setText($helpText);
         }
-        $this->helpText = $helpText;
+        if ($helpText === false) {
+            $this->helpText->hideHelpText();
+        }
         return $this;
     }
 

@@ -11,11 +11,11 @@ class HiddenInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::hidden('hidden');
+        $element = \Form::hidden('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <input type="hidden" name="hidden" id="myFormId_hidden" />
+                <input type="hidden" name="myFieldName" id="myFormId_myFieldName" />
             ',
             $element->generate()
         );

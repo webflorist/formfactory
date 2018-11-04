@@ -36,7 +36,7 @@ class ColorInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_color">Color<sup>*</sup></label>
-                    <div id="myFormId_color_errors">
+                    <div id="myFormId_color_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

@@ -2,29 +2,27 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
-use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Components\Traits\FieldTrait;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\LabelTrait;
+use Nicat\FormFactory\Components\Contracts\LabelInterface;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\RadioInputComponent;
 
-class RadioInput extends RadioInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface
+class RadioInput
+    extends RadioInputComponent
+    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
 {
-    use CanHaveLabel,
-        CanHaveRules,
-        CanHaveHelpText,
-        UsesAutoTranslation,
-        CanHaveErrors,
-        CanAutoSubmit,
-        CanBelongToFormInstance,
-        CanPerformAjaxValidation;
+    use FormControlTrait,
+        FieldTrait,
+        LabelTrait,
+        HelpTextTrait,
+        AutoTranslationTrait;
 
     /**
      * RadioInput constructor.
@@ -37,6 +35,7 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
         parent::__construct();
         $this->name($name);
         $this->value($value);
+        $this->setupFormControl();
     }
 
     /**
@@ -53,16 +52,6 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
     }
 
     /**
-     * Returns the base translation-key for auto-translations for this object.
-     *
-     * @return string
-     */
-    public function getAutoTranslationKey(): string
-    {
-        return $this->attributes->name . '_' . $this->attributes->value;
-    }
-
-    /**
      * Does this field currently have a value set?
      *
      * @return bool
@@ -70,5 +59,15 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
     public function fieldHasValue()
     {
         return $this->attributes->isSet('checked');
+    }
+
+    /**
+     * Returns the base translation-key for auto-translations for this object.
+     *
+     * @return string
+     */
+    public function getAutoTranslationKey(): string
+    {
+        return $this->attributes->name . '_' . $this->attributes->value;
     }
 }

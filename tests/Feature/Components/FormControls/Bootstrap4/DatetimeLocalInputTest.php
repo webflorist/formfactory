@@ -36,7 +36,7 @@ class DatetimeLocalInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_datetime-local">Datetime-local<sup>*</sup></label>
-                    <div id="myFormId_datetime-local_errors">
+                    <div id="myFormId_datetime-local_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

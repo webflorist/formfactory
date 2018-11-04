@@ -5,14 +5,11 @@ namespace FormFactoryTests;
 use Form;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\ButtonElement;
-use Nicat\HtmlFactory\Elements\InputElement;
 use Nicat\HtmlFactory\HtmlFactoryFacade;
 use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -87,24 +84,20 @@ class TestCase extends BaseTestCase
     /**
      * Applies various attributes for a complex test.
      *
-     * @param Element $element
+     * @param FormControlInterface $formControl
      */
-    protected function applyComplexAttributes(Element $element)
+    protected function applyComplexAttributes(FormControlInterface $formControl)
     {
 
-        if (method_exists($element,'helpText')) {
-            /** @var CanHaveHelpText $element */
-            $element->helpText('myHelpText');
+        if ($formControl->isAField()) {
+            /** @var FieldInterface $formControl */
+            $formControl->errors(['myFirstError','mySecondError']);
+            $formControl->rules('required|alpha|max:10');
         }
 
-        if (method_exists($element,'errors')) {
-            /** @var CanHaveErrors $element */
-            $element->errors(['myFirstError','mySecondError']);
-        }
-
-        if (method_exists($element,'rules')) {
-            /** @var CanHaveRules $element */
-            $element->rules('required|alpha|max:10');
+        if ($formControl->canHaveHelpText()) {
+            /** @var HelpTextInterface $formControl */
+            $formControl->helpText('myHelpText');
         }
 
     }

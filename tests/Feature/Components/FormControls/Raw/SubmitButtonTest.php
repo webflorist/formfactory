@@ -11,11 +11,11 @@ class SubmitButtonTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::submit('submit');
+        $element = \Form::submit('myButtonName');
 
         $this->assertHtmlEquals(
             '
-                <button type="submit" name="submit" id="myFormId_submit">Submit</button>
+                <button type="submit" name="myButtonName" id="myFormId_myButtonName">MyButtonName</button>
             ',
             $element->generate()
         );

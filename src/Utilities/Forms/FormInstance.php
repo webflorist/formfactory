@@ -2,6 +2,8 @@
 
 namespace Nicat\FormFactory\Utilities\Forms;
 
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\Optgroup;
@@ -37,7 +39,7 @@ class FormInstance
     /**
      * Array of FormControls that belong to this FormInstance.
      *
-     * @var Element[]
+     * @var FormControlInterface[]|Element[]
      */
     private $formControls;
 
@@ -256,23 +258,21 @@ class FormInstance
     /**
      * Registers a FormControl with this FormInstance
      *
-     * @param Element $formControlElement
-     * @throws OpenElementNotFoundException
+     * @param FormControlInterface $formControlElement
      */
-    public function registerFormControl(Element $formControlElement)
+    public function registerFormControl(FormControlInterface $formControlElement)
     {
         $this->formControls[] = $formControlElement;
         if ($formControlElement->is(Select::class)) {
             $this->lastSelect = $formControlElement;
         }
-
         $formControlElement->setFormInstance($this);
     }
 
     /**
      * Returns $this->formControls.
      *
-     * @return Element[]
+     * @return FormControlInterface[]|Element[]
      */
     public function getFormControls()
     {

@@ -11,11 +11,11 @@ class ButtonTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::button('button');
+        $element = \Form::button('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <button type="button" name="button" id="myFormId_button">Button</button>
+                <button type="button" name="myFieldName" id="myFormId_myFieldName">MyFieldName</button>
             ',
             $element->generate()
         );

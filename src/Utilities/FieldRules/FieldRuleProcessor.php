@@ -2,8 +2,7 @@
 
 namespace Nicat\FormFactory\Utilities\FieldRules;
 
-
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
+use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\InputElement;
 use Nicat\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
@@ -24,22 +23,31 @@ class FieldRuleProcessor
 {
 
     /**
-     * @var Element|CanHaveRules
+     * @var FieldInterface|Element
      */
-    private $element;
+    private $field;
 
     /**
-     * Apply any rules for/to $element.
+     * RulesProcessor constructor.
      *
-     * @param Element|CanHaveRules $element
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @param FieldInterface $field
      */
-    public static function process($element)
+    private function __construct(FieldInterface $field)
+    {
+        $this->field = $field;
+    }
+
+    /**
+     * Apply any rules for/to $field.
+     *
+     * @param FieldInterface $field
+     */
+    public static function process(FieldInterface $field)
     {
 
-        if ($element->hasRules()) {
-            $rulesProcessor = new FieldRuleProcessor($element);
-            foreach ($element->getRules() as $rule => $parameters) {
+        if ($field->hasRules()) {
+            $rulesProcessor = new FieldRuleProcessor($field);
+            foreach ($field->getRules() as $rule => $parameters) {
                 $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
                 if (method_exists($rulesProcessor, $applyRulesMethod)) {
                     call_user_func([$rulesProcessor,$applyRulesMethod], $parameters);
@@ -49,23 +57,13 @@ class FieldRuleProcessor
     }
 
     /**
-     * RulesProcessor constructor.
-     *
-     * @param Element $element
-     */
-    private function __construct($element)
-    {
-        $this->element = $element;
-    }
-
-    /**
      * Applies 'required' rule.
      */
     private function applyRequiredRule()
     {
-        /** @var AllowsRequiredAttribute $element */
-        $element = $this->element;
-        $element->required();
+        /** @var AllowsRequiredAttribute $field */
+        $field = $this->field;
+        $field->required();
     }
 
     /**
@@ -90,9 +88,9 @@ class FieldRuleProcessor
      */
     private function applyUrlRule()
     {
-        /** @var AllowsTypeAttribute $element */
-        $element = $this->element;
-        $element->type('url');
+        /** @var AllowsTypeAttribute $field */
+        $field = $this->field;
+        $field->type('url');
     }
 
     /**
@@ -137,7 +135,7 @@ class FieldRuleProcessor
     {
 
         // For number-inputs we apply a min- and max-attributes.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
+        if ($this->field->is(InputElement::class) && ($this->field->attributes->type === 'number')) {
             $this->applyMinAttribute($parameters[0]);
             $this->applyMaxAttribute($parameters[1]);
             return;
@@ -169,7 +167,7 @@ class FieldRuleProcessor
     {
 
         // For number-inputs we apply a max-attribute.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
+        if ($this->field->is(InputElement::class) && ($this->field->attributes->type === 'number')) {
             $this->applyMaxAttribute($parameters[0]);
             return;
         }
@@ -188,7 +186,7 @@ class FieldRuleProcessor
     {
 
         // For number-inputs we apply a min-attribute.
-        if ($this->element->is(InputElement::class) && ($this->element->attributes->type === 'number')) {
+        if ($this->field->is(InputElement::class) && ($this->field->attributes->type === 'number')) {
             $this->applyMinAttribute($parameters[0]);
             return;
         }
@@ -214,9 +212,9 @@ class FieldRuleProcessor
      */
     private function applyNumericRule(array $parameters)
     {
-        /** @var AllowsTypeAttribute $element */
-        $element = $this->element;
-        $element->type('number');
+        /** @var AllowsTypeAttribute $field */
+        $field = $this->field;
+        $field->type('number');
         $this->applyPatternAttribute('[+-]?\d*\.?\d+');
     }
 
@@ -227,12 +225,12 @@ class FieldRuleProcessor
      */
     private function applyMimesRule(array $parameters)
     {
-        /** @var AllowsAcceptAttribute $element */
-        $element = $this->element;
+        /** @var AllowsAcceptAttribute $field */
+        $field = $this->field;
         if (array_search('jpeg', $parameters) !== false) {
             array_push($parameters, 'jpg');
         }
-        $element->accept('.' . implode(',.', $parameters));
+        $field->accept('.' . implode(',.', $parameters));
     }
 
     /**
@@ -243,17 +241,17 @@ class FieldRuleProcessor
      */
     private function applyPatternAttribute(string $pattern, $append = false)
     {
-        if ($this->element->attributes->isAllowed('pattern')) {
+        if ($this->field->attributes->isAllowed('pattern')) {
 
-            /** @var AllowsPatternAttribute $element */
-            $element = $this->element;
+            /** @var AllowsPatternAttribute $field */
+            $field = $this->field;
 
             // Append to existing pattern, if $append=true.
-            if ($append && $element->attributes->isSet('pattern')) {
-                $pattern = $element->attributes->pattern . $pattern;
+            if ($append && $field->attributes->isSet('pattern')) {
+                $pattern = $field->attributes->pattern . $pattern;
             }
 
-            $element->pattern($pattern);
+            $field->pattern($pattern);
 
         }
     }
@@ -265,10 +263,10 @@ class FieldRuleProcessor
      */
     private function applyMaxlengthAttribute(string $maxlength)
     {
-        if ($this->element->attributes->isAllowed('maxlength')) {
-            /** @var AllowsMaxlengthAttribute $element */
-            $element = $this->element;
-            $element->maxlength($maxlength);
+        if ($this->field->attributes->isAllowed('maxlength')) {
+            /** @var AllowsMaxlengthAttribute $field */
+            $field = $this->field;
+            $field->maxlength($maxlength);
         }
     }
 
@@ -279,10 +277,10 @@ class FieldRuleProcessor
      */
     private function applyMaxAttribute(int $value)
     {
-        if ($this->element->attributes->isAllowed('max')) {
-            /** @var AllowsMaxAttribute $element */
-            $element = $this->element;
-            $element->max($value);
+        if ($this->field->attributes->isAllowed('max')) {
+            /** @var AllowsMaxAttribute $field */
+            $field = $this->field;
+            $field->max($value);
         }
     }
 
@@ -293,10 +291,10 @@ class FieldRuleProcessor
      */
     private function applyMinAttribute(int $value)
     {
-        if ($this->element->attributes->isAllowed('min')) {
-            /** @var AllowsMinAttribute $element */
-            $element = $this->element;
-            $element->min($value);
+        if ($this->field->attributes->isAllowed('min')) {
+            /** @var AllowsMinAttribute $field */
+            $field = $this->field;
+            $field->min($value);
         }
     }
 

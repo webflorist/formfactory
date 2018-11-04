@@ -2,16 +2,19 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\SubmitButtonComponent;
 use Nicat\HtmlFactory\Components\Traits\HasContext;
 
-class SubmitButton extends SubmitButtonComponent implements AutoTranslationInterface
+class SubmitButton
+    extends SubmitButtonComponent
+    implements FormControlInterface, AutoTranslationInterface
 {
-    use UsesAutoTranslation,
-        CanBelongToFormInstance,
+    use FormControlTrait,
+        AutoTranslationTrait,
         HasContext;
 
     /**
@@ -23,6 +26,7 @@ class SubmitButton extends SubmitButtonComponent implements AutoTranslationInter
     {
         parent::__construct();
         $this->name($name);
+        $this->setupFormControl();
     }
 
     /**

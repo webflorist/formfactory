@@ -5,7 +5,6 @@ namespace Nicat\FormFactory\Components\Additional;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
 use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
 use Nicat\HtmlFactory\Components\CheckboxInputComponent;
 use Nicat\HtmlFactory\Components\RadioInputComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
@@ -80,7 +79,6 @@ class InputGroup extends DivElement implements DynamicListTemplateInterface
             // Disable the standard-wrapping of the child.
             $child->wrap(false);
 
-            /** @var CanHaveLabel $child */
             if ($child->labelMode !== 'none') {
 
                 // We tell $this->fieldWrapper->label to display

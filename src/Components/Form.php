@@ -253,22 +253,6 @@ class Form extends FormElement
     }
 
     /**
-     * Enables/disables ajax-validation onSubmit for this form.
-     *
-     * @param bool $enable
-     * @return $this
-     */
-    public function ajaxValidation($enable = true)
-    {
-        if ($enable && config('formfactory.ajax_validation.enabled')) {
-            $this->data('ajaxvalidation', 'onSubmit');
-        } else {
-            $this->attributes->remove('data-ajaxvalidation');
-        }
-        return $this;
-    }
-
-    /**
      * If the ID of a modal was set via 'modalId()', and the form has errors,
      * we apply a corresponding data-attribute, so that our JS knows to open
      * that modal on page-load.

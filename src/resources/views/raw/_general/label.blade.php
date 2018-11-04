@@ -1,0 +1,1 @@
+<label for="{{$fieldId}}">{{$labelText}}@if($showRequiredFieldIndicator)@include('formfactory::raw._general.required-field-indicator')@endif</label>

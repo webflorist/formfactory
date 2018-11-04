@@ -36,7 +36,7 @@ class EmailInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_email">Email<sup>*</sup></label>
-                    <div id="myFormId_email_errors">
+                    <div id="myFormId_email_errors" role="alert" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

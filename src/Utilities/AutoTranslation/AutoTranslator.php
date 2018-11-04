@@ -4,6 +4,7 @@ namespace Nicat\FormFactory\Utilities\AutoTranslation;
 
 use Lang;
 use Nicat\ExtendedValidation\ExtendedValidation;
+use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\RouteTree\RouteTree;
 
 class AutoTranslator

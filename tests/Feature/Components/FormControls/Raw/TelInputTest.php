@@ -11,12 +11,12 @@ class TelInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::tel('tel');
+        $element = \Form::tel('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_tel">Tel</label>
-                <input type="tel" name="tel" id="myFormId_tel" placeholder="Tel" />
+                <label for="myFormId_myFieldName">MyFieldName</label>
+                <input type="tel" name="myFieldName" id="myFormId_myFieldName" placeholder="MyFieldName" />
             ',
             $element->generate()
         );
@@ -24,20 +24,20 @@ class TelInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::tel('tel')
+        $element = \Form::tel('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_tel">Tel<sup>*</sup></label>
-                <div id="myFormId_tel_errors">
+                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <input type="tel" name="tel" id="myFormId_tel" required aria-describedby="myFormId_tel_errors myFormId_tel_helpText" aria-invalid="true" pattern="[a-zA-Z]+" maxlength="10" placeholder="Tel" />
-                <small id="myFormId_tel_helpText">myHelpText</small>
+                <input type="tel" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" pattern="[a-zA-Z]+" maxlength="10" placeholder="MyFieldName" />
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

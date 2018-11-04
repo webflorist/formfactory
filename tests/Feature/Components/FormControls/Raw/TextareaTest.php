@@ -11,12 +11,12 @@ class TextareaInputTest extends TestCase
 
     public function testSimple()
     {
-        $element = \Form::textarea('textarea');
+        $element = \Form::textarea('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_textarea">Textarea</label>
-                <textarea name="textarea" id="myFormId_textarea" placeholder="Textarea"></textarea>
+                <label for="myFormId_myFieldName">MyFieldName</label>
+                <textarea name="myFieldName" id="myFormId_myFieldName" placeholder="MyFieldName"></textarea>
             ',
             $element->generate()
         );
@@ -24,20 +24,20 @@ class TextareaInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::textarea('textarea')
+        $element = \Form::textarea('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_textarea">Textarea<sup>*</sup></label>
-                <div id="myFormId_textarea_errors">
+                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                <div id="myFormId_myFieldName_errors">
                     <div>myFirstError</div>
                     <div>mySecondError</div>
                 </div>
-                <textarea name="textarea" id="myFormId_textarea" required maxlength="10" placeholder="Textarea" aria-describedby="myFormId_textarea_errors myFormId_textarea_helpText" aria-invalid="true"></textarea>
-                <small id="myFormId_textarea_helpText">myHelpText</small>
+                <textarea name="myFieldName" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true"></textarea>
+                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

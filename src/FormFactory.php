@@ -112,36 +112,6 @@ class FormFactory
     }
 
     /**
-     * Magic method to construct a FormControl.
-     * See '@method' declarations of class-phpdoc
-     * for available methods.
-     *
-     * @param $accessor
-     * @param $arguments
-     * @return Element
-     *
-     * @throws ElementNotFoundException
-     * @throws OpenElementNotFoundException
-     */
-    public function __call($accessor, $arguments)
-    {
-
-        $formControlClass = $this->getFormControlClassNameForAccessor($accessor);
-
-        if (class_exists($formControlClass)) {
-            $formControlElement = new $formControlClass(...$arguments);
-            if ($this->formInstances->hasOpenForm()) {
-                $this->getOpenForm()->registerFormControl($formControlElement);
-            }
-            return $formControlElement;
-        }
-
-        // If the accessor is neither a element nor a component, we throw an exception.
-        throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
-
-    }
-
-    /**
      * Returns the FormFactory singleton from Laravel's Service Container.
      *
      * @return FormFactory
@@ -152,12 +122,36 @@ class FormFactory
     }
 
     /**
+     * Magic method to construct a FormControl.
+     * See '@method' declarations of class-phpdoc
+     * for available methods.
+     *
+     * @param $accessor
+     * @param $arguments
+     * @return Element
+     *
+     * @throws ElementNotFoundException
+     */
+    public function __call($accessor, $arguments)
+    {
+
+        $formControlClass = $this->getFormControlClassNameForAccessor($accessor);
+
+        if (class_exists($formControlClass)) {
+            return new $formControlClass(...$arguments);
+        }
+
+        // If the accessor is neither a element nor a component, we throw an exception.
+        throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
+
+    }
+
+    /**
      * Generates and returns the opening form-tag.
      * Also creates a new FormInstance and adds it to $this->formInstances.
      *
      * @param string $id
      * @return Form
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public static function open(string $id): Form
     {

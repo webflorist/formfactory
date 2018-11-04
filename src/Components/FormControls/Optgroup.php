@@ -2,13 +2,16 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\CanBelongToFormInstance;
+use Nicat\FormFactory\Components\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\HtmlFactory\Elements\OptgroupElement;
 
-class Optgroup extends OptgroupElement
+class Optgroup
+    extends OptgroupElement
+    implements FormControlInterface
 {
 
-    use CanBelongToFormInstance;
+    use FormControlTrait;
 
     /**
      * Optgroup constructor.
@@ -21,6 +24,7 @@ class Optgroup extends OptgroupElement
         parent::__construct();
         $this->label($label);
         $this->content($options);
+        $this->setupFormControl();
     }
 
 }
