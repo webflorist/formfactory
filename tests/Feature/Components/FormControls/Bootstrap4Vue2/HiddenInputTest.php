@@ -7,17 +7,16 @@ use FormFactoryTests\TestCase;
 class HiddenInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::hidden('hidden');
+        $element = \Form::hidden('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <input type="hidden" name="hidden" id="myFormId_hidden" class="form-control" />
+                <input type="hidden" name="myFieldName" class="form-control" id="myFormId_myFieldName"aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
             ',
             $element->generate()
         );

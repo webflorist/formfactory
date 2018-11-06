@@ -25,5 +25,16 @@ class HiddenInput
         parent::__construct();
         $this->name($name);
         $this->setupFormControl();
+        $this->wrap(false);
+    }
+
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        $this->processFormControl();
     }
 }

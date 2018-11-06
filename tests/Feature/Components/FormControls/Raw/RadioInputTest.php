@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class RadioInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
@@ -15,8 +15,10 @@ class RadioInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" />
-                <label for="myFormId_myFieldName_myValue"> MyValue </label>
+                <div>
+                    <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" />
+                    <label for="myFormId_myFieldName_myValue"> MyValue </label>
+                </div>
             ',
             $element->generate()
         );
@@ -31,13 +33,15 @@ class RadioInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div id="myFormId_myFieldName_errors">
-                    <div>myFirstError</div>
-                    <div>mySecondError</div>
+                <div>
+                    <div role="alert" id="myFormId_myFieldName_errors">
+                        <div>myFirstError</div>
+                        <div>mySecondError</div>
+                    </div>
+                    <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" aria-invalid="true" />
+                    <label for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
+                    <small id="myFormId_myFieldName_myValue_helpText">myHelpText</small>
                 </div>
-                <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
-                <label for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
-                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

@@ -14,7 +14,6 @@ use Nicat\FormFactory\Components\Traits\FormControlTrait;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\FormFactory\Components\Traits\LabelTrait;
 use Nicat\FormFactory\Utilities\ComponentLists;
-use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
 use Nicat\FormFactory\Components\FormControls\Option;
@@ -68,29 +67,29 @@ class DecorateFields extends Decorator
     {
 
         // Automatically generate a meaningful id for fields without a manually set id.
-        $this->autoGenerateId();
+        //$this->autoGenerateId();
 
         // Apply laravel-rules to the field's attributes for browser-live-validation.
-        $this->applyRules();
+        //$this->applyRules();
 
         // Applies default- or submitted-values to the field.
-        $this->applyValues();
+        //$this->applyValues();
 
         // Automatically generate the label-text for fields without a manually set label using auto-translation.
-        $this->autoGenerateLabelText();
+        //$this->autoGenerateLabelText();
 
         // Automatically generate the placeholder-text for fields without a manually set placeholder using auto-translation.
-        $this->autoGeneratePlaceholder();
+        //$this->autoGeneratePlaceholder();
 
         // Automatically generate help-texts for fields without a manually set help-text using auto-translation.
-        $this->autoGenerateHelpText();
+        //$this->autoGenerateHelpText();
 
-        if (FormFactoryConfig::isVueEnabled()) {
-            $this->applyVueDirectives();
+        if ($this->element->isVueEnabled()) {
+            //$this->applyVueDirectives();
         }
         else {
-            $this->applyAriaTagsOnErrors();
-            $this->addAriaDescribedByOnHelpText();
+            //$this->applyAriaTagsOnErrors();
+            //$this->addAriaDescribedByOnHelpText();
         }
 
     }

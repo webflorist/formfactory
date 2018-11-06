@@ -7,29 +7,73 @@ use FormFactoryTests\TestCase;
 class RadioGroupTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::radioGroup('radio_group', [
+        $element = \Form::radioGroup('myFieldName', [
             \Form::radio('myValue1'),
             \Form::radio('myValue2'),
-        ])->legend('myLegend');
+        ]);
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check" v-bind:class="{ \'has-error\': fieldHasError(\'radio\') }">
-                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_radio_myValue_errors" v-if="fieldHasError(\'radio\')">
-                        <div v-for="error in fields[\'radio\'].errors">{{ error }}</div>
+                <fieldset id="myFormId_myFieldName" class="form-group">
+                    <legend>MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>
                     </div>
-                    <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" v-model="fields[\'radio\'].value" v-bind="{ required: fields[\'radio\'].isRequired, disabled: fields[\'radio\'].isDisabled }" />
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup v-if="fields[\'radio\'].isRequired">*</sup></label>
-                </div>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>
+                    </div>
+                </fieldset>
             ',
             $element->generate()
         );
     }
+
+
+    public function testComplex()
+    {
+        $element = \Form::radioGroup('myFieldName', [
+            \Form::radio('myValue1'),
+            \Form::radio('myValue2'),
+        ])->legend('myLegend')
+            ->helpText('myHelpText')
+            ->errors(['myFirstError', 'mySecondError'])
+            ->rules('required|alpha|max:10');
+
+        $this->assertHtmlEquals(
+            '
+                <fieldset id="myFormId_myFieldName" class="form-group">
+                    <legend>myLegend<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
+                    </div>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
+                    </div>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
+                </fieldset>
+            ',
+            $element->generate()
+        );
+    }
+
 
 }

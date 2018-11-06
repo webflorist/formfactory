@@ -109,7 +109,7 @@ class Form extends FormElement
      * @param string $method
      * @return $this
      */
-    public function method(string $method)
+    public function method($method)
     {
         $method = strtoupper($method);
 
@@ -272,7 +272,31 @@ class Form extends FormElement
      */
     private function getFormInstance()
     {
-        return FormFactory::singleton()->singleton()->getForm($this->attributes->id);
+        return FormFactory::singleton()->getForm($this->attributes->id);
+    }
+
+    /**
+     * Enables vue-functionality for this form.
+     *
+     * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
+     */
+    public function enableVue()
+    {
+        $this->getFormInstance()->vueEnabled = true;
+        return $this;
+    }
+
+    /**
+     * Disables vue-functionality for this form.
+     *
+     * @return $this
+     * @throws \Nicat\FormFactory\Exceptions\FormInstanceNotFoundException
+     */
+    public function disableVue()
+    {
+        $this->getFormInstance()->vueEnabled = false;
+        return $this;
     }
 
 }

@@ -25,6 +25,13 @@ class RadioInput
         AutoTranslationTrait;
 
     /**
+     * Does this RadioInput belong to a RadioGroup?
+     *
+     * @var bool
+     */
+    public $belongsToGroup = false;
+
+    /**
      * RadioInput constructor.
      *
      * @param string $name
@@ -36,6 +43,16 @@ class RadioInput
         $this->name($name);
         $this->value($value);
         $this->setupFormControl();
+    }
+
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        $this->processFormControl();
     }
 
     /**

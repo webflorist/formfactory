@@ -7,17 +7,16 @@ use FormFactoryTests\TestCase;
 class SubmitButtonTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::submit('submit');
+        $element = \Form::submit('myButtonName');
 
         $this->assertHtmlEquals(
             '
-                <button type="submit" name="submit" id="myFormId_submit" class="btn btn-primary">Submit</button>
+                <button type="submit" name="myButtonName" class="btn btn-primary" id="myFormId_myButtonName">MyButtonName</button>
             ',
             $element->generate()
         );

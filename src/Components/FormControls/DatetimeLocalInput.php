@@ -36,4 +36,14 @@ class DatetimeLocalInput
         $this->setupFormControl();
     }
 
+    /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        $this->processFormControl();
+    }
+
 }

@@ -64,8 +64,13 @@ class StyleFieldWrapper extends Bootstrap3StyleFieldWrapper
     {
         $class = 'form-group';
 
+        // FieldWrappers for RadioInputs, that belong to a RadioGroup do not get the form-group class.
+        if (isset($this->element->field->belongsToGroup) && $this->element->field->belongsToGroup === true) {
+            $class = '';
+        }
+
         if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class))) {
-            $class = 'form-check';
+            $class .= ' form-check';
 
             if ($this->element->field->isInline()) {
                 $class .= ' form-check-inline';

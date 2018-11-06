@@ -47,13 +47,6 @@ class Field
     public $isDisabled = false;
 
     /**
-     * Does this field have a help-text?
-     *
-     * @var bool
-     */
-    public $hasHelpText = false;
-
-    /**
      * Array of errors for this field
      *
      * The field's 'required' attribute will react to this setting.
@@ -82,7 +75,6 @@ class Field
         $this->errors = $this->evaluateFieldErrors($field);
         $this->isRequired = ($field->attributes->required === true) ? true : false;
         $this->isDisabled = ($field->attributes->disabled === true) ? true : false;
-        $this->hasHelpText = (isset($field->helpText) && $field->helpText);
     }
 
     /**

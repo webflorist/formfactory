@@ -42,7 +42,7 @@ class DecorateOptions extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            Option::class
+            //Option::class
         ];
     }
 

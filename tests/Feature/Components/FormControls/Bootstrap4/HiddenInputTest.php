@@ -7,16 +7,16 @@ use FormFactoryTests\TestCase;
 class HiddenInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::hidden('hidden');
+        $element = \Form::hidden('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <input type="hidden" name="hidden" id="myFormId_hidden" class="form-control" />
+                <input type="hidden" name="myFieldName" class="form-control" id="myFormId_myFieldName" />
             ',
             $element->generate()
         );

@@ -50,10 +50,10 @@ class DecorateButtons extends Decorator
     public function decorate()
     {
         // Automatically generate a meaningful id for fields without a manually set id.
-        $this->autoGenerateID();
+        //$this->autoGenerateID();
 
         // Automatically generate the button-text for button-elements without a manually set content using auto-translation.
-        $this->autoGenerateButtonText();
+        //$this->autoGenerateButtonText();
     }
 
     /**

@@ -4,19 +4,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | View rendering.
-    |--------------------------------------------------------------------------
-    |
-    | Render using views.
-    |
-     */
-    'views' => [
-        'enabled' => true,
-        'base' => 'formfactory::bootstrap4_vue2'
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Translation key to use for automatic translations.
     |--------------------------------------------------------------------------
     |
@@ -57,7 +44,12 @@ return [
         /*
          * Whether vue-functionality should be enabled at all.
          */
-        'enabled' => false,
+        'enabled' => true,
+
+        /*
+         * Whether vue-functionality should be enabled by default for each form.
+         */
+        'default' => true,
 
     ],
 

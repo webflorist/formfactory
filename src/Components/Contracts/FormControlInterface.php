@@ -14,39 +14,39 @@ interface FormControlInterface
 {
 
     /**
-     * Sets the FormInstance this element belongs to.
-     *
-     * @param FormInstance|null $formInstance
-     */
-    public function setFormInstance(FormInstance $formInstance);
-
-    /**
      * Returns the FormInstance this element belongs to.
      *
      * @return FormInstance|null
      */
-    public function getFormInstance();
+    function getFormInstance();
 
     /**
      * Does this element belong to a FormInstance?
      *
      * @return bool
      */
-    public function hasFormInstance() : bool;
+    function hasFormInstance() : bool;
 
     /**
      * Is this FormControl a Field?
      *
      * @return bool
      */
-    public function isAField() : bool;
+    function isAField() : bool;
 
     /**
      * Can this FormControl have a help-text?
      *
      * @return bool
      */
-    public function canHaveHelpText(): bool;
+    function canHaveHelpText(): bool;
+
+    /**
+     * Is vue enabled for this form-control?
+     *
+     * @return bool
+     */
+    function isVueEnabled(): bool;
 
 }
 

@@ -7,15 +7,15 @@ use FormFactoryTests\TestCase;
 class ResetButtonTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
-        $element = \Form::reset('myFieldName');
+        $element = \Form::reset('myButtonName');
 
         $this->assertHtmlEquals(
             '
-                <button type="reset" name="myFieldName" id="myFormId_myFieldName">MyFieldName</button>
+                <button type="reset" name="myButtonName" id="myFormId_myButtonName">MyButtonName</button>
             ',
             $element->generate()
         );

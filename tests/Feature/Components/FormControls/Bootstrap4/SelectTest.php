@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class SelectTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::select('select');
+        $element = \Form::select('myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group">
-                    <label for="myFormId_select">Select</label>
-                    <select name="select" id="myFormId_select" class="form-control"></select>
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <select name="myFieldName" class="form-control" id="myFormId_myFieldName"></select>
                 </div>
             ',
             $element->generate()
@@ -28,17 +28,17 @@ class SelectTest extends TestCase
     public function testComplex()
     {
         $element = \Form::select(
-            'select',
+            'myFieldName',
             [
-                \Form::option('option1'),
-                \Form::optgroup('optgroup1',[
-                    \Form::option('optgroup1-option1'),
-                    \Form::option('optgroup1-option2')
+                \Form::option('myOption1'),
+                \Form::optgroup('myOptgroup1',[
+                    \Form::option('myOptgroup1-myOption1'),
+                    \Form::option('myOptgroup1-myOption2')
                 ]),
-                \Form::option('option2'),
-                \Form::optgroup('optgroup2',[
-                    \Form::option('optgroup2-option1'),
-                    \Form::option('optgroup2-option2')
+                \Form::option('myOption2'),
+                \Form::optgroup('myOptgroup2',[
+                    \Form::option('myOptgroup2-myOption1'),
+                    \Form::option('myOptgroup2-myOption2')
                 ]),
             ])
             ->helpText('myHelpText')
@@ -48,24 +48,24 @@ class SelectTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_select">Select<sup>*</sup></label>
-                    <div id="myFormId_select_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <select name="select" id="myFormId_select" class="form-control" required aria-describedby="myFormId_select_errors myFormId_select_helpText" aria-invalid="true">
-                        <option value="option1">option1</option>
-                        <optgroup label="optgroup1">
-                            <option value="optgroup1-option1">optgroup1-option1</option>
-                            <option value="optgroup1-option2">optgroup1-option2</option>
+                    <select name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true">
+                        <option value="myOption1">myOption1</option>
+                        <optgroup label="myOptgroup1">
+                            <option value="myOptgroup1-myOption1">myOptgroup1-myOption1</option>
+                            <option value="myOptgroup1-myOption2">myOptgroup1-myOption2</option>
                         </optgroup>
-                        <option value="option2">option2</option>
-                        <optgroup label="optgroup2">
-                            <option value="optgroup2-option1">optgroup2-option1</option>
-                            <option value="optgroup2-option2">optgroup2-option2</option>
+                        <option value="myOption2">myOption2</option>
+                        <optgroup label="myOptgroup2">
+                            <option value="myOptgroup2-myOption1">myOptgroup2-myOption1</option>
+                            <option value="myOptgroup2-myOption2">myOptgroup2-myOption2</option>
                         </optgroup>
                     </select>
-                    <small id="myFormId_select_helpText" class="form-text text-muted">myHelpText</small>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

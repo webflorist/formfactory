@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class CheckboxInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::checkbox('checkbox', 'myValue');
+        $element = \Form::checkbox('myFieldName', 'myValue');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check">
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" />
-                    <label class="form-check-label" for="myFormId_checkbox">Checkbox</label>
+                    <input type="checkbox" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName" />
+                    <label class="form-check-label" for="myFormId_myFieldName"> MyFieldName </label>
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class CheckboxInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::checkbox('checkbox', 'myValue')
+        $element = \Form::checkbox('myFieldName', 'myValue')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class CheckboxInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check has-error">
-                    <div id="myFormId_checkbox_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="checkbox" name="checkbox" value="myValue" id="myFormId_checkbox" class="form-check-input" required aria-describedby="myFormId_checkbox_errors myFormId_checkbox_helpText" aria-invalid="true" />
-                    <label class="form-check-label" for="myFormId_checkbox">Checkbox<sup>*</sup></label>
-                    <small id="myFormId_checkbox_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="checkbox" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <label class="form-check-label" for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

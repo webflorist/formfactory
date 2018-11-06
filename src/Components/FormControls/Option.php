@@ -31,6 +31,23 @@ class Option
     }
 
     /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        $this->processFormControl();
+
+        // Auto-translate option-text, if none was set.
+        if (!$this->content->hasContent()) {
+            $this->content(
+                $this->performAutoTranslation($this->attributes->value)
+            );
+        }
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string

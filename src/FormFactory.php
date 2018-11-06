@@ -7,7 +7,6 @@ use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\Additional\InputGroupAddon;
 use Nicat\FormFactory\Components\Additional\InputGroupButton;
 use Nicat\FormFactory\Components\Additional\InputGroup;
-use Nicat\FormFactory\Components\Additional\RadioGroup;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\ColorInput;
@@ -24,6 +23,7 @@ use Nicat\FormFactory\Components\FormControls\NumberInput;
 use Nicat\FormFactory\Components\FormControls\Optgroup;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\PasswordInput;
+use Nicat\FormFactory\Components\FormControls\RadioGroup;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\RangeInput;
 use Nicat\FormFactory\Components\FormControls\ResetButton;
@@ -91,6 +91,7 @@ use Nicat\VueFactory\VueInstance;
  * Misc FormControls:
  * =========
  * @method static Textarea              textarea(string $name)
+ * @method static RadioGroup            radioGroup(string $name, array $radioInputs)
  *
  */
 class FormFactory
@@ -141,7 +142,6 @@ class FormFactory
             return new $formControlClass(...$arguments);
         }
 
-        // If the accessor is neither a element nor a component, we throw an exception.
         throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
 
     }
@@ -172,18 +172,6 @@ class FormFactory
     {
         FormFactory::singleton()->getOpenForm()->closeForm();
         return '</form>';
-    }
-
-    /**
-     * Generates RadioGroup.
-     *
-     * @param string $name
-     * @param RadioInput[] $children
-     * @return RadioGroup
-     */
-    public static function radioGroup(string $name, array $children) : RadioGroup
-    {
-        return new RadioGroup($name, $children);
     }
 
     /**

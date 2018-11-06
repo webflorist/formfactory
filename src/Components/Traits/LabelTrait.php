@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Utilities\FieldLabels\FieldLabel;
+use Nicat\FormFactory\Components\Additional\FieldLabel;
 
 /**
  * This traits provides a default implementation

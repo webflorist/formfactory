@@ -95,11 +95,18 @@ class FormInstance
     public $wasSubmitted = false;
 
     /**
-     * Last Select-FormControl added to this form..
+     * Last Select-FormControl added to this form.
      *
      * @var Select
      */
     protected $lastSelect = null;
+
+    /**
+     * Is vue-functionality enabled for this form?
+     *
+     * @var bool
+     */
+    public $vueEnabled = null;
 
     /**
      * FormInstance constructor.
@@ -112,6 +119,7 @@ class FormInstance
         $this->values = new FieldValueManager($this);
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
+        $this->vueEnabled = config('formfactory.vue.default');
     }
 
     /**
@@ -147,6 +155,16 @@ class FormInstance
     public function isOpen(): bool
     {
         return $this->isOpen;
+    }
+
+    /**
+     * Is this form currently set to use vue?
+     *
+     * @return bool
+     */
+    public function isVueEnabled(): bool
+    {
+        return config('formfactory.vue.enabled') && $this->vueEnabled;
     }
 
     /**
@@ -266,7 +284,6 @@ class FormInstance
         if ($formControlElement->is(Select::class)) {
             $this->lastSelect = $formControlElement;
         }
-        $formControlElement->setFormInstance($this);
     }
 
     /**

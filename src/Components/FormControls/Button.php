@@ -32,6 +32,16 @@ class Button
     }
 
     /**
+     * Gets called before applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        $this->processFormControl();
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string
