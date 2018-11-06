@@ -1,0 +1,96 @@
+<?php
+
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2;
+
+use FormFactoryTests\TestCase;
+
+class InputGroupTest extends TestCase
+{
+
+    protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
+
+    public function testSimple()
+    {
+        $element = \Form::inputGroup([
+            'text-before',
+            \Form::text('myTextFieldName'),
+            \Form::select('mySelectFieldName',
+                [
+                    \Form::option('myOptionValue1'),
+                    \Form::option('myOptionValue2'),
+                ]),
+            \Form::submit(),
+        ]);
+
+        $this->assertHtmlEquals(
+            '
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myTextFieldName\') }">
+                    <label for="myFormId_myTextFieldName">MyTextFieldName<template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template></label>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
+	                        <div v-for="error in fields[\'myTextFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_mySelectFieldName_errors" v-if="fieldHasError(\'mySelectFieldName\')">
+	                        <div v-for="error in fields[\'mySelectFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">text-before</span>
+                        </div>
+                        <input type="text" name="myTextFieldName" class="form-control" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_errors" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" />
+                        <div class="input-group-append">
+                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" v-model="fields[\'mySelectFieldName\'].value" v-bind:required="fields[\'mySelectFieldName\'].isRequired" v-bind:disabled="fields[\'mySelectFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'mySelectFieldName\')" class="form-control">
+                                <option value="myOptionValue1">myOptionValue1</option>
+                                <option value="myOptionValue2">myOptionValue2</option>
+                            </select>
+                            <button type="submit" name="submit" class="btn btn-primary" id="myFormId_submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            ',
+            $element->generate()
+        );
+    }
+
+    /*
+    public function testComplex()
+    {
+        $element = \Form::radioGroup('myFieldName', [
+            \Form::radio('myValue1'),
+            \Form::radio('myValue2'),
+        ])->legend('myLegend')
+            ->helpText('myHelpText')
+            ->errors(['myFirstError', 'mySecondError'])
+            ->rules('required|alpha|max:10');
+
+        $this->assertHtmlEquals(
+            '
+                <fieldset id="myFormId_myFieldName" class="form-group">
+                    <legend>myLegend<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
+                    </div>
+                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
+                    </div>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
+                </fieldset>
+            ',
+            $element->generate()
+        );
+    }
+    */
+
+
+}

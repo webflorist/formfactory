@@ -6,6 +6,7 @@ use Nicat\FormFactory\Components\Additional\FieldWrapper;
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\FormControls\FileInput;
+use Nicat\FormFactory\Components\FormControls\InputGroup;
 use Nicat\FormFactory\Components\FormControls\Optgroup;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\RadioGroup;
@@ -84,7 +85,7 @@ trait FormControlTrait
     {
         if ($this->isAField()) {
 
-            if (!$this->is(RadioGroup::class)) {
+            if (!$this->is(RadioGroup::class) && !$this->is(InputGroup::class)) {
                 FieldRuleProcessor::process($this);
                 FieldValueProcessor::process($this);
 
@@ -101,12 +102,11 @@ trait FormControlTrait
                 }
             }
 
-            if ($this->isVueEnabled() && !$this->is(RadioGroup::class)) {
+            if ($this->isVueEnabled() && !$this->is(RadioGroup::class) && !$this->is(InputGroup::class)) {
                 $this->applyVueDirectives();
             }
 
             $this->errors->generate();
-
         }
 
         if ($this->canHaveHelpText()) {

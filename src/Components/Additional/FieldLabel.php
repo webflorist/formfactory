@@ -78,7 +78,7 @@ class FieldLabel extends LabelElement
 
             // Perform auto-translation, if no label was manually set.
             if (!$this->hasLabel()) {
-                $defaultValue = ucwords(FormFactoryTools::arrayStripString($this->field->attributes->name));
+                $defaultValue = ucwords(FormFactoryTools::arrayStripString($this->field->getFieldName()));
                 if ($this->field->is(RadioInput::class)) {
                     $defaultValue = ucwords($this->field->attributes->value);
                 }

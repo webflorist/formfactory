@@ -133,7 +133,7 @@ class FieldErrors extends AlertComponent
             $output = '';
         }
 
-        if (!$this->field->isVueEnabled() && !$this->hasErrors()) {
+        if (!$this->displayErrors || (!$this->field->isVueEnabled() && !$this->hasErrors())) {
             $output = '';
         }
     }
