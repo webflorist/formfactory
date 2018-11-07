@@ -26,8 +26,7 @@ class InputRadioTest extends InputTestCase
     protected $wrapperMatcher = [
         'tag' => 'div',
         'attributes' => [
-            'class' => 'radio',
-            'data-field-wrapper' => '1'
+            'class' => 'radio'
         ]
     ];
 

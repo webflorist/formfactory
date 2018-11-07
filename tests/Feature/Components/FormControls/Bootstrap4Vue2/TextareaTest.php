@@ -4,22 +4,26 @@ namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue2
 
 use FormFactoryTests\TestCase;
 
-class TextareaTest extends TestCase
+class TextareaInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::textarea('textarea');
+        $element = \Form::textarea('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
-                    <label for="myFormId_textarea">Textarea</label>
-                    <textarea name="textarea" id="myFormId_textarea" class="form-control" placeholder="Textarea"></textarea>
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                    <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" aria-describedby="myFormId_myFieldName_errors"></textarea>
                 </div>
             ',
             $element->generate()
@@ -28,21 +32,22 @@ class TextareaTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::textarea('textarea')
+        $element = \Form::textarea('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
-                    <label for="myFormId_textarea">Textarea<sup v-if="fields.week.isRequired">*</sup></label>
-                    <div id="myFormId_textarea_errors">
-                        <div>myFirstError</div>
-                        <div>mySecondError</div>
-                    </div>
-                    <textarea name="textarea" id="myFormId_textarea" class="form-control" required maxlength="10" placeholder="Textarea" aria-describedby="myFormId_textarea_errors myFormId_textarea_helpText" aria-invalid="true"></textarea>
-                    <small id="myFormId_textarea_helpText">myHelpText</small>
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                    <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')"></textarea>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

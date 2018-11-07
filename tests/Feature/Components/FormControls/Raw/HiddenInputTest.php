@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class HiddenInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {

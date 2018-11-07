@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class TextareaInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
@@ -15,8 +15,10 @@ class TextareaInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_myFieldName">MyFieldName</label>
-                <textarea name="myFieldName" id="myFormId_myFieldName" placeholder="MyFieldName"></textarea>
+                <div>
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <textarea name="myFieldName" id="myFormId_myFieldName" placeholder="MyFieldName"></textarea>
+                </div>
             ',
             $element->generate()
         );
@@ -31,13 +33,15 @@ class TextareaInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                <div id="myFormId_myFieldName_errors">
-                    <div>myFirstError</div>
-                    <div>mySecondError</div>
+                <div>
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors">
+                        <div>myFirstError</div>
+                        <div>mySecondError</div>
+                    </div>
+                    <textarea name="myFieldName" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true"></textarea>
+                    <small id="myFormId_myFieldName_helpText">myHelpText</small>
                 </div>
-                <textarea name="myFieldName" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true"></textarea>
-                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

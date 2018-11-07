@@ -9,14 +9,13 @@ use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\LabelTrait;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\ColorInputComponent;
 
 class ColorInput
     extends ColorInputComponent
-    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
+    implements FormControlInterface, FieldInterface,  HelpTextInterface, AutoTranslationInterface
 {
     use FormControlTrait,
         FieldTrait,
@@ -34,5 +33,15 @@ class ColorInput
         parent::__construct();
         $this->name($name);
         $this->setupFormControl();
+    }
+
+    /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
     }
 }

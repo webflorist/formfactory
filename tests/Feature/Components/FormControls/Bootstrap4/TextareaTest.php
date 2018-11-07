@@ -4,21 +4,21 @@ namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
 
 use FormFactoryTests\TestCase;
 
-class TextareaTest extends TestCase
+class TextareaInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::textarea('textarea');
+        $element = \Form::textarea('myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group">
-                    <label for="myFormId_textarea">Textarea</label>
-                    <textarea name="textarea" id="myFormId_textarea" class="form-control" placeholder="Textarea"></textarea>
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName"></textarea>
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class TextareaTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::textarea('textarea')
+        $element = \Form::textarea('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class TextareaTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_textarea">Textarea<sup>*</sup></label>
-                    <div id="myFormId_textarea_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <textarea name="textarea" id="myFormId_textarea" class="form-control" required maxlength="10" placeholder="Textarea" aria-describedby="myFormId_textarea_errors myFormId_textarea_helpText" aria-invalid="true"></textarea>
-                    <small id="myFormId_textarea_helpText" class="form-text text-muted">myHelpText</small>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true"></textarea>
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

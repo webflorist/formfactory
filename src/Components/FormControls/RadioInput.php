@@ -9,20 +9,26 @@ use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\LabelTrait;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\RadioInputComponent;
 
 class RadioInput
     extends RadioInputComponent
-    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
+    implements FormControlInterface, FieldInterface,  HelpTextInterface, AutoTranslationInterface
 {
     use FormControlTrait,
         FieldTrait,
         LabelTrait,
         HelpTextTrait,
         AutoTranslationTrait;
+
+    /**
+     * Does this RadioInput belong to a RadioGroup?
+     *
+     * @var bool
+     */
+    public $belongsToGroup = false;
 
     /**
      * RadioInput constructor.
@@ -36,6 +42,16 @@ class RadioInput
         $this->name($name);
         $this->value($value);
         $this->setupFormControl();
+    }
+
+    /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
     }
 
     /**

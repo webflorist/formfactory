@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\HtmlFactory;
 use Route;
@@ -38,7 +37,7 @@ class FormFactoryServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormFactory");
 
         // Load views.
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'formfactory');
+        $this->loadViewsFrom(__DIR__.'/resources/views/', 'formfactory');
 
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
@@ -86,11 +85,6 @@ class FormFactoryServiceProvider extends ServiceProvider
     {
         /** @var HtmlFactory $htmlFactory */
         $htmlFactory = app(HtmlFactory::class);
-        $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\General',
-            __DIR__ . '/Decorators/General'
-        );
-
         $htmlFactory->decorators->registerFromFolder(
             'Nicat\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'

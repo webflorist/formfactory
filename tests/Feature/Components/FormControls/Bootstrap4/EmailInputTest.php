@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class EmailInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::email('email');
+        $element = \Form::email('myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group">
-                    <label for="myFormId_email">Email</label>
-                    <input type="email" name="email" id="myFormId_email" class="form-control" placeholder="Email" />
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <input type="email" name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" />
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class EmailInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::email('email')
+        $element = \Form::email('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class EmailInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_email">Email<sup>*</sup></label>
-                    <div id="myFormId_email_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="email" name="email" id="myFormId_email" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Email" aria-describedby="myFormId_email_errors myFormId_email_helpText" aria-invalid="true" />
-                    <small id="myFormId_email_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="email" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" pattern="[a-zA-Z]+" maxlength="10" placeholder="MyFieldName" />
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

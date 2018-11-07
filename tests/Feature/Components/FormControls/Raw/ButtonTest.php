@@ -7,15 +7,15 @@ use FormFactoryTests\TestCase;
 class ButtonTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
-        $element = \Form::button('myFieldName');
+        $element = \Form::button('myButtonName');
 
         $this->assertHtmlEquals(
             '
-                <button type="button" name="myFieldName" id="myFormId_myFieldName">MyFieldName</button>
+                <button type="button" name="myButtonName" id="myFormId_myButtonName">MyButtonName</button>
             ',
             $element->generate()
         );

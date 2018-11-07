@@ -2,14 +2,24 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
+use Nicat\FormFactory\Components\Additional\FieldWrapper;
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\FormControls\FileInput;
+use Nicat\FormFactory\Components\FormControls\InputGroup;
+use Nicat\FormFactory\Components\FormControls\Optgroup;
+use Nicat\FormFactory\Components\FormControls\Option;
+use Nicat\FormFactory\Components\FormControls\RadioGroup;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Utilities\FieldErrors\FieldErrors;
-use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
-use Nicat\FormFactory\Utilities\FieldLabels\FieldLabel;
+use Nicat\FormFactory\Components\Additional\FieldErrors;
+use Nicat\FormFactory\Components\Additional\FieldHelpText;
+use Nicat\FormFactory\Components\Additional\FieldLabel;
+use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
+use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
+use Nicat\HtmlFactory\Elements\ButtonElement;
 
 /**
  * This traits provides basic functionality for FormControls.
@@ -28,16 +38,29 @@ trait FormControlTrait
 
     /**
      * Performs various Setup-tasks for this FormControl.
+     *
+     * TODO: This is all very smelly. Find better solution.
      */
     protected function setupFormControl()
     {
+        // Register the FormControl with the currently open FormInstance.
         try {
             $this->formInstance = FormFactory::singleton()->getOpenForm();
             $this->formInstance->registerFormControl($this);
         } catch (OpenElementNotFoundException $e) {
         }
 
+        // Apply view.
+        try {
+            $this->view('formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName()));
+        } catch (\ReflectionException $e) {
+        }
+
+        // Set a default-ID for various FormControls.
+        $this->setDefaultId();
+
         if ($this->isAField()) {
+            $this->wrapper = new FieldWrapper($this);
             $this->errors = new FieldErrors($this);
 
             if ($this->canHaveLabel()) {
@@ -45,19 +68,62 @@ trait FormControlTrait
             }
         }
 
+        // Apply help-text.
         if ($this->canHaveHelpText()) {
             $this->helpText = new FieldHelpText($this);
         }
     }
 
     /**
-     * Sets the FormInstance this Field belongs to.
+     * Performs various tasks before decoration.
      *
-     * @param FormInstance|null $formInstance
+     * TODO: This is all very smelly. Find better solution.
      */
-    public function setFormInstance(FormInstance $formInstance)
+    protected function processFormControl()
     {
-        $this->formInstance = $formInstance;
+        if ($this->isAField()) {
+
+            FieldRuleProcessor::process($this);
+            FieldValueProcessor::process($this);
+
+            if ($this->canHaveLabel()) {
+                $this->label->generate();
+            }
+
+            if ($this->isVueEnabled()) {
+                $this->applyVueDirectives();
+            }
+
+            $this->errors->generate();
+        }
+
+        if ($this->canHaveHelpText()) {
+            $this->helpText->generate();
+        }
+
+        // Auto-translate button-content, if none was set.
+        if ($this->is(ButtonElement::class)) {
+            if (!$this->content->hasContent()) {
+                $this->content(
+                    $this->performAutoTranslation(ucwords($this->attributes->name))
+                );
+            }
+        }
+
+    }
+
+    protected function applyVueDirectives()
+    {
+        $fieldName = $this->attributes->name;
+        $fieldBase = "fields['$fieldName']";
+        if (!$this->attributes->isSet('v-model') && !$this->is(FileInput::class)) {
+            $this->vModel($fieldBase . '.value');
+        }
+        if (!$this->attributes->isSet('v-bind')) {
+            $this->vBind('required', $fieldBase . '.isRequired');
+            $this->vBind('disabled', $fieldBase . '.isDisabled');
+            $this->vBind('aria-invalid', "fieldHasError('$fieldName')");
+        }
     }
 
     /**
@@ -75,7 +141,7 @@ trait FormControlTrait
      *
      * @return bool
      */
-    public function hasFormInstance() : bool
+    public function hasFormInstance(): bool
     {
         return !is_null($this->formInstance);
     }
@@ -98,6 +164,66 @@ trait FormControlTrait
     public function canHaveHelpText(): bool
     {
         return array_search(HelpTextInterface::class, class_implements($this));
+    }
+
+    /**
+     * Is vue enabled for this form-control?
+     *
+     * @return bool
+     */
+    public function isVueEnabled(): bool
+    {
+        if (!config('formfactory.vue.enabled')) {
+            return false;
+        }
+
+        if ($this->hasFormInstance() && !$this->formInstance->isVueEnabled()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Sets an auto-generated default-id.
+     */
+    protected function setDefaultId()
+    {
+
+        // Do not generate ID for Options or Optgroups
+        if ($this->is(Option::class) || $this->is(Optgroup::class)) {
+            return;
+        }
+
+        $this->id(function () {
+
+            $id = '';
+
+            // If this FormControl belongs to a FormInstance,
+            // the auto-generated IDs always starts with the ID of the form.
+            if ($this->hasFormInstance()) {
+                $id = $this->getFormInstance()->getId() . '_';
+            }
+
+            // If this FormControl has a name-attribute, we append it.
+            // Otherwise we use the Element-name.
+            if ($this->isAField()) {
+                $id .= $this->getFieldName();
+            }
+            else if ($this->attributes->isSet('name')) {
+                $id .= $this->attributes->name;
+            } else {
+                $id .= $this->getName();
+            }
+
+            // For RadioInputs we also append the value.
+            if ($this->is(RadioInput::class)) {
+                $id .= '_' . $this->attributes->value;
+            }
+
+            return $id;
+        });
+
     }
 
 }

@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class PasswordInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::password('password');
+        $element = \Form::password('myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group">
-                    <label for="myFormId_password">Password</label>
-                    <input type="password" name="password" id="myFormId_password" class="form-control" placeholder="Password" />
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <input type="password" name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" />
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class PasswordInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::password('password')
+        $element = \Form::password('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class PasswordInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_password">Password<sup>*</sup></label>
-                    <div id="myFormId_password_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="password" name="password" id="myFormId_password" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Password" aria-describedby="myFormId_password_errors myFormId_password_helpText" aria-invalid="true" />
-                    <small id="myFormId_password_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="password" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" pattern="[a-zA-Z]+" maxlength="10" placeholder="MyFieldName" />
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

@@ -27,4 +27,14 @@ class Optgroup
         $this->setupFormControl();
     }
 
+    /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
+    }
+
 }

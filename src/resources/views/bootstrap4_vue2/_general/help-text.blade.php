@@ -1,1 +1,0 @@
-<small id="{{$el->getFieldName()}}_helpText" class="form-text text-muted">{!! $el->helpText !!}</small>

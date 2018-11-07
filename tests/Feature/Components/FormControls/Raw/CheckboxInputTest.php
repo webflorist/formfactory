@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class CheckboxInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
@@ -15,8 +15,10 @@ class CheckboxInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" />
-                <label for="myFormId_myFieldName"> MyFieldName </label>
+                <div>
+                    <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" />
+                    <label for="myFormId_myFieldName"> MyFieldName </label>
+                </div>
             ',
             $element->generate()
         );
@@ -31,13 +33,15 @@ class CheckboxInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div id="myFormId_myFieldName_errors">
-                    <div>myFirstError</div>
-                    <div>mySecondError</div>
+                <div>
+                    <div role="alert" id="myFormId_myFieldName_errors">
+                        <div>myFirstError</div>
+                        <div>mySecondError</div>
+                    </div>
+                    <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <label for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
+                    <small id="myFormId_myFieldName_helpText">myHelpText</small>
                 </div>
-                <input type="checkbox" name="myFieldName" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
-                <label for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
-                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );

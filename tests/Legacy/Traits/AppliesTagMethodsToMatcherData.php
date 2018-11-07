@@ -23,9 +23,13 @@ trait AppliesTagMethodsToMatcherData
         if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0)) {
             $this->labelMatcher['attributes']['for'] = $id;
         }
-        $this->errorMatcher['attributes']['id'] = $id . '_errors';
+    }
+
+    protected function tagMethod2Matcher_name($name = '')
+    {
+        $this->matchTagAttributes['name'] = $name;
         if (isset($this->matchTagAttributes['aria-describedby'])) {
-            $this->matchTagAttributes['aria-describedby'] = $id . '_errors';
+            $this->matchTagAttributes['aria-describedby'] = $name . '_errors';
         }
     }
 
@@ -111,7 +115,7 @@ trait AppliesTagMethodsToMatcherData
     protected function tagMethod2Matcher_required($required = true)
     {
         $this->handleProperty('required', $required);
-        if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0) && ($this->tagFunction !== 'radio')) {
+        if (isset($this->labelMatcher) && (count($this->labelMatcher) > 0)) {
             $this->labelMatcher['children'][] = [
                 'tag' => 'sup',
                 'children' => [
@@ -137,7 +141,7 @@ trait AppliesTagMethodsToMatcherData
     protected function tagMethod2Matcher_helpText($helpText = '')
     {
         $this->helpTextMatcher = [
-            'tag' => 'div',
+            'tag' => 'small',
             'attributes' => [
                 'class' => 'text-muted small',
                 'id' => $this->matchTagAttributes['id'] . '_helpText',
@@ -152,7 +156,7 @@ trait AppliesTagMethodsToMatcherData
         if (!isset($this->matchTagAttributes['aria-describedby'])) {
             $this->matchTagAttributes['aria-describedby'] = '';
         }
-        $this->matchTagAttributes['aria-describedby'] .= ' ' . $this->matchTagAttributes['id'] . '_helpText';
+        $this->matchTagAttributes['aria-describedby'] .= $this->matchTagAttributes['id'] . '_helpText';
     }
 
     protected function tagMethod2Matcher_errors($errors = [])
@@ -162,8 +166,19 @@ trait AppliesTagMethodsToMatcherData
             $this->addHtmlClass2String($this->wrapperMatcher['attributes']['class'], 'has-error');
         }
 
-        unset($this->errorMatcher['attributes']['hidden']);
-        unset($this->errorMatcher['attributes']['style']);
+        // Hidden error-container
+        $this->errorMatcher = [
+            'tag' => 'div',
+            'attributes' => [
+                'role' => 'alert',
+                'class' => 'alert m-b-1 alert-danger',
+            ],
+            'children' => []
+        ];
+
+        if (!isset($this->errorMatcher['attributes']['id'])) {
+            $this->errorMatcher['attributes']['id'] = $this->formTemplate['parameters']['id'] . '_' . $this->matchTagAttributes['name'].'_errors';
+        }
 
         foreach ($errors as $key => $errorMsg) {
             $this->errorMatcher['children'][] = [
@@ -177,6 +192,11 @@ trait AppliesTagMethodsToMatcherData
         }
 
         $this->matchTagAttributes['aria-invalid'] = 'true';
+
+        if (!isset($this->matchTagAttributes['aria-describedby'])) {
+            $this->matchTagAttributes['aria-describedby'] = '';
+        }
+        $this->matchTagAttributes['aria-describedby'] .= $this->formTemplate['parameters']['id'] . '_' . $this->matchTagAttributes['name'] . '_errors';
 
     }
 

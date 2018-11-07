@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Utilities\FieldHelpTexts\FieldHelpText;
+use Nicat\FormFactory\Components\Additional\FieldHelpText;
 
 /**
  * This traits provides a default implementation

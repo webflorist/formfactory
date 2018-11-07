@@ -392,6 +392,9 @@ class TestCase extends BaseTestCase
 
         // Get the node, that should be checked.
         $node = $parentNode->childNodes->item($key);
+	
+        // Remove any children only consisting of linefeeds and spaces.
+        $this->removeIrrelevantChildren($node);
 
         // Assert, that the node is present at all at the desired location.
         $this->assertNotNull(
@@ -479,19 +482,11 @@ class TestCase extends BaseTestCase
         }
 
         // Assert, that the plain text is identical (only for nodes which contain plain-text and no tags..
-        if (isset($matcher['text'])) {
+        if (isset($node->wholeText)) {
             $this->assertEquals(
                 $matcher['text'],
                 $node->wholeText,
                 $this->generateErrorMsg($humanReadableNode . ' has an unexpected text: "' . $node->wholeText . '".')
-            );
-        }
-
-        // Assert, that no children are present at all, if none are desired.
-        if (!isset($matcher['children']) || (count($matcher['children']) === 0)) {
-            $this->assertFalse(
-                $node->hasChildNodes(),
-                $this->generateErrorMsg($humanReadableNode . ' should have no children at all, but it has.')
             );
         }
 
@@ -500,10 +495,7 @@ class TestCase extends BaseTestCase
         if (isset($matcher['children']) && (count($matcher['children']) > 0)) {
             $desiredChildCount = count($matcher['children']);
         }
-        $actualChildCount = 0;
-        if (is_a($node->childNodes, 'DOMNodeList')) {
-            $actualChildCount = $node->childNodes->length;
-        }
+        $actualChildCount = ($node->hasChildNodes()?$node->childNodes->length:0);
         $this->assertEquals(
             $desiredChildCount,
             $actualChildCount,
@@ -532,5 +524,20 @@ class TestCase extends BaseTestCase
         return false;
     }
 
-
+    /**
+     * Remove any children only consisting of linefeeds and spaces.
+     *
+     * @param DOMNode $node
+     */
+    private function removeIrrelevantChildren(\DOMNode $node)
+    {
+        if ($node->hasChildNodes()) {
+            foreach ($node->childNodes as $child) {
+                if (is_a($child, \DOMText::class) && strlen(trim($child->wholeText)) === 0) {
+                    $node->removeChild($child);
+                    $this->removeIrrelevantChildren($node);
+                }
+            }
+        }
+    }
 }

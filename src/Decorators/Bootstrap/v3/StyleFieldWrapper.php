@@ -85,16 +85,13 @@ class StyleFieldWrapper extends Decorator
         $field = $this->element->field;
 
         // We make this reactive, if vue is used.
-        if (FormFactoryConfig::isVueEnabled()) {
-            $fieldName = FormFactoryTools::convertArrayFieldHtmlName2JsNotation($field->attributes->name);
-            $this->element->vBind('class',
-                "{ 'has-error': fields.$fieldName.errors.length }"
-            );
+        if ($this->element->field->isVueEnabled()) {
+            $this->element->vBind('class',"{ 'has-error': fieldHasError('".$field->getFieldName()."') }");
             return;
         }
 
         // If vue is not used, we simply add the error-class to the wrapper, if the field has errors.
-        if ($field->hasErrors()) {
+        if ($field->errors->hasErrors()) {
             $this->element->addClass('has-error');
         }
     }

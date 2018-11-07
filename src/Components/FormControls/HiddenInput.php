@@ -10,10 +10,9 @@ use Nicat\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput
     extends HiddenInputComponent
-    implements FormControlInterface, FieldInterface
+    implements FormControlInterface
 {
-    use FormControlTrait,
-        FieldTrait;
+    use FormControlTrait;
 
     /**
      * HiddenInput constructor.
@@ -25,5 +24,15 @@ class HiddenInput
         parent::__construct();
         $this->name($name);
         $this->setupFormControl();
+    }
+
+    /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
     }
 }

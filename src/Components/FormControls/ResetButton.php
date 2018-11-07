@@ -30,6 +30,16 @@ class ResetButton
     }
 
     /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
+    }
+
+    /**
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string

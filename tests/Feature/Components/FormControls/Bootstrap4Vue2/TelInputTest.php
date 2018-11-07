@@ -7,19 +7,23 @@ use FormFactoryTests\TestCase;
 class TelInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::tel('tel');
+        $element = \Form::tel('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
-                    <label for="myFormId_tel">Tel</label>
-                    <input type="tel" name="tel" id="myFormId_tel" class="form-control" placeholder="Tel" />
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                    <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <input type="tel" name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                 </div>
             ',
             $element->generate()
@@ -28,21 +32,22 @@ class TelInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::tel('tel')
+        $element = \Form::tel('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'text\') }">
-                    <label for="myFormId_tel">Tel<sup v-if="fields.week.isRequired">*</sup></label>
-                    <div id="myFormId_tel_errors">
-                        <div>myFirstError</div>
-                        <div>mySecondError</div>
-                    </div>
-                    <input type="tel" name="tel" id="myFormId_tel" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Tel" aria-describedby="myFormId_tel_errors myFormId_tel_helpText" aria-invalid="true" />
-                    <small id="myFormId_tel_helpText">myHelpText</small>
+                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
+                    <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
+		            <template>           
+	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
+	                    </div>
+		            </template>
+                    <input type="tel" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" pattern="[a-zA-Z]+" maxlength="10" placeholder="MyFieldName" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

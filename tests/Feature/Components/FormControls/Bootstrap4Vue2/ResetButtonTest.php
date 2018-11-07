@@ -7,17 +7,16 @@ use FormFactoryTests\TestCase;
 class ResetButtonTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4_vue2';
-    protected $decorators = ['bootstrap:v4'];
     protected $enableVue = true;
+    protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::reset('reset');
+        $element = \Form::reset('myButtonName');
 
         $this->assertHtmlEquals(
             '
-                <button type="reset" name="reset" id="myFormId_reset" class="btn btn-secondary">Reset</button>
+                <button type="reset" name="myButtonName" class="btn btn-secondary" id="myFormId_myButtonName">MyButtonName</button>
             ',
             $element->generate()
         );

@@ -4,10 +4,6 @@ namespace Nicat\FormFactory;
 
 use Nicat\FormFactory\Components\Additional\ButtonGroup;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
-use Nicat\FormFactory\Components\Additional\InputGroupAddon;
-use Nicat\FormFactory\Components\Additional\InputGroupButton;
-use Nicat\FormFactory\Components\Additional\InputGroup;
-use Nicat\FormFactory\Components\Additional\RadioGroup;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\ColorInput;
@@ -19,11 +15,13 @@ use Nicat\FormFactory\Components\FormControls\EmailInput;
 use Nicat\FormFactory\Components\FormControls\FileInput;
 use Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
+use Nicat\FormFactory\Components\FormControls\InputGroup;
 use Nicat\FormFactory\Components\FormControls\MonthInput;
 use Nicat\FormFactory\Components\FormControls\NumberInput;
 use Nicat\FormFactory\Components\FormControls\Optgroup;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\PasswordInput;
+use Nicat\FormFactory\Components\FormControls\RadioGroup;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\RangeInput;
 use Nicat\FormFactory\Components\FormControls\ResetButton;
@@ -42,7 +40,6 @@ use Nicat\FormFactory\Utilities\Forms\FormInstance;
 use Nicat\FormFactory\Utilities\Forms\FormInstanceManager;
 use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\ButtonElement;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 use Nicat\VueFactory\VueInstance;
 
@@ -91,6 +88,8 @@ use Nicat\VueFactory\VueInstance;
  * Misc FormControls:
  * =========
  * @method static Textarea              textarea(string $name)
+ * @method static RadioGroup            radioGroup(string $name, array $radioInputs)
+ * @method static InputGroup            inputGroup(array $content)
  *
  */
 class FormFactory
@@ -141,7 +140,6 @@ class FormFactory
             return new $formControlClass(...$arguments);
         }
 
-        // If the accessor is neither a element nor a component, we throw an exception.
         throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
 
     }
@@ -175,18 +173,6 @@ class FormFactory
     }
 
     /**
-     * Generates RadioGroup.
-     *
-     * @param string $name
-     * @param RadioInput[] $children
-     * @return RadioGroup
-     */
-    public static function radioGroup(string $name, array $children) : RadioGroup
-    {
-        return new RadioGroup($name, $children);
-    }
-
-    /**
      * Generates a DynamicList.
      *
      * @param string $arrayName : The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
@@ -199,39 +185,6 @@ class FormFactory
     public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel = null, $minItems = null, $maxItems = null): DynamicList
     {
         return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
-    }
-
-    /**
-     * Generates InputGroup.
-     *
-     * @param array $content
-     * @return InputGroup
-     */
-    public static function inputGroup(array $content=[]): InputGroup
-    {
-        return (new InputGroup())->content($content);
-    }
-
-    /**
-     * Generates InputGroupButton
-     *
-     * @param ButtonElement $button
-     * @return InputGroupButton
-     */
-    public static function inputGroupButton(ButtonElement $button): InputGroupButton
-    {
-        return new InputGroupButton($button);
-    }
-
-    /**
-     * Generates Input-Group-Addon
-     *
-     * @param string|CheckboxInput|RadioInput $content
-     * @return InputGroupAddon
-     */
-    public static function inputGroupAddon($content): InputGroupAddon
-    {
-        return new InputGroupAddon($content);
     }
 
     /**

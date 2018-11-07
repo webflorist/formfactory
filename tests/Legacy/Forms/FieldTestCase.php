@@ -17,7 +17,6 @@ class FieldTestCase extends TestCase
         'tag' => 'div',
         'attributes' => [
             'class' => 'form-group',
-            'data-field-wrapper' => '1'
         ]
     ];
 

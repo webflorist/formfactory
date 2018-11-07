@@ -1,1 +1,0 @@
-<small id="{{$containerId}}">{{$helpText}}</small>

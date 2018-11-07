@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class RadioInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::radio('myValue', 'radio');
+        $element = \Form::radio('myValue', 'myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check">
-                    <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" />
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue</label>
+                    <input type="radio" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName_myValue" />
+                    <label class="form-check-label" for="myFormId_myFieldName_myValue"> MyValue </label>
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class RadioInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::radio('myValue', 'radio')
+        $element = \Form::radio('myValue', 'myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class RadioInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group form-check has-error">
-                    <div id="myFormId_radio_myValue_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="radio" name="radio" value="myValue" id="myFormId_radio_myValue" class="form-check-input" required aria-describedby="myFormId_radio_myValue_errors myFormId_radio_myValue_helpText" aria-invalid="true" />
-                    <label class="form-check-label" for="myFormId_radio_myValue">MyValue<sup>*</sup></label>
-                    <small id="myFormId_radio_myValue_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="radio" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" aria-invalid="true" />
+                    <label class="form-check-label" for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
+                    <small id="myFormId_myFieldName_myValue_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

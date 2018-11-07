@@ -17,7 +17,7 @@ interface FieldInterface
      *
      * @return string
      */
-    public function getFieldName() : string;
+    function getFieldName() : string;
 
     /**
      * Set array of errors for this Field.
@@ -27,7 +27,7 @@ interface FieldInterface
      * @param array|false $errors
      * @return $this
      */
-    public function errors($errors);
+    function errors($errors);
 
     /**
      * Set rules for this field in Laravel-syntax (either in array- or string-format)
@@ -36,42 +36,42 @@ interface FieldInterface
      * @param string|array $rules
      * @return $this
      */
-    public function rules($rules);
+    function rules($rules);
 
     /**
      * Does this field have any rules set?
      *
      * @return bool
      */
-    public function hasRules() : bool;
+    function hasRules() : bool;
 
     /**
      * Get the rules for this field.
      *
      * @return array
      */
-    public function getRules() : array;
+    function getRules() : array;
 
     /**
      * Can this Field have a label?
      *
      * @return bool
      */
-    public function canHaveLabel(): bool;
+    function canHaveLabel(): bool;
 
     /**
      * Apply a value to a field.
      *
      * @param $value
      */
-    public function applyFieldValue($value);
+    function applyFieldValue($value);
 
     /**
      * Does this field currently have a value set?
      *
      * @return bool
      */
-    public function fieldHasValue();
+    function fieldHasValue();
 
 
 }

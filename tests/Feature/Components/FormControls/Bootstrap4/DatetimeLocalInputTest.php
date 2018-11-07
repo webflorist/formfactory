@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class DatetimeLocalInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::datetimeLocal('datetime-local');
+        $element = \Form::datetimeLocal('myFieldName');
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group">
-                    <label for="myFormId_datetime-local">Datetime-local</label>
-                    <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" class="form-control" />
+                <div class="form-group">           
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <input type="datetime-local" name="myFieldName" class="form-control" id="myFormId_myFieldName" />
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class DatetimeLocalInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::datetimeLocal('datetime-local')
+        $element = \Form::datetimeLocal('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class DatetimeLocalInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_datetime-local">Datetime-local<sup>*</sup></label>
-                    <div id="myFormId_datetime-local_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="datetime-local" name="datetime-local" id="myFormId_datetime-local" class="form-control" required aria-describedby="myFormId_datetime-local_errors myFormId_datetime-local_helpText" aria-invalid="true" />
-                    <small id="myFormId_datetime-local_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="datetime-local" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

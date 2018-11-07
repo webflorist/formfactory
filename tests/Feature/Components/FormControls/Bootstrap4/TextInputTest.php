@@ -7,18 +7,18 @@ use FormFactoryTests\TestCase;
 class TextInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::bootstrap4';
+    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
     {
-        $element = \Form::text('text');
+        $element = \Form::text('myFieldName');
 
         $this->assertHtmlEquals(
             '
                 <div class="form-group">
-                    <label for="myFormId_text">Text</label>
-                    <input type="text" name="text" id="myFormId_text" class="form-control" placeholder="Text" />
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <input type="text" name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" />                
                 </div>
             ',
             $element->generate()
@@ -27,7 +27,7 @@ class TextInputTest extends TestCase
 
     public function testComplex()
     {
-        $element = \Form::text('text')
+        $element = \Form::text('myFieldName')
             ->helpText('myHelpText')
             ->errors(['myFirstError', 'mySecondError'])
             ->rules('required|alpha|max:10');
@@ -35,13 +35,13 @@ class TextInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group has-error">
-                    <label for="myFormId_text">Text<sup>*</sup></label>
-                    <div id="myFormId_text_errors" role="alert" class="alert m-b-1 alert-danger">
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="text" name="text" id="myFormId_text" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="Text" aria-describedby="myFormId_text_errors myFormId_text_helpText" aria-invalid="true" />
-                    <small id="myFormId_text_helpText" class="form-text text-muted">myHelpText</small>
+                    <input type="text" name="myFieldName" class="form-control" id="myFormId_myFieldName" required pattern="[a-zA-Z]+" maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',
             $element->generate()

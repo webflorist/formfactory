@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class DatetimeLocalInputTest extends TestCase
 {
 
-    protected $viewBase = 'formfactory::raw';
+    protected $viewBase = 'raw';
 
     public function testSimple()
     {
@@ -15,8 +15,10 @@ class DatetimeLocalInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_myFieldName">MyFieldName</label>
-                <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" />
+                <div>           
+                    <label for="myFormId_myFieldName">MyFieldName</label>
+                    <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" />
+                </div>
             ',
             $element->generate()
         );
@@ -31,13 +33,15 @@ class DatetimeLocalInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                <div id="myFormId_myFieldName_errors">
-                    <div>myFirstError</div>
-                    <div>mySecondError</div>
+                <div>
+                    <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
+                    <div role="alert" id="myFormId_myFieldName_errors">
+                        <div>myFirstError</div>
+                        <div>mySecondError</div>
+                    </div>
+                    <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <small id="myFormId_myFieldName_helpText">myHelpText</small>
                 </div>
-                <input type="datetime-local" name="myFieldName" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
-                <small id="myFormId_myFieldName_helpText">myHelpText</small>
             ',
             $element->generate()
         );
