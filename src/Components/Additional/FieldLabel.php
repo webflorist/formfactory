@@ -4,7 +4,6 @@ namespace Nicat\FormFactory\Components\Additional;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
@@ -15,7 +14,7 @@ class FieldLabel extends LabelElement
     /**
      * The field this FieldLabel belongs to.
      *
-     * @var Element|LabelInterface|FormControlInterface|FieldInterface
+     * @var Element|FormControlInterface
      */
     public $field;
 
@@ -51,9 +50,9 @@ class FieldLabel extends LabelElement
     /**
      * FieldLabel constructor.
      *
-     * @param Element|LabelInterface $field
+     * @param Element|FieldInterface $field
      */
-    public function __construct(LabelInterface $field)
+    public function __construct(FieldInterface $field)
     {
         parent::__construct();
         $this->field = $field;
@@ -87,9 +86,19 @@ class FieldLabel extends LabelElement
                 );
             }
 
+            // Set auto-translation for placeholder.
+            if ($this->field->attributes->isAllowed('placeholder') && !$this->field->attributes->isSet('placeholder')) {
+                $this->field->placeholder(function () {
+                    $defaultValue = $this->hasLabel() ? $this->getText() : null;
+                    return $this->field->performAutoTranslation($defaultValue, 'Placeholder');
+                });
+            }
+
             $this->for($this->field->attributes->id);
             $this->content($this->getText());
-            $this->appendRequiredFieldIndicator();
+            if ($this->displayRequiredFieldIndicator) {
+                $this->appendContent(new RequiredFieldIndicator($this->field));
+            }
         }
 
     }
@@ -132,28 +141,6 @@ class FieldLabel extends LabelElement
     public function hideLabel()
     {
         $this->displayLabel = false;
-    }
-
-    private function appendRequiredFieldIndicator()
-    {
-
-        if ($this->displayRequiredFieldIndicator) {
-
-            $isVueEnabled = $this->field->isVueEnabled();
-
-            // If vue is enabled, we always render the RequiredFieldIndicator, since it will be reactive.
-            if ($this->field->attributes->required || $isVueEnabled) {
-
-                $requiredFieldIndicator = new RequiredFieldIndicator($this->field);
-
-                if ($isVueEnabled) {
-                    $requiredFieldIndicator->vIf( "fields['".$this->field->getFieldName()."'].isRequired");
-                }
-
-                $this->appendContent($requiredFieldIndicator);
-            }
-
-        }
     }
 
 }

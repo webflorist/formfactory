@@ -9,14 +9,13 @@ use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\LabelTrait;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Elements\SelectElement;
 
 class Select
     extends SelectElement
-    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
+    implements FormControlInterface, FieldInterface,  HelpTextInterface, AutoTranslationInterface
 {
     use FormControlTrait,
         FieldTrait,
@@ -41,12 +40,12 @@ class Select
     }
 
     /**
-     * Gets called before applying decorators.
+     * Gets called after applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
-        parent::beforeDecoration();
+        parent::afterDecoration();
         $this->processFormControl();
     }
 

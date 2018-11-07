@@ -68,17 +68,6 @@ class FieldsetLegend extends LegendElement
 
         if ($this->displayLegend) {
 
-            // Perform auto-translation, if no legend was manually set.
-            if (!$this->hasLegend()) {
-                $defaultValue = ucwords(FormFactoryTools::arrayStripString($this->fieldset->getFieldName()));
-                if ($this->fieldset->is(RadioInput::class)) {
-                    $defaultValue = ucwords($this->fieldset->attributes->value);
-                }
-                $this->setText(
-                    $this->fieldset->performAutoTranslation($defaultValue)
-                );
-            }
-
             $this->content($this->getText());
             $this->appendRequiredFieldIndicator();
         }
@@ -123,28 +112,6 @@ class FieldsetLegend extends LegendElement
     public function hideLegend()
     {
         $this->displayLegend = false;
-    }
-
-    private function appendRequiredFieldIndicator()
-    {
-
-        if ($this->displayRequiredFieldIndicator) {
-
-            $isVueEnabled = $this->fieldset->isVueEnabled();
-
-            // If vue is enabled, we always render the RequiredFieldIndicator, since it will be reactive.
-            if ($this->fieldset->attributes->required || $isVueEnabled) {
-
-                $requiredFieldIndicator = new RequiredFieldIndicator($this->fieldset);
-
-                if ($isVueEnabled) {
-                    $requiredFieldIndicator->vIf( "fields['".$this->fieldset->getFieldName()."'].isRequired");
-                }
-
-                $this->appendContent($requiredFieldIndicator);
-            }
-
-        }
     }
 
 }

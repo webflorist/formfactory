@@ -30,6 +30,10 @@ class RequiredFieldIndicator extends SupElement
     protected function setUp()
     {
         $this->content('*');
+
+        if ($this->field->isVueEnabled()) {
+            $this->vIf( "fields['".$this->field->getFieldName()."'].isRequired");
+        }
     }
 
     /**
@@ -39,6 +43,12 @@ class RequiredFieldIndicator extends SupElement
      */
     protected function manipulateOutput(string &$output)
     {
+
+        // Do not generate output, if field is not required, and vue is not used.
+        if (!$this->field->attributes->required && !$this->field->isVueEnabled()) {
+            $output = '';
+        }
+
         if ($this->field->isVueEnabled()) {
             $output = "<template>$output</template>";
         }

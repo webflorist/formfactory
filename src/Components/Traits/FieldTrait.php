@@ -3,7 +3,6 @@
 namespace Nicat\FormFactory\Components\Traits;
 
 use Nicat\FormFactory\Components\Additional\FieldWrapper;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Components\Additional\FieldErrors;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
@@ -116,7 +115,7 @@ trait FieldTrait
      */
     public function canHaveLabel(): bool
     {
-        return array_search(LabelInterface::class, class_implements($this));
+        return $this->is(LabelTrait::class);
     }
 
     /**

@@ -30,12 +30,12 @@ class SubmitButton
     }
 
     /**
-     * Gets called before applying decorators.
+     * Gets called after applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
-        parent::beforeDecoration();
+        parent::afterDecoration();
         $this->processFormControl();
     }
 

@@ -5,8 +5,7 @@ namespace Nicat\FormFactory\Components\Traits;
 use Nicat\FormFactory\Components\Additional\FieldLabel;
 
 /**
- * This traits provides a default implementation
- * for the LabelInterface.
+ * This traits provides functionality for handling FieldLabels.
  *
  * @package Nicat\FormFactory
  */

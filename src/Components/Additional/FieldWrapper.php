@@ -4,7 +4,6 @@ namespace Nicat\FormFactory\Components\Additional;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
 
@@ -14,7 +13,7 @@ class FieldWrapper extends DivElement
     /**
      * The field this FieldWrapper belongs to.
      *
-     * @var Element|LabelInterface|FormControlInterface|FieldInterface
+     * @var Element|FormControlInterface
      */
     public $field;
 

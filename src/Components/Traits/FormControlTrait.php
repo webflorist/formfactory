@@ -56,10 +56,8 @@ trait FormControlTrait
         } catch (\ReflectionException $e) {
         }
 
-        // Set a default-ID for all non-Option and -Optgroup FormControls.
-        if (!$this->is(Option::class) && !$this->is(Optgroup::class)) {
-            $this->setDefaultId();
-        }
+        // Set a default-ID for various FormControls.
+        $this->setDefaultId();
 
         if ($this->isAField()) {
             $this->wrapper = new FieldWrapper($this);
@@ -85,24 +83,14 @@ trait FormControlTrait
     {
         if ($this->isAField()) {
 
-            if (!$this->is(RadioGroup::class) && !$this->is(InputGroup::class)) {
-                FieldRuleProcessor::process($this);
-                FieldValueProcessor::process($this);
+            FieldRuleProcessor::process($this);
+            FieldValueProcessor::process($this);
 
-                // Set auto-translation for placeholder.
-                if ($this->attributes->isAllowed('placeholder') && !$this->attributes->isSet('placeholder')) {
-                    $this->placeholder(function () {
-                        $defaultValue = $this->label->hasLabel() ? $this->label->getText() : null;
-                        return $this->performAutoTranslation($defaultValue, 'Placeholder');
-                    });
-                }
-
-                if ($this->canHaveLabel()) {
-                    $this->label->generate();
-                }
+            if ($this->canHaveLabel()) {
+                $this->label->generate();
             }
 
-            if ($this->isVueEnabled() && !$this->is(RadioGroup::class) && !$this->is(InputGroup::class)) {
+            if ($this->isVueEnabled()) {
                 $this->applyVueDirectives();
             }
 
@@ -201,6 +189,12 @@ trait FormControlTrait
      */
     protected function setDefaultId()
     {
+
+        // Do not generate ID for Options or Optgroups
+        if ($this->is(Option::class) || $this->is(Optgroup::class)) {
+            return;
+        }
+
         $this->id(function () {
 
             $id = '';

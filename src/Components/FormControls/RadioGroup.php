@@ -2,28 +2,19 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Additional\FieldsetLegend;
+use Nicat\FormFactory\Components\Additional\FieldErrors;
+use Nicat\FormFactory\Components\Additional\FieldHelpText;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
-use Nicat\FormFactory\Components\Contracts\LabelInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
-use Nicat\FormFactory\Components\Traits\FieldTrait;
-use Nicat\FormFactory\Components\Traits\FormControlTrait;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
-use Nicat\FormFactory\Components\Traits\LabelTrait;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
+use Nicat\HtmlFactory\Elements\LegendElement;
 
 class RadioGroup
     extends FieldsetElement
-    implements FormControlInterface, FieldInterface, LabelInterface, HelpTextInterface, AutoTranslationInterface
+    implements AutoTranslationInterface
 {
-    use FormControlTrait,
-        FieldTrait,
-        LabelTrait,
-        HelpTextTrait,
-        AutoTranslationTrait;
+    use AutoTranslationTrait, HelpTextTrait;
 
     /**
      * Field-name of the contained radio-buttons.
@@ -35,16 +26,30 @@ class RadioGroup
     /**
      * The radio-input-elements contained in this radio-group.
      *
-     * @var string
+     * @var RadioInput[]
      */
     public $radioInputs;
 
     /**
      * Legend-Element for this radio-group.
      *
-     * @var null|FieldsetLegend
+     * @var null|LegendElement
      */
     public $legend = null;
+
+    /**
+     * The FieldHelpTexts, that should be displayed with this RadioGroup.
+     *
+     * @var FieldHelpText
+     */
+    public $helpText = null;
+
+    /**
+     * The FieldErrors, that should be displayed with this RadioGroup.
+     *
+     * @var FieldErrors
+     */
+    public $errors = null;
 
     /**
      * RadioGroup constructor.
@@ -55,11 +60,12 @@ class RadioGroup
     public function __construct(string $name, array $radioInputs)
     {
         parent::__construct();
+
+        $this->view('formfactory::form-controls.radio-group');
+
         $this->radioName = $name;
         $this->radioInputs = $radioInputs;
-        $this->legend = new FieldsetLegend($this);
-        $this->setupFormControl();
-        $this->wrap(false);
+        $this->legend = new LegendElement();
 
         foreach ($radioInputs as $radioInput) {
 
@@ -85,7 +91,7 @@ class RadioGroup
      * @return $this
      */
     public function legend($legend) {
-        $this->legend->setText($legend);
+        $this->legend->content($legend);
         return $this;
     }
 
@@ -93,24 +99,31 @@ class RadioGroup
      * Gets called before applying decorators.
      * Overwrite to perform manipulations.
      */
-    protected function beforeDecoration()
+    protected function afterDecoration()
     {
-        $this->processFormControl();
-
         // Auto-translate legend.
         if (is_null($this->legend) && $this->legend !== false) {
             $this->legend($this->performAutoTranslation($this->radioName));
         }
 
-        foreach ($this->content->getChildrenByClassName(RadioInput::class) as $childKey => $child) {
-            /** @var RadioInput $child */
+        // Clone errors and help-texts from children and set them to hide.
+        foreach ($this->radioInputs as $radioInput) {
 
-            // Clone errors and help-texts to children and set them to hide.
-            $child->errors = clone $this->errors;
-            $child->helpText = clone $this->helpText;
-            $child->errors->hideErrors();
-            $child->helpText->hideHelpText();
+            if ($this->errors === null) {
+                $this->errors = clone $radioInput->errors;
+            }
+            $radioInput->errors->hideErrors();
+
+            if ($this->helpText === null) {
+                $this->helpText = clone $radioInput->helpText;
+            }
+            $radioInput->helpText->hideHelpText();
+
         }
+
+        // Make sure, all helpers are generated.
+        $this->errors->generate();
+        $this->helpText->generate();
     }
 
     /**
@@ -121,56 +134,6 @@ class RadioGroup
     public function getAutoTranslationKey(): string
     {
         return $this->radioName;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getFieldName(): string
-    {
-        return $this->radioName;
-    }
-
-    /**
-     * Defer setting of aria-invalid attribute to radio-inputs.
-     *
-     * @param $invalid
-     * @return $this
-     */
-    public function ariaInvalid($invalid)
-    {
-        foreach ($this->radioInputs as $radioInput) {
-            $radioInput->ariaInvalid($invalid);
-        }
-        return $this;
-    }
-
-    /**
-     * Defer setting of aria-describedby attribute to radio-inputs.
-     *
-     * @param $id
-     * @return $this
-     */
-    public function addAriaDescribedby($id)
-    {
-        foreach ($this->radioInputs as $radioInput) {
-            $radioInput->addAriaDescribedby($id);
-        }
-        return $this;
-    }
-
-    /**
-     * Defer setting of rules to radio-inputs.
-     *
-     * @param $rules
-     * @return $this
-     */
-    public function rules($rules)
-    {
-        foreach ($this->radioInputs as $radioInput) {
-            $radioInput->rules($rules);
-        }
-        return $this;
     }
 
 
