@@ -55,6 +55,7 @@ abstract class DuskTestCase extends BaseTestCase
         ]);
 
         $app['config']->set('htmlfactory.decorators', ['bootstrap:v3']);
+        $app['config']->set('formfactory.vue.enabled', false);
 
     }
 
