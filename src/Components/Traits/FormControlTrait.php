@@ -2,20 +2,17 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\InputGroup;
 use Nicat\FormFactory\Components\FormControls\Optgroup;
 use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioGroup;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Components\Additional\FieldErrors;
-use Nicat\FormFactory\Components\Additional\FieldHelpText;
-use Nicat\FormFactory\Components\Additional\FieldLabel;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
+use Nicat\FormFactory\Components\Helpers\FieldLabel;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
 use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;
@@ -61,7 +58,7 @@ trait FormControlTrait
 
         if ($this->isAField()) {
             $this->wrapper = new FieldWrapper($this);
-            $this->errors = new FieldErrors($this);
+            $this->errors = new ErrorContainer($this);
 
             if ($this->canHaveLabel()) {
                 $this->label = new FieldLabel($this);
@@ -70,7 +67,7 @@ trait FormControlTrait
 
         // Apply help-text.
         if ($this->canHaveHelpText()) {
-            $this->helpText = new FieldHelpText($this);
+            $this->helpText = new HelpTextContainer($this);
         }
     }
 
@@ -163,7 +160,7 @@ trait FormControlTrait
      */
     public function canHaveHelpText(): bool
     {
-        return array_search(HelpTextInterface::class, class_implements($this));
+        return array_search(HelpTextTrait::class, class_uses_recursive($this));
     }
 
     /**

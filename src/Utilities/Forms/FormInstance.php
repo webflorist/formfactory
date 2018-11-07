@@ -2,13 +2,8 @@
 
 namespace Nicat\FormFactory\Utilities\Forms;
 
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Form;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\Optgroup;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;

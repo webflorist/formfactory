@@ -3,7 +3,7 @@
 namespace Nicat\FormFactory\Components;
 
 use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;

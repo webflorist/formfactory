@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormFactory\Components\Additional\ButtonGroup;
+use Nicat\FormFactory\Components\FormControls\ButtonGroup;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtonGroup extends Decorator

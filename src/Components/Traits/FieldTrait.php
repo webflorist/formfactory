@@ -2,9 +2,9 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Components\Additional\FieldErrors;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
 
 /**
@@ -23,9 +23,9 @@ trait FieldTrait
     public $wrapper;
 
     /**
-     * The FieldErrors object used to manage errors for this Field.
+     * The ErrorContainer object used to manage errors for this Field.
      *
-     * @var FieldErrors
+     * @var ErrorContainer
      */
     public $errors;
 

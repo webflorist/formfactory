@@ -1,9 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Nicat\FormFactory\Components\Helpers;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\SupElement;
 
@@ -19,10 +20,17 @@ class RequiredFieldIndicator extends SupElement
     /**
      * RequiredFieldIndicator constructor.
      *
-     * @param FieldInterface $field
+     * @param FieldInterface|string $field
      */
-    public function __construct(FieldInterface $field)
+    public function __construct($field)
     {
+
+        // If we just get a field-name, we create a temporary text-input from it,
+        // since a FieldInterface is required for further processing.
+        if (is_string($field)) {
+            $field = new TextInput($field);
+        }
+
         $this->field = $field;
         parent::__construct();
     }

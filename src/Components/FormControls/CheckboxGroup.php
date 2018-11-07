@@ -2,12 +2,8 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Additional\FieldErrors;
-use Nicat\FormFactory\Components\Additional\FieldHelpText;
-use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
-use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
-use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 use Nicat\HtmlFactory\Elements\LegendElement;
 
@@ -32,14 +28,14 @@ class CheckboxGroup
     /**
      * Array of all FieldHelpTexts, that are contained in this CheckboxGroup.
      *
-     * @var FieldHelpText[]
+     * @var HelpTextContainer[]
      */
     public $containedHelpTexts = [];
 
     /**
-     * Array of all FieldErrors, that are contained in this CheckboxGroup.
+     * Array of all ErrorContainer, that are contained in this CheckboxGroup.
      *
-     * @var FieldErrors[]
+     * @var ErrorContainer[]
      */
     public $containedErrors = [];
 

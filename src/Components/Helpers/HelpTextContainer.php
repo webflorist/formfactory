@@ -1,22 +1,21 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Nicat\FormFactory\Components\Helpers;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\SmallElement;
 
-class FieldHelpText extends SmallElement
+class HelpTextContainer extends SmallElement
 {
 
     /**
-     * The field this FieldHelpText belongs to.
+     * The field this HelpTextContainer belongs to.
      *
-     * @var HelpTextInterface|FieldInterface|FormControlInterface|Element
+     * @var HelpTextTrait|FieldInterface|FormControlInterface|Element
      */
     public $field;
 
@@ -42,13 +41,19 @@ class FieldHelpText extends SmallElement
     public $displayHelpText = true;
 
     /**
-     * FieldHelpText constructor.
+     * HelpTextContainer constructor.
      *
-     * @param HelpTextInterface $field
+     * @param FieldInterface|string $field
      */
-    public function __construct(HelpTextInterface $field)
+    public function __construct($field)
     {
         parent::__construct();
+
+        // If we just get a field-name, we create a temporary text-input from it,
+        // since a FieldInterface is required for further processing.
+        if (is_string($field)) {
+            $field = new TextInput($field);
+        }
 
         $this->field = $field;
 
@@ -61,7 +66,7 @@ class FieldHelpText extends SmallElement
      * Sets the help-text.
      *
      * @param $text
-     * @return FieldHelpText
+     * @return HelpTextContainer
      */
     public function setText($text)
     {

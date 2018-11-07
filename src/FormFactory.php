@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory;
 
-use Nicat\FormFactory\Components\Additional\ButtonGroup;
-use Nicat\FormFactory\Components\Additional\FieldErrors;
+use Nicat\FormFactory\Components\FormControls\ButtonGroup;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\CheckboxGroup;
@@ -93,6 +93,7 @@ use Nicat\VueFactory\VueInstance;
  * @method static RadioGroup            radioGroup(string $name, array $radioInputs)
  * @method static InputGroup            inputGroup(array $content)
  * @method static CheckboxGroup         checkboxGroup(array $radioInputs)
+ * @method static ButtonGroup           buttonGroup(array $buttons)
  *
  */
 class FormFactory
@@ -190,48 +191,15 @@ class FormFactory
         return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
     }
 
-
     /**
      * Creates an error-container for a certain field-name.
      *
      * @param $fieldName
-     * @return FieldErrors
+     * @return ErrorContainer
      */
-    public static function errors($fieldName) : FieldErrors
+    public static function errorContainer($fieldName) : ErrorContainer
     {
-        // The TextInput is only created for proper error-handling.
-        // It is not output in any way.
-        return new FieldErrors(new TextInput($fieldName));
-    }
-
-    /**
-     * Generates Button-Group.
-     *
-     * @param $buttons
-     * @return ButtonGroup
-     */
-    public static function buttonGroup(array $buttons)
-    {
-        return new ButtonGroup($buttons);
-    }
-
-    /**
-     * Generates form-control '<fieldset></fieldset>'.
-     *
-     * @param string|null $legend
-     * @param null $content
-     * @return FieldsetElement
-     */
-    public static function fieldset(string $legend = null, $content = null): FieldsetElement
-    {
-        $element = new FieldsetElement();
-        if (!is_null($legend)) {
-            $element->legend($legend);
-        }
-        if (!is_null($content)) {
-            $element->content($content);
-        }
-        return $element;
+        return new ErrorContainer($fieldName);
     }
 
     /**

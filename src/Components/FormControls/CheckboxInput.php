@@ -7,7 +7,6 @@ use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Traits\FormControlTrait;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\LabelTrait;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
@@ -15,7 +14,7 @@ use Nicat\HtmlFactory\Components\CheckboxInputComponent;
 
 class CheckboxInput
     extends CheckboxInputComponent
-    implements FormControlInterface, FieldInterface,  HelpTextInterface, AutoTranslationInterface
+    implements FormControlInterface, FieldInterface,   AutoTranslationInterface
 {
     use FormControlTrait,
         FieldTrait,

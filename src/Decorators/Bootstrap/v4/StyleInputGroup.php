@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\InputGroup;
 use Nicat\FormFactory\Components\FormControls\RadioInput;

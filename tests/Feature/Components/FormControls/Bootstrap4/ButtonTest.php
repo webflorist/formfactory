@@ -7,7 +7,6 @@ use FormFactoryTests\TestCase;
 class ButtonTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()

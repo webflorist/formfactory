@@ -7,7 +7,7 @@ use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
+use Nicat\FormFactory\Components\Traits\HelpTextTrait;
 use Nicat\FormFactory\FormFactoryFacade;
 use Nicat\FormFactory\FormFactoryServiceProvider;
 use Nicat\HtmlFactory\HtmlFactoryFacade;
@@ -96,7 +96,7 @@ class TestCase extends BaseTestCase
         }
 
         if ($formControl->canHaveHelpText()) {
-            /** @var HelpTextInterface $formControl */
+            /** @var HelpTextTrait $formControl */
             $formControl->helpText('myHelpText');
         }
 

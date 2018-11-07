@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Utilities\AntiBotProtection;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Utilities\Forms\FormInstance;

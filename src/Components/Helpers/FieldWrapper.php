@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Nicat\FormFactory\Components\Helpers;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;

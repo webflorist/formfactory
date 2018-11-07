@@ -1,24 +1,30 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Nicat\FormFactory\Components\Helpers;
 
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
+use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\HtmlFactory\Components\AlertComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
-use Nicat\HtmlFactory\Elements\TemplateElement;
 
-class FieldErrors extends AlertComponent
+class ErrorContainer extends AlertComponent
 {
 
     /**
-     * The field these FieldErrors belongs to.
+     * The field these ErrorContainer belongs to.
+     *
+     * @var null|FieldInterface|FormControlInterface|Element
+     */
+    public $field;
+
+    /**
+     * The field-name this ErrorContainer should display errors for.
      *
      * @var FieldInterface|FormControlInterface|Element
      */
-    public $field;
+    public $fieldName;
 
     /**
      * Should errors be displayed?
@@ -28,7 +34,7 @@ class FieldErrors extends AlertComponent
     public $displayErrors = true;
 
     /**
-     * Should aria-invalid and aria-descriptionby attributes be applied to the field?
+     * Should aria-invalid and aria-describedby attributes be applied to the field?
      *
      * @var bool
      */
@@ -42,14 +48,22 @@ class FieldErrors extends AlertComponent
     protected $errors = [];
 
     /**
-     * FieldErrors constructor.
+     * ErrorContainer constructor.
      *
-     * @param FieldInterface $field
+     * @param FieldInterface|string $field
      */
-    public function __construct(FieldInterface $field)
+    public function __construct($field)
     {
         parent::__construct('danger');
+
+        // If we just get a field-name, we create a temporary text-input from it,
+        // since a FieldInterface is required for further processing.
+        if (is_string($field)) {
+            $field = new TextInput($field);
+        }
+
         $this->field = $field;
+
         $this->getErrorsFromFormInstance();
 
         $this->id(function () {
@@ -65,7 +79,7 @@ class FieldErrors extends AlertComponent
      * Sets the errors to display.
      *
      * @param array $errors
-     * @return FieldErrors
+     * @return ErrorContainer
      */
     public function setErrors(array $errors)
     {

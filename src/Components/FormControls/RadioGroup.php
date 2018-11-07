@@ -2,9 +2,9 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Additional\FieldErrors;
-use Nicat\FormFactory\Components\Additional\FieldHelpText;
-use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
+use Nicat\FormFactory\Components\Helpers\RequiredFieldIndicator;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
@@ -41,14 +41,14 @@ class RadioGroup
     /**
      * The FieldHelpTexts, that should be displayed with this RadioGroup.
      *
-     * @var FieldHelpText
+     * @var HelpTextContainer
      */
     public $helpText = null;
 
     /**
-     * The FieldErrors, that should be displayed with this RadioGroup.
+     * The ErrorContainer, that should be displayed with this RadioGroup.
      *
-     * @var FieldErrors
+     * @var ErrorContainer
      */
     public $errors = null;
 

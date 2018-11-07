@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Components\DynamicLists;
 
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\FormFactory;

@@ -2,11 +2,10 @@
 
 namespace Nicat\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Components\Additional\FieldHelpText;
+use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
 
 /**
- * This traits provides a default implementation
- * for the HelpTextInterface.
+ * This traits provides functionality for handling help-texts.
  *
  * @package Nicat\FormFactory
  */
@@ -16,7 +15,7 @@ trait HelpTextTrait
     /**
      * The FieldHelp object used to store manage helpText for this field.
      *
-     * @var FieldHelpText
+     * @var HelpTextContainer
      */
     public $helpText;
 

@@ -2,12 +2,10 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Additional\FieldErrors;
-use Nicat\FormFactory\Components\Additional\FieldHelpText;
-use Nicat\FormFactory\Components\Additional\FieldLabel;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
+use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
+use Nicat\FormFactory\Components\Helpers\FieldLabel;
 use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\HelpTextInterface;
 use Nicat\FormFactory\Components\Traits\FieldTrait;
 use Nicat\FormFactory\Components\Traits\FormControlTrait;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
@@ -36,14 +34,14 @@ class InputGroup
     /**
      * Array of all FieldHelpTexts, that are contained in this InputGroup.
      *
-     * @var FieldHelpText[]
+     * @var HelpTextContainer[]
      */
     public $containedHelpTexts = [];
 
     /**
-     * Array of all FieldErrors, that are contained in this InputGroup.
+     * Array of all ErrorContainer, that are contained in this InputGroup.
      *
-     * @var FieldErrors[]
+     * @var ErrorContainer[]
      */
     public $containedErrors = [];
 
@@ -83,7 +81,7 @@ class InputGroup
         // Then set the field's ones to hide.
         // Also deactivate FieldWrapper.
         foreach ($this->content->getChildrenByClassName(FieldInterface::class) as $childKey => $child) {
-            /** @var FieldInterface|FormControlInterface|FieldTrait|FormControlTrait|HelpTextInterface|HelpTextTrait|LabelTrait $child */
+            /** @var FieldTrait|FormControlTrait|HelpTextTrait|LabelTrait $child */
 
             $this->containedErrors[] = clone $child->errors;
             $child->errors->hideErrors();
