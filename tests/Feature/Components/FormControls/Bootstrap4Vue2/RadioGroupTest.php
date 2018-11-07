@@ -19,7 +19,7 @@ class RadioGroupTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <fieldset id="myFormId_myFieldName" class="form-group">
+                <fieldset class="form-group">
                     <legend>MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
 	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
@@ -53,7 +53,7 @@ class RadioGroupTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <fieldset id="myFormId_myFieldName" class="form-group">
+                <fieldset class="form-group">
                     <legend>myLegend<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
 	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">

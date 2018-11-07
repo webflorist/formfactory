@@ -3,8 +3,10 @@
 namespace Nicat\FormFactory;
 
 use Nicat\FormFactory\Components\Additional\ButtonGroup;
+use Nicat\FormFactory\Components\Additional\FieldErrors;
 use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\FormControls\Button;
+use Nicat\FormFactory\Components\FormControls\CheckboxGroup;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\ColorInput;
 use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
@@ -90,6 +92,7 @@ use Nicat\VueFactory\VueInstance;
  * @method static Textarea              textarea(string $name)
  * @method static RadioGroup            radioGroup(string $name, array $radioInputs)
  * @method static InputGroup            inputGroup(array $content)
+ * @method static CheckboxGroup         checkboxGroup(array $radioInputs)
  *
  */
 class FormFactory
@@ -185,6 +188,20 @@ class FormFactory
     public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel = null, $minItems = null, $maxItems = null): DynamicList
     {
         return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
+    }
+
+
+    /**
+     * Creates an error-container for a certain field-name.
+     *
+     * @param $fieldName
+     * @return FieldErrors
+     */
+    public static function errors($fieldName) : FieldErrors
+    {
+        // The TextInput is only created for proper error-handling.
+        // It is not output in any way.
+        return new FieldErrors(new TextInput($fieldName));
     }
 
     /**

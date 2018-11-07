@@ -7,7 +7,6 @@ use FormFactoryTests\TestCase;
 class RadioGroupTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()
@@ -49,7 +48,7 @@ class RadioGroupTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <fieldset class="form-group">
-                    <legend> myLegend </legend>
+                    <legend>myLegend<sup>*</sup></legend>
                     <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
                         <div>myFirstError</div>
                         <div>mySecondError</div>

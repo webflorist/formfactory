@@ -4,6 +4,7 @@ namespace Nicat\FormFactory\Components\FormControls;
 
 use Nicat\FormFactory\Components\Additional\FieldErrors;
 use Nicat\FormFactory\Components\Additional\FieldHelpText;
+use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
 use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
 use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
 use Nicat\FormFactory\Components\Traits\HelpTextTrait;
@@ -65,7 +66,6 @@ class RadioGroup
 
         $this->radioName = $name;
         $this->radioInputs = $radioInputs;
-        $this->legend = new LegendElement();
 
         foreach ($radioInputs as $radioInput) {
 
@@ -91,6 +91,9 @@ class RadioGroup
      * @return $this
      */
     public function legend($legend) {
+        if (is_null($this->legend)) {
+            $this->legend = new LegendElement();
+        }
         $this->legend->content($legend);
         return $this;
     }
@@ -103,7 +106,11 @@ class RadioGroup
     {
         // Auto-translate legend.
         if (is_null($this->legend) && $this->legend !== false) {
-            $this->legend($this->performAutoTranslation($this->radioName));
+            $this->legend($this->performAutoTranslation(ucwords($this->radioName)));
+        }
+
+        if (!is_null($this->legend)) {
+            $this->legend->appendContent(new RequiredFieldIndicator($this->radioInputs[0]));
         }
 
         // Clone errors and help-texts from children and set them to hide.
@@ -112,13 +119,14 @@ class RadioGroup
             if ($this->errors === null) {
                 $this->errors = clone $radioInput->errors;
             }
-            $radioInput->errors->hideErrors();
+            $radioInput->errors->hideErrors(true);
 
+            // Generalize HelpText-ID so it is shared for all radio-inputs.
+            $radioInput->helpText->id($radioInput->getFormInstance()->getId() . '_' . $this->radioName . '_helpText');
             if ($this->helpText === null) {
                 $this->helpText = clone $radioInput->helpText;
             }
-            $radioInput->helpText->hideHelpText();
-
+            $radioInput->helpText->hideHelpText(true);
         }
 
         // Make sure, all helpers are generated.
@@ -134,6 +142,48 @@ class RadioGroup
     public function getAutoTranslationKey(): string
     {
         return $this->radioName;
+    }
+
+    /**
+     * Defer calls to error-method to radio-inputs.
+     *
+     * @param array|false $errors
+     * @return $this
+     */
+    public function errors($errors)
+    {
+        foreach ($this->radioInputs as $radioInput) {
+            $radioInput->errors($errors);
+        }
+        return $this;
+    }
+
+    /**
+     * Defer calls to rules-method to radio-inputs.
+     *
+     * @param string|array $rules
+     * @return $this
+     */
+    public function rules($rules)
+    {
+        foreach ($this->radioInputs as $radioInput) {
+            $radioInput->rules($rules);
+        }
+        return $this;
+    }
+
+    /**
+     * Defer calls to helpText-method to radio-inputs.
+     *
+     * @param string|false $helpText
+     * @return $this
+     */
+    public function helpText($helpText)
+    {
+        foreach ($this->radioInputs as $radioInput) {
+            $radioInput->helpText($helpText);
+        }
+        return $this;
     }
 
 

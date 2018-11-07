@@ -7,8 +7,6 @@ use FormFactoryTests\TestCase;
 class RadioGroupTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
-
     public function testSimple()
     {
         $element = \Form::radioGroup('myFieldName', [
@@ -18,7 +16,7 @@ class RadioGroupTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <fieldset id="myFormId_myFieldName">
+                <fieldset>
                     <legend>MyFieldName</legend>
                     <div>
                         <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" />
@@ -47,8 +45,8 @@ class RadioGroupTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <fieldset id="myFormId_myFieldName">
-                    <legend> myLegend </legend>
+                <fieldset>
+                    <legend>myLegend<sup>*</sup></legend>
                     <div role="alert" id="myFormId_myFieldName_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>

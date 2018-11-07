@@ -28,6 +28,13 @@ class FieldErrors extends AlertComponent
     public $displayErrors = true;
 
     /**
+     * Should aria-invalid and aria-descriptionby attributes be applied to the field?
+     *
+     * @var bool
+     */
+    public $applyAriaAttributes = true;
+
+    /**
      * Array of error-messages to display.
      *
      * @var array
@@ -81,17 +88,22 @@ class FieldErrors extends AlertComponent
      *
      * @return bool
      */
-    public function hasErrors() : bool
+    public function hasErrors(): bool
     {
         return count($this->errors) > 0;
     }
 
     /**
      * Do not display errors.
+     *
+     * By default also turns off application of aria-attributes.
+     *
+     * @param bool $applyAriaAttributes
      */
-    public function hideErrors()
+    public function hideErrors($applyAriaAttributes = false)
     {
         $this->displayErrors = false;
+        $this->applyAriaAttributes = $applyAriaAttributes;
     }
 
     /**
@@ -100,7 +112,9 @@ class FieldErrors extends AlertComponent
      */
     protected function beforeDecoration()
     {
-        $this->addAriaTags();
+        if ($this->applyAriaAttributes) {
+            $this->applyAriaAttributes();
+        }
 
         if ($this->field->isVueEnabled()) {
             $fieldName = $this->field->getFieldName();
@@ -108,8 +122,7 @@ class FieldErrors extends AlertComponent
                 (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
             );
             $this->vIf("fieldHasError('$fieldName')");
-        }
-        else {
+        } else {
             foreach ($this->getErrors() as $error) {
                 $this->appendContent((new DivElement())->content($error));
             }
@@ -155,13 +168,13 @@ class FieldErrors extends AlertComponent
     /**
      * Adds the aria-invalid and aria-describedby-attributes to the Field.
      */
-    private function addAriaTags()
+    private function applyAriaAttributes()
     {
         $this->field->addAriaDescribedby(function () {
 
             // If vue is enabled, we always set the aria-describedby attribute.
             // If not, we only set it, if there actually are errors.
-            if ($this->displayErrors && ($this->hasErrors() || $this->field->isVueEnabled())) {
+            if ($this->hasErrors() || $this->field->isVueEnabled()) {
                 return $this->attributes->id;
             }
 

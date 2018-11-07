@@ -28,6 +28,13 @@ class FieldHelpText extends SmallElement
     protected $text;
 
     /**
+     * Should aria-descriptionby attributes be applied to the field?
+     *
+     * @var bool
+     */
+    public $applyAriaAttribute = true;
+
+    /**
      * Should the help-text be displayed?
      *
      * @var null|string
@@ -84,10 +91,15 @@ class FieldHelpText extends SmallElement
 
     /**
      * Do not display help-text.
+     *
+     * By default also turns off application of the aria-attribute.
+     *
+     * @param bool $applyAriaAttribute
      */
-    public function hideHelpText()
+    public function hideHelpText($applyAriaAttribute = false)
     {
         $this->displayHelpText = false;
+        $this->applyAriaAttribute = $applyAriaAttribute;
     }
 
     /**
@@ -105,7 +117,7 @@ class FieldHelpText extends SmallElement
             }
         }
 
-        if ($this->displayHelpText && $this->hasHelpText()) {
+        if ($this->applyAriaAttribute && $this->hasHelpText()) {
             $this->field->addAriaDescribedby($this->attributes->id);
             $this->content($this->getText());
         }
