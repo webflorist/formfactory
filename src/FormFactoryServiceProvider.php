@@ -4,9 +4,9 @@ namespace Nicat\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
-use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Nicat\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
+use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
+use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\HtmlFactory;
 use Route;

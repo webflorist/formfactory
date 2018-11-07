@@ -2,12 +2,12 @@
 
 namespace Nicat\FormFactory\Utilities\VueApp;
 
-use Nicat\FormFactory\Utilities\Forms\FormInstance;
+use Nicat\FormFactory\Components\Form\Form;
 use Nicat\VueFactory\VueInstance;
 use stdClass;
 
 /**
- * Generates a Vue-app from a FormInstance.
+ * Generates a Vue-app from a Form.
  *
  * Class VueAppGenerator
  * @package Nicat\FormFactory
@@ -16,9 +16,9 @@ class VueAppGenerator
 {
 
     /**
-     * The FormInstance to be vueified.
+     * The Form to be vueified.
      *
-     * @var FormInstance
+     * @var Form
      */
     private $form;
 
@@ -37,11 +37,11 @@ class VueAppGenerator
     private $fieldData;
 
     /**
-     * FormInstance constructor.
+     * Form constructor.
      *
-     * @param FormInstance $form
+     * @param Form $form
      */
-    public function __construct(FormInstance $form)
+    public function __construct(Form $form)
     {
         $this->form = $form;
         $this->vueInstance = new VueInstance('#' . $this->form->getId());

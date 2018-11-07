@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class SubmitButtonTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

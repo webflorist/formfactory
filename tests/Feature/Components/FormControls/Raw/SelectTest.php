@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class SelectTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

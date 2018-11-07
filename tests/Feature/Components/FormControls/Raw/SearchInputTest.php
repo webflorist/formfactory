@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class SearchInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

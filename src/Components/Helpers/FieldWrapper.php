@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Components\Helpers;
 
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
 

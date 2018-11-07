@@ -5,9 +5,9 @@ namespace Nicat\FormFactory\Components\FormControls;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
 use Nicat\FormFactory\Components\Helpers\RequiredFieldIndicator;
-use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
-use Nicat\FormFactory\Components\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
+use Nicat\FormFactory\Components\FormControls\Traits\HelpTextTrait;
 use Nicat\HtmlFactory\Elements\FieldsetElement;
 use Nicat\HtmlFactory\Elements\LegendElement;
 
@@ -122,7 +122,7 @@ class RadioGroup
             $radioInput->errors->hideErrors(true);
 
             // Generalize HelpText-ID so it is shared for all radio-inputs.
-            $radioInput->helpText->id($radioInput->getFormInstance()->getId() . '_' . $this->radioName . '_helpText');
+            $radioInput->helpText->id($radioInput->getForm()->getId() . '_' . $this->radioName . '_helpText');
             if ($this->helpText === null) {
                 $this->helpText = clone $radioInput->helpText;
             }

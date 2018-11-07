@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class ButtonTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

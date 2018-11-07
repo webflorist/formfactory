@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class NumberInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class UrlInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

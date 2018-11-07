@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class RangeInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
     protected $decorators = ['bootstrap:v4'];
 
     public function testSimple()

@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class CheckboxInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

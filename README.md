@@ -27,7 +27,6 @@ The main features are:
 2. Add the Service-Provider to config/app.php:  `Nicat\FormFactory\FormFactoryServiceProvider::class`
 3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormFactory\FormFactoryFacade::class`
 4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormFactory\FormFactoryServiceProvider"`
-5. Include the published javascript-file (`public/vendor/nicat/formfactory/js/formfactory.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
 
 ## Configuration
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
@@ -63,7 +62,6 @@ Generated HTML:
 
     <input type="hidden" name="_token" value="eIy29d5nSsCv3KJKF7pQydIHz7IR1OPVJjky9TOM" id="MyFormID__token" />
     <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" />
-    <div role="alert" data-error-container="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
     
     <div data-field-wrapper="1">
         <label for="MyFormID_MyFieldName">MyFieldName</label>
@@ -79,7 +77,6 @@ Generated HTML:
 Let's take a look at some of the magic, that is happening here:
 * The `Form::open()` call already does some stuff for us like setting some default-attributes (e.g. POST as the method or the current url as the action)
 * A hidden input including the laravel CSRF-token is automatically added. (As is a hidden input including the form-id, which is used for various on-board-functionality.)
-* A general error-container is added (hidden by default) to be utilized by ajax-validation.
 * The field is automatically wrapped within a div-element (with bootstrap this element would get the 'form-group' class).
 * The field's label as well as placeholder are automatically added using the field-name (if none other is stated), or an automatic translation (explained later).
 * All relevant elements have an automatically generated ID (format for fields: `%formID%_%fieldName%`)
@@ -323,21 +320,6 @@ Generated HTML:
     <button type="submit" class="btn btn-primary" id="myForm_mySubmitButton" name="mySubmitButton">Submit this beautiful form!</button>
 </form>
 ```
-
-#### Ajax validation
-
-FormFactory comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
-* `formfactory.js` must be loaded with your application (see Install-instructions above).
-* The config-key `formfactory.ajax_validation.enabled` must be set to `true` in the `htmlfactory`-config.
-* A [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) must be handed over to the `Form::open()`-call via the `->requestObject()`-method (see `rules`-section above for details). This request-object will be used for ajax-validation.
-
-If these are fulfilled, you have the following options for ajax-validation:
-* **Complete form validation:** This will perform an ajax-validation of the complete form-data, if the submit-button is clicked. If any errors occur, they will be mapped to and displayed at the corresponding form-fields. If no errors occur with the ajax validation, the form will be properly submitted. You can enable ajax validation on form-submission by adding `->ajaxValidation()` to your `Form::open()` call. You can also set the config-key `formfactory.ajax_validation.enable_on_form_submit_by_default` to `true` in the htmlfactory-config, to enable this per default for all your forms. You can then also disable it for selected forms by calling `->ajaxValidation(false)` on your `Form::open()` call.
-* **Single field validation:** In addition (or as an alternative) to the complete form validation, you can also validate a single field, every time a change occurs to it. You can do that by adding `->ajaxValidation()` to the generation of a field (e.g. `Form::text('myTextField')->ajaxValidation()`. There are two possible behaviours to trigger such an ajax validation of a single field:
-  * `onChange`: This will validate the field, when the `onChange`-event of that field is fired (e.g. when leaving text-field or clicking a radio-button). This is the default-behaviour, when adding `->ajaxValidation()` to your field-generation-call.
-  * `onKeyup`: This will validate the field, when the `onKeyup`-event of that field is fired (e.g. every time after pressing a key within a text-field). You can enable this behaviour by passing 'onKeyup' to the `ajaxValidation()`-method (e.g. `Form::text('myTextField')->ajaxValidation('onKeyup')`).
-  
-Ajax validation-requests will be sent to the route `/formfactory_validation`, which is automatically registered by the FormFactoryServiceProvider (if ajax-validation is enabled in the html-builder-config).
 
 #### Anti-bot mechanisms
 

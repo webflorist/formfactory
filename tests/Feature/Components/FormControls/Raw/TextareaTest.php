@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class TextareaInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

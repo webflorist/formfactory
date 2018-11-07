@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class RadioInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

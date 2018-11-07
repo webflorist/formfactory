@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class TextInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
     protected $enableVue = false;
 
     public function testSimple()

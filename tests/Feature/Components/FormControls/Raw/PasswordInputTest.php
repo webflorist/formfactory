@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class PasswordInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

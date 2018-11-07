@@ -38,6 +38,29 @@ class TestCase extends BaseTestCase
 
         /*
         |--------------------------------------------------------------------------
+        | Vue.js Support
+        |--------------------------------------------------------------------------
+        |
+        | Settings regarding support for vue.js.
+        | This requires vue.js (2.x) to be available in the frontend.
+        |
+         */
+        'vue' => [
+
+            /*
+             * Whether vue-functionality should be enabled at all.
+             */
+            'enabled' => false,
+
+            /*
+             * Whether vue-functionality should be enabled by default for each form.
+             */
+            'default' => false,
+
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
         | 'Honeypot anti-bot protection.
         |--------------------------------------------------------------------------
         |
@@ -108,29 +131,6 @@ class TestCase extends BaseTestCase
 
         ],
 
-        /*
-        |--------------------------------------------------------------------------
-        | Ajax-validation.
-        |--------------------------------------------------------------------------
-        |
-        | Settings regarding ajax-validation.
-        |
-         */
-        'ajax_validation' => [
-
-            /*
-             * Whether ajax-validation should be enabled at all.
-             */
-            'enabled' => true,
-
-            /*
-             * Should an ajax-validation on form-submission be enabled by default for every form?
-             * (Can be overridden explicitly per form by setting the 'ajaxValidation' option
-             * of the Form::open call to 'onSubmit' or false.)
-             */
-            'enable_on_form_submit_by_default' => false,
-
-        ]
     ];
 
     protected $tag = '';

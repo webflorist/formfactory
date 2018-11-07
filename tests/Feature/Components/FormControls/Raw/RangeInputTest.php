@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class RangeInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

@@ -15,23 +15,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Honeypot anti-bot protection.
-    |--------------------------------------------------------------------------
-    |
-    | Settings regarding anti-bot protection of forms using a honeypot-field.
-    |
-     */
-    'honeypot' => [
-
-        /*
-         * Whether honeypot-protection should be enabled at all.
-         */
-        'enabled' => true,
-
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Vue.js Support
     |--------------------------------------------------------------------------
     |
@@ -50,6 +33,23 @@ return [
          * Whether vue-functionality should be enabled by default for each form.
          */
         'default' => true,
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Honeypot anti-bot protection.
+    |--------------------------------------------------------------------------
+    |
+    | Settings regarding anti-bot protection of forms using a honeypot-field.
+    |
+     */
+    'honeypot' => [
+
+        /*
+         * Whether honeypot-protection should be enabled at all.
+         */
+        'enabled' => true,
 
     ],
 
@@ -105,30 +105,6 @@ return [
          * (Can be overridden explicitly per request via the second parameter of the 'captcha'-rule of the request-object.)
          */
         'decay_time' => 2,
-
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Ajax-validation.
-    |--------------------------------------------------------------------------
-    |
-    | Settings regarding ajax-validation.
-    |
-     */
-    'ajax_validation' => [
-
-        /*
-         * Whether ajax-validation should be enabled at all.
-         */
-        'enabled' => true,
-
-        /*
-         * Should an ajax-validation on form-submission be enabled by default for every form?
-         * (Can be overridden explicitly per form by setting the 'ajaxValidation' option
-         * of the Form::open call to 'onSubmit' or false.)
-         */
-        'enable_on_form_submit_by_default' => false,
 
     ]
 

@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class TimeInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

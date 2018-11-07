@@ -7,8 +7,6 @@ use FormFactoryTests\TestCase;
 class ButtonGroupTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
-
     public function testSimple()
     {
         $element = \Form::buttonGroup([

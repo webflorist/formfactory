@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class DatetimeInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

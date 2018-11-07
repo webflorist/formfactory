@@ -8,7 +8,7 @@ class ButtonGroupTest extends TestCase
 {
 
     protected $decorators = ['bootstrap:v4'];
-    
+
     public function testSimple()
     {
         $element = \Form::buttonGroup([

@@ -218,11 +218,6 @@ trait AppliesTagMethodsToMatcherData
         }
     }
 
-    protected function tagMethod2Matcher_ajaxValidation($ajaxValidation = '')
-    {
-        $this->matchTagAttributes['data-ajaxvalidation'] = $ajaxValidation;
-    }
-
     protected function handleProperty($name = '', $value = true)
     {
         if ($value) {

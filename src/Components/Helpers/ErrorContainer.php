@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Components\Helpers;
 
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\HtmlFactory\Components\AlertComponent;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
@@ -68,8 +68,8 @@ class ErrorContainer extends AlertComponent
 
         $this->id(function () {
             $containerId = $this->field->getFieldName() . '_errors';
-            if ($this->field->hasFormInstance()) {
-                $containerId = $this->field->getFormInstance()->getId() . '_' . $containerId;
+            if ($this->field->belongsToForm()) {
+                $containerId = $this->field->getForm()->getId() . '_' . $containerId;
             }
             return $containerId;
         });
@@ -166,12 +166,12 @@ class ErrorContainer extends AlertComponent
     }
 
     /**
-     * Fetches errors from the FormInstance this Field belongs to.
+     * Fetches errors from the Form this Field belongs to.
      */
     private function getErrorsFromFormInstance()
     {
-        if ($this->field->hasFormInstance()) {
-            $formInstanceErrors = $this->field->getFormInstance()->errors;
+        if ($this->field->belongsToForm()) {
+            $formInstanceErrors = $this->field->getForm()->errors;
             $fieldName = $this->field->getFieldName();
             if ($formInstanceErrors->hasErrorsForField($fieldName)) {
                 $this->setErrors($formInstanceErrors->getErrorsForField($fieldName));

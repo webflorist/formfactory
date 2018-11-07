@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class WeekInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

@@ -5,11 +5,11 @@ namespace Nicat\FormFactory\Components\FormControls;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
 use Nicat\FormFactory\Components\Helpers\FieldLabel;
-use Nicat\FormFactory\Components\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\Traits\FieldTrait;
-use Nicat\FormFactory\Components\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\Traits\HelpTextTrait;
-use Nicat\FormFactory\Components\Traits\LabelTrait;
+use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Nicat\FormFactory\Components\FormControls\Traits\FieldTrait;
+use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\FormControls\Traits\HelpTextTrait;
+use Nicat\FormFactory\Components\FormControls\Traits\LabelTrait;
 use Nicat\HtmlFactory\Elements\DivElement;
 
 class InputGroup

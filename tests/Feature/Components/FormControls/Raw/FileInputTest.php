@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class FileInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class ResetButtonTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

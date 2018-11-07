@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class TelInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

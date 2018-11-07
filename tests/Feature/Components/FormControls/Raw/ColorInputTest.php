@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class ColorInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

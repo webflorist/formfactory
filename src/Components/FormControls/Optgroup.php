@@ -2,8 +2,8 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\HtmlFactory\Elements\OptgroupElement;
 
 class Optgroup

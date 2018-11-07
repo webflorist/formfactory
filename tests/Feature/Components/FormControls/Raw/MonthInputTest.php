@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class MonthInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

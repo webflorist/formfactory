@@ -7,7 +7,7 @@ use FormFactoryTests\TestCase;
 class EmailInputTest extends TestCase
 {
 
-    protected $viewBase = 'raw';
+
 
     public function testSimple()
     {

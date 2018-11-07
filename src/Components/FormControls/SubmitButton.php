@@ -2,10 +2,10 @@
 
 namespace Nicat\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\Contracts\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\AutoTranslationTrait;
+use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Nicat\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
 use Nicat\HtmlFactory\Components\SubmitButtonComponent;
 use Nicat\HtmlFactory\Components\Traits\HasContext;
 

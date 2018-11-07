@@ -22,8 +22,6 @@ abstract class DuskTestCase extends BaseTestCase
     protected function publishJavaScript($app)
     {
         $publicPath = $app->basePath() . '/public/';
-        copy(__DIR__ . '/Browser/public/jquery-3.2.1.min.js', $publicPath . 'jquery-3.2.1.min.js');
-        copy(__DIR__ . '/../src/public/js/formfactory.js', $publicPath . 'formfactory.js');
     }
 
     /**
