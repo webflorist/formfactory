@@ -50,29 +50,33 @@ class ErrorContainer extends AlertComponent
     /**
      * ErrorContainer constructor.
      *
-     * @param FieldInterface|string $field
+     * @param FieldInterface|string|null $field
      */
-    public function __construct($field)
+    public function __construct($field = null)
     {
         parent::__construct('danger');
 
         // If we just get a field-name, we create a temporary text-input from it,
         // since a FieldInterface is required for further processing.
         if (is_string($field)) {
-            $field = new TextInput($field);
+            $field = (new TextInput($field));
         }
 
         $this->field = $field;
 
-        $this->getErrorsFromFormInstance();
+        if (!is_null($this->field)) {
 
-        $this->id(function () {
-            $containerId = $this->field->getFieldName() . '_errors';
-            if ($this->field->belongsToForm()) {
-                $containerId = $this->field->getForm()->getId() . '_' . $containerId;
-            }
-            return $containerId;
-        });
+            $this->getErrorsFromFormInstance();
+
+            $this->id(function () {
+                $containerId = $this->field->getFieldName() . '_errors';
+                if ($this->field->belongsToForm()) {
+                    $containerId = $this->field->getForm()->getId() . '_' . $containerId;
+                }
+                return $containerId;
+            });
+
+        }
     }
 
     /**
@@ -126,20 +130,24 @@ class ErrorContainer extends AlertComponent
      */
     protected function beforeDecoration()
     {
-        if ($this->applyAriaAttributes) {
-            $this->applyAriaAttributes();
-        }
+        if (!is_null($this->field)) {
 
-        if ($this->field->isVueEnabled()) {
-            $fieldName = $this->field->getFieldName();
-            $this->appendContent(
-                (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
-            );
-            $this->vIf("fieldHasError('$fieldName')");
-        } else {
-            foreach ($this->getErrors() as $error) {
-                $this->appendContent((new DivElement())->content($error));
+            if ($this->applyAriaAttributes) {
+                $this->applyAriaAttributes();
             }
+
+            if ($this->field->isVueEnabled()) {
+                $fieldName = $this->field->getFieldName();
+                $this->appendContent(
+                    (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
+                );
+                $this->vIf("fieldHasError('$fieldName')");
+            } else {
+                foreach ($this->getErrors() as $error) {
+                    $this->appendContent((new DivElement())->content($error));
+                }
+            }
+
         }
     }
 
@@ -152,15 +160,19 @@ class ErrorContainer extends AlertComponent
     protected function manipulateOutput(string &$output)
     {
 
-        if ($this->field->isVueEnabled()) {
-            $output = "<template>$output</template>";
+        if (!is_null($this->field)) {
+
+            if ($this->field->isVueEnabled()) {
+                $output = "<template>$output</template>";
+            }
+
+            if (!$this->field->isVueEnabled() && !$this->hasErrors()) {
+                $output = '';
+            }
+
         }
 
         if (!$this->displayErrors) {
-            $output = '';
-        }
-
-        if (!$this->displayErrors || (!$this->field->isVueEnabled() && !$this->hasErrors())) {
             $output = '';
         }
     }

@@ -34,6 +34,13 @@ trait FormControlTrait
     private $form = null;
 
     /**
+     * Is vue-functionality enabled for this form-control?
+     *
+     * @var bool
+     */
+    private $vueEnabled = true;
+
+    /**
      * Performs various Setup-tasks for this FormControl.
      *
      * TODO: This is all very smelly. Find better solution.
@@ -164,6 +171,17 @@ trait FormControlTrait
     }
 
     /**
+     * Disables vue-functionality for this form-control.
+     *
+     * @return $this
+     */
+    public function disableVue()
+    {
+        $this->vueEnabled = false;
+        return $this;
+    }
+
+    /**
      * Is vue enabled for this form-control?
      *
      * @return bool
@@ -178,7 +196,7 @@ trait FormControlTrait
             return false;
         }
 
-        return true;
+        return $this->vueEnabled;
     }
 
     /**

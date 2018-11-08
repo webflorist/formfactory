@@ -3,9 +3,10 @@
 namespace Nicat\FormFactory\Components\Form;
 
 use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\FormFactory;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
@@ -16,7 +17,9 @@ use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 use Nicat\FormFactory\Components\Form\FieldValues\FieldValueManager;
 use Nicat\HtmlFactory\Attributes\MethodAttribute;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
+use Nicat\HtmlFactory\Elements\DivElement;
 use Nicat\HtmlFactory\Elements\FormElement;
+use Nicat\HtmlFactory\Elements\TemplateElement;
 
 class Form extends FormElement
 {
@@ -119,7 +122,17 @@ class Form extends FormElement
      *
      * @var bool
      */
-    public $vueEnabled = null;
+    protected $vueEnabled = null;
+
+    /**
+     * If vue is anabled, should the vue-app be generated immediately after the Form::close() call?
+     * It's default-behaviour can be set via the config 'formfactory.vue.default'
+     *
+     * Set $this->enableVue(false) to
+     *
+     * @var bool
+     */
+    public $appendVueApp = null;
 
     /**
      * Form constructor.
@@ -135,6 +148,7 @@ class Form extends FormElement
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
         $this->vueEnabled = config('formfactory.vue.default');
+        $this->appendVueApp = config('formfactory.vue.auto_vue_app');
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -150,6 +164,11 @@ class Form extends FormElement
      */
     protected function beforeDecoration()
     {
+
+        if ($this->isVueEnabled()) {
+            $this->applyVueModifications();
+        }
+
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
         $this->appendHiddenMethodSpoof();
@@ -262,7 +281,7 @@ class Form extends FormElement
                 $csrfToken = '';
             }
             $this->appendContent(
-                FormFactory::singleton()->hidden('_token')->value($csrfToken)
+                (new HiddenInput('_token'))->value($csrfToken)
             );
         }
     }
@@ -274,7 +293,7 @@ class Form extends FormElement
     {
         if (!is_null($this->spoofedMethod)) {
             $this->appendContent(
-                FormFactory::singleton()->hidden('_method')->value($this->spoofedMethod)
+                (new HiddenInput('_method'))->value($this->spoofedMethod)
             );
         }
     }
@@ -286,7 +305,7 @@ class Form extends FormElement
     protected function appendHiddenFormId()
     {
         $this->appendContent(
-            FormFactory::singleton()->hidden('_formID')->value($this->attributes->id)
+            (new HiddenInput('_formID'))->value($this->attributes->id)
         );
     }
 
@@ -366,10 +385,14 @@ class Form extends FormElement
     /**
      * Enables vue-functionality for this form.
      *
+     * @param null|bool $appendVueApp
      * @return $this
      */
-    public function enableVue()
+    public function enableVue($appendVueApp=null)
     {
+        if (is_bool($appendVueApp)) {
+            $this->appendVueApp = $appendVueApp;
+        }
         $this->vueEnabled = true;
         return $this;
     }
@@ -517,6 +540,23 @@ class Form extends FormElement
     public function getFormControls()
     {
         return $this->formControls;
+    }
+
+
+    /**
+     * Apply various modifications to this Form, if vue is enabled.
+     */
+    private function applyVueModifications()
+    {
+        $this->vOn('submit', 'submitForm', ['prevent']);
+        $this->appendContent(
+            (new ErrorContainer())
+                ->appendContent(
+                    (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
+                )
+                ->vIf("generalErrors.length")
+                ->wrap(new TemplateElement())
+        );
     }
 
 }

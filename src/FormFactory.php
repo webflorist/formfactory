@@ -2,14 +2,13 @@
 
 namespace Nicat\FormFactory;
 
+use Nicat\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Nicat\FormFactory\Components\FormControls\ButtonGroup;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\CheckboxGroup;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
 use Nicat\FormFactory\Components\FormControls\DateInput;
 use Nicat\FormFactory\Components\FormControls\DatetimeInput;
 use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
@@ -163,31 +162,38 @@ class FormFactory
     /**
      * Creates the closing-tag of the form
      *
+     * @param bool $appendRequiredFieldsLegend
      * @return string
      */
-    public static function close()
+    public static function close($appendRequiredFieldsLegend=true)
     {
+        $return = '';
+        $openForm = null;
+
         try {
-            FormFactory::singleton()->getOpenForm()->closeForm();
+            $openForm = FormFactory::singleton()->getOpenForm();
+            $appendRequiredFieldsLegend = $openForm->wasRequiredFieldIndicatorUsed();
         } catch (OpenElementNotFoundException $e) {
         }
 
-        return '</form>';
-    }
+        if ($appendRequiredFieldsLegend) {
+            $return .= new RequiredFieldsLegend();
+        }
 
-    /**
-     * Generates a DynamicList.
-     *
-     * @param string $arrayName : The base-array-name of all fields within this dynamic list (e.g. "users" or "users[][emails]")
-     * @param DynamicListTemplateInterface $template : An element/component, that can be a DynamicListTemplate (must implement DynamicListTemplateInterface)
-     * @param null $addButtonLabel : The label for the button to add a new item. (Gets auto-translated, if possible.)
-     * @param null $minItems : Minimum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
-     * @param null $maxItems : Maximum items of this dynamic list. (Gets auto-fetched from rules, if possible.)
-     * @return DynamicList
-     */
-    public static function dynamicList($arrayName, DynamicListTemplateInterface $template, $addButtonLabel = null, $minItems = null, $maxItems = null): DynamicList
-    {
-        return new DynamicList($arrayName, $template, $addButtonLabel, $minItems, $maxItems);
+        $return .= '</form>';
+
+        if (!is_null($openForm)) {
+            $openForm->closeForm();
+
+            if ($openForm->isVueEnabled() && $openForm->appendVueApp) {
+                try {
+                    $return .= '<script>' . FormFactory::singleton()->vue($openForm->getId()) . '</script>';
+                } catch (Exceptions\FormNotFoundException $e) {
+                }
+            }
+        }
+
+        return $return;
     }
 
     /**

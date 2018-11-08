@@ -14,4 +14,5 @@ return [
     'dynamic_list_remove_button_title' => 'Remove :attribute',
     'dynamic_list_maximum_reached' => 'You have reached the maximum amount. Please delete an item to add a new one.',
     'mandatory_fields' => 'Mandatory fields',
+    'general_form_error' => 'The form could not be submitted successfully. Please try again later.',
 ];

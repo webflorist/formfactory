@@ -37,6 +37,7 @@ class FormTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <form role="form" accept-charset="UTF-8" enctype="multipart/form-data" id="myFormId" method="POST" action="myAction">
+                
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     
@@ -59,11 +60,36 @@ class FormTest extends TestCase
                         <label for="myFormId_myTextareaFieldName">MyTextareaFieldName</label>
                         <textarea name="myTextareaFieldName" id="myFormId_myTextareaFieldName" placeholder="MyTextareaFieldName">myTextAreaFieldValue</textarea>
                     </div>
-
-
                     
                 </form>
 
+            ',
+            $html
+        );
+    }
+
+    public function testRequiredFieldsLegendPresent()
+    {
+
+        $html =
+            Form::open('myFormId')
+            .
+            Form::text('myTextFieldName')->required()
+            .
+            Form::close()
+        ;
+
+        $this->assertHtmlEquals(
+            '
+                <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="http://192.168.56.103:8000">
+                    <input type="hidden" name="_token" id="myFormId__token" value="" />
+                    <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
+                    <div>
+                        <label for="myFormId_myTextFieldName">MyTextFieldName<sup>*</sup></label>
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" required placeholder="MyTextFieldName" />
+                    </div>
+                    <div class="text-muted small"><sup>*</sup> Mandatory fields</div>
+                </form>
             ',
             $html
         );
