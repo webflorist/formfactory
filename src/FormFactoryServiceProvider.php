@@ -4,6 +4,7 @@ namespace Nicat\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
+use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
@@ -113,7 +114,7 @@ class FormFactoryServiceProvider extends ServiceProvider
     {
         if (config('formfactory.captcha.enabled')) {
 
-            Validator::extendImplicit('captcha', CaptchaProtection::class . '@validate');
+            Validator::extendImplicit('captcha', CaptchaValidator::class . '@validate');
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('captcha', function ($message, $attribute, $rule, $parameters) {

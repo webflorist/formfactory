@@ -46,6 +46,14 @@ return [
          */
         'auto_vue_app' => true,
 
+        /*
+         * Set JavaScript function to display success-messages.
+         * Your might want to adapt this to your frontend.
+         */
+        'display_success_message' => 'function(message) {
+            alert(message);
+        }',
+
     ],
 
     /*

@@ -4,229 +4,260 @@ namespace Nicat\FormFactory\Components\Form\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
 use Nicat\FormFactory\Components\Form\Form;
+use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
 use Nicat\FormFactory\FormFactory;
 
 class CaptchaProtection
 {
+    /**
+     *  FQCN of Form Request object
+     *
+     * @var string
+     */
+    private $formRequestClass;
 
     /**
-     * Handle setting the session-info and generation of the captcha-field, if captcha-protection is enabled in the config.
+     * Session key where to find the captcha-question and answer.
      *
-     * @param Form $form
-     * @throws MandatoryOptionMissingException
+     * @var string
      */
-    public static function setUp(Form $form)
+    private $sessionKey;
+
+    /**
+     * The configured request-limit.
+     *
+     * @var int
+     */
+    private $requestLimit;
+
+    /**
+     * The configured decay time.
+     *
+     * @var int
+     */
+    private $decayTime;
+
+    /**
+     * Form element to decorate.
+     *
+     * @var Form
+     */
+    private $form;
+
+    /**
+     * Key to use for Laravel's built in rate limier.
+     *
+     * @var string
+     */
+    private $rateLimiterKey;
+
+    /**
+     * The captcha question.
+     *
+     * @var string
+     */
+    private $question;
+
+    /**
+     * The captcha answer.
+     *
+     * @var string
+     */
+    private $answer;
+
+    /**
+     * Was the captcha validated.
+     *
+     * @var string
+     */
+    private $limitReached = null;
+
+    /**
+     * CaptchaProtection constructor.
+     *
+     * @param string $formRequestClass
+     * @param array $captchaRules
+     */
+    public function __construct(string $formRequestClass, array $captchaRules)
     {
 
-        // If captcha-protection is not enabled in the config, there is nothing to do here.
-        if (!config('formfactory.captcha.enabled')) {
-            return;
+        // If captcha-protection is not enabled in the config, or the captcha-rules are empty, there is nothing to do here.
+        if (config('formfactory.captcha.enabled')) {
+
+            $this->formRequestClass = $formRequestClass;
+            $this->requestLimit = $this->getRequestLimitFromCaptchaRules($captchaRules);
+            $this->decayTime = $this->getDecayTimeFromCaptchaRules($captchaRules);
+            $this->setSessionKey();
+            $this->setRateLimiterKey();
         }
 
-        // We retrieve the captcha-rules defined for this form.
-        $captchaRules = $form->rules->getRulesForField('_captcha');
+    }
 
-        // If no captcha-rules are defined for this form, there is also nothing to do here.
-        if (count($captchaRules) === 0) {
-            return;
-        }
-
-        // Captcha-protection only works, if a request-object was stated via the requestObject() method,
-        // so we throw an exception, if this was not the case.
-        if (is_null($form->requestObject)) {
-            throw new MandatoryOptionMissingException(
-                'The form with ID "' . $form->getId() . '" should display a captcha, ' .
-                'but no request-object was stated via the Form::open()->requestObject() method. ' .
-                'Captcha only works if this is the case.'
-            );
-        }
-
-        // Set where the captcha-answer will be stored in the session.
-        $sessionKeyForCaptchaData = 'formfactory.captcha.' . $form->requestObject;
-
-        // We unset any old captcha-answer (from the previous request) currently set in the session for this request-object.
-        $oldFlashKeys = session()->get('_flash.old');
-        if (is_array($oldFlashKeys) && in_array($sessionKeyForCaptchaData, $oldFlashKeys)) {
-            session()->forget($sessionKeyForCaptchaData);
-        }
-
-        // Get requestLimit and decayTime from the captchaRules.
-        $requestLimit = self::getRequestLimitFromRuleParams($captchaRules['captcha']);
-        $decayTime = self::getDecayTimeFromRuleParams($captchaRules['captcha']);
-
-        // Now let's see, if the limit for this particular request has been reached.
-        // We use the laravel-built in RateLimiter for that.
-        // The Key of the RateLimiter is a hash of the RequestObject and the client-IP.
-        $rateLimiterKey = sha1($form->requestObject . request()->ip());
+    /**
+     * Sets up captcha-validation.
+     */
+    public function setUp()
+    {
+        $this->forgetOldSessionData();
 
         // If the limit has been reached, we must append a captcha-field.
-        // (A requestLimit of 0 means, a captcha is always required.)
-        if (($requestLimit === 0) || app(RateLimiter::class)->tooManyAttempts($rateLimiterKey, $requestLimit, $decayTime)) {
+        if ($this->isRequestLimitReached()) {
 
             // Establish captcha-data.
-            $captchaData = self::establishCaptchaData($sessionKeyForCaptchaData);
-
-            // Then we add the captcha-field to the content of the FormElement.
-            $form->appendContent(
-                FormFactory::singleton()->text('_captcha')
-                    ->required(true)
-                    ->value('')
-                    ->label($captchaData['question'])
-                    ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
-                    ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'))
-            );
+            $this->establishCaptchaData();
 
         }
     }
 
     /**
-     * Validates a captcha-secured request.
+     * Get request-limit to be used for captcha-protection from the stated validation-rules-array.
+     * Returns $captchaRules[0], if set.
+     * Otherwise returns default value set in config.
      *
-     * @param $attribute
-     * @param $value
-     * @param $parameters
-     * @param $validator
+     * @param $captchaRules
+     * @return int
+     */
+    private function getRequestLimitFromCaptchaRules(array $captchaRules): int
+    {
+        if (isset($captchaRules[0]) && is_numeric($captchaRules[0])) {
+            return (int)$captchaRules[0];
+        }
+        return (int)config('formfactory.captcha.default_limit');
+    }
+
+    /**
+     * Get decay-time to be used for captcha-protection from the stated validation-rules-array.
+     * Returns $captchaRules[1], if set.
+     * Otherwise returns default value set in config.
+     *
+     * @param $captchaRules
+     * @return int
+     */
+    private function getDecayTimeFromCaptchaRules(array $captchaRules): int
+    {
+        if (isset($captchaRules[1]) && is_numeric($captchaRules[1])) {
+            return (int)$captchaRules[1];
+        }
+        return (int)config('formfactory.captcha.decay_time');
+    }
+
+    /**
+     * Generates captcha-data (question and answer) and saves it in session as well as this class.
+     */
+    private function generateCaptchaData()
+    {
+        $num1 = rand(1, 10) * rand(1, 3);
+        $num2 = rand(1, 10) * rand(1, 3);
+        $this->answer = $num1 + $num2;
+        $this->question = trans('Nicat-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
+
+        session()->flash(
+            $this->sessionKey,
+            [
+                'question' => $this->question,
+                'answer' => $this->answer
+            ]
+        );
+    }
+
+    /**
+     * Makes sure, captchaData (question and answer) for this form are present in the session and in this object.     *
+     */
+    private function establishCaptchaData()
+    {
+        // If the same request-object is used in multiple forms of a page,
+        // there might already be captchaData in the session.
+        // If this is the case, we use that.
+        // Otherwise we generate a new captcha-question and an answer.
+        if (session()->has($this->sessionKey)) {
+            $sessionData = session()->get($this->sessionKey);
+            $this->question = $sessionData['question'];
+            $this->answer = $sessionData['answer'];
+        } else {
+            $this->generateCaptchaData();
+        }
+    }
+
+    /**
+     * Sets the session key, where captcha-data should be saved.
+     *
+     * @return string
+     */
+    private function setSessionKey()
+    {
+        $this->sessionKey = 'formfactory.captcha.' . $this->formRequestClass;
+    }
+
+    /**
+     * Forgets any old captcha-answer (from the previous request) currently set in the session for this request-object.
+     */
+    protected function forgetOldSessionData()
+    {
+        $oldFlashKeys = session()->get('_flash.old');
+        if (is_array($oldFlashKeys) && in_array($this->sessionKey, $oldFlashKeys)) {
+            session()->forget($this->sessionKey);
+        }
+    }
+
+    /**
+     * Sets the key of the RateLimiter, which is a hash of the formRequestClass and the client-IP.
+     *
+     * @return string
+     */
+    private function setRateLimiterKey()
+    {
+        $this->rateLimiterKey = sha1($this->formRequestClass . request()->ip());
+    }
+
+    /**
+     * Has the request-limit for this captcha been reached?
+     *
      * @return bool
      */
-    public static function validate($attribute, $value, $parameters, $validator)
+    public function isRequestLimitReached(): bool
     {
-        // If captcha-protection is not enabled in the config, we immediately return true.
-        if (!config('formfactory.captcha.enabled')) {
+        if ($this->requestLimit === 0) {
             return true;
         }
+        return app(RateLimiter::class)->tooManyAttempts($this->rateLimiterKey, $this->requestLimit, $this->decayTime);
+    }
 
-        // We need to get the name of the last resolved form-request-object from session.
-        if (!session()->has('formfactory.last_form_request_object')) {
+    /**
+     * Performs captcha validation.
+     *
+     * @param string $answer
+     * @return bool
+     */
+    public function validate($answer)
+    {
+
+        $this->establishCaptchaData();
+
+        if ($this->isRequestLimitReached() && (strval($answer) !== strval($this->answer))) {
             return false;
         }
-
-        // Get requestLimit and decayTime from the rule-parameters.
-        $requestLimit = self::getRequestLimitFromRuleParams($parameters);
-        $decayTime = self::getDecayTimeFromRuleParams($parameters);
-
-        // Now let's see, if the limit for this particular request has been reached.
-        // We use the laravel-built-in RateLimiter for that.
-        // The key of the RateLimiter is a hash of the RequestObject and the client-IP.
-        // Therefore we try to get the name of the form-request-object,
-        // which is the key for the RateLimiter.
-        // (A requestLimit of 0 means, a captcha is always required.)
-        $requestObject = session()->get('formfactory.last_form_request_object');
-        $rateLimiterKey = sha1($requestObject . request()->ip());
-        if (($requestLimit === 0) || app(RateLimiter::class)->tooManyAttempts($rateLimiterKey, $requestLimit, $decayTime)) {
-
-            // If no value was submitted for the _captcha field at all, we immediately return false.
-            if (!request()->has('_captcha')) {
-                return false;
-            }
-
-            // We get the required answer for this request from the session,
-            // which was stored there by the FormFactory.
-            $requiredAnswer = session()->get('formfactory.captcha.' . $requestObject . '.answer');
-
-            // Check, if the submitted value is indeed the required answer.
-            // If it is not, we return false.
-            if (intval($value) !== $requiredAnswer) {
-                return false;
-            }
-
-        }
-
-        // We also count this hit.
-        app(RateLimiter::class)->hit($rateLimiterKey, $decayTime);
 
         return true;
 
     }
 
     /**
-     * Get request-limit to be used for captcha-protection.
-     * Returns $parameters[0], if set.
-     * Otherwise returns default value set in config.
-     *
-     * @param $parameters
-     * @return int
+     * Hits the rate limiter.
      */
-    public static function getRequestLimitFromRuleParams(array $parameters): int
+    public function hit()
     {
-        if (isset($parameters[0]) && is_numeric($parameters[0])) {
-            return (int)$parameters[0];
-        }
-        return (int)config('formfactory.captcha.default_limit');
+        app(RateLimiter::class)->hit($this->rateLimiterKey, $this->decayTime);
     }
 
     /**
-     * Get decay-time to be used for captcha-protection.
-     * Returns $parameters[1], if set.
-     * Otherwise returns default value set in config.
+     * Returns the captcha-question.
      *
-     * @param $parameters
-     * @return int
+     * @return string
      */
-    public static function getDecayTimeFromRuleParams(array $parameters): int
+    public function getQuestion()
     {
-        if (isset($parameters[1]) && is_numeric($parameters[1])) {
-            return (int)$parameters[1];
-        }
-        return (int)config('formfactory.captcha.decay_time');
+        return $this->question;
     }
-
-    /**
-     * Generates captcha-data (question and answer).
-     *
-     * @return array
-     */
-    public static function generateCaptchaData()
-    {
-        $num1 = rand(1, 10) * rand(1, 3);
-        $num2 = rand(1, 10) * rand(1, 3);
-        $answer = $num1 + $num2;
-        $question = trans('Nicat-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
-        return [
-            'question' => $question,
-            'answer' => $answer,
-        ];
-    }
-
-    /**
-     * Makes sure, captchaData (question and answer) for this form are present in the session
-     * and returns it.
-     *
-     * @param $sessionKeyForCaptchaData
-     * @return array
-     */
-    public static function establishCaptchaData(string $sessionKeyForCaptchaData): array
-    {
-        // If the same request-object is used in multiple forms of a page,
-        // there might already be captchaData in the session.
-        // If this is the case, we return that.
-        if (session()->has($sessionKeyForCaptchaData)) {
-            return session()->get($sessionKeyForCaptchaData);
-        }
-
-        // Otherwise we generate a captcha-question and an answer.
-        $captchaData = self::generateCaptchaData();
-
-        // Furthermore we also set the required captcha-answer in the session.
-        // This is used when the CaptchaValidator actually checks the captcha.
-        session()->flash($sessionKeyForCaptchaData, $captchaData);
-
-        return $captchaData;
-    }
-
-    /**
-     * Reflashes existing captcha-data for a specific form-requesst-object into session.
-     * This keeps the answer valid for the next request.
-     *
-     * @param $requestObjectClassName
-     */
-    public static function reflashCaptchaData(string $requestObjectClassName)
-    {
-        $sessionKeyForCaptchaData = 'formfactory.captcha.' . $requestObjectClassName;
-        if (session()->has($sessionKeyForCaptchaData)) {
-            session()->keep($sessionKeyForCaptchaData);
-        }
-    }
-
 
 }

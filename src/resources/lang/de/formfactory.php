@@ -15,4 +15,5 @@ return [
     'dynamic_list_maximum_reached' => 'Sie haben die maximale Anzahl erreicht. Sie müssen zuerst ein Element entfernen, um ein neues Element hinzufügen zu können.',
     'mandatory_fields' => 'Pflichtfelder',
     'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
+    'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.'
 ];

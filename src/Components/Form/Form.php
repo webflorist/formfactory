@@ -5,6 +5,7 @@ namespace Nicat\FormFactory\Components\Form;
 use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
+use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
@@ -125,6 +126,14 @@ class Form extends FormElement
     protected $vueEnabled = null;
 
     /**
+     * The CaptchaProtection object associated with this form,
+     * if captcha-protection is used.
+     *
+     * @var CaptchaProtection|null
+     */
+    protected $captchaProtection = null;
+
+    /**
      * If vue is anabled, should the vue-app be generated immediately after the Form::close() call?
      * It's default-behaviour can be set via the config 'formfactory.vue.default'
      *
@@ -154,7 +163,6 @@ class Form extends FormElement
         $this->enctype('multipart/form-data');
         $this->method('post');
     }
-
 
 
     /**
@@ -472,7 +480,7 @@ class Form extends FormElement
     {
         HoneypotProtection::setUp($this);
         TimeLimitProtection::setUp($this);
-        CaptchaProtection::setUp($this);
+        $this->setUpCaptcha();
     }
 
     /**
@@ -557,6 +565,69 @@ class Form extends FormElement
                 ->vIf("generalErrors.length")
                 ->wrap(new TemplateElement())
         );
+    }
+
+    /**
+     * Perform setup tasks for Captcha-protection.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    private function setUpCaptcha()
+    {
+        if (config('formfactory.captcha.enabled')) {
+            $captchaRules = $this->rules->getRulesForField('_captcha');
+
+            if (isset($captchaRules['captcha'])) {
+
+                // Captcha-protection only works, if a request-object was stated via the requestObject() method,
+                // so we throw an exception, if this was not the case.
+                if (is_null($this->requestObject)) {
+                    throw new MandatoryOptionMissingException(
+                        'The form with ID "' . $this->getId() . '" should display a captcha, ' .
+                        'but no request-object was stated via the Form::open()->requestObject() method. ' .
+                        'Captcha only works if this is the case.'
+                    );
+                }
+                $this->captchaProtection = (new CaptchaProtection(
+                    $this->requestObject,
+                    $captchaRules['captcha']
+                ));
+                $this->captchaProtection->setUp();
+                $this->appendCaptchaField();
+            }
+        }
+    }
+
+    public function getCaptchaQuestion()
+    {
+        if (!is_null($this->captchaProtection)) {
+            return $this->captchaProtection->getQuestion();
+        }
+
+        return null;
+    }
+
+    private function appendCaptchaField()
+    {
+        if ($this->captchaProtection->isRequestLimitReached() || $this->isVueEnabled()) {
+
+            $captchaField = (new TextInput('_captcha'))
+                ->required(true)
+                ->value('')
+                ->label($this->getCaptchaQuestion())
+                ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
+                ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
+
+            if ($this->isVueEnabled()) {
+                $captchaField->label->setText('{{ captchaQuestion }}');
+                $captchaField->wrapper->vIf('captchaQuestion');
+                $captchaField->wrapper->wrap(new TemplateElement());
+            }
+
+            $this->appendContent($captchaField);
+
+        }
+
     }
 
 }

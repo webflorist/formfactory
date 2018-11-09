@@ -105,6 +105,7 @@ class VueAppGenerator
         $lang = new stdClass();
 
         $lang->general_form_error = trans('Nicat-FormFactory::formfactory.general_form_error');
+        $lang->form_timeout_error = trans('Nicat-FormFactory::formfactory.form_expired_error');
 
         return $lang;
     }
@@ -121,12 +122,15 @@ class VueAppGenerator
                         Axios.post(
                             this.$el.getAttribute("action"),
                             new FormData(this.$el)
-                        )
-                        .then(response => {
-                            Alert.createAlert(Lang.translate("misc.success"), null, "success", 1);
-                            this.isSubmitting = false;
-                        })
-                        .catch(error => {
+                        ).then((response) => {
+                            if (response.data.message) {
+                                this.displaySuccessMessage(response.data.message);
+                            }
+                            if (response.data.reset_form) {
+                                this.resetForm();
+                            }
+                            this.finishSubmit(response);
+                        }).catch((error) => {
                             if(error.response.status == 422) {
                                 for (let fieldName in error.response.data.errors) {
                                     if (typeof this.fields[fieldName] === "undefined") {
@@ -135,11 +139,16 @@ class VueAppGenerator
                                     this.fields[fieldName].errors = error.response.data.errors[fieldName];
                                 }
                             }
+                            else if (error.response.status == 419) {
+                                this.generalErrors = [this.lang["form_expired_error"]];
+                            }
                             else {
                                 this.generalErrors = [this.lang["general_form_error"]];
                             }
-                            this.isSubmitting = false;
+                            this.finishSubmit(error.response);
                         });
+                        
+
                     }
                 }');
 
@@ -152,8 +161,34 @@ class VueAppGenerator
                     this.generalErrors = [];
                 }');
 
+        $this->vueInstance->addMethod(
+            'resetForm',
+            'function() {
+                    for (let fieldName in this.fields) {
+                        this.fields[fieldName].errors = [];
+                        this.fields[fieldName].value = "";
+                    }
+                    this.generalErrors = [];
+                }');
+
+        $this->vueInstance->addMethod(
+            'finishSubmit',
+            'function(response) {
+                    this.isSubmitting = false;
+                    if (response.data.captcha_question) {
+                        this.captchaQuestion = response.data.captcha_question;
+                    }
+                }');
+
+        $this->vueInstance->addMethod(
+            'displaySuccessMessage',
+            'function(message) {
+                    Alert.createAlert(message, null, "success", 1);
+                }');
+
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('generalErrors', []);
+        $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
     }
 
 }
