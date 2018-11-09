@@ -1,10 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Nicat\FormFactory\Vue;
 
 use Illuminate\Http\JsonResponse;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
 use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
+use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Use this Trait in your controller to create proper responses
@@ -16,10 +17,10 @@ use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 class FormFactoryResponse
 {
 
-    public static function success($message, $restForm=true) {
+    public static function success($message=null, $restForm=true) {
         return new JsonResponse(
             [
-                'message' => $message,
+                'message' => $message ?? trans('formfactory.default_success_message'),
                 'captcha_question' => self::getCaptchaQuestion(),
                 'reset_form' => $restForm
             ],

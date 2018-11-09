@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\VueApp;
+namespace Nicat\FormFactory\Vue;
 
 use Nicat\FormFactory\Components\Form\Form;
 use Nicat\VueFactory\VueInstance;

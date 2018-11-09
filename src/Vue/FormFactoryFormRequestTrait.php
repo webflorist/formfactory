@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Nicat\FormFactory\Vue;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;

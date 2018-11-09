@@ -1,12 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\VueApp;
+namespace Nicat\FormFactory\Vue;
 
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\Option;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\TextareaElement;
 

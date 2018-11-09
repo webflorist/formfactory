@@ -39,7 +39,7 @@ use Nicat\FormFactory\Exceptions\ElementNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\VueAppAlreadyGeneratedException;
 use Nicat\FormFactory\Utilities\FormManager;
-use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
+use Nicat\FormFactory\Vue\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\VueFactory\VueInstance;
 

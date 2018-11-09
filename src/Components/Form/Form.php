@@ -7,6 +7,7 @@ use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
+use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
@@ -16,6 +17,7 @@ use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Components\Form\FieldErrors\FieldErrorManager;
 use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 use Nicat\FormFactory\Components\Form\FieldValues\FieldValueManager;
+use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
 use Nicat\HtmlFactory\Attributes\MethodAttribute;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\DivElement;
@@ -172,6 +174,7 @@ class Form extends FormElement
     {
 
         if ($this->isVueEnabled()) {
+            $this->checkVueDependencies();
             $this->applyVueModifications();
         }
 
@@ -634,6 +637,21 @@ class Form extends FormElement
 
         }
 
+    }
+
+    /**
+     * Checks various dependencies for vue-functionality.
+     * @throws MissingVueDependencyException
+     */
+    private function checkVueDependencies()
+    {
+        $formId = $this->getId();
+        if (is_null($this->requestObject)) {
+            throw new MissingVueDependencyException("No form request object was set for the vue-enabled form with id '$formId'. Supply a form request object via Form::open()->requestObject().'");
+        }
+        if (array_search(FormFactoryFormRequestTrait::class, class_uses_recursive($this->requestObject)) === false) {
+            throw new MissingVueDependencyException("The form request object '$this->requestObject' must use the 'FormFactoryFormRequestTrait' to enable vue-functionality for it's form.");
+        }
     }
 
 }
