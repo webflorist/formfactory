@@ -135,13 +135,11 @@ class Form extends FormElement
 
     /**
      * If vue is anabled, should the vue-app be generated immediately after the Form::close() call?
-     * It's default-behaviour can be set via the config 'formfactory.vue.default'
-     *
-     * Set $this->enableVue(false) to
+     * It's default-behaviour can be set via the config 'formfactory.vue.default' or via $this->autoGenerateVueApp().
      *
      * @var bool
      */
-    public $appendVueApp = null;
+    public $autoGenerateVueApp = null;
 
     /**
      * Form constructor.
@@ -157,7 +155,7 @@ class Form extends FormElement
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
         $this->vueEnabled = config('formfactory.vue.default');
-        $this->appendVueApp = config('formfactory.vue.auto_vue_app');
+        $this->autoGenerateVueApp = config('formfactory.vue.auto_generate_vue_app');
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -220,10 +218,6 @@ class Form extends FormElement
 
         // We set it as a property of this object.
         $this->requestObject = $requestObject;
-
-        // We also link the request-object to this form in the session.
-        // This is utilized by ajaxValidation.
-        session()->put('formfactory.request_objects.' . $this->getId(), $requestObject);
 
         // Furthermore we fetch the rules from the requestObject (if no rules were manually set).
         $this->rules->fetchRulesFromRequestObject($requestObject);
@@ -393,15 +387,27 @@ class Form extends FormElement
     /**
      * Enables vue-functionality for this form.
      *
-     * @param null|bool $appendVueApp
+     * @param null|bool $autoGenerateVueApp
      * @return $this
      */
-    public function enableVue($appendVueApp=null)
+    public function enableVue($autoGenerateVueApp = null)
     {
-        if (is_bool($appendVueApp)) {
-            $this->appendVueApp = $appendVueApp;
+        if (is_bool($autoGenerateVueApp)) {
+            $this->autoGenerateVueApp = $autoGenerateVueApp;
         }
         $this->vueEnabled = true;
+        return $this;
+    }
+
+    /**
+     * Enable/Disable auto-generation of vue-app.
+     *
+     * @param bool $autoGenerateVueApp
+     * @return $this
+     */
+    public function autoGenerateVueApp($autoGenerateVueApp = true)
+    {
+        $this->autoGenerateVueApp = $autoGenerateVueApp;
         return $this;
     }
 

@@ -56,9 +56,6 @@ class FormFactoryServiceProvider extends ServiceProvider
         // Register the honeypot-validator, if honeypot-protection is enabled in the config.
         $this->registerHoneypotValidator();
 
-        // Register the routes used for ajax-validation, if ajax-validation is enabled in the config.
-        $this->registerAjaxValidationRoutes();
-
     }
 
     /**
@@ -155,18 +152,6 @@ class FormFactoryServiceProvider extends ServiceProvider
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
                 return trans('Nicat-FormFactory::formfactory.honeypot_error');
             });
-        }
-    }
-
-    /**
-     * Register the routes used for ajax-validation, if ajax-validation is enabled in the config.
-     */
-    private function registerAjaxValidationRoutes()
-    {
-        if (config('formfactory.ajax_validation.enabled')) {
-            Route::middleware('web')->post('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->put('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->delete('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
         }
     }
 }

@@ -36,23 +36,29 @@ return [
 
         /*
          * Whether the JS-code for the vue-app should be generated automatically with the Form::close() call.
-         * It can be overridden via passing a boolean parameter to the Form::open()->enableVue($autoVueApp) call.
-         * You can then create the vue-app via Form::vue($formId),
+         *
+         * It can be overridden by calling 'autoGenerateVueApp()' on Form::open() call.
+         *
+         * You can then manually create the vue-app via Form::vue($formId),
          * which gives you the possibility to add additional functionality to it.
          *
          * WARNING: If you set this to false, you will need to create the vue-app with each vue-enabled form,
          * by one of the above mentioned methods.
          *
          */
-        'auto_vue_app' => true,
+        'auto_generate_vue_app' => true,
 
         /*
-         * Set JavaScript function to display success-messages.
-         * Your might want to adapt this to your frontend.
+         * Here you can customize various frontend methods.
          */
-        'display_success_message' => 'function(message) {
-            alert(message);
-        }',
+        'methods' => [
+
+            // This method displays the success message.
+            'display_success_message' => 'function(message) {
+                alert(message);
+            }',
+
+        ]
 
     ],
 

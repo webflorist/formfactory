@@ -37,6 +37,7 @@ use Nicat\FormFactory\Components\FormControls\UrlInput;
 use Nicat\FormFactory\Components\FormControls\WeekInput;
 use Nicat\FormFactory\Exceptions\ElementNotFoundException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
+use Nicat\FormFactory\Exceptions\VueAppAlreadyGeneratedException;
 use Nicat\FormFactory\Utilities\FormManager;
 use Nicat\FormFactory\Utilities\VueApp\VueAppGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
@@ -185,11 +186,8 @@ class FormFactory
         if (!is_null($openForm)) {
             $openForm->closeForm();
 
-            if ($openForm->isVueEnabled() && $openForm->appendVueApp) {
-                try {
-                    $return .= '<script>' . FormFactory::singleton()->vue($openForm->getId()) . '</script>';
-                } catch (Exceptions\FormNotFoundException $e) {
-                }
+            if ($openForm->isVueEnabled() && $openForm->autoGenerateVueApp) {
+                $return .= '<script>' . (new VueAppGenerator($openForm))->getVueInstance() . '</script>';
             }
         }
 
@@ -304,9 +302,16 @@ class FormFactory
      * @param string $id
      * @return VueInstance
      * @throws Exceptions\FormNotFoundException
+     * @throws VueAppAlreadyGeneratedException
      */
     public static function vue(string $id): VueInstance
     {
-        return (new VueAppGenerator(FormFactory::singleton()->forms->getForm($id)))->getVueInstance();
+        $form = FormFactory::singleton()->forms->getForm($id);
+
+        if ($form->autoGenerateVueApp) {
+            throw new VueAppAlreadyGeneratedException("Cannot generate vue-app for form with '$id', which has auto-generation of it's vue-app enabled. Call 'autoGenerateVueApp(false)' on the 'Form::open()' call to remove this error.");
+        }
+
+        return (new VueAppGenerator($form))->getVueInstance();
     }
 }

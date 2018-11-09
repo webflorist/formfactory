@@ -181,10 +181,7 @@ class VueAppGenerator
                 }');
 
         $this->vueInstance->addMethod(
-            'displaySuccessMessage',
-            'function(message) {
-                    Alert.createAlert(message, null, "success", 1);
-                }');
+            'displaySuccessMessage', config('formfactory.vue.methods.display_success_message'));
 
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('generalErrors', []);
