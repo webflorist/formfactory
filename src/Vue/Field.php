@@ -89,19 +89,19 @@ class Field
         }
 
         if ($field->is(RadioInput::class)) {
-            return e($this->evaluateRadioInputValue($field));
+            return $this->evaluateRadioInputValue($field);
         }
 
         if ($field->is(TextareaElement::class)) {
             /** @var TextareaElement $field */
-            return e($field->generateContent());
+            return $field->generateContent();
         }
 
         if ($field->is(Select::class)) {
             return $this->evaluateSelectValue($field);
         }
 
-        return e($field->attributes->value);
+        return $field->attributes->value;
 
     }
 
@@ -156,10 +156,10 @@ class Field
 
         foreach ($field->content->getChildrenByClassName(Option::class) as $optionKey => $option) {
 
-            $value = e($option->attributes->value);
+            $value = $option->attributes->value;
 
             /** @var Option $option */
-            if ($option->attributes->isSet('selected')) {
+            if ($option->attributes->isSet('selected') && $option->attributes->selected) {
                 if (!$isMultiple) {
                     $return = $value;
                     break;

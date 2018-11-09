@@ -17,12 +17,12 @@ use Nicat\FormFactory\Utilities\FormFactoryTools;
 class FormFactoryResponse
 {
 
-    public static function success($message=null, $restForm=true) {
+    public static function success($message=null, $resetForm=true) {
         return new JsonResponse(
             [
                 'message' => $message ?? trans('formfactory.default_success_message'),
                 'captcha_question' => self::getCaptchaQuestion(),
-                'reset_form' => $restForm
+                'reset_form' => $resetForm
             ],
             200
         );
