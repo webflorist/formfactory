@@ -2,7 +2,7 @@
 
 namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormFactory\Components\Helpers\InputGroup;
+use Nicat\FormFactory\Components\FormControls\InputGroup;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleInputGroup extends Decorator
