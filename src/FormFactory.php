@@ -36,6 +36,8 @@ use Nicat\FormFactory\Components\FormControls\TimeInput;
 use Nicat\FormFactory\Components\FormControls\UrlInput;
 use Nicat\FormFactory\Components\FormControls\WeekInput;
 use Nicat\FormFactory\Exceptions\ElementNotFoundException;
+use Nicat\FormFactory\Exceptions\FormNotFoundException;
+use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\VueAppAlreadyGeneratedException;
 use Nicat\FormFactory\Utilities\FormManager;
@@ -183,14 +185,6 @@ class FormFactory
 
         $return .= '</form>';
 
-        if (!is_null($openForm)) {
-            $openForm->closeForm();
-
-            if ($openForm->isVueEnabled() && $openForm->autoGenerateVueApp) {
-                $return .= '<script>' . (new VueAppGenerator($openForm))->getVueInstance() . '</script>';
-            }
-        }
-
         return $return;
     }
 
@@ -301,17 +295,41 @@ class FormFactory
      *
      * @param string $id
      * @return VueInstance
-     * @throws Exceptions\FormNotFoundException
-     * @throws VueAppAlreadyGeneratedException
+     * @throws FormNotFoundException
+     * @throws MissingVueDependencyException
      */
     public static function vue(string $id): VueInstance
     {
         $form = FormFactory::singleton()->forms->getForm($id);
-
-        if ($form->autoGenerateVueApp) {
-            throw new VueAppAlreadyGeneratedException("Cannot generate vue-app for form with '$id', which has auto-generation of it's vue-app enabled. Call 'autoGenerateVueApp(false)' on the 'Form::open()' call to remove this error.");
+        if (!$form->isVueEnabled()) {
+            throw new MissingVueDependencyException("Cannot generate vue-app for form with '$id', since it is not enabled for vue.");
         }
 
+        $form->vueAppGenerated = true;
         return (new VueAppGenerator($form))->getVueInstance();
+    }
+
+    /**
+     * Generates JavaScript for all vue-enabled forms,
+     * that weren't generated before.
+     *
+     * Call this function at the end of your master-template
+     * to ensure the generation of all required vue-apps.
+     *
+     * @return string
+     */
+    public static function generateVueApps(): string
+    {
+
+        $vueApps = '';
+
+        foreach (FormFactory::singleton()->forms->getForms() as $form) {
+            if ($form->isVueEnabled() && !$form->vueAppGenerated) {
+                $vueApps .= (new VueAppGenerator($form))->getVueInstance()->generate();
+                $form->vueAppGenerated = true;
+            }
+        }
+
+        return $vueApps;
     }
 }

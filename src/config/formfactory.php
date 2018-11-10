@@ -35,20 +35,6 @@ return [
         'default' => true,
 
         /*
-         * Whether the JS-code for the vue-app should be generated automatically with the Form::close() call.
-         *
-         * It can be overridden by calling 'autoGenerateVueApp()' on Form::open() call.
-         *
-         * You can then manually create the vue-app via Form::vue($formId),
-         * which gives you the possibility to add additional functionality to it.
-         *
-         * WARNING: If you set this to false, you will need to create the vue-app with each vue-enabled form,
-         * by one of the above mentioned methods.
-         *
-         */
-        'auto_generate_vue_app' => true,
-
-        /*
          * Here you can customize various frontend methods.
          */
         'methods' => [

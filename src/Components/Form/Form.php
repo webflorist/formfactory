@@ -128,20 +128,19 @@ class Form extends FormElement
     protected $vueEnabled = null;
 
     /**
+     * Gets set to true, if a vue-app has been generated for this form.
+     *
+     * @var bool
+     */
+    public $vueAppGenerated = false;
+
+    /**
      * The CaptchaProtection object associated with this form,
      * if captcha-protection is used.
      *
      * @var CaptchaProtection|null
      */
     protected $captchaProtection = null;
-
-    /**
-     * If vue is anabled, should the vue-app be generated immediately after the Form::close() call?
-     * It's default-behaviour can be set via the config 'formfactory.vue.default' or via $this->autoGenerateVueApp().
-     *
-     * @var bool
-     */
-    public $autoGenerateVueApp = null;
 
     /**
      * Form constructor.
@@ -157,7 +156,6 @@ class Form extends FormElement
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
         $this->vueEnabled = config('formfactory.vue.default');
-        $this->autoGenerateVueApp = config('formfactory.vue.auto_generate_vue_app');
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -169,6 +167,7 @@ class Form extends FormElement
      * Apply some modifications.
      *
      * @throws MandatoryOptionMissingException
+     * @throws MissingVueDependencyException
      */
     protected function beforeDecoration()
     {
@@ -390,27 +389,11 @@ class Form extends FormElement
     /**
      * Enables vue-functionality for this form.
      *
-     * @param null|bool $autoGenerateVueApp
      * @return $this
      */
-    public function enableVue($autoGenerateVueApp = null)
+    public function enableVue()
     {
-        if (is_bool($autoGenerateVueApp)) {
-            $this->autoGenerateVueApp = $autoGenerateVueApp;
-        }
         $this->vueEnabled = true;
-        return $this;
-    }
-
-    /**
-     * Enable/Disable auto-generation of vue-app.
-     *
-     * @param bool $autoGenerateVueApp
-     * @return $this
-     */
-    public function autoGenerateVueApp($autoGenerateVueApp = true)
-    {
-        $this->autoGenerateVueApp = $autoGenerateVueApp;
         return $this;
     }
 
@@ -607,6 +590,12 @@ class Form extends FormElement
         }
     }
 
+    /**
+     * Retrieves the current Captcha-question for this form,
+     * if captcha is enabled and required.
+     *
+     * @return null|string
+     */
     public function getCaptchaQuestion()
     {
         if (!is_null($this->captchaProtection)) {
@@ -616,6 +605,9 @@ class Form extends FormElement
         return null;
     }
 
+    /**
+     * Appends the captcha-field to this form.
+     */
     private function appendCaptchaField()
     {
         if ($this->captchaProtection->isRequestLimitReached() || $this->isVueEnabled()) {
@@ -641,6 +633,7 @@ class Form extends FormElement
 
     /**
      * Checks various dependencies for vue-functionality.
+     *
      * @throws MissingVueDependencyException
      */
     private function checkVueDependencies()
