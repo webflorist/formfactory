@@ -7,9 +7,6 @@ use FormFactoryTests\TestCase;
 class TextInputTest extends TestCase
 {
 
-
-    protected $enableVue = false;
-
     public function testSimple()
     {
         $element = \Form::text('myFieldName');

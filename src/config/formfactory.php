@@ -26,13 +26,15 @@ return [
 
         /*
          * Whether vue-functionality should be enabled at all.
+         * If this is false, Form::vOpen() will call Form::open() instead.
          */
         'enabled' => true,
 
         /*
          * Whether vue-functionality should be enabled by default for each form.
+         * If this and vue.enabled are true, Form::open() will call Form::vOpen() instead.
          */
-        'default' => true,
+        'default' => false,
 
         /*
          * Here you can customize various frontend methods.
@@ -41,7 +43,7 @@ return [
 
             // This method displays the success message.
             'display_success_message' => 'function(message) {
-                alert(message);
+                this.successMessage = message;
             }',
 
         ]

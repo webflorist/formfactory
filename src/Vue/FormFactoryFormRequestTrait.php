@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 
 /**
  * Use this Trait in your form request objects
- * to create proper responses for vue-enabled forms.
+ * to create proper responses for VueForms.
  *
  * Class FormFactoryResponseTrait
  * @package Nicat\FormFactory
@@ -21,12 +21,16 @@ trait FormFactoryFormRequestTrait
      */
     protected function failedValidation(Validator $validator)
     {
-        throw new ValidationException(
-            $validator,
-            FormFactoryResponse::error(
-                $validator->errors()->messages()
-            )
-        );
+        if ($this->wantsJson()) {
+            throw new ValidationException(
+                $validator,
+                FormFactoryResponse::error(
+                    $validator->errors()->messages()
+                )
+            );
+        }
+
+        parent::failedValidation($validator);
     }
 
 }

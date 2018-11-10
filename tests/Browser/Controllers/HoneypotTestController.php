@@ -4,6 +4,7 @@ namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\HoneypotTestRequest;
 use Illuminate\Routing\Controller;
+use Nicat\FormFactory\Vue\FormFactoryResponse;
 
 class HoneypotTestController extends Controller
 {
@@ -20,6 +21,9 @@ class HoneypotTestController extends Controller
 
     public function post(HoneypotTestRequest $request)
     {
+        if (config('formfactory.vue.enabled') && config('formfactory.vue.default')) {
+            return FormFactoryResponse::success('validated');
+        }
         return 'validated';
     }
 

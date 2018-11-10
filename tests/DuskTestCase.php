@@ -12,17 +12,7 @@ use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use AssertsHtml;
-
-    /**
-     * Copies FormFactory-related javascript-files to public directory.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    protected function publishJavaScript($app)
-    {
-        $publicPath = $app->basePath() . '/public/';
-    }
+    use AssertsHtml, TestCaseTrait;
 
     /**
      * Define environment setup.
@@ -32,18 +22,6 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $this->setupConfiguration($app);
-        $this->loadRoutes($app);
-        $this->publishJavaScript($app);
-    }
-
-    /**
-     * Load configuration settings
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    public function setupConfiguration($app)
-    {
         //Cookie Settings
         $app['config']->set('session.expire_on_close', false);
 
@@ -52,23 +30,14 @@ abstract class DuskTestCase extends BaseTestCase
             __DIR__ . '/Browser/views'
         ]);
 
-        $app['config']->set('htmlfactory.decorators', ['bootstrap:v3']);
-        $app['config']->set('formfactory.vue.enabled', false);
-
-    }
-
-    protected function setDecorators(array $decorators)
-    {
-        $this->tweakApplication(function($app) use ($decorators){
-            $app['config']->set('htmlfactory.decorators', $decorators);
-        });
+        $this->setupConfig($app);
+        $this->loadRoutes($app);
     }
 
     protected function setUp()
     {
         parent::setUp();
     }
-
 
     /**
      * Nicely prints current page source.
@@ -81,7 +50,6 @@ abstract class DuskTestCase extends BaseTestCase
     {
         dd((new Indenter())->indent($browser->driver->getPageSource()));
     }
-
 
     /**
      * Load Routes
@@ -125,6 +93,9 @@ abstract class DuskTestCase extends BaseTestCase
         return $root . '/tests/Browser';
     }
 
-
+    protected function waitForAndAssertSee(Browser $browser, $text) {
+        $browser->waitForText($text);
+        $browser->assertSee($text);
+    }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory;
 
+use Nicat\FormFactory\Components\Form\VueForm;
 use Nicat\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Nicat\FormFactory\Components\FormControls\ButtonGroup;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
@@ -40,7 +41,7 @@ use Nicat\FormFactory\Exceptions\FormNotFoundException;
 use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Utilities\FormManager;
-use Nicat\FormFactory\Vue\VueAppGenerator;
+use Nicat\FormFactory\Vue\VueInstanceGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\VueFactory\VueInstance;
 
@@ -148,15 +149,37 @@ class FormFactory
     }
 
     /**
-     * Generates and returns the opening form-tag.
-     * Also creates a new Form and adds it to $this->formInstances.
+     * Creates and returns a new form.
+     * Renders the form-start-tag on generation.
      *
      * @param string $id
      * @return Form
      */
     public static function open(string $id): Form
     {
+        if (config('formfactory.vue.enabled') && config('formfactory.vue.default')) {
+            return self::vOpen($id);
+        }
+
         $form = (new Form($id));
+        FormFactory::singleton()->forms->addForm($form);
+        return $form;
+    }
+
+    /**
+     * Creates and returns a new vue-powered form.
+     * Renders the form-start-tag on generation.
+     *
+     * @param string $id
+     * @return VueForm
+     */
+    public static function vOpen(string $id): VueForm
+    {
+        if (config('formfactory.vue.disabled')) {
+            return self::vOpen($id);
+        }
+
+        $form = (new VueForm($id));
         FormFactory::singleton()->forms->addForm($form);
         return $form;
     }
@@ -290,45 +313,47 @@ class FormFactory
     }
 
     /**
-     * Generates a Vue instance for the form with ID $id.
+     * Generates a VueInstance for the form with ID $id.
      *
      * @param string $id
      * @return VueInstance
      * @throws FormNotFoundException
      * @throws MissingVueDependencyException
      */
-    public static function vue(string $id): VueInstance
+    public static function vueInstance(string $id): VueInstance
     {
         $form = FormFactory::singleton()->forms->getForm($id);
-        if (!$form->isVueEnabled()) {
-            throw new MissingVueDependencyException("Cannot generate vue-app for form with '$id', since it is not enabled for vue.");
+        if (!$form->is(VueForm::class)) {
+            throw new MissingVueDependencyException("Cannot generate vue instance for form with '$id', since it is not a VueForm. Use Form::vOpen() instead of Form::open().");
         }
-
-        $form->vueAppGenerated = true;
-        return (new VueAppGenerator($form))->getVueInstance();
+        /** @var VueForm $form */
+        $form->vueInstanceGenerated = true;
+        return $form->getVueInstance();
     }
 
     /**
-     * Generates JavaScript for all vue-enabled forms,
+     * Generates vue instances for all VueForms,
      * that weren't generated before.
      *
      * Call this function at the end of your master-template
-     * to ensure the generation of all required vue-apps.
+     * to ensure the generation of all required vue instances.
      *
      * @return string
      */
-    public static function generateVueApps(): string
+    public static function generateVueInstances(): string
     {
 
-        $vueApps = '';
+        $vueInstances = '';
 
         foreach (FormFactory::singleton()->forms->getForms() as $form) {
-            if ($form->isVueEnabled() && !$form->vueAppGenerated) {
-                $vueApps .= (new VueAppGenerator($form))->getVueInstance()->generate();
-                $form->vueAppGenerated = true;
+            if ($form->is(VueForm::class)) {
+                /** @var VueForm $form */
+                if (!$form->vueInstanceGenerated) {
+                    $vueInstances .= (new VueInstanceGenerator($form))->getVueInstance()->generate();
+                }
             }
         }
 
-        return $vueApps;
+        return $vueInstances;
     }
 }

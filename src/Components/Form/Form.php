@@ -6,8 +6,6 @@ use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
@@ -17,10 +15,8 @@ use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Components\Form\FieldErrors\FieldErrorManager;
 use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 use Nicat\FormFactory\Components\Form\FieldValues\FieldValueManager;
-use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
 use Nicat\HtmlFactory\Attributes\MethodAttribute;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\DivElement;
 use Nicat\HtmlFactory\Elements\FormElement;
 use Nicat\HtmlFactory\Elements\TemplateElement;
 
@@ -121,20 +117,6 @@ class Form extends FormElement
     protected $lastSelect = null;
 
     /**
-     * Is vue-functionality enabled for this form?
-     *
-     * @var bool
-     */
-    protected $vueEnabled = null;
-
-    /**
-     * Gets set to true, if a vue-app has been generated for this form.
-     *
-     * @var bool
-     */
-    public $vueAppGenerated = false;
-
-    /**
      * The CaptchaProtection object associated with this form,
      * if captcha-protection is used.
      *
@@ -155,7 +137,6 @@ class Form extends FormElement
         $this->values = new FieldValueManager($this);
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
-        $this->vueEnabled = config('formfactory.vue.default');
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
@@ -167,15 +148,9 @@ class Form extends FormElement
      * Apply some modifications.
      *
      * @throws MandatoryOptionMissingException
-     * @throws MissingVueDependencyException
      */
     protected function beforeDecoration()
     {
-
-        if ($this->isVueEnabled()) {
-            $this->checkVueDependencies();
-            $this->applyVueModifications();
-        }
 
         $this->appendCSRFToken();
         $this->appendHiddenFormId();
@@ -387,28 +362,6 @@ class Form extends FormElement
     }
 
     /**
-     * Enables vue-functionality for this form.
-     *
-     * @return $this
-     */
-    public function enableVue()
-    {
-        $this->vueEnabled = true;
-        return $this;
-    }
-
-    /**
-     * Disables vue-functionality for this form.
-     *
-     * @return $this
-     */
-    public function disableVue()
-    {
-        $this->vueEnabled = false;
-        return $this;
-    }
-
-    /**
      * Evaluates, if this form been submitted via the last request.
      *
      * If there is a submitted field called "_formID", and it's value is the current form-id,
@@ -441,16 +394,6 @@ class Form extends FormElement
     public function isOpen(): bool
     {
         return $this->isOpen;
-    }
-
-    /**
-     * Is this form currently set to use vue?
-     *
-     * @return bool
-     */
-    public function isVueEnabled(): bool
-    {
-        return config('formfactory.vue.enabled') && $this->vueEnabled;
     }
 
     /**
@@ -542,23 +485,6 @@ class Form extends FormElement
         return $this->formControls;
     }
 
-
-    /**
-     * Apply various modifications to this Form, if vue is enabled.
-     */
-    private function applyVueModifications()
-    {
-        $this->vOn('submit', 'submitForm', ['prevent']);
-        $this->appendContent(
-            (new ErrorContainer())
-                ->appendContent(
-                    (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
-                )
-                ->vIf("generalErrors.length")
-                ->wrap(new TemplateElement())
-        );
-    }
-
     /**
      * Perform setup tasks for Captcha-protection.
      *
@@ -608,43 +534,26 @@ class Form extends FormElement
     /**
      * Appends the captcha-field to this form.
      */
-    private function appendCaptchaField()
+    protected function appendCaptchaField()
     {
-        if ($this->captchaProtection->isRequestLimitReached() || $this->isVueEnabled()) {
-
-            $captchaField = (new TextInput('_captcha'))
-                ->required(true)
-                ->value('')
-                ->label($this->getCaptchaQuestion())
-                ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
-                ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
-
-            if ($this->isVueEnabled()) {
-                $captchaField->label->setText('{{ captchaQuestion }}');
-                $captchaField->wrapper->vIf('captchaQuestion');
-                $captchaField->wrapper->wrap(new TemplateElement());
-            }
-
-            $this->appendContent($captchaField);
-
+        if ($this->captchaProtection->isRequestLimitReached()) {
+            $this->appendContent($this->getCaptchaField());
         }
-
     }
 
     /**
-     * Checks various dependencies for vue-functionality.
+     * Returns the TextInput for the captcha.
      *
-     * @throws MissingVueDependencyException
+     * @return TextInput
      */
-    private function checkVueDependencies()
+    protected function getCaptchaField(): TextInput
     {
-        $formId = $this->getId();
-        if (is_null($this->requestObject)) {
-            throw new MissingVueDependencyException("No form request object was set for the vue-enabled form with id '$formId'. Supply a form request object via Form::open()->requestObject().'");
-        }
-        if (array_search(FormFactoryFormRequestTrait::class, class_uses_recursive($this->requestObject)) === false) {
-            throw new MissingVueDependencyException("The form request object '$this->requestObject' must use the 'FormFactoryFormRequestTrait' to enable vue-functionality for it's form.");
-        }
+        return (new TextInput('_captcha'))
+            ->required(true)
+            ->value('')
+            ->label($this->getCaptchaQuestion())
+            ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
+            ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
     }
 
 }

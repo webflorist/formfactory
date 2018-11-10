@@ -17,12 +17,11 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 class TestCase extends BaseTestCase
 {
 
-    use AssertsHtml, AppliesAttributeSets;
+    use AssertsHtml, AppliesAttributeSets, TestCaseTrait;
 
-    protected $decorators = [];
     protected $openForm = true;
+    protected $openVueForm = false;
     protected $closeForm = true;
-    protected $enableVue = false;
 
     protected function getPackageProviders($app)
     {
@@ -42,21 +41,13 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('htmlfactory.decorators', $this->decorators);
-        $app['config']->set('formfactory.vue.enabled', $this->enableVue);
-    }
-
-    protected function setDecorators(array $decorators) {
-        $this->decorators = $decorators;
-        $this->refreshApplication();
-        $this->setUp();
+        $this->setUpConfig($app);
     }
 
     /**
      * Setup the test environment.
      *
      * @return void
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     protected function setUp()
     {
@@ -70,7 +61,6 @@ class TestCase extends BaseTestCase
      * Clean up the testing environment before the next test.
      *
      * @return void
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function tearDown()
     {

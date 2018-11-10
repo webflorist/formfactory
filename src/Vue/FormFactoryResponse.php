@@ -9,7 +9,7 @@ use Nicat\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Use this Trait in your controller to create proper responses
- * for vue-enabled forms.
+ * for VueForms.
  *
  * Class FormFactoryResponse
  * @package Nicat\FormFactory

@@ -3,9 +3,11 @@
 namespace FormFactoryTests\Browser\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
 
 class CaptchaTestRequest extends FormRequest
 {
+    use FormFactoryFormRequestTrait;
 
     /**
      * Determine if the user is authorized to make this request.
