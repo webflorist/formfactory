@@ -6,6 +6,7 @@ use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Components\FormControls\TextInput;
+use Nicat\FormFactory\Components\Helpers\ErrorContainer;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
@@ -119,9 +120,10 @@ class Form extends FormElement
 
     /**
      * Form constructor.
-     * @param $id
+     *
+     * @param string $id
      */
-    public function __construct($id)
+    public function __construct(string $id)
     {
         parent::__construct();
 
@@ -535,7 +537,10 @@ class Form extends FormElement
                         'TimeLimit-protection only works if this is the case.'
                     );
                 }
-                TimeLimitProtection::setUp($this);
+                TimeLimitProtection::setUp($this->requestObject);
+
+                // We also add an errorContainer to display any errors for '_timeLimit' to the form.
+                $this->appendContent(new ErrorContainer('_timeLimit'));
             }
         }
     }

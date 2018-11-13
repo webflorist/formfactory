@@ -3,6 +3,7 @@
 namespace FormFactoryTests;
 
 use Form;
+use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
@@ -48,12 +49,19 @@ class TestCase extends BaseTestCase
      * Setup the test environment.
      *
      * @return void
+     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
     protected function setUp()
     {
         parent::setUp();
         if ($this->openForm) {
-            Form::open('myFormId');
+
+            if ($this->openVueForm) {
+                Form::vOpen('myFormId', VueFormTestRequest::class);
+            }
+            else {
+                Form::open('myFormId');
+            }
         }
     }
 

@@ -21,7 +21,7 @@ class HoneypotTestController extends Controller
 
     public function post(HoneypotTestRequest $request)
     {
-        if (config('formfactory.vue.enabled') && config('formfactory.vue.default')) {
+        if ($request->wantsJson()) {
             return new VueFormSuccessResponse('validated');
         }
         return 'validated';

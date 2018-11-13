@@ -22,5 +22,15 @@
             "Nicat\\FormFactory\\": "src/",
             "FormFactoryTests\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nicat\\FormFactory\\FormFactoryServiceProvider"
+            ],
+            "aliases": {
+                "Form": "Nicat\\FormFactory\\FormFactoryFacade"
+            }
+        }
     }
 }

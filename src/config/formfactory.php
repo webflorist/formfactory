@@ -31,12 +31,6 @@ return [
         'enabled' => true,
 
         /*
-         * Whether vue-functionality should be enabled by default for each form.
-         * If this and vue.enabled are true, Form::open() will call Form::vOpen() instead.
-         */
-        'default' => false,
-
-        /*
          * Here you can customize various frontend methods.
          */
         'methods' => [

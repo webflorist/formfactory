@@ -1,8 +1,8 @@
 # nicat/formfactory
-**Convenient and powerful form-builder for Laravel 5.5**
+**Convenient and powerful form builder for Laravel 5.5**
 
 ## Description
-This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlfactory](https://github.com/nic-at/htmlfactory). 
+This package provides a form builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlfactory](https://github.com/nic-at/htmlfactory). 
 
 The main features are:
 * Use static factory methods for all relevant form-elements.
@@ -17,22 +17,27 @@ The main features are:
 * Extensive auto-translation-functionality (for field-labels, -placeholders and -help-texts)
 * Allows multiple forms per page with correct values- and error-mappings.
 * Easy pre-population of form-fields via a predefined value-array.
-* On-board AJAX-validation-functionality (onSubmit of form and/or onKeyup/onChange of field)
 * Anti-bot-mechanisms (honeypot-field, captcha, time-limit)
+* Advanced AJAX-validation-functionality vue.js
 * Generate a Vue Instance for a form and use it to interact with it. (uses [nicat/vuefactory](https://github.com/nic-at/vuefactory))
 * ...and many more.
 
 ## Installation
 1. Require the package via composer:  `composer require nicat/formfactory`
-2. Add the Service-Provider to config/app.php:  `Nicat\FormFactory\FormFactoryServiceProvider::class`
-3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormFactory\FormFactoryFacade::class`
-4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormFactory\FormFactoryServiceProvider"`
+
+Note that this package is configured for automatic discovery for Laravel. Thus the package's Service Provider `Nicat\FormFactory\FormFactoryServiceProvider` and the `Form`-Facade `Nicat\FormFactory\FormFactoryFacade` will be automatically registered with Laravel.
+
+When using `VueForms` (see corresponding chapter below), additional setup is required:
+1. `vue.js` 2.0 must be available (e.g. by putting `<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>`).
+2. `axios` must be available (e.g. via `<script src="https://unpkg.com/axios/dist/axios.min.js"></script>`).
+3. Put `<script>{!! Form::generateVueInstances() !!}</script>` just above the closing tag of the body-element in your master-template. This makes sure a Vue instance is generated for each VueForm on the current page. 
+4. Be sure `vue.enabled` is set to true in FormFactory's config (which it is by default).
 
 ## Configuration
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
 https://github.com/nic-at/formfactory/blob/develop/src/config/formfactory.php
 
-Also be sure to correctly configure the `decorators` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use.
+Also be sure to correctly configure the `decorators` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontend-framework in use.
 
 ## Usage
 
@@ -145,7 +150,6 @@ But since this package is built IDE-friendly way, you just have to type e.g. `Fo
 
 Since this package strives to only output valid HTML, the available methods differ from tag to tag. E.g. you can not use the method ->selected() on an input-tag, because it is not allowed according to HTML-standards.
  
-
 ### Advanced Features
 
 Now, that the basic usage of this package was explained, let's continue with some advanced functionality:
@@ -359,25 +363,6 @@ FormFactory has a build-in captcha-protection based on simple mathematical calcu
 
 E.g. the rule `'_captcha' => 'captcha:10,5'` would display and require a captcha after 10 form-submissions and for 5 minutes (thus overriding the default-values in the config file).
 
-#### Automatically open bootstrap-modal on error
-
-If your form is located inside a bootstrap-modal, you will probably want to open that modal automatically on page-load, if a validation error occurs. This package already includes functionality to achieve this by stating the `id` of the modal via the `modalId()` method on the `Form::open()` call. Here is an example:
-Example:
-```
-<div class="modal" id="myModalId" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                {!! Form::open('myForm')->modalId('myModalId') !!}
-                {!! Form::text('myField') !!}
-                {!! Form::submit('submit') !!}
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
-```
-
 #### Disable automatic mandatory-field-legend
 
 A `Form::close()` call will automatically add an info-text describing mandatory fields (`* Mandatory fields`) to the end of the form.
@@ -389,66 +374,97 @@ Example:
 {!! Form::close(false) !!}
 ```
 
-#### Vue Support
+### VueForms
 
-This package allows the generation of JavaScript code to create a Vue instance for a form.
-Prerequisite is, that `'vue:v2'` is stated within the `htmlfactory.decorators` config.
+By default, the forms generated with this package do not have any JavaScript- or AJAX-functionality in place to allow for validation or submission without a new page-reload. To allow a more modern approach, FormFactory can utilize `vue.js` and `axios` to create forms that submit via AJAX and do not required a page-reload.
 
-The Vue instance can be generated by calling `Form::vue('MyFormID')`. This will return a PHP-object of class `Nicat\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [nicat/vuefactory](https://github.com/nic-at/vuefactory).
+Additionally various parts of the form and it's fields will use Vue's data-binding. This allows the extension of any custom frontend-functionality.
 
-Currently the following parts of the form will be reactive:
+Several parts of the form will then be reactive, e.g.:
 - Field-values will be bound to `fields.fieldName.value`.
 - The 'required' attribute and the indicator for required fields next to the label (by default `<sup>*</sup>`) will be bound to `fields.fieldName.required`.
 - The 'disabled' attribute will be bound to `fields.fieldName.disabled`.
 
-Example:
+#### Prerequisites
+
+To enable usage of VueForms, make sure you have followed the VueForm-specific Installation instructions at the beginning of this README. In addition, each VueForm has the following requirements:
+1. The VueForm must be supplied with a corresponding [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) class via it's mandatory second parameter.
+2. The Form Request object should use the `Nicat\FormFactory\Vue\FormFactoryFormRequestTrait` to make sure, errors are returned in the correct format.
+3. The controller-method designated to handle the submit-request should return a `Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse`.
+
+#### Usage
+
+If the prerequisites are met, the basic usage is identical to FormFactory's normal forms, with the only exception being to use `Form::vOpen()` (instead of `Form::open()`) to create open your form.
+
+Here is a full example for a VueForm:
 ```
 Blade Code:
 -----------
-{!! Form::open('MyFormID') !!}
-{!! Form::text('MyFieldName') !!}
+{!! Form::vOpen('MyVueFormID', \App\Http\Requests\MyVueFormRequest::class)
+    ->action('MyVueFormController@post')
+     !!}
+{!! Form::text('MyTextField') !!}
+{!! Form::submit() !!}
 {!! Form::close() !!}
 
-<script>
-    let app = {!! Form::vue('MyFormID') !!}
-</script>
+Form Request (\App\Http\Requests\MyVueFormRequest):
+---------------------------------------------------
+<?php
 
-Generated HTML & JS:
----------------
-<form role="form" accept-charset="UTF-8" enctype="multipart/form-data" id="MyFormID" method="POST" action="http://nicat-registrar.testbox.dev.local/de/form-test">
-    <input type="hidden" name="_token" value="6x5MBYkJnGPLuUwvhq5k4YmculpPcbI6z90xwjsH" id="MyFormID__token" v-model="fields._token.value" v-bind="{ required: fields._token.isRequired, disabled: fields._token.isDisabled }" />
-    <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" v-model="fields._formID.value" v-bind="{ required: fields._formID.isRequired, disabled: fields._formID.isDisabled }" />
-    <div role="alert" data-error-container="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
-    <div data-field-wrapper="1">
-        <label for="MyFormID_MyFieldName">MyFieldName<sup v-if="fields.MyFieldName.isRequired">*</sup></label>
-        <div role="alert" data-error-container="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
-        <input type="text" name="MyFieldName" id="MyFormID_MyFieldName" placeholder="MyFieldName" v-model="fields.MyFieldName.value" v-bind="{ required: fields.MyFieldName.isRequired, disabled: fields.MyFieldName.isDisabled }" aria-describedby="MyFormID_MyFieldName_errors" />
-    </div>
-    <div class="text-muted small"><sup>*</sup> Pflichtfelder</div>
-</form>
+namespace App\Http\Requests;
 
-<script>
-    let app = new Vue({
-        "el": "#MyFormID",
-        "data": {
-            "fields": {
-                "_token": {
-                    "value": "6x5MBYkJnGPLuUwvhq5k4YmculpPcbI6z90xwjsH",
-                    "isRequired": false,
-                    "isDisabled": false
-                },
-                "_formID": {
-                    "value": "MyFormID",
-                    "isRequired": false,
-                    "isDisabled": false
-                },
-                "MyFieldName": {
-                    "value": "",
-                    "isRequired": false,
-                    "isDisabled": false
-                }
-            }
-        }
-    });
-</script>
+use Illuminate\Foundation\Http\FormRequest;
+use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
+
+class MyVueFormRequest extends FormRequest
+{
+    use FormFactoryFormRequestTrait;
+
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            'MyTextField' => 'required',
+        ];
+    }
+}
+
+Controller (App\Http\Controllers\MyVueFormController):
+------------------
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\MyVueFormRequest;
+use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
+
+class MyVueFormController extends Controller
+{
+
+    public function post(MyVueFormRequest $request)
+    {
+        // Do stuff....
+        
+        return (new VueFormSuccessResponse('Form successfully submitted!'));
+    }
+}
 ```
+
+The `VueFormSuccessResponse` can be customized with additional functionality via the following fluent methods:
+
+Method | Description
+-------|--------
+**resetForm**() | Resets the form by setting all field-values to an empty string after delivering the response.
+**redirect**(string $url, int $delay=2000) | Redirects the user to $url after $delay (in ms) after delivering the response. This also appends a sentence telling the user about the upcoming redirect to the success-message.
+
+#### Extendability
+
+A VueForm can be extended with any kind of frontend-functionality by influencing the generation of it's Vue instance.
+
+By default, the Vue instances are automatically generated using the `Form::generateVueInstances()` call you added to your master-template (see installation-instructions).
+
+You can however initiate the manual generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')`. This will return a PHP-object of class `Nicat\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [nicat/vuefactory](https://github.com/nic-at/vuefactory) for additional usage-instructions.

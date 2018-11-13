@@ -12,17 +12,14 @@ class TimeLimitProtection
     /**
      * Handle setting the session-info for timeLimit-protection, if timeLimit-protection is enabled in the config.
      *
-     * @param Form $form
+     * @param string $requestObject
      */
-    public static function setUp(Form $form)
+    public static function setUp(string $requestObject)
     {
 
-        // Now we save the generationTime for this form in the session.
+        // We save the generationTime for this form in the session.
         // It will be read out by the TimeLimitValidator after submitting the form.
-        session()->put('formfactory.generation_time.' . $form->requestObject, time());
-
-        // We also add an errorContainer to display any errors for '_timeLimit' to the form.
-        $form->appendContent(new ErrorContainer('_timeLimit'));
+        session()->put('formfactory.generation_time.' . $requestObject, time());
     }
 
     /**

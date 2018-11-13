@@ -9,6 +9,6 @@ abstract class AbstractBootstrap4VueTest extends TestCase
 
     protected $decorators = ['bootstrap:v4'];
     protected $vueEnabled = true;
-    protected $vueDefault = true;
+    protected $openVueForm = true;
 
 }

@@ -2,6 +2,7 @@
 
 namespace FormFactoryTests\Feature\Components\FormControls;
 
+use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use FormFactoryTests\TestCase;
 
 class VueTest extends TestCase
@@ -12,7 +13,7 @@ class VueTest extends TestCase
 
     public function test_manual_vue_app_generation()
     {
-        \Form::vOpen('myFormId');
+        \Form::vOpen('myFormId', VueFormTestRequest::class);
 
         \Form::text('text')->generate();
 
@@ -28,7 +29,7 @@ class VueTest extends TestCase
 
     public function test_automatic_vue_app_generation()
     {
-        \Form::vOpen('myAutoVueForm1');
+        \Form::vOpen('myAutoVueForm1', VueFormTestRequest::class);
         \Form::text('myAutoVueForm1Text')->generate();
         \Form::close();
 
@@ -36,12 +37,12 @@ class VueTest extends TestCase
         \Form::text('myNonVueFormText')->generate();
         \Form::close();
 
-        \Form::vOpen('myManualVueForm');
+        \Form::vOpen('myManualVueForm', VueFormTestRequest::class);
         \Form::text('myManualVueFormText')->generate();
         \Form::close();
         \Form::vueInstance('myManualVueForm')->generate();
 
-        \Form::vOpen('myAutoVueForm2');
+        \Form::vOpen('myAutoVueForm2', VueFormTestRequest::class);
         \Form::text('myAutoVueForm2Text')->generate();
         \Form::close();
 

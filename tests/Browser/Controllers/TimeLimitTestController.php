@@ -16,7 +16,7 @@ class TimeLimitTestController extends Controller
 
     public function post(TimeLimitTestRequest $request)
     {
-        if (config('formfactory.vue.enabled') && config('formfactory.vue.default')) {
+        if ($request->wantsJson()) {
             return new VueFormSuccessResponse('validated');
         }
         return 'validated';

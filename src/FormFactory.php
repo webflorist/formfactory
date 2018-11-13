@@ -157,10 +157,6 @@ class FormFactory
      */
     public static function open(string $id): Form
     {
-        if (config('formfactory.vue.enabled') && config('formfactory.vue.default')) {
-            return self::vOpen($id);
-        }
-
         $form = (new Form($id));
         FormFactory::singleton()->forms->addForm($form);
         return $form;
@@ -171,15 +167,17 @@ class FormFactory
      * Renders the form-start-tag on generation.
      *
      * @param string $id
-     * @return VueForm
+     * @param string $requestObject
+     * @return VueForm|Form
+     * @throws Exceptions\FormRequestClassNotFoundException
      */
-    public static function vOpen(string $id): VueForm
+    public static function vOpen(string $id, string $requestObject): VueForm
     {
         if (config('formfactory.vue.disabled')) {
-            return self::vOpen($id);
+            return (self::open($id))->requestObject($requestObject);
         }
 
-        $form = (new VueForm($id));
+        $form = (new VueForm($id, $requestObject));
         FormFactory::singleton()->forms->addForm($form);
         return $form;
     }

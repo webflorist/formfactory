@@ -23,6 +23,19 @@ class VueForm extends Form
     private $vueInstanceGenerated = false;
 
     /**
+     * VueForm constructor.
+     *
+     * @param string $id
+     * @param string $requestObject
+     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
+     */
+    public function __construct(string $id, string $requestObject)
+    {
+        parent::__construct($id);
+        $this->requestObject($requestObject);
+    }
+
+    /**
      * Returns the VueInstance object for this form.
      *
      * To avoid duplicate rendering of the vue-instance,
