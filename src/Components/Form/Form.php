@@ -45,13 +45,6 @@ class Form extends FormElement
     protected $spoofedMethod;
 
     /**
-     * ID of the modal-box, that should be opened on page-load, if errors occur.
-     *
-     * @var null|string
-     */
-    protected $modalId = null;
-
-    /**
      * Array of FormControls that belong to this Form.
      *
      * @var FormControlInterface[]|Element[]
@@ -84,7 +77,7 @@ class Form extends FormElement
      *
      * @var null|string
      */
-    public $requestObject = null;
+    protected $requestObject = null;
 
     /**
      * Is this form currently open?
@@ -143,34 +136,6 @@ class Form extends FormElement
         $this->method('post');
     }
 
-
-    /**
-     * Apply some modifications.
-     *
-     * @throws MandatoryOptionMissingException
-     */
-    protected function beforeDecoration()
-    {
-
-        $this->appendCSRFToken();
-        $this->appendHiddenFormId();
-        $this->appendHiddenMethodSpoof();
-        $this->setDefaultAction();
-        $this->applyOpenModalOnLoad();
-
-        $this->setUpAntiBotProtections();
-    }
-
-    /**
-     * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
-     *
-     * @param string $output
-     */
-    protected function manipulateOutput(string &$output)
-    {
-        $output = str_before($output, '</form>');
-    }
-
     /**
      * Set the class-name of the request object.
      * (used for auto-adoption of rules, values and errors)
@@ -223,19 +188,6 @@ class Form extends FormElement
     }
 
     /**
-     * Sets the ID of a modal, that should be opened on page-load, if any errors occur.
-     * This is useful, if the form is located inside a bootstrap modal.
-     *
-     * @param $modalId
-     * @return $this
-     */
-    public function modalId($modalId)
-    {
-        $this->modalId = $modalId;
-        return $this;
-    }
-
-    /**
      * Enable / disable automatic generation of hidden CSRF-token-tag.
      * (Enabled by default)
      *
@@ -248,55 +200,6 @@ class Form extends FormElement
         return $this;
     }
 
-    /**
-     * Append hidden input tag with CSRF-token (except for forms with a GET-method),
-     * if $this->generateToken is not set to false.
-     */
-    protected function appendCSRFToken()
-    {
-        if ($this->generateToken && $this->attributes->method !== 'GET') {
-            $csrfToken = csrf_token();
-            if (is_null($csrfToken)) {
-                $csrfToken = '';
-            }
-            $this->appendContent(
-                (new HiddenInput('_token'))->value($csrfToken)
-            );
-        }
-    }
-
-    /**
-     * If the method is DELETE|PATCH|PUT, we spoof it laravel-style by adding a hidden '_method' field.
-     */
-    protected function appendHiddenMethodSpoof()
-    {
-        if (!is_null($this->spoofedMethod)) {
-            $this->appendContent(
-                (new HiddenInput('_method'))->value($this->spoofedMethod)
-            );
-        }
-    }
-
-    /**
-     * Append hidden input tag with the form-id.
-     * This is used to find out, if a form was just submitted.
-     */
-    protected function appendHiddenFormId()
-    {
-        $this->appendContent(
-            (new HiddenInput('_formID'))->value($this->attributes->id)
-        );
-    }
-
-    /**
-     * Set default action to current URL, if none was set.
-     */
-    private function setDefaultAction()
-    {
-        if (!$this->attributes->isSet('action')) {
-            $this->action(\URL::current());
-        }
-    }
 
     /**
      * Set default-values to be used for all fields.
@@ -350,32 +253,6 @@ class Form extends FormElement
     }
 
     /**
-     * If the ID of a modal was set via 'modalId()', and the form has errors,
-     * we apply a corresponding data-attribute, so that our JS knows to open
-     * that modal on page-load.
-     */
-    private function applyOpenModalOnLoad()
-    {
-        if (!is_null($this->modalId) && $this->errors->hasErrors()) {
-            $this->data('openmodalonload', $this->modalId);
-        }
-    }
-
-    /**
-     * Evaluates, if this form been submitted via the last request.
-     *
-     * If there is a submitted field called "_formID", and it's value is the current form-id,
-     * this form was indeed submitted during the last request.
-     *
-     */
-    private function evaluateSubmittedState()
-    {
-        if (request()->old('_formID') === $this->getId()) {
-            $this->wasSubmitted = true;
-        }
-    }
-
-    /**
      * Gets ID of the form.
      *
      * @return string
@@ -407,18 +284,6 @@ class Form extends FormElement
     }
 
     /**
-     * Sets up various AntiBotProtections.
-     *
-     * @throws \Nicat\FormFactory\Exceptions\MandatoryOptionMissingException
-     */
-    public function setUpAntiBotProtections()
-    {
-        HoneypotProtection::setUp($this);
-        TimeLimitProtection::setUp($this);
-        $this->setUpCaptcha();
-    }
-
-    /**
      * Has the RequiredFieldIndicator been used for this form?
      *
      * @return bool
@@ -445,6 +310,98 @@ class Form extends FormElement
     public function closeForm()
     {
         $this->isOpen = false;
+    }
+
+    /**
+     * Apply some modifications.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    protected function beforeDecoration()
+    {
+
+        $this->appendCSRFToken();
+        $this->appendHiddenFormId();
+        $this->appendHiddenMethodSpoof();
+        $this->setDefaultAction();
+
+        HoneypotProtection::setUp($this);
+        $this->setUpTimeLimit();
+        $this->setUpCaptcha();
+    }
+
+    /**
+     * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
+     *
+     * @param string $output
+     */
+    protected function manipulateOutput(string &$output)
+    {
+        $output = str_before($output, '</form>');
+    }
+
+    /**
+     * Append hidden input tag with CSRF-token (except for forms with a GET-method),
+     * if $this->generateToken is not set to false.
+     */
+    protected function appendCSRFToken()
+    {
+        if ($this->generateToken && $this->attributes->method !== 'GET') {
+            $csrfToken = csrf_token();
+            if (is_null($csrfToken)) {
+                $csrfToken = '';
+            }
+            $this->appendContent(
+                (new HiddenInput('_token'))->value($csrfToken)
+            );
+        }
+    }
+
+    /**
+     * If the method is DELETE|PATCH|PUT, we spoof it laravel-style by adding a hidden '_method' field.
+     */
+    protected function appendHiddenMethodSpoof()
+    {
+        if (!is_null($this->spoofedMethod)) {
+            $this->appendContent(
+                (new HiddenInput('_method'))->value($this->spoofedMethod)
+            );
+        }
+    }
+
+    /**
+     * Append hidden input tag with the form-id.
+     * This is used to find out, if a form was just submitted.
+     */
+    protected function appendHiddenFormId()
+    {
+        $this->appendContent(
+            (new HiddenInput('_formID'))->value($this->attributes->id)
+        );
+    }
+
+    /**
+     * Set default action to current URL, if none was set.
+     */
+    private function setDefaultAction()
+    {
+        if (!$this->attributes->isSet('action')) {
+            $this->action(\URL::current());
+        }
+    }
+
+    /**
+     * Evaluates, if this form been submitted via the last request.
+     *
+     * If there is a submitted field called "_formID", and it's value is the current form-id,
+     * this form was indeed submitted during the last request.
+     *
+     */
+    private function evaluateSubmittedState()
+    {
+        if (request()->old('_formID') === $this->getId()) {
+            $this->wasSubmitted = true;
+        }
     }
 
     /**
@@ -554,6 +511,33 @@ class Form extends FormElement
             ->label($this->getCaptchaQuestion())
             ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
             ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
+    }
+
+    /**
+     * Perform setup tasks for TimeLimit-protection.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    private function setUpTimeLimit()
+    {
+
+        if (config('formfactory.time_limit.enabled')) {
+            $captchaRules = $this->rules->getRulesForField('_timeLimit');
+
+            if (isset($captchaRules['timeLimit'])) {
+
+                // TimeLimit-protection only works, if a request-object was stated via the requestObject() method,
+                // so we throw an exception, if this was not the case.
+                if (is_null($this->requestObject)) {
+                    throw new MandatoryOptionMissingException(
+                        'The form with ID "' . $this->getId() . '" should be protected by a time-limit, ' .
+                        'but no request-object was stated via the Form::open()->requestObject() method. ' .
+                        'TimeLimit-protection only works if this is the case.'
+                    );
+                }
+                TimeLimitProtection::setUp($this);
+            }
+        }
     }
 
 }

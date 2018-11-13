@@ -20,15 +20,24 @@ class VueForm extends Form
      *
      * @var bool
      */
-    public $vueInstanceGenerated = false;
+    private $vueInstanceGenerated = false;
 
     /**
      * Returns the VueInstance object for this form.
      *
-     * @return \Nicat\VueFactory\VueInstance
+     * To avoid duplicate rendering of the vue-instance,
+     * this function will return null, if it was called before.
+     * Set first parameter to false, to avoid this.
+     *
+     * @param bool $returnNullIfAlreadyGenerated
+     * @return \Nicat\VueFactory\VueInstance|null
      */
-    public function getVueInstance()
+    public function getVueInstance($returnNullIfAlreadyGenerated=true)
     {
+        if ($returnNullIfAlreadyGenerated && $this->vueInstanceGenerated) {
+            return null;
+        }
+        $this->vueInstanceGenerated = true;
         return (new VueInstanceGenerator($this))->getVueInstance();
     }
 

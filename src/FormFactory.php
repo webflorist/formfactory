@@ -327,7 +327,6 @@ class FormFactory
             throw new MissingVueDependencyException("Cannot generate vue instance for form with '$id', since it is not a VueForm. Use Form::vOpen() instead of Form::open().");
         }
         /** @var VueForm $form */
-        $form->vueInstanceGenerated = true;
         return $form->getVueInstance();
     }
 
@@ -348,8 +347,9 @@ class FormFactory
         foreach (FormFactory::singleton()->forms->getForms() as $form) {
             if ($form->is(VueForm::class)) {
                 /** @var VueForm $form */
-                if (!$form->vueInstanceGenerated) {
-                    $vueInstances .= (new VueInstanceGenerator($form))->getVueInstance()->generate();
+                $vueInstance = $form->getVueInstance();
+                if (!is_null($vueInstance)) {
+                    $vueInstances .= $vueInstance->generate();
                 }
             }
         }
