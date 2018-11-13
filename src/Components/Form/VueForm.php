@@ -45,7 +45,6 @@ class VueForm extends Form
      * Apply some vue-specific modifications.
      *
      * @throws MandatoryOptionMissingException
-     * @throws MissingVueDependencyException
      */
     protected function beforeDecoration()
     {
