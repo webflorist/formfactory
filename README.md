@@ -374,11 +374,21 @@ Example:
 {!! Form::close(false) !!}
 ```
 
+#### Changing views
+
+As described in the documentation of HtmlFactory, you can change the view, in which a particular form will be rendered. (see default views for usage). Of course, if you wanted to change the views of ALL Elements of a certain type, publishing and editing the included views would be the better option.
+
+#### Decorating
+
+You can also use DecoratorClasses and the decorate() method to influence the output of your forma and fields. Both are described in the documentation of HtmlFactory.
+
+As with views, you can access and influence several of a FormControl's features (label, errors, help-text, etc.) within decoration.
+
 ### VueForms
 
-By default, the forms generated with this package do not have any JavaScript- or AJAX-functionality in place to allow for validation or submission without a new page-reload. To allow a more modern approach, FormFactory can utilize `vue.js` and `axios` to create forms that submit via AJAX and do not required a page-reload.
+By default, the forms generated with this package do not have any JavaScript- or AJAX-functionality in place to allow for validation or submission without a new page-reload. To allow a more modern approach, FormFactory can utilize `vue.js` and `axios` to create forms that submit via AJAX and do not required a page-reload. These are called VueForms.
 
-Additionally various parts of the form and it's fields will use Vue's data-binding. This allows the extension of any custom frontend-functionality.
+VueForms provide the same set of features as normal Forms (which means existing Forms can be "converted" to VueForms any time). But they open up many further possibilities through Vue's data binding. This allows the extension of any custom frontend-functionality (see Customizability below).
 
 Several parts of the form will then be reactive, e.g.:
 - Field-values will be bound to `fields.fieldName.value`.
@@ -461,10 +471,19 @@ Method | Description
 **resetForm**() | Resets the form by setting all field-values to an empty string after delivering the response.
 **redirect**(string $url, int $delay=2000) | Redirects the user to $url after $delay (in ms) after delivering the response. This also appends a sentence telling the user about the upcoming redirect to the success-message.
 
-#### Extendability
+#### Customizability
 
-A VueForm can be extended with any kind of frontend-functionality by influencing the generation of it's Vue instance.
+##### Vue Options
+A VueForm can be extended with any kind of frontend-functionality by adding items (data, computed properties, methods, etc) to the [Vue Options Object](https://vuejs.org/v2/api/#Options-Data), giving you the full arsenal of Vue.js to modify your form's frontend behaviour.
 
-By default, the Vue instances are automatically generated using the `Form::generateVueInstances()` call you added to your master-template (see installation-instructions).
+By default, the Vue instances and their Options are automatically generated using the `Form::generateVueInstances()` call you added to your master-template (see installation-instructions).
 
-You can however initiate the manual generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')`. This will return a PHP-object of class `Nicat\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [nicat/vuefactory](https://github.com/nic-at/vuefactory) for additional usage-instructions.
+You can however influence or manually initiate the generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')` sometime after he ´Form::close() call. This will return a PHP-object of class `Nicat\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [nicat/vuefactory](https://github.com/nic-at/vuefactory) for additional usage-instructions.
+
+Manual generation into JavaScript-code can be initiated by chaining the ˋgenerate()ˋ command at the end of the call. Be sure to wrap the call within script-tags in this case. Oherwise the code will be generated with your additions automatically with the 'Form::generateVueInstances()' call.
+
+A VueForm's VueInstance is also accessible in views and decoration via $el->vueInstance.
+
+##### Language Strings
+
+Default language strings are inckuded for various frontend functionality. Use Laravel's usual way of overriding Package language files.
