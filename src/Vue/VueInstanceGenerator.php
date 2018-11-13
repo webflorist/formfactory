@@ -105,8 +105,14 @@ class VueInstanceGenerator
     {
         $lang = new stdClass();
 
-        $lang->general_form_error = trans('Nicat-FormFactory::formfactory.general_form_error');
-        $lang->form_timeout_error = trans('Nicat-FormFactory::formfactory.form_expired_error');
+        $langKeys = [
+            'general_form_error',
+            'form_expired_error'
+        ];
+
+        foreach ($langKeys as $langKey) {
+            $lang->{$langKey} = trans("Nicat-FormFactory::formfactory.$langKey");
+        }
 
         return $lang;
     }
@@ -125,6 +131,9 @@ class VueInstanceGenerator
                             this.$el.getAttribute("action"),
                             new FormData(this.$el)
                         ).then((response) => {
+                            if (response.data.redirect) {
+                                this.redirect(response.data.redirect["url"], response.data.redirect["delay"]);
+                            }
                             if (response.data.message) {
                                 this.displaySuccessMessage(response.data.message);
                             }
@@ -167,10 +176,16 @@ class VueInstanceGenerator
             'resetForm',
             'function() {
                     for (let fieldName in this.fields) {
-                        this.fields[fieldName].errors = [];
                         this.fields[fieldName].value = "";
                     }
-                    this.generalErrors = [];
+                    this.clearErrors();
+                }');
+
+        $this->vueInstance->addMethod(
+            'redirect',
+            'async function(url, delay) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    window.location = url;
                 }');
 
         $this->vueInstance->addMethod(

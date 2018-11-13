@@ -4,6 +4,7 @@ namespace Nicat\FormFactory\Vue;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
+use Nicat\FormFactory\Vue\Responses\VueFormErrorResponse;
 
 /**
  * Use this Trait in your form request objects
@@ -24,9 +25,7 @@ trait FormFactoryFormRequestTrait
         if ($this->wantsJson()) {
             throw new ValidationException(
                 $validator,
-                FormFactoryResponse::error(
-                    $validator->errors()->messages()
-                )
+                new VueFormErrorResponse($validator->errors()->messages())
             );
         }
 
