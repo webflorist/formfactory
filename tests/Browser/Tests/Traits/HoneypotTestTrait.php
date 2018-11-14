@@ -15,7 +15,7 @@ trait HoneypotTestTrait
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/honeypot-via-rules');
-            $this->submitForm($browser,'');
+            $this->submitHoneypotForm($browser,'');
             $this->waitForAndAssertSee($browser, 'validated')
             ;
         });
@@ -29,7 +29,7 @@ trait HoneypotTestTrait
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/honeypot-via-rules');
-            $this->submitForm($browser,'some text');
+            $this->submitHoneypotForm($browser,'some text');
             $browser->assertDontSee('validated')
             ;
         });
@@ -43,7 +43,7 @@ trait HoneypotTestTrait
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/honeypot-via-request-object');
-            $this->submitForm($browser,'');
+            $this->submitHoneypotForm($browser,'');
             $this->waitForAndAssertSee($browser, 'validated')
             ;
         });
@@ -57,7 +57,7 @@ trait HoneypotTestTrait
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/honeypot-via-request-object');
-            $this->submitForm($browser,'some text');
+            $this->submitHoneypotForm($browser,'some text');
             $browser->assertDontSee('validated')
             ;
         });
@@ -69,7 +69,7 @@ trait HoneypotTestTrait
      * @param Browser $browser
      * @param string $honeypotValue
      */
-    private function submitForm(Browser $browser, $honeypotValue = '')
+    private function submitHoneypotForm(Browser $browser, $honeypotValue = '')
     {
 
         // Make wrapper of honeypot-field visible to be able to interact with it.

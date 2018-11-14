@@ -23,12 +23,8 @@ trait FormFactoryFormRequestTrait
     protected function failedValidation(Validator $validator)
     {
         if ($this->wantsJson()) {
-            throw new ValidationException(
-                $validator,
-                new VueFormErrorResponse($validator->errors()->messages())
-            );
+            (new VueFormErrorResponse($validator->errors()->messages()))->throwValidationException($validator);
         }
-
         parent::failedValidation($validator);
     }
 

@@ -14,7 +14,7 @@ trait TimeLimitTestTrait
     public function testTimeLimitFailure()
     {
         $this->browse(function (Browser $browser) {
-            $this->submitForm($browser);
+            $this->submitTimeLimitForm($browser);
             $this->waitForAndAssertSee($browser, 'This form can be sent every 5 seconds. Please wait before sending it again.');
         });
     }
@@ -26,7 +26,7 @@ trait TimeLimitTestTrait
     public function testTimeLimitSuccess()
     {
         $this->browse(function (Browser $browser) {
-            $this->submitForm($browser,5000);
+            $this->submitTimeLimitForm($browser,5000);
             $this->waitForAndAssertSee($browser, 'validated');
         });
     }
@@ -37,7 +37,7 @@ trait TimeLimitTestTrait
      * @param Browser $browser
      * @param int $pauseBeforeClick
      */
-    private function submitForm(Browser $browser, $pauseBeforeClick=0)
+    private function submitTimeLimitForm(Browser $browser, $pauseBeforeClick=0)
     {
         $browser->visit('/timelimit-get');
         if ($pauseBeforeClick > 0) {

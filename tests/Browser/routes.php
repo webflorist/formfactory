@@ -13,3 +13,6 @@ Route::post('timelimit-post', '\FormFactoryTests\Browser\Controllers\TimeLimitTe
 Route::get('vue-redirect', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getRedirect');
 Route::post('vue-redirect', '\FormFactoryTests\Browser\Controllers\VueFormTestController@postRedirect');
 Route::get('vue-redirect-target', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getRedirectTarget');
+
+Route::get('vue-controller-errors', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getControllerErrors');
+Route::post('vue-controller-errors', '\FormFactoryTests\Browser\Controllers\VueFormTestController@postControllerErrors');

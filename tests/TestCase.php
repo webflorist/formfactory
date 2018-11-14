@@ -57,7 +57,7 @@ class TestCase extends BaseTestCase
         if ($this->openForm) {
 
             if ($this->openVueForm) {
-                Form::vOpen('myFormId', VueFormTestRequest::class);
+                Form::vOpen('myFormId');
             }
             else {
                 Form::open('myFormId');
