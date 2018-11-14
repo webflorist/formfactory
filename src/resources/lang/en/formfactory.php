@@ -16,5 +16,6 @@ return [
     'mandatory_fields' => 'Mandatory fields',
     'default_success_message' => 'The form was successfully submitted.',
     'general_form_error' => 'The form could not be submitted successfully. Please try again later.',
-    'form_expired_error' => 'The form has expired. Please reload the page.'
+    'form_expired_error' => 'The form has expired. Please reload the page.',
+    'redirect_message' => 'You will be redirected shortly.'
 ];

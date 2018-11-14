@@ -2,6 +2,7 @@
 
 namespace Nicat\FormFactory;
 
+use Nicat\FormFactory\Components\Form\VueForm;
 use Nicat\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Nicat\FormFactory\Components\FormControls\ButtonGroup;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
@@ -36,10 +37,11 @@ use Nicat\FormFactory\Components\FormControls\TimeInput;
 use Nicat\FormFactory\Components\FormControls\UrlInput;
 use Nicat\FormFactory\Components\FormControls\WeekInput;
 use Nicat\FormFactory\Exceptions\ElementNotFoundException;
+use Nicat\FormFactory\Exceptions\FormNotFoundException;
+use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\Exceptions\VueAppAlreadyGeneratedException;
 use Nicat\FormFactory\Utilities\FormManager;
-use Nicat\FormFactory\Vue\VueAppGenerator;
+use Nicat\FormFactory\Vue\VueInstanceGenerator;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\VueFactory\VueInstance;
 
@@ -147,8 +149,8 @@ class FormFactory
     }
 
     /**
-     * Generates and returns the opening form-tag.
-     * Also creates a new Form and adds it to $this->formInstances.
+     * Creates and returns a new form.
+     * Renders the form-start-tag on generation.
      *
      * @param string $id
      * @return Form
@@ -156,6 +158,26 @@ class FormFactory
     public static function open(string $id): Form
     {
         $form = (new Form($id));
+        FormFactory::singleton()->forms->addForm($form);
+        return $form;
+    }
+
+    /**
+     * Creates and returns a new vue-powered form.
+     * Renders the form-start-tag on generation.
+     *
+     * @param string $id
+     * @param string $requestObject
+     * @return VueForm|Form
+     * @throws Exceptions\FormRequestClassNotFoundException
+     */
+    public static function vOpen(string $id, string $requestObject): VueForm
+    {
+        if (config('formfactory.vue.disabled')) {
+            return (self::open($id))->requestObject($requestObject);
+        }
+
+        $form = (new VueForm($id, $requestObject));
         FormFactory::singleton()->forms->addForm($form);
         return $form;
     }
@@ -182,14 +204,6 @@ class FormFactory
         }
 
         $return .= '</form>';
-
-        if (!is_null($openForm)) {
-            $openForm->closeForm();
-
-            if ($openForm->isVueEnabled() && $openForm->autoGenerateVueApp) {
-                $return .= '<script>' . (new VueAppGenerator($openForm))->getVueInstance() . '</script>';
-            }
-        }
 
         return $return;
     }
@@ -297,21 +311,47 @@ class FormFactory
     }
 
     /**
-     * Generates a Vue instance for the form with ID $id.
+     * Generates a VueInstance for the form with ID $id.
      *
      * @param string $id
      * @return VueInstance
-     * @throws Exceptions\FormNotFoundException
-     * @throws VueAppAlreadyGeneratedException
+     * @throws FormNotFoundException
+     * @throws MissingVueDependencyException
      */
-    public static function vue(string $id): VueInstance
+    public static function vueInstance(string $id): VueInstance
     {
         $form = FormFactory::singleton()->forms->getForm($id);
+        if (!$form->is(VueForm::class)) {
+            throw new MissingVueDependencyException("Cannot generate vue instance for form with '$id', since it is not a VueForm. Use Form::vOpen() instead of Form::open().");
+        }
+        /** @var VueForm $form */
+        return $form->getVueInstance();
+    }
 
-        if ($form->autoGenerateVueApp) {
-            throw new VueAppAlreadyGeneratedException("Cannot generate vue-app for form with '$id', which has auto-generation of it's vue-app enabled. Call 'autoGenerateVueApp(false)' on the 'Form::open()' call to remove this error.");
+    /**
+     * Generates vue instances for all VueForms,
+     * that weren't generated before.
+     *
+     * Call this function at the end of your master-template
+     * to ensure the generation of all required vue instances.
+     *
+     * @return string
+     */
+    public static function generateVueInstances(): string
+    {
+
+        $vueInstances = '';
+
+        foreach (FormFactory::singleton()->forms->getForms() as $form) {
+            if ($form->is(VueForm::class)) {
+                /** @var VueForm $form */
+                $vueInstance = $form->getVueInstance();
+                if (!is_null($vueInstance)) {
+                    $vueInstances .= $vueInstance->generate();
+                }
+            }
         }
 
-        return (new VueAppGenerator($form))->getVueInstance();
+        return $vueInstances;
     }
 }

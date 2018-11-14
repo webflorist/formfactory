@@ -7,7 +7,6 @@ use Nicat\FormFactory\Components\FormControls\HiddenInput;
 use Nicat\FormFactory\Components\FormControls\Select;
 use Nicat\FormFactory\Components\FormControls\TextInput;
 use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
 use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
 use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
 use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
@@ -17,10 +16,8 @@ use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
 use Nicat\FormFactory\Components\Form\FieldErrors\FieldErrorManager;
 use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 use Nicat\FormFactory\Components\Form\FieldValues\FieldValueManager;
-use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
 use Nicat\HtmlFactory\Attributes\MethodAttribute;
 use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\DivElement;
 use Nicat\HtmlFactory\Elements\FormElement;
 use Nicat\HtmlFactory\Elements\TemplateElement;
 
@@ -47,13 +44,6 @@ class Form extends FormElement
      * @var string
      */
     protected $spoofedMethod;
-
-    /**
-     * ID of the modal-box, that should be opened on page-load, if errors occur.
-     *
-     * @var null|string
-     */
-    protected $modalId = null;
 
     /**
      * Array of FormControls that belong to this Form.
@@ -88,7 +78,7 @@ class Form extends FormElement
      *
      * @var null|string
      */
-    public $requestObject = null;
+    protected $requestObject = null;
 
     /**
      * Is this form currently open?
@@ -121,13 +111,6 @@ class Form extends FormElement
     protected $lastSelect = null;
 
     /**
-     * Is vue-functionality enabled for this form?
-     *
-     * @var bool
-     */
-    protected $vueEnabled = null;
-
-    /**
      * The CaptchaProtection object associated with this form,
      * if captcha-protection is used.
      *
@@ -136,18 +119,11 @@ class Form extends FormElement
     protected $captchaProtection = null;
 
     /**
-     * If vue is anabled, should the vue-app be generated immediately after the Form::close() call?
-     * It's default-behaviour can be set via the config 'formfactory.vue.default' or via $this->autoGenerateVueApp().
-     *
-     * @var bool
-     */
-    public $autoGenerateVueApp = null;
-
-    /**
      * Form constructor.
-     * @param $id
+     *
+     * @param string $id
      */
-    public function __construct($id)
+    public function __construct(string $id)
     {
         parent::__construct();
 
@@ -156,45 +132,10 @@ class Form extends FormElement
         $this->values = new FieldValueManager($this);
         $this->errors = new FieldErrorManager($this);
         $this->rules = new FieldRuleManager($this);
-        $this->vueEnabled = config('formfactory.vue.default');
-        $this->autoGenerateVueApp = config('formfactory.vue.auto_generate_vue_app');
         $this->addRole('form');
         $this->acceptCharset('UTF-8');
         $this->enctype('multipart/form-data');
         $this->method('post');
-    }
-
-
-    /**
-     * Apply some modifications.
-     *
-     * @throws MandatoryOptionMissingException
-     */
-    protected function beforeDecoration()
-    {
-
-        if ($this->isVueEnabled()) {
-            $this->checkVueDependencies();
-            $this->applyVueModifications();
-        }
-
-        $this->appendCSRFToken();
-        $this->appendHiddenFormId();
-        $this->appendHiddenMethodSpoof();
-        $this->setDefaultAction();
-        $this->applyOpenModalOnLoad();
-
-        $this->setUpAntiBotProtections();
-    }
-
-    /**
-     * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
-     *
-     * @param string $output
-     */
-    protected function manipulateOutput(string &$output)
-    {
-        $output = str_before($output, '</form>');
     }
 
     /**
@@ -249,19 +190,6 @@ class Form extends FormElement
     }
 
     /**
-     * Sets the ID of a modal, that should be opened on page-load, if any errors occur.
-     * This is useful, if the form is located inside a bootstrap modal.
-     *
-     * @param $modalId
-     * @return $this
-     */
-    public function modalId($modalId)
-    {
-        $this->modalId = $modalId;
-        return $this;
-    }
-
-    /**
      * Enable / disable automatic generation of hidden CSRF-token-tag.
      * (Enabled by default)
      *
@@ -274,55 +202,6 @@ class Form extends FormElement
         return $this;
     }
 
-    /**
-     * Append hidden input tag with CSRF-token (except for forms with a GET-method),
-     * if $this->generateToken is not set to false.
-     */
-    protected function appendCSRFToken()
-    {
-        if ($this->generateToken && $this->attributes->method !== 'GET') {
-            $csrfToken = csrf_token();
-            if (is_null($csrfToken)) {
-                $csrfToken = '';
-            }
-            $this->appendContent(
-                (new HiddenInput('_token'))->value($csrfToken)
-            );
-        }
-    }
-
-    /**
-     * If the method is DELETE|PATCH|PUT, we spoof it laravel-style by adding a hidden '_method' field.
-     */
-    protected function appendHiddenMethodSpoof()
-    {
-        if (!is_null($this->spoofedMethod)) {
-            $this->appendContent(
-                (new HiddenInput('_method'))->value($this->spoofedMethod)
-            );
-        }
-    }
-
-    /**
-     * Append hidden input tag with the form-id.
-     * This is used to find out, if a form was just submitted.
-     */
-    protected function appendHiddenFormId()
-    {
-        $this->appendContent(
-            (new HiddenInput('_formID'))->value($this->attributes->id)
-        );
-    }
-
-    /**
-     * Set default action to current URL, if none was set.
-     */
-    private function setDefaultAction()
-    {
-        if (!$this->attributes->isSet('action')) {
-            $this->action(\URL::current());
-        }
-    }
 
     /**
      * Set default-values to be used for all fields.
@@ -376,70 +255,6 @@ class Form extends FormElement
     }
 
     /**
-     * If the ID of a modal was set via 'modalId()', and the form has errors,
-     * we apply a corresponding data-attribute, so that our JS knows to open
-     * that modal on page-load.
-     */
-    private function applyOpenModalOnLoad()
-    {
-        if (!is_null($this->modalId) && $this->errors->hasErrors()) {
-            $this->data('openmodalonload', $this->modalId);
-        }
-    }
-
-    /**
-     * Enables vue-functionality for this form.
-     *
-     * @param null|bool $autoGenerateVueApp
-     * @return $this
-     */
-    public function enableVue($autoGenerateVueApp = null)
-    {
-        if (is_bool($autoGenerateVueApp)) {
-            $this->autoGenerateVueApp = $autoGenerateVueApp;
-        }
-        $this->vueEnabled = true;
-        return $this;
-    }
-
-    /**
-     * Enable/Disable auto-generation of vue-app.
-     *
-     * @param bool $autoGenerateVueApp
-     * @return $this
-     */
-    public function autoGenerateVueApp($autoGenerateVueApp = true)
-    {
-        $this->autoGenerateVueApp = $autoGenerateVueApp;
-        return $this;
-    }
-
-    /**
-     * Disables vue-functionality for this form.
-     *
-     * @return $this
-     */
-    public function disableVue()
-    {
-        $this->vueEnabled = false;
-        return $this;
-    }
-
-    /**
-     * Evaluates, if this form been submitted via the last request.
-     *
-     * If there is a submitted field called "_formID", and it's value is the current form-id,
-     * this form was indeed submitted during the last request.
-     *
-     */
-    private function evaluateSubmittedState()
-    {
-        if (request()->old('_formID') === $this->getId()) {
-            $this->wasSubmitted = true;
-        }
-    }
-
-    /**
      * Gets ID of the form.
      *
      * @return string
@@ -461,16 +276,6 @@ class Form extends FormElement
     }
 
     /**
-     * Is this form currently set to use vue?
-     *
-     * @return bool
-     */
-    public function isVueEnabled(): bool
-    {
-        return config('formfactory.vue.enabled') && $this->vueEnabled;
-    }
-
-    /**
      * Returns the FormElement of this Form.
      *
      * @return Form
@@ -478,18 +283,6 @@ class Form extends FormElement
     public function getFormElement()
     {
         return $this;
-    }
-
-    /**
-     * Sets up various AntiBotProtections.
-     *
-     * @throws \Nicat\FormFactory\Exceptions\MandatoryOptionMissingException
-     */
-    public function setUpAntiBotProtections()
-    {
-        HoneypotProtection::setUp($this);
-        TimeLimitProtection::setUp($this);
-        $this->setUpCaptcha();
     }
 
     /**
@@ -519,6 +312,98 @@ class Form extends FormElement
     public function closeForm()
     {
         $this->isOpen = false;
+    }
+
+    /**
+     * Apply some modifications.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    protected function beforeDecoration()
+    {
+
+        $this->appendCSRFToken();
+        $this->appendHiddenFormId();
+        $this->appendHiddenMethodSpoof();
+        $this->setDefaultAction();
+
+        HoneypotProtection::setUp($this);
+        $this->setUpTimeLimit();
+        $this->setUpCaptcha();
+    }
+
+    /**
+     * Remove the closing tag from output, since FormFactory closes the form-tag via method close().
+     *
+     * @param string $output
+     */
+    protected function manipulateOutput(string &$output)
+    {
+        $output = str_before($output, '</form>');
+    }
+
+    /**
+     * Append hidden input tag with CSRF-token (except for forms with a GET-method),
+     * if $this->generateToken is not set to false.
+     */
+    protected function appendCSRFToken()
+    {
+        if ($this->generateToken && $this->attributes->method !== 'GET') {
+            $csrfToken = csrf_token();
+            if (is_null($csrfToken)) {
+                $csrfToken = '';
+            }
+            $this->appendContent(
+                (new HiddenInput('_token'))->value($csrfToken)
+            );
+        }
+    }
+
+    /**
+     * If the method is DELETE|PATCH|PUT, we spoof it laravel-style by adding a hidden '_method' field.
+     */
+    protected function appendHiddenMethodSpoof()
+    {
+        if (!is_null($this->spoofedMethod)) {
+            $this->appendContent(
+                (new HiddenInput('_method'))->value($this->spoofedMethod)
+            );
+        }
+    }
+
+    /**
+     * Append hidden input tag with the form-id.
+     * This is used to find out, if a form was just submitted.
+     */
+    protected function appendHiddenFormId()
+    {
+        $this->appendContent(
+            (new HiddenInput('_formID'))->value($this->attributes->id)
+        );
+    }
+
+    /**
+     * Set default action to current URL, if none was set.
+     */
+    private function setDefaultAction()
+    {
+        if (!$this->attributes->isSet('action')) {
+            $this->action(\URL::current());
+        }
+    }
+
+    /**
+     * Evaluates, if this form been submitted via the last request.
+     *
+     * If there is a submitted field called "_formID", and it's value is the current form-id,
+     * this form was indeed submitted during the last request.
+     *
+     */
+    private function evaluateSubmittedState()
+    {
+        if (request()->old('_formID') === $this->getId()) {
+            $this->wasSubmitted = true;
+        }
     }
 
     /**
@@ -559,23 +444,6 @@ class Form extends FormElement
         return $this->formControls;
     }
 
-
-    /**
-     * Apply various modifications to this Form, if vue is enabled.
-     */
-    private function applyVueModifications()
-    {
-        $this->vOn('submit', 'submitForm', ['prevent']);
-        $this->appendContent(
-            (new ErrorContainer())
-                ->appendContent(
-                    (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
-                )
-                ->vIf("generalErrors.length")
-                ->wrap(new TemplateElement())
-        );
-    }
-
     /**
      * Perform setup tasks for Captcha-protection.
      *
@@ -607,6 +475,12 @@ class Form extends FormElement
         }
     }
 
+    /**
+     * Retrieves the current Captcha-question for this form,
+     * if captcha is enabled and required.
+     *
+     * @return null|string
+     */
     public function getCaptchaQuestion()
     {
         if (!is_null($this->captchaProtection)) {
@@ -616,41 +490,58 @@ class Form extends FormElement
         return null;
     }
 
-    private function appendCaptchaField()
+    /**
+     * Appends the captcha-field to this form.
+     */
+    protected function appendCaptchaField()
     {
-        if ($this->captchaProtection->isRequestLimitReached() || $this->isVueEnabled()) {
-
-            $captchaField = (new TextInput('_captcha'))
-                ->required(true)
-                ->value('')
-                ->label($this->getCaptchaQuestion())
-                ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
-                ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
-
-            if ($this->isVueEnabled()) {
-                $captchaField->label->setText('{{ captchaQuestion }}');
-                $captchaField->wrapper->vIf('captchaQuestion');
-                $captchaField->wrapper->wrap(new TemplateElement());
-            }
-
-            $this->appendContent($captchaField);
-
+        if ($this->captchaProtection->isRequestLimitReached()) {
+            $this->appendContent($this->getCaptchaField());
         }
-
     }
 
     /**
-     * Checks various dependencies for vue-functionality.
-     * @throws MissingVueDependencyException
+     * Returns the TextInput for the captcha.
+     *
+     * @return TextInput
      */
-    private function checkVueDependencies()
+    protected function getCaptchaField(): TextInput
     {
-        $formId = $this->getId();
-        if (is_null($this->requestObject)) {
-            throw new MissingVueDependencyException("No form request object was set for the vue-enabled form with id '$formId'. Supply a form request object via Form::open()->requestObject().'");
-        }
-        if (array_search(FormFactoryFormRequestTrait::class, class_uses_recursive($this->requestObject)) === false) {
-            throw new MissingVueDependencyException("The form request object '$this->requestObject' must use the 'FormFactoryFormRequestTrait' to enable vue-functionality for it's form.");
+        return (new TextInput('_captcha'))
+            ->required(true)
+            ->value('')
+            ->label($this->getCaptchaQuestion())
+            ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
+            ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
+    }
+
+    /**
+     * Perform setup tasks for TimeLimit-protection.
+     *
+     * @throws MandatoryOptionMissingException
+     */
+    private function setUpTimeLimit()
+    {
+
+        if (config('formfactory.time_limit.enabled')) {
+            $captchaRules = $this->rules->getRulesForField('_timeLimit');
+
+            if (isset($captchaRules['timeLimit'])) {
+
+                // TimeLimit-protection only works, if a request-object was stated via the requestObject() method,
+                // so we throw an exception, if this was not the case.
+                if (is_null($this->requestObject)) {
+                    throw new MandatoryOptionMissingException(
+                        'The form with ID "' . $this->getId() . '" should be protected by a time-limit, ' .
+                        'but no request-object was stated via the Form::open()->requestObject() method. ' .
+                        'TimeLimit-protection only works if this is the case.'
+                    );
+                }
+                TimeLimitProtection::setUp($this->requestObject);
+
+                // We also add an errorContainer to display any errors for '_timeLimit' to the form.
+                $this->appendContent(new ErrorContainer('_timeLimit'));
+            }
         }
     }
 

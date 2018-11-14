@@ -39,13 +39,6 @@ class CaptchaProtection
     private $decayTime;
 
     /**
-     * Form element to decorate.
-     *
-     * @var Form
-     */
-    private $form;
-
-    /**
      * Key to use for Laravel's built in rate limier.
      *
      * @var string
@@ -65,13 +58,6 @@ class CaptchaProtection
      * @var string
      */
     private $answer;
-
-    /**
-     * Was the captcha validated.
-     *
-     * @var string
-     */
-    private $limitReached = null;
 
     /**
      * CaptchaProtection constructor.
@@ -181,8 +167,6 @@ class CaptchaProtection
 
     /**
      * Sets the session key, where captcha-data should be saved.
-     *
-     * @return string
      */
     private function setSessionKey()
     {
@@ -202,8 +186,6 @@ class CaptchaProtection
 
     /**
      * Sets the key of the RateLimiter, which is a hash of the formRequestClass and the client-IP.
-     *
-     * @return string
      */
     private function setRateLimiterKey()
     {

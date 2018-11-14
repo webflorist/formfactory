@@ -3,6 +3,7 @@
 namespace Nicat\FormFactory\Components\FormControls\Traits;
 
 use Nicat\FormFactory\Components\Form\Form;
+use Nicat\FormFactory\Components\Form\VueForm;
 use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Nicat\FormFactory\Components\FormControls\FileInput;
@@ -182,7 +183,7 @@ trait FormControlTrait
     }
 
     /**
-     * Is vue enabled for this form-control?
+     * Is vue enabled for this FormControl?
      *
      * @return bool
      */
@@ -192,7 +193,7 @@ trait FormControlTrait
             return false;
         }
 
-        if ($this->belongsToForm() && !$this->form->isVueEnabled()) {
+        if ($this->belongsToForm() && !$this->form->is(VueForm::class)) {
             return false;
         }
 

@@ -4,6 +4,7 @@ namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\CaptchaTestRequest;
 use Illuminate\Routing\Controller;
+use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class CaptchaTestController extends Controller
 {
@@ -15,7 +16,10 @@ class CaptchaTestController extends Controller
 
     public function post(CaptchaTestRequest $request)
     {
-        return ' validated';
+        if ($request->wantsJson()) {
+            return new VueFormSuccessResponse('validated');
+        }
+        return 'validated';
     }
 
 }

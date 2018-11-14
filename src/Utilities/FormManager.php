@@ -70,6 +70,16 @@ class FormManager
     }
 
     /**
+     * Returns all Forms.
+     *
+     * @return Form[]
+     */
+    public function getForms()
+    {
+        return $this->forms;
+    }
+
+    /**
      * Is a form currently open?
      *
      * @return bool

@@ -14,7 +14,8 @@ return [
     'dynamic_list_remove_button_title' => ':attribute entfernen',
     'dynamic_list_maximum_reached' => 'Sie haben die maximale Anzahl erreicht. Sie müssen zuerst ein Element entfernen, um ein neues Element hinzufügen zu können.',
     'mandatory_fields' => 'Pflichtfelder',
-    'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
     'default_success_message' => 'Das Formular wurde erfolgreich abgeschickt.',
-    'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.'
+    'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
+    'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.',
+    'redirect_message' => 'Sie werden in Kürze weitergeleitet.'
 ];

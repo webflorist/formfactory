@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
 use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
 use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\HtmlFactory;
 use Route;

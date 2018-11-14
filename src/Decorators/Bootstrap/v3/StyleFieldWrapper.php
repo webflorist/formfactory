@@ -5,8 +5,6 @@ namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
 use Nicat\FormFactory\Components\Helpers\FieldWrapper;
 use Nicat\FormFactory\Components\FormControls\CheckboxInput;
 use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Utilities\Config\FormFactoryConfig;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldWrapper extends Decorator

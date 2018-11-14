@@ -10,9 +10,9 @@ use Nicat\HtmlFactory\Elements\Abstracts\Element;
 use Nicat\HtmlFactory\Elements\TextareaElement;
 
 /**
- * Object representing a "field" inside the "data.fieldData" object of a VueApp.
+ * Object representing a "field" inside the "data.fieldData" object of a VueInstance.
  *
- * Class VueAppGenerator
+ * Class VueInstanceGenerator
  * @package Nicat\FormFactory
  */
 class Field

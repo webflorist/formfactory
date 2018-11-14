@@ -42,7 +42,7 @@ interface FormControlInterface
     function canHaveHelpText(): bool;
 
     /**
-     * Is vue enabled for this Form?
+     * Is vue enabled for this FormControl?
      *
      * @return bool
      */
