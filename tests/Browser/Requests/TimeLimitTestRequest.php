@@ -3,7 +3,7 @@
 namespace FormFactoryTests\Browser\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
+use Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait;
 
 class TimeLimitTestRequest extends FormRequest
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
-use Nicat\HtmlFactory\Elements\FieldsetElement;
-use Nicat\HtmlFactory\Elements\LegendElement;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\Helpers\HelpTextContainer;
+use Webflorist\HtmlFactory\Elements\FieldsetElement;
+use Webflorist\HtmlFactory\Elements\LegendElement;
 
 class CheckboxGroup
     extends FieldsetElement

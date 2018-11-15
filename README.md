@@ -1,16 +1,16 @@
-# nicat/formfactory
+# webflorist/formfactory
 **Convenient and powerful form builder for Laravel 5.5**
 
 ## Description
-This package provides a form builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlfactory](https://github.com/nic-at/htmlfactory). 
+This package provides a form builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory). 
 
 The main features are:
 * Use static factory methods for all relevant form-elements.
 * Chain fluid method-calls to set HTML-attributes and other properties.
 * Fully use the benefits of IDEs (auto-completion).
-* Style output for specific frontend-frameworks using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorator`-Classes.
+* Style output for specific frontend-frameworks using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorator`-Classes.
 * Keep your views frontend-framework-agnostic.
-* Extend it's features using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorators` and `Components`.
+* Extend it's features using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorators` and `Components`.
 * Produce accessibility-conform valid HTML 5 output.
 * Automatic mapping of Laravel-validation-rules into HTML5-attributes for live-validation by the browser (e.g. laravel rule "required" results in the "required"-property of the HTML-field)
 * Automatic mapping and display of Laravel-error-messages next to their corresponding form-fields.
@@ -19,13 +19,13 @@ The main features are:
 * Easy pre-population of form-fields via a predefined value-array.
 * Anti-bot-mechanisms (honeypot-field, captcha, time-limit)
 * Advanced AJAX-validation-functionality vue.js
-* Generate a Vue Instance for a form and use it to interact with it. (uses [nicat/vuefactory](https://github.com/nic-at/vuefactory))
+* Generate a Vue Instance for a form and use it to interact with it. (uses [webflorist/vuefactory](https://github.com/webflorist/vuefactory))
 * ...and many more.
 
 ## Installation
-1. Require the package via composer:  `composer require nicat/formfactory`
+1. Require the package via composer:  `composer require webflorist/formfactory`
 
-Note that this package is configured for automatic discovery for Laravel. Thus the package's Service Provider `Nicat\FormFactory\FormFactoryServiceProvider` and the `Form`-Facade `Nicat\FormFactory\FormFactoryFacade` will be automatically registered with Laravel.
+Note that this package is configured for automatic discovery for Laravel. Thus the package's Service Provider `Webflorist\FormFactory\FormFactoryServiceProvider` and the `Form`-Facade `Webflorist\FormFactory\FormFactoryFacade` will be automatically registered with Laravel.
 
 When using `VueForms` (see corresponding chapter below), additional setup is required:
 1. `vue.js` 2.0 must be available (e.g. by putting `<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>`).
@@ -35,7 +35,7 @@ When using `VueForms` (see corresponding chapter below), additional setup is req
 
 ## Configuration
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
-https://github.com/nic-at/formfactory/blob/develop/src/config/formfactory.php
+https://github.com/webflorist/formfactory/blob/develop/src/config/formfactory.php
 
 Also be sure to correctly configure the `decorators` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontend-framework in use.
 
@@ -43,7 +43,7 @@ Also be sure to correctly configure the `decorators` in the HtmlFactory-config (
 
 ### Basics
 
-Since this package extends the functionality of [nicat/htmlfactory](https://github.com/nic-at/htmlfactory), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormFactory is identical to [nicat/htmlfactory](https://github.com/nic-at/htmlfactory).
+Since this package extends the functionality of [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormFactory is identical to [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory).
 
 The main difference in usage is, that FormFactory uses it's own `Form`-facade instead of HtmlFactory's `Html`-facade. It also provides some additional methods to control the extended form-functionality.
 
@@ -260,9 +260,9 @@ Here is a list of tags, that can be auto-translated (see example below for requi
 Please note, that if you specifically state this information with the appropriate methods on the call to generate a specific field, that will always take precedence over auto-translation. E.g. `Form::text('myTextField')->label('Use this label')` will always display 'Use this label' as the label - regardless of any available language-keys.
 
 There are three possible sources you can use for auto-translation (FormFactory tries all three until it gets a valid translation):
-* If you are using the [nicat/routetree](https://github.com/nic-at/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
-* If you are using the [nicat/extended-validation](https://github.com/nic-at/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
-* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
+* If you are using the [webflorist/routetree](https://github.com/webflorist/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
+* If you are using the [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
+* If you are not using [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
 
 Let's see an example of the second variant:
 
@@ -270,7 +270,7 @@ Let's see an example of the second variant:
 Contents of the 'attributes' sub-array of \resources\lang\en\validation.php
 ---------------------------------------------------------------------------
 'myTextField' => 'My Beautiful Field',
-'myTextFieldPlaceholder' => 'I love nicat/htmlfactory!',
+'myTextFieldPlaceholder' => 'I love webflorist/htmlfactory!',
 'myTextFieldHelpText' => 'Please enter something nice!',
 'mySelectBox' => 'My Beautiful Select-Box',
 'mySelectBox_myFirstOption' => 'My First Select-Box-Option',
@@ -302,7 +302,7 @@ Generated HTML:
     <input id="myForm__formID" class="form-control" name="_formID" value="myForm" type="hidden">
     <fieldset class="form-group">
         <label for="myForm_myTextField">My Beautiful Field</label>
-        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love nicat/htmlfactory!" type="text">
+        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love webflorist/htmlfactory!" type="text">
         <div class="text-muted small" id="myForm_myTextField_helpText">Please enter something nice!</div>
     </fieldset>
     <fieldset class="form-group">
@@ -400,9 +400,9 @@ Several parts of the form will then be reactive, e.g.:
 To enable usage of VueForms, make sure you have followed the VueForm-specific Installation instructions at the beginning of this README.
 
 Additionally it must be ensured, that a correct JSON-response is returned in both a successful and unsuccessful form submission:
-- The controller-method designated to handle the submit-request should return a `Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse` on a successful request.
-- If validation takes place via a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation), it should include the Trait `Nicat\FormFactory\Vue\FormFactoryFormRequestTrait`.
-- If validation takes place in the controller-method using `$this->validate()`, the controller should include `Nicat\FormFactory\Vue\FormFactoryControllerTrait`.
+- The controller-method designated to handle the submit-request should return a `Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse` on a successful request.
+- If validation takes place via a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation), it should include the Trait `Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait`.
+- If validation takes place in the controller-method using `$this->validate()`, the controller should include `Webflorist\FormFactory\Vue\FormFactoryControllerTrait`.
 
 #### Usage
 
@@ -427,7 +427,7 @@ Form Request (\App\Http\Requests\MyVueFormRequest):
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
+use Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait;
 
 class MyVueFormRequest extends FormRequest
 {
@@ -453,7 +453,7 @@ Controller (App\Http\Controllers\MyVueFormController):
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MyVueFormRequest;
-use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class MyVueFormController extends Controller
 {
@@ -481,7 +481,7 @@ A VueForm can be extended with any kind of frontend-functionality by adding item
 
 By default, the Vue instances and their Options are automatically generated using the `Form::generateVueInstances()` call you added to your master-template (see installation-instructions).
 
-You can however influence or manually initiate the generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')` sometime after he ´Form::close() call. This will return a PHP-object of class `Nicat\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [nicat/vuefactory](https://github.com/nic-at/vuefactory) for additional usage-instructions.
+You can however influence or manually initiate the generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')` sometime after he ´Form::close() call. This will return a PHP-object of class `Webflorist\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [webflorist/vuefactory](https://github.com/webflorist/vuefactory) for additional usage-instructions.
 
 Manual generation into JavaScript-code can be initiated by chaining the ˋgenerate()ˋ command at the end of the call. Be sure to wrap the call within script-tags in this case. Oherwise the code will be generated with your additions automatically with the 'Form::generateVueInstances()' call.
 

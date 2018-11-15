@@ -1,13 +1,13 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Traits;
+namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
-use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
+use Webflorist\FormFactory\Components\Helpers\HelpTextContainer;
 
 /**
  * This traits provides functionality for handling help-texts.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait HelpTextTrait
 {

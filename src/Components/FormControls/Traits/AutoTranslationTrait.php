@@ -1,14 +1,14 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Traits;
+namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
-use Nicat\FormFactory\Utilities\AutoTranslator;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Utilities\AutoTranslator;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * This traits provides functionality regarding auto-translation.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait AutoTranslationTrait
 {

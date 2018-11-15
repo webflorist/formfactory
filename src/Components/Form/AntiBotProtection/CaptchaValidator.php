@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form\AntiBotProtection;
+namespace Webflorist\FormFactory\Components\Form\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Validation\Validator;
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\FormFactory;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\FormFactory;
 
 class CaptchaValidator
 {

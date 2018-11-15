@@ -1,17 +1,17 @@
 <?php
 
-namespace Nicat\FormFactory\Vue;
+namespace Webflorist\FormFactory\Vue;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\Form\VueForm;
-use Nicat\VueFactory\VueInstance;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\VueFactory\VueInstance;
 use stdClass;
 
 /**
  * Generates a vue instance from a Form.
  *
  * Class VueInstanceGenerator
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class VueInstanceGenerator
 {
@@ -111,7 +111,7 @@ class VueInstanceGenerator
         ];
 
         foreach ($langKeys as $langKey) {
-            $lang->{$langKey} = trans("Nicat-FormFactory::formfactory.$langKey");
+            $lang->{$langKey} = trans("Webflorist-FormFactory::formfactory.$langKey");
         }
 
         return $lang;

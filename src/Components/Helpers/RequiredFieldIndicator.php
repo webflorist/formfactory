@@ -1,14 +1,14 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Helpers;
+namespace Webflorist\FormFactory\Components\Helpers;
 
-use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\FormFactory;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\SupElement;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\SupElement;
 
 class RequiredFieldIndicator extends SupElement
 {

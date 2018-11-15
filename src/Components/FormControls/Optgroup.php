@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\HtmlFactory\Elements\OptgroupElement;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\HtmlFactory\Elements\OptgroupElement;
 
 class Optgroup
     extends OptgroupElement

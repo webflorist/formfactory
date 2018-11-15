@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
-use Nicat\FormFactory\Components\Helpers\FieldLabel;
-use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\FormControls\Traits\FieldTrait;
-use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\FormControls\Traits\HelpTextTrait;
-use Nicat\FormFactory\Components\FormControls\Traits\LabelTrait;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\Helpers\HelpTextContainer;
+use Webflorist\FormFactory\Components\Helpers\FieldLabel;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\FieldTrait;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Traits\HelpTextTrait;
+use Webflorist\FormFactory\Components\FormControls\Traits\LabelTrait;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class InputGroup
     extends DivElement

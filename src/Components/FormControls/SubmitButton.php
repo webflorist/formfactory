@@ -1,13 +1,13 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
-use Nicat\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
-use Nicat\HtmlFactory\Components\SubmitButtonComponent;
-use Nicat\HtmlFactory\Components\Traits\HasContext;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
+use Webflorist\HtmlFactory\Components\SubmitButtonComponent;
+use Webflorist\HtmlFactory\Components\Traits\HasContext;
 
 class SubmitButton
     extends SubmitButtonComponent

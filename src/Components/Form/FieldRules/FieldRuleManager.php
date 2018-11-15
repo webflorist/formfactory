@@ -1,15 +1,15 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form\FieldRules;
+namespace Webflorist\FormFactory\Components\Form\FieldRules;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Manages field-rules for forms.
  *
  * Class FieldRuleManager
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class FieldRuleManager
 {
@@ -93,7 +93,7 @@ class FieldRuleManager
      * Fetch rules from the requestObject into $this->rules (if no rules were manually set).
      *
      * @param string $requestObjectClassName
-     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
     public function fetchRulesFromRequestObject(string $requestObjectClassName)
     {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormFactory\Components\Helpers\FieldWrapper;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldWrapper extends Decorator
 {
@@ -43,7 +43,7 @@ class StyleFieldWrapper extends Decorator
 
     /**
      * Perform decorations on $this->element.
-     * @throws \Nicat\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     public function decorate()
     {
@@ -76,7 +76,7 @@ class StyleFieldWrapper extends Decorator
      * Applies error-class, if field has errors.
      * If vue is used, this will be bound.
      *
-     * @throws \Nicat\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     protected function applyErrorClass()
     {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form;
+namespace Webflorist\FormFactory\Components\Form;
 
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
-use Nicat\FormFactory\Vue\FormFactoryFormRequestTrait;
-use Nicat\FormFactory\Vue\VueInstanceGenerator;
-use Nicat\HtmlFactory\Components\AlertComponent;
-use Nicat\HtmlFactory\Elements\DivElement;
-use Nicat\HtmlFactory\Elements\TemplateElement;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Exceptions\MissingVueDependencyException;
+use Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait;
+use Webflorist\FormFactory\Vue\VueInstanceGenerator;
+use Webflorist\HtmlFactory\Components\AlertComponent;
+use Webflorist\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Elements\TemplateElement;
 
 class VueForm extends Form
 {
@@ -30,7 +30,7 @@ class VueForm extends Form
      * Set first parameter to false, to avoid this.
      *
      * @param bool $returnNullIfAlreadyGenerated
-     * @return \Nicat\VueFactory\VueInstance|null
+     * @return \Webflorist\VueFactory\VueInstance|null
      */
     public function getVueInstance($returnNullIfAlreadyGenerated=true)
     {

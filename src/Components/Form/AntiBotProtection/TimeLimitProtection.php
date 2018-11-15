@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form\AntiBotProtection;
+namespace Webflorist\FormFactory\Components\Form\AntiBotProtection;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
 
 class TimeLimitProtection
 {

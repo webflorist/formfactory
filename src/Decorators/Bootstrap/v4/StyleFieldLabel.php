@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Components\Helpers\FieldLabel;
-use Nicat\FormFactory\Components\Helpers\FieldWrapper;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
+use Webflorist\FormFactory\Components\Helpers\FieldLabel;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
 
 class StyleFieldLabel extends Bootstrap3StyleFieldWrapper
 {

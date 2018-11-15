@@ -1,28 +1,28 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Traits;
+namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\Form\VueForm;
-use Nicat\FormFactory\Components\Helpers\FieldWrapper;
-use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\Optgroup;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\Helpers\HelpTextContainer;
-use Nicat\FormFactory\Components\Helpers\FieldLabel;
-use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleProcessor;
-use Nicat\FormFactory\Components\Form\FieldValues\FieldValueProcessor;
-use Nicat\HtmlFactory\Elements\ButtonElement;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\FormControls\Optgroup;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\Helpers\HelpTextContainer;
+use Webflorist\FormFactory\Components\Helpers\FieldLabel;
+use Webflorist\FormFactory\Components\Form\FieldRules\FieldRuleProcessor;
+use Webflorist\FormFactory\Components\Form\FieldValues\FieldValueProcessor;
+use Webflorist\HtmlFactory\Elements\ButtonElement;
 
 /**
  * This traits provides basic functionality for FormControls.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait FormControlTrait
 {

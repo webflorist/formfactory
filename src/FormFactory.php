@@ -1,49 +1,49 @@
 <?php
 
-namespace Nicat\FormFactory;
+namespace Webflorist\FormFactory;
 
-use Nicat\FormFactory\Components\Form\VueForm;
-use Nicat\FormFactory\Components\Helpers\RequiredFieldsLegend;
-use Nicat\FormFactory\Components\FormControls\ButtonGroup;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\CheckboxGroup;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\InputGroup;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\Optgroup;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RadioGroup;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\Exceptions\ElementNotFoundException;
-use Nicat\FormFactory\Exceptions\FormNotFoundException;
-use Nicat\FormFactory\Exceptions\MissingVueDependencyException;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\Utilities\FormManager;
-use Nicat\FormFactory\Vue\VueInstanceGenerator;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\VueFactory\VueInstance;
+use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\FormFactory\Components\Helpers\RequiredFieldsLegend;
+use Webflorist\FormFactory\Components\FormControls\ButtonGroup;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\CheckboxGroup;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\ColorInput;
+use Webflorist\FormFactory\Components\FormControls\DateInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Webflorist\FormFactory\Components\FormControls\EmailInput;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\InputGroup;
+use Webflorist\FormFactory\Components\FormControls\MonthInput;
+use Webflorist\FormFactory\Components\FormControls\NumberInput;
+use Webflorist\FormFactory\Components\FormControls\Optgroup;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\PasswordInput;
+use Webflorist\FormFactory\Components\FormControls\RadioGroup;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Components\FormControls\RangeInput;
+use Webflorist\FormFactory\Components\FormControls\ResetButton;
+use Webflorist\FormFactory\Components\FormControls\SearchInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\FormFactory\Components\FormControls\TelInput;
+use Webflorist\FormFactory\Components\FormControls\Textarea;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\FormControls\TimeInput;
+use Webflorist\FormFactory\Components\FormControls\UrlInput;
+use Webflorist\FormFactory\Components\FormControls\WeekInput;
+use Webflorist\FormFactory\Exceptions\ElementNotFoundException;
+use Webflorist\FormFactory\Exceptions\FormNotFoundException;
+use Webflorist\FormFactory\Exceptions\MissingVueDependencyException;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\FormFactory\Utilities\FormManager;
+use Webflorist\FormFactory\Vue\VueInstanceGenerator;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\VueFactory\VueInstance;
 
 /**
  * The main class of this package.
@@ -51,7 +51,7 @@ use Nicat\VueFactory\VueInstance;
  * as well as general service-methods.
  *
  * Class FormFactory
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  *
  * Input-FormControls:
  * =========
@@ -305,7 +305,7 @@ class FormFactory
             $shortClassName .= 'Input';
         }
 
-        return 'Nicat\\FormFactory\\Components\\FormControls\\'.$shortClassName;
+        return 'Webflorist\\FormFactory\\Components\\FormControls\\'.$shortClassName;
     }
 
     /**

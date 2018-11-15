@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Webflorist\FormFactory\Utilities;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Exceptions\FormNotFoundException;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Exceptions\FormNotFoundException;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
 
 /**
  * Manages Forms.
  *
  * Class FormManager
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class FormManager
 {

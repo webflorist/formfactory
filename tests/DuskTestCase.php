@@ -5,9 +5,9 @@ namespace FormFactoryTests;
 use Gajus\Dindent\Indenter;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Laravel\Dusk\Browser;
-use Nicat\FormFactory\FormFactoryFacade;
-use Nicat\FormFactory\FormFactoryServiceProvider;
-use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
+use Webflorist\FormFactory\FormFactoryFacade;
+use Webflorist\FormFactory\FormFactoryServiceProvider;
+use Webflorist\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase

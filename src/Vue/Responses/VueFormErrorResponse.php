@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Vue\Responses;
+namespace Webflorist\FormFactory\Vue\Responses;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\Validator;
  * Class to create a error-JsonResponse of a VueForm.
  *
  * Class VueFormResponse
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class VueFormErrorResponse extends VueFormResponse
 {

@@ -1,16 +1,16 @@
 {
-    "name": "nicat/formfactory",
+    "name": "webflorist/formfactory",
     "description": "Convenient and powerful form-builder for Laravel 5.5",
     "authors": [
         {
             "name": "Gerald Buttinger",
-            "email": "gerald.buttinger@nic.at"
+            "email": "gerald@code.florist"
         }
     ],
     "require": {
 		"laravel/framework": "5.5.*",
-		"nicat/htmlfactory": "1.1.*",
-        "nicat/vuefactory": "dev-develop@dev"
+		"webflorist/htmlfactory": "1.1.*",
+        "webflorist/vuefactory": "1.0.*"
 	},
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -19,17 +19,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Nicat\\FormFactory\\": "src/",
+            "Webflorist\\FormFactory\\": "src/",
             "FormFactoryTests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Nicat\\FormFactory\\FormFactoryServiceProvider"
+                "Webflorist\\FormFactory\\FormFactoryServiceProvider"
             ],
             "aliases": {
-                "Form": "Nicat\\FormFactory\\FormFactoryFacade"
+                "Form": "Webflorist\\FormFactory\\FormFactoryFacade"
             }
         }
     }

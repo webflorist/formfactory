@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Contracts;
+namespace Webflorist\FormFactory\Components\FormControls\Contracts;
 
 /**
  * This interface defines a FormControl, that can use auto-translation.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 interface AutoTranslationInterface
 {

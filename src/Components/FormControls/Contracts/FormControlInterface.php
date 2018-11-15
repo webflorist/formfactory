@@ -1,14 +1,14 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Contracts;
+namespace Webflorist\FormFactory\Components\FormControls\Contracts;
 
-use Nicat\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\Form\Form;
 
 /**
  * This interface defines a "FormControl".
  * (<input>, <button>, <select>, <textarea>, <optgroup>, <option>)
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 interface FormControlInterface
 {

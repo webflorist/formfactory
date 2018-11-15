@@ -1,17 +1,17 @@
 <?php
 
-namespace Nicat\FormFactory\Vue;
+namespace Webflorist\FormFactory\Vue;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
-use Nicat\FormFactory\Vue\Responses\VueFormErrorResponse;
+use Webflorist\FormFactory\Vue\Responses\VueFormErrorResponse;
 
 /**
  * Use this Trait in your form request objects
  * to create proper responses for VueForms.
  *
  * Class FormFactoryResponseTrait
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait FormFactoryFormRequestTrait
 {

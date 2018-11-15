@@ -1,13 +1,13 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Contracts;
+namespace Webflorist\FormFactory\Components\FormControls\Contracts;
 
 /**
  * This interface defines a "Field".
  * A Field is a form control, that has a 'name' attribute is not a button.
  * (<input>, <select>, <textarea>)
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 interface FieldInterface
 {

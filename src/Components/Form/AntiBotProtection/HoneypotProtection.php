@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form\AntiBotProtection;
+namespace Webflorist\FormFactory\Components\Form\AntiBotProtection;
 
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\Helpers\FieldWrapper;
-use Nicat\FormFactory\FormFactory;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
+use Webflorist\FormFactory\FormFactory;
 
 class HoneypotProtection
 {
@@ -27,7 +27,7 @@ class HoneypotProtection
                 // ...we add the honeypot-field wrapped in a hidden wrapper.
                 $honeypotField = FormFactory::singleton()->text(self::getHoneypotFieldName())
                     ->value("")
-                    ->label(trans('Nicat-FormFactory::formfactory.honeypot_field_label'));
+                    ->label(trans('Webflorist-FormFactory::formfactory.honeypot_field_label'));
 
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()

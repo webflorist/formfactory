@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Traits;
+namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
-use Nicat\FormFactory\Components\Helpers\FieldWrapper;
-use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\Form\FieldRules\FieldRuleManager;
 
 /**
  * This traits provides basic functionality for Fields.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait FieldTrait
 {
@@ -82,7 +82,7 @@ trait FieldTrait
      * Does this field have any rules set?
      *
      * @return bool
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function hasRules(): bool
     {
@@ -93,7 +93,7 @@ trait FieldTrait
      * Get the rules for this field.
      *
      * @return array
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getRules(): array
     {

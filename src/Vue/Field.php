@@ -1,19 +1,19 @@
 <?php
 
-namespace Nicat\FormFactory\Vue;
+namespace Webflorist\FormFactory\Vue;
 
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\TextareaElement;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\TextareaElement;
 
 /**
  * Object representing a "field" inside the "data.fieldData" object of a VueInstance.
  *
  * Class VueInstanceGenerator
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class Field
 {

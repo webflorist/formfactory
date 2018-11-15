@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Webflorist\FormFactory\Utilities;
 
 use Lang;
-use Nicat\ExtendedValidation\ExtendedValidation;
-use Nicat\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
-use Nicat\RouteTree\RouteTree;
+use Webflorist\ExtendedValidation\ExtendedValidation;
+use Webflorist\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Webflorist\RouteTree\RouteTree;
 
 class AutoTranslator
 {
@@ -33,7 +33,7 @@ class AutoTranslator
     public static function autoTranslate(string $translationKey, string $defaultValue = null)
     {
 
-        // If the nicat/routetree package is installed,
+        // If the webflorist/routetree package is installed,
         // we try getting a translation from the 'form' array of the node's contentLangFile.
         if (isset(app()[RouteTree::class])) {
             $translationString = route_tree()->getCurrentNode()->getContentLangFile() . '.form.' . $translationKey;
@@ -42,7 +42,7 @@ class AutoTranslator
             }
         }
 
-        // If the nicat/extended-validation package is installed,
+        // If the webflorist/extended-validation package is installed,
         // we try getting a translation from it's registered attributes.
         if (isset(app()[ExtendedValidation::class]) && app()[ExtendedValidation::class]->hasAttribute($translationKey)) {
             return app()[ExtendedValidation::class]->getAttribute($translationKey);

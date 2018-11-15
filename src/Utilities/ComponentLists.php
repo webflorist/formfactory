@@ -1,40 +1,40 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Webflorist\FormFactory\Utilities;
 
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\Optgroup;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\Optgroup;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Components\FormControls\MonthInput;
+use Webflorist\FormFactory\Components\FormControls\PasswordInput;
+use Webflorist\FormFactory\Components\FormControls\RangeInput;
+use Webflorist\FormFactory\Components\FormControls\ResetButton;
+use Webflorist\FormFactory\Components\FormControls\SearchInput;
+use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\FormFactory\Components\FormControls\TelInput;
+use Webflorist\FormFactory\Components\FormControls\TimeInput;
+use Webflorist\FormFactory\Components\FormControls\UrlInput;
+use Webflorist\FormFactory\Components\FormControls\WeekInput;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\ColorInput;
+use Webflorist\FormFactory\Components\FormControls\DateInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Webflorist\FormFactory\Components\FormControls\EmailInput;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\FormControls\NumberInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Components\FormControls\Textarea;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
 
 /**
  * This class provides some static functions
  * that return various arrays of component/element-classes.
  *
  * Class FormFactory
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  *
  */
 class ComponentLists

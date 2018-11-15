@@ -3,7 +3,7 @@
 namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\CaptchaTestRequest;
-use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class CaptchaTestController extends Controller
 {

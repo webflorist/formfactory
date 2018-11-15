@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormFactory\Vue\Responses;
+namespace Webflorist\FormFactory\Vue\Responses;
 
 use Illuminate\Http\JsonResponse;
-use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
-use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Components\Form\FieldRules\FieldRuleManager;
+use Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Abstract class for the JsonResponse of a VueForm.
  *
  * Class VueFormResponse
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 abstract class VueFormResponse extends JsonResponse
 {

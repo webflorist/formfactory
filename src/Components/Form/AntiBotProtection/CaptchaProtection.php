@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form\AntiBotProtection;
+namespace Webflorist\FormFactory\Components\Form\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
-use Nicat\FormFactory\Components\Form\Form;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\FormFactory;
+use Webflorist\FormFactory\Components\Form\Form;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\FormFactory;
 
 class CaptchaProtection
 {
@@ -136,7 +136,7 @@ class CaptchaProtection
         $num1 = rand(1, 10) * rand(1, 3);
         $num2 = rand(1, 10) * rand(1, 3);
         $this->answer = $num1 + $num2;
-        $this->question = trans('Nicat-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
+        $this->question = trans('Webflorist-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
 
         session()->flash(
             $this->sessionKey,

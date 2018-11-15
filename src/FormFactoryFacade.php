@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory;
+namespace Webflorist\FormFactory;
 
 use Illuminate\Support\Facades\Facade;
 

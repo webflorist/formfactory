@@ -3,7 +3,7 @@
 namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\TimeLimitTestRequest;
-use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class TimeLimitTestController extends Controller
 {

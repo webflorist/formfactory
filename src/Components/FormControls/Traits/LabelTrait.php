@@ -1,13 +1,13 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls\Traits;
+namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
-use Nicat\FormFactory\Components\Helpers\FieldLabel;
+use Webflorist\FormFactory\Components\Helpers\FieldLabel;
 
 /**
  * This traits provides functionality for handling FieldLabels.
  *
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 trait LabelTrait
 {

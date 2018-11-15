@@ -6,13 +6,13 @@ use Form;
 use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
-use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\FormControls\Traits\HelpTextTrait;
-use Nicat\FormFactory\FormFactoryFacade;
-use Nicat\FormFactory\FormFactoryServiceProvider;
-use Nicat\HtmlFactory\HtmlFactoryFacade;
-use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\HelpTextTrait;
+use Webflorist\FormFactory\FormFactoryFacade;
+use Webflorist\FormFactory\FormFactoryServiceProvider;
+use Webflorist\HtmlFactory\HtmlFactoryFacade;
+use Webflorist\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -49,7 +49,7 @@ class TestCase extends BaseTestCase
      * Setup the test environment.
      *
      * @return void
-     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
     protected function setUp()
     {

@@ -1,25 +1,25 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Form;
+namespace Webflorist\FormFactory\Components\Form;
 
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\Helpers\ErrorContainer;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
-use Nicat\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Components\Form\FieldErrors\FieldErrorManager;
-use Nicat\FormFactory\Components\Form\FieldRules\FieldRuleManager;
-use Nicat\FormFactory\Components\Form\FieldValues\FieldValueManager;
-use Nicat\HtmlFactory\Attributes\MethodAttribute;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\FormElement;
-use Nicat\HtmlFactory\Elements\TemplateElement;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
+use Webflorist\FormFactory\Components\Form\FieldErrors\FieldErrorManager;
+use Webflorist\FormFactory\Components\Form\FieldRules\FieldRuleManager;
+use Webflorist\FormFactory\Components\Form\FieldValues\FieldValueManager;
+use Webflorist\HtmlFactory\Attributes\MethodAttribute;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\FormElement;
+use Webflorist\HtmlFactory\Elements\TemplateElement;
 
 class Form extends FormElement
 {
@@ -511,8 +511,8 @@ class Form extends FormElement
             ->required(true)
             ->value('')
             ->label($this->getCaptchaQuestion())
-            ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
-            ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'));
+            ->placeholder(trans('Webflorist-FormFactory::formfactory.captcha_placeholder'))
+            ->helpText(trans('Webflorist-FormFactory::formfactory.captcha_help_text'));
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicList;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleDynamicLists extends Decorator
 {

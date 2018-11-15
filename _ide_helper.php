@@ -2,7 +2,7 @@
 
 namespace {
 
-    use Nicat\FormFactory\FormFactory;
+    use Webflorist\FormFactory\FormFactory;
 
     exit("This file should not be included, only analyzed by your IDE");
 

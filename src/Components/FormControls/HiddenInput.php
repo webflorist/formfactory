@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\FormControls\Traits\FieldTrait;
-use Nicat\FormFactory\Components\FormControls\Contracts\FieldInterface;
-use Nicat\FormFactory\Components\FormControls\Traits\FormControlTrait;
-use Nicat\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Nicat\HtmlFactory\Components\HiddenInputComponent;
+use Webflorist\FormFactory\Components\FormControls\Traits\FieldTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput
     extends HiddenInputComponent

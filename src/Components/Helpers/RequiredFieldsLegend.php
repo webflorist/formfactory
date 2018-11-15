@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Helpers;
+namespace Webflorist\FormFactory\Components\Helpers;
 
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class RequiredFieldsLegend extends DivElement
 {
@@ -16,7 +16,7 @@ class RequiredFieldsLegend extends DivElement
     {
         $this->addClass('text-muted small');
         $this->appendContent(new RequiredFieldIndicator());
-        $this->appendContent(' ' . trans('Nicat-FormFactory::formfactory.mandatory_fields'));
+        $this->appendContent(' ' . trans('Webflorist-FormFactory::formfactory.mandatory_fields'));
     }
 
 }

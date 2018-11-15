@@ -4,8 +4,8 @@ namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use Illuminate\Http\Request;
-use Nicat\FormFactory\Vue\FormFactoryControllerTrait;
-use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
+use Webflorist\FormFactory\Vue\FormFactoryControllerTrait;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class VueFormTestController extends Controller
 {
