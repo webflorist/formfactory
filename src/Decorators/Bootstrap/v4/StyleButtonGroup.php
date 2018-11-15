@@ -8,15 +8,15 @@ class StyleButtonGroup extends Bootstrap3StyleButtonGroup
 {
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
+     * Returns the group-ID of this decorator.
      *
-     * @return string[]
+     * Returning null means this decorator will always be applied.
+     *
+     * @return string|null
      */
-    public static function getSupportedFrameworks(): array
+    public static function getGroupId()
     {
-        return [
-            'bootstrap:4'
-        ];
+        return 'bootstrap:v4';
     }
 
 }

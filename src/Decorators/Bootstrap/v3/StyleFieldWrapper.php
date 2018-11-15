@@ -2,7 +2,7 @@
 
 namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 
-use Webflorist\FormFactory\Components\Additional\FieldWrapper;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
 use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
@@ -18,15 +18,15 @@ class StyleFieldWrapper extends Decorator
     protected $element;
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
+     * Returns the group-ID of this decorator.
      *
-     * @return string[]
+     * Returning null means this decorator will always be applied.
+     *
+     * @return string|null
      */
-    public static function getSupportedFrameworks(): array
+    public static function getGroupId()
     {
-        return [
-            'bootstrap:3'
-        ];
+        return 'bootstrap:v3';
     }
 
     /**
@@ -43,17 +43,14 @@ class StyleFieldWrapper extends Decorator
 
     /**
      * Perform decorations on $this->element.
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     public function decorate()
     {
         $this->element->addClass($this->getFieldWrapperClass());
 
         if (!is_null($this->element->field)) {
-
-            // Add error-class to wrapper, if field has errors.
-            if ($this->element->field->hasErrors()) {
-                $this->element->addClass('has-error');
-            }
+            $this->applyErrorClass();
         }
     }
 
@@ -62,7 +59,7 @@ class StyleFieldWrapper extends Decorator
      *
      * @return string
      */
-    private function getFieldWrapperClass()
+    protected function getFieldWrapperClass()
     {
         if (!is_null($this->element->field) && $this->element->field->is(CheckboxInput::class)) {
             return 'checkbox';
@@ -73,5 +70,27 @@ class StyleFieldWrapper extends Decorator
         }
 
         return 'form-group';
+    }
+
+    /**
+     * Applies error-class, if field has errors.
+     * If vue is used, this will be bound.
+     *
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
+     */
+    protected function applyErrorClass()
+    {
+        $field = $this->element->field;
+
+        // We make this reactive, if vue is used.
+        if ($this->element->field->isVueEnabled()) {
+            $this->element->vBind('class',"{ 'has-error': fieldHasError('".$field->getFieldName()."') }");
+            return;
+        }
+
+        // If vue is not used, we simply add the error-class to the wrapper, if the field has errors.
+        if ($field->errors->hasErrors()) {
+            $this->element->addClass('has-error');
+        }
     }
 }

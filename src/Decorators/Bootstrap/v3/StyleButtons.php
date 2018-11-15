@@ -5,6 +5,7 @@ namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 use Webflorist\FormFactory\Components\FormControls\Button;
 use Webflorist\FormFactory\Components\FormControls\ResetButton;
 use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\FormFactory\Utilities\ComponentLists;
 use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtons extends Decorator
@@ -18,15 +19,15 @@ class StyleButtons extends Decorator
     protected $element;
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
+     * Returns the group-ID of this decorator.
      *
-     * @return string[]
+     * Returning null means this decorator will always be applied.
+     *
+     * @return string|null
      */
-    public static function getSupportedFrameworks(): array
+    public static function getGroupId()
     {
-        return [
-            'bootstrap:3'
-        ];
+        return 'bootstrap:v3';
     }
 
     /**
@@ -36,11 +37,7 @@ class StyleButtons extends Decorator
      */
     public static function getSupportedElements(): array
     {
-        return [
-            Button::class,
-            SubmitButton::class,
-            ResetButton::class
-        ];
+        return ComponentLists::buttons();
     }
 
     /**

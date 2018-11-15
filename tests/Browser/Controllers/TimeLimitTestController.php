@@ -3,7 +3,7 @@
 namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\TimeLimitTestRequest;
-use Illuminate\Routing\Controller;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class TimeLimitTestController extends Controller
 {
@@ -15,6 +15,9 @@ class TimeLimitTestController extends Controller
 
     public function post(TimeLimitTestRequest $request)
     {
+        if ($request->wantsJson()) {
+            return new VueFormSuccessResponse('validated');
+        }
         return 'validated';
     }
 

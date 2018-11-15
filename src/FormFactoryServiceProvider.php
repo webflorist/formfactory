@@ -4,9 +4,9 @@ namespace Webflorist\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
-use Webflorist\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
-use Webflorist\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
-use Webflorist\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
+use Webflorist\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\HtmlFactory;
 use Route;
@@ -36,6 +36,9 @@ class FormFactoryServiceProvider extends ServiceProvider
         // Load translations.
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Webflorist-FormFactory");
 
+        // Load views.
+        $this->loadViewsFrom(__DIR__.'/resources/views/', 'formfactory');
+
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
 
@@ -51,9 +54,6 @@ class FormFactoryServiceProvider extends ServiceProvider
 
         // Register the honeypot-validator, if honeypot-protection is enabled in the config.
         $this->registerHoneypotValidator();
-
-        // Register the routes used for ajax-validation, if ajax-validation is enabled in the config.
-        $this->registerAjaxValidationRoutes();
 
     }
 
@@ -83,20 +83,12 @@ class FormFactoryServiceProvider extends ServiceProvider
         /** @var HtmlFactory $htmlFactory */
         $htmlFactory = app(HtmlFactory::class);
         $htmlFactory->decorators->registerFromFolder(
-            'Webflorist\FormFactory\Decorators\General',
-            __DIR__ . '/Decorators/General'
-        );
-        $htmlFactory->decorators->registerFromFolder(
             'Webflorist\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'
         );
         $htmlFactory->decorators->registerFromFolder(
             'Webflorist\FormFactory\Decorators\Bootstrap\v4',
             __DIR__ . '/Decorators/Bootstrap/v4'
-        );
-        $htmlFactory->decorators->registerFromFolder(
-            'Webflorist\FormFactory\Decorators\Bulma\v0',
-            __DIR__ . '/Decorators/Bulma/v0'
         );
     }
 
@@ -118,7 +110,7 @@ class FormFactoryServiceProvider extends ServiceProvider
     {
         if (config('formfactory.captcha.enabled')) {
 
-            Validator::extendImplicit('captcha', CaptchaProtection::class . '@validate');
+            Validator::extendImplicit('captcha', CaptchaValidator::class . '@validate');
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('captcha', function ($message, $attribute, $rule, $parameters) {
@@ -159,18 +151,6 @@ class FormFactoryServiceProvider extends ServiceProvider
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
                 return trans('Webflorist-FormFactory::formfactory.honeypot_error');
             });
-        }
-    }
-
-    /**
-     * Register the routes used for ajax-validation, if ajax-validation is enabled in the config.
-     */
-    private function registerAjaxValidationRoutes()
-    {
-        if (config('formfactory.ajax_validation.enabled')) {
-            Route::middleware('web')->post('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->put('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->delete('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
         }
     }
 }

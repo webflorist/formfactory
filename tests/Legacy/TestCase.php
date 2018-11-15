@@ -38,6 +38,29 @@ class TestCase extends BaseTestCase
 
         /*
         |--------------------------------------------------------------------------
+        | Vue.js Support
+        |--------------------------------------------------------------------------
+        |
+        | Settings regarding support for vue.js.
+        | This requires vue.js (2.x) to be available in the frontend.
+        |
+         */
+        'vue' => [
+
+            /*
+             * Whether vue-functionality should be enabled at all.
+             */
+            'enabled' => false,
+
+            /*
+             * Whether vue-functionality should be enabled by default for each form.
+             */
+            'default' => false,
+
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
         | 'Honeypot anti-bot protection.
         |--------------------------------------------------------------------------
         |
@@ -108,29 +131,6 @@ class TestCase extends BaseTestCase
 
         ],
 
-        /*
-        |--------------------------------------------------------------------------
-        | Ajax-validation.
-        |--------------------------------------------------------------------------
-        |
-        | Settings regarding ajax-validation.
-        |
-         */
-        'ajax_validation' => [
-
-            /*
-             * Whether ajax-validation should be enabled at all.
-             */
-            'enabled' => true,
-
-            /*
-             * Should an ajax-validation on form-submission be enabled by default for every form?
-             * (Can be overridden explicitly per form by setting the 'ajaxValidation' option
-             * of the Form::open call to 'onSubmit' or false.)
-             */
-            'enable_on_form_submit_by_default' => false,
-
-        ]
     ];
 
     protected $tag = '';
@@ -174,7 +174,6 @@ class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->app['request']->setLaravelSession($this->app['session']->driver('array'));
-
     }
 
     /**
@@ -186,6 +185,7 @@ class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('formfactory', $this->config);
+        $app['config']->set('htmlfactory.decorators', ['bootstrap:v3']);
     }
 
     protected function generateTag()
@@ -392,6 +392,9 @@ class TestCase extends BaseTestCase
 
         // Get the node, that should be checked.
         $node = $parentNode->childNodes->item($key);
+	
+        // Remove any children only consisting of linefeeds and spaces.
+        $this->removeIrrelevantChildren($node);
 
         // Assert, that the node is present at all at the desired location.
         $this->assertNotNull(
@@ -479,19 +482,11 @@ class TestCase extends BaseTestCase
         }
 
         // Assert, that the plain text is identical (only for nodes which contain plain-text and no tags..
-        if (isset($matcher['text'])) {
+        if (isset($node->wholeText)) {
             $this->assertEquals(
                 $matcher['text'],
                 $node->wholeText,
                 $this->generateErrorMsg($humanReadableNode . ' has an unexpected text: "' . $node->wholeText . '".')
-            );
-        }
-
-        // Assert, that no children are present at all, if none are desired.
-        if (!isset($matcher['children']) || (count($matcher['children']) === 0)) {
-            $this->assertFalse(
-                $node->hasChildNodes(),
-                $this->generateErrorMsg($humanReadableNode . ' should have no children at all, but it has.')
             );
         }
 
@@ -500,10 +495,7 @@ class TestCase extends BaseTestCase
         if (isset($matcher['children']) && (count($matcher['children']) > 0)) {
             $desiredChildCount = count($matcher['children']);
         }
-        $actualChildCount = 0;
-        if (is_a($node->childNodes, 'DOMNodeList')) {
-            $actualChildCount = $node->childNodes->length;
-        }
+        $actualChildCount = ($node->hasChildNodes()?$node->childNodes->length:0);
         $this->assertEquals(
             $desiredChildCount,
             $actualChildCount,
@@ -532,5 +524,20 @@ class TestCase extends BaseTestCase
         return false;
     }
 
-
+    /**
+     * Remove any children only consisting of linefeeds and spaces.
+     *
+     * @param DOMNode $node
+     */
+    private function removeIrrelevantChildren(\DOMNode $node)
+    {
+        if ($node->hasChildNodes()) {
+            foreach ($node->childNodes as $child) {
+                if (is_a($child, \DOMText::class) && strlen(trim($child->wholeText)) === 0) {
+                    $node->removeChild($child);
+                    $this->removeIrrelevantChildren($node);
+                }
+            }
+        }
+    }
 }

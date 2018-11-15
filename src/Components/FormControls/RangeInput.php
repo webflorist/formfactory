@@ -2,46 +2,46 @@
 
 namespace Webflorist\FormFactory\Components\FormControls;
 
-use Webflorist\FormFactory\Components\HelpText\HelpTextInterface;
-use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Webflorist\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Webflorist\FormFactory\Components\Traits\CanAutoSubmit;
-use Webflorist\FormFactory\Components\Traits\CanHaveErrors;
-use Webflorist\FormFactory\Components\Traits\CanHaveHelpText;
-use Webflorist\FormFactory\Components\Traits\CanHaveLabel;
-use Webflorist\FormFactory\Components\Traits\CanHaveRules;
-use Webflorist\FormFactory\Components\Traits\CanPerformAjaxValidation;
-use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\FormFactory\Components\FormControls\Traits\FieldTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\HelpTextTrait;
+use Webflorist\FormFactory\Components\FormControls\Traits\LabelTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
 use Webflorist\HtmlFactory\Components\RangeInputComponent;
 
-class RangeInput extends RangeInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface, HelpTextInterface
+class RangeInput
+    extends RangeInputComponent
+    implements FormControlInterface, FieldInterface,   AutoTranslationInterface
 {
-    use CanHaveLabel,
-        CanHaveRules,
-        CanHaveHelpText,
-        UsesAutoTranslation,
-        CanHaveErrors,
-        CanAutoSubmit,
-        CanPerformAjaxValidation;
+    use FormControlTrait,
+        FieldTrait,
+        LabelTrait,
+        HelpTextTrait,
+        AutoTranslationTrait;
 
     /**
-     * Apply a value to a field.
+     * RangeInput constructor.
      *
-     * @param $value
+     * @param string $name
      */
-    public function applyFieldValue($value)
+    public function __construct(string $name)
     {
-        $this->value($value);
+        parent::__construct();
+        $this->name($name);
+        $this->setupFormControl();
     }
 
     /**
-     * Does this field currently have a value set?
-     *
-     * @return bool
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
      */
-    public function fieldHasValue()
+    protected function afterDecoration()
     {
-        return $this->attributes->isSet('value');
+        parent::afterDecoration();
+        $this->processFormControl();
     }
 
 }

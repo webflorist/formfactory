@@ -3,7 +3,7 @@
 namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\HoneypotTestRequest;
-use Illuminate\Routing\Controller;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class HoneypotTestController extends Controller
 {
@@ -20,6 +20,9 @@ class HoneypotTestController extends Controller
 
     public function post(HoneypotTestRequest $request)
     {
+        if ($request->wantsJson()) {
+            return new VueFormSuccessResponse('validated');
+        }
         return 'validated';
     }
 

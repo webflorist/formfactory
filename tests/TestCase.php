@@ -3,8 +3,12 @@
 namespace FormFactoryTests;
 
 use Form;
+use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\HelpTextTrait;
 use Webflorist\FormFactory\FormFactoryFacade;
 use Webflorist\FormFactory\FormFactoryServiceProvider;
 use Webflorist\HtmlFactory\HtmlFactoryFacade;
@@ -14,9 +18,11 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
 class TestCase extends BaseTestCase
 {
 
-    use AssertsHtml, AppliesAttributeSets;
+    use AssertsHtml, AppliesAttributeSets, TestCaseTrait;
 
-    protected $frontendFramework;
+    protected $openForm = true;
+    protected $openVueForm = false;
+    protected $closeForm = true;
 
     protected function getPackageProviders($app)
     {
@@ -36,29 +42,27 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('htmlfactory.frontend_framework', $this->frontendFramework);
-    }
-
-    protected function setFrontendFramework(string $frameworkId,string $frameworkVersion=null) {
-        $frontendFramework = $frameworkId;
-        if (!is_null($frameworkVersion)) {
-            $frontendFramework .= ':'.$frameworkVersion;
-        }
-        $this->frontendFramework = $frontendFramework;
-        $this->refreshApplication();
+        $this->setUpConfig($app);
     }
 
     /**
      * Setup the test environment.
      *
      * @return void
-     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotAllowedException
-     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
     protected function setUp()
     {
         parent::setUp();
-        Form::open('myFormId');
+        if ($this->openForm) {
+
+            if ($this->openVueForm) {
+                Form::vOpen('myFormId');
+            }
+            else {
+                Form::open('myFormId');
+            }
+        }
     }
 
     /**
@@ -68,7 +72,30 @@ class TestCase extends BaseTestCase
      */
     protected function tearDown()
     {
-        Form::close();
+        if ($this->closeForm) {
+            Form::close();
+        }
+    }
+
+    /**
+     * Applies various attributes for a complex test.
+     *
+     * @param FormControlInterface $formControl
+     */
+    protected function applyComplexAttributes(FormControlInterface $formControl)
+    {
+
+        if ($formControl->isAField()) {
+            /** @var FieldInterface $formControl */
+            $formControl->errors(['myFirstError','mySecondError']);
+            $formControl->rules('required|alpha|max:10');
+        }
+
+        if ($formControl->canHaveHelpText()) {
+            /** @var HelpTextTrait $formControl */
+            $formControl->helpText('myHelpText');
+        }
+
     }
 
 

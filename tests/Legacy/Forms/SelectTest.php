@@ -41,13 +41,10 @@ class SelectTest extends FieldTestCase
         $formID = $this->formTemplate['parameters']['id'];
         $fieldName = $this->tagParameters['name'];
 
-        $optionBaseID = $formID . '_' . $fieldName . '_';
-
         $this->matchTagChildren = [
             [
                 'tag' => 'option',
                 'attributes' => [
-                    'id' => $optionBaseID . 'myFirstOption',
                     'value' => 'myFirstOption',
                 ],
                 'children' => [
@@ -59,7 +56,6 @@ class SelectTest extends FieldTestCase
             [
                 'tag' => 'option',
                 'attributes' => [
-                    'id' => $optionBaseID . 'mySecondOption',
                     'value' => 'mySecondOption',
                 ],
                 'children' => [

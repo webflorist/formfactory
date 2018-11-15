@@ -2,31 +2,37 @@
 
 namespace Webflorist\FormFactory\Components\FormControls;
 
-use Webflorist\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Webflorist\FormFactory\Components\Traits\CanHaveErrors;
+use Webflorist\FormFactory\Components\FormControls\Traits\FieldTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Webflorist\HtmlFactory\Components\HiddenInputComponent;
 
-class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInterface
+class HiddenInput
+    extends HiddenInputComponent
+    implements FormControlInterface
 {
-    use CanHaveErrors;
+    use FormControlTrait;
 
     /**
-     * Apply a value to a field.
+     * HiddenInput constructor.
      *
-     * @param $value
+     * @param string $name
      */
-    public function applyFieldValue($value)
+    public function __construct(string $name)
     {
-        $this->value($value);
+        parent::__construct();
+        $this->name($name);
+        $this->setupFormControl();
     }
 
     /**
-     * Does this field currently have a value set?
-     *
-     * @return bool
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
      */
-    public function fieldHasValue()
+    protected function afterDecoration()
     {
-        return $this->attributes->isSet('value');
+        parent::afterDecoration();
+        $this->processFormControl();
     }
 }

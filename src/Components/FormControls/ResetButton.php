@@ -2,15 +2,42 @@
 
 namespace Webflorist\FormFactory\Components\FormControls;
 
-use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\FormFactory\Components\FormControls\Traits\FormControlTrait;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\AutoTranslationTrait;
 use Webflorist\HtmlFactory\Components\ResetButtonComponent;
 use Webflorist\HtmlFactory\Components\Traits\HasContext;
 
-class ResetButton extends ResetButtonComponent implements AutoTranslationInterface
+class ResetButton
+    extends ResetButtonComponent
+    implements FormControlInterface, AutoTranslationInterface
 {
-    use UsesAutoTranslation,
+    use FormControlTrait,
+        AutoTranslationTrait,
         HasContext;
+
+    /**
+     * ResetButton constructor.
+     *
+     * @param string $name
+     */
+    public function __construct(string $name = 'reset')
+    {
+        parent::__construct();
+        $this->name($name);
+        $this->setupFormControl();
+    }
+
+    /**
+     * Gets called after applying decorators.
+     * Overwrite to perform manipulations.
+     */
+    protected function afterDecoration()
+    {
+        parent::afterDecoration();
+        $this->processFormControl();
+    }
 
     /**
      * Returns the base translation-key for auto-translations for this object.

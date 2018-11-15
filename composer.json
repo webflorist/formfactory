@@ -9,7 +9,8 @@
     ],
     "require": {
 		"laravel/framework": "5.5.*",
-		"webflorist/htmlfactory": "1.0.*"
+		"webflorist/htmlfactory": "1.1.*",
+        "webflorist/vuefactory": "1.0.*"
 	},
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -20,6 +21,16 @@
         "psr-4": {
             "Webflorist\\FormFactory\\": "src/",
             "FormFactoryTests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webflorist\\FormFactory\\FormFactoryServiceProvider"
+            ],
+            "aliases": {
+                "Form": "Webflorist\\FormFactory\\FormFactoryFacade"
+            }
         }
     }
 }

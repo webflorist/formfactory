@@ -2,12 +2,12 @@
 
 namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Webflorist\FormFactory\Components\Additional\FieldWrapper;
+use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
-use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
 
-class StyleFieldWrapper extends Decorator
+class StyleFieldWrapper extends Bootstrap3StyleFieldWrapper
 {
 
     /**
@@ -18,15 +18,15 @@ class StyleFieldWrapper extends Decorator
     protected $element;
 
     /**
-     * Returns an array of frontend-framework-ids, this decorator is specific for.
+     * Returns the group-ID of this decorator.
      *
-     * @return string[]
+     * Returning null means this decorator will always be applied.
+     *
+     * @return string|null
      */
-    public static function getSupportedFrameworks(): array
+    public static function getGroupId()
     {
-        return [
-            'bootstrap:4'
-        ];
+        return 'bootstrap:v4';
     }
 
     /**
@@ -43,18 +43,15 @@ class StyleFieldWrapper extends Decorator
 
     /**
      * Perform decorations on $this->element.
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
     public function decorate()
     {
         $this->element->addClass($this->getFieldWrapperClass());
-		$this->element->addClass($this->getFieldWrapperInlineClass());
 
         if (!is_null($this->element->field)) {
 
-            // Add error-class to wrapper, if field has errors.
-            if ($this->element->field->hasErrors()) {
-                $this->element->addClass('has-error');
-            }
+            $this->applyErrorClass();
         }
     }
 
@@ -63,26 +60,25 @@ class StyleFieldWrapper extends Decorator
      *
      * @return string
      */
-    private function getFieldWrapperClass()
+    protected function getFieldWrapperClass()
     {
+        $class = 'form-group';
+
+        // FieldWrappers for RadioInputs, that belong to a RadioGroup do not get the form-group class.
+        if (isset($this->element->field->belongsToGroup) && $this->element->field->belongsToGroup === true) {
+            $class = '';
+        }
+
         if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class))) {
-            return 'form-check';
+            $class .= ' form-check';
+
+            if ($this->element->field->isInline()) {
+                $class .= ' form-check-inline';
+            }
+
         }
 
-        return 'form-group';
+        return $class;
     }
 
-    /**
-     * Returns the correct class for the field's wrapper, if the field should be displayed inline.
-     *
-     * @return string
-     */
-    private function getFieldWrapperInlineClass()
-    {
-        if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class)) && $this->element->field->isInline()) {
-            return 'form-check-inline';
-        }
-		
-		return '';
-    }
 }

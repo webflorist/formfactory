@@ -1,14 +1,14 @@
 # webflorist/formfactory
-**Convenient and powerful form-builder for Laravel 5.5**
+**Convenient and powerful form builder for Laravel 5.5**
 
 ## Description
-This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory). 
+This package provides a form builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory). 
 
 The main features are:
 * Use static factory methods for all relevant form-elements.
 * Chain fluid method-calls to set HTML-attributes and other properties.
 * Fully use the benefits of IDEs (auto-completion).
-* Style output for specific frontend-frameworks using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
+* Style output for specific frontend-frameworks using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorator`-Classes.
 * Keep your views frontend-framework-agnostic.
 * Extend it's features using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorators` and `Components`.
 * Produce accessibility-conform valid HTML 5 output.
@@ -17,22 +17,27 @@ The main features are:
 * Extensive auto-translation-functionality (for field-labels, -placeholders and -help-texts)
 * Allows multiple forms per page with correct values- and error-mappings.
 * Easy pre-population of form-fields via a predefined value-array.
-* On-board AJAX-validation-functionality (onSubmit of form and/or onKeyup/onChange of field)
 * Anti-bot-mechanisms (honeypot-field, captcha, time-limit)
+* Advanced AJAX-validation-functionality vue.js
+* Generate a Vue Instance for a form and use it to interact with it. (uses [webflorist/vuefactory](https://github.com/webflorist/vuefactory))
 * ...and many more.
 
 ## Installation
 1. Require the package via composer:  `composer require webflorist/formfactory`
-2. Add the Service-Provider to config/app.php:  `Webflorist\FormFactory\FormFactoryServiceProvider::class`
-3. Add the Form-facade to config/app.php: `'Form' => Webflorist\FormFactory\FormFactoryFacade::class`
-4. Publish config and javascript:  `php artisan vendor:publish --provider="Webflorist\FormFactory\FormFactoryServiceProvider"`
-5. Include the published javascript-file (`public/vendor/webflorist/formfactory/js/formfactory.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
+
+Note that this package is configured for automatic discovery for Laravel. Thus the package's Service Provider `Webflorist\FormFactory\FormFactoryServiceProvider` and the `Form`-Facade `Webflorist\FormFactory\FormFactoryFacade` will be automatically registered with Laravel.
+
+When using `VueForms` (see corresponding chapter below), additional setup is required:
+1. `vue.js` 2.0 must be available (e.g. by putting `<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>`).
+2. `axios` must be available (e.g. via `<script src="https://unpkg.com/axios/dist/axios.min.js"></script>`).
+3. Put `<script>{!! Form::generateVueInstances() !!}</script>` just above the closing tag of the body-element in your master-template. This makes sure a Vue instance is generated for each VueForm on the current page. 
+4. Be sure `vue.enabled` is set to true in FormFactory's config (which it is by default).
 
 ## Configuration
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
 https://github.com/webflorist/formfactory/blob/develop/src/config/formfactory.php
 
-Also be sure to correctly configure the `frontend_framework` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
+Also be sure to correctly configure the `decorators` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontend-framework in use.
 
 ## Usage
 
@@ -62,7 +67,6 @@ Generated HTML:
 
     <input type="hidden" name="_token" value="eIy29d5nSsCv3KJKF7pQydIHz7IR1OPVJjky9TOM" id="MyFormID__token" />
     <input type="hidden" name="_formID" value="MyFormID" id="MyFormID__formID" />
-    <div role="alert" data-error-container="1" data-displays-general-errors="1" id="d41d8cd98f00b204e9800998ecf8427e_errors" data-displays-errors-for="" hidden style="display:none"></div>
     
     <div data-field-wrapper="1">
         <label for="MyFormID_MyFieldName">MyFieldName</label>
@@ -78,7 +82,6 @@ Generated HTML:
 Let's take a look at some of the magic, that is happening here:
 * The `Form::open()` call already does some stuff for us like setting some default-attributes (e.g. POST as the method or the current url as the action)
 * A hidden input including the laravel CSRF-token is automatically added. (As is a hidden input including the form-id, which is used for various on-board-functionality.)
-* A general error-container is added (hidden by default) to be utilized by ajax-validation.
 * The field is automatically wrapped within a div-element (with bootstrap this element would get the 'form-group' class).
 * The field's label as well as placeholder are automatically added using the field-name (if none other is stated), or an automatic translation (explained later).
 * All relevant elements have an automatically generated ID (format for fields: `%formID%_%fieldName%`)
@@ -87,10 +90,6 @@ Let's take a look at some of the magic, that is happening here:
 If you have any (supported) frontend-framework configured, the output would include the framework-specific styles and classes.
 
 As with all other tags, the opening form-tag, as well as the submit-button can be manipulated by chaining fluid setter-methods (e.g. to change the default-attributes or add additional attributes).
-
-
-
-   
 
 #### A minimal example to create a tag
 Here is a very basic example for the generation of a text-input from within a laravel-blade-template:
@@ -151,7 +150,6 @@ But since this package is built IDE-friendly way, you just have to type e.g. `Fo
 
 Since this package strives to only output valid HTML, the available methods differ from tag to tag. E.g. you can not use the method ->selected() on an input-tag, because it is not allowed according to HTML-standards.
  
-
 ### Advanced Features
 
 Now, that the basic usage of this package was explained, let's continue with some advanced functionality:
@@ -327,21 +325,6 @@ Generated HTML:
 </form>
 ```
 
-#### Ajax validation
-
-FormFactory comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
-* `formfactory.js` must be loaded with your application (see Install-instructions above).
-* The config-key `formfactory.ajax_validation.enabled` must be set to `true` in the `htmlfactory`-config.
-* A [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) must be handed over to the `Form::open()`-call via the `->requestObject()`-method (see `rules`-section above for details). This request-object will be used for ajax-validation.
-
-If these are fulfilled, you have the following options for ajax-validation:
-* **Complete form validation:** This will perform an ajax-validation of the complete form-data, if the submit-button is clicked. If any errors occur, they will be mapped to and displayed at the corresponding form-fields. If no errors occur with the ajax validation, the form will be properly submitted. You can enable ajax validation on form-submission by adding `->ajaxValidation()` to your `Form::open()` call. You can also set the config-key `formfactory.ajax_validation.enable_on_form_submit_by_default` to `true` in the htmlfactory-config, to enable this per default for all your forms. You can then also disable it for selected forms by calling `->ajaxValidation(false)` on your `Form::open()` call.
-* **Single field validation:** In addition (or as an alternative) to the complete form validation, you can also validate a single field, every time a change occurs to it. You can do that by adding `->ajaxValidation()` to the generation of a field (e.g. `Form::text('myTextField')->ajaxValidation()`. There are two possible behaviours to trigger such an ajax validation of a single field:
-  * `onChange`: This will validate the field, when the `onChange`-event of that field is fired (e.g. when leaving text-field or clicking a radio-button). This is the default-behaviour, when adding `->ajaxValidation()` to your field-generation-call.
-  * `onKeyup`: This will validate the field, when the `onKeyup`-event of that field is fired (e.g. every time after pressing a key within a text-field). You can enable this behaviour by passing 'onKeyup' to the `ajaxValidation()`-method (e.g. `Form::text('myTextField')->ajaxValidation('onKeyup')`).
-  
-Ajax validation-requests will be sent to the route `/formfactory_validation`, which is automatically registered by the FormFactoryServiceProvider (if ajax-validation is enabled in the html-builder-config).
-
 #### Anti-bot mechanisms
 
 FormFactory comes with 3 built-in and easy-to-use solutions to protect a form against bots or ddos-attacks. A primary focus of these mechanisms is to maintain the accessibility of your forms, so screen-readers should have no problem with them. (This is also the reason, why the provided captcha-mechanism used a simple text-based mathematical challenge instead of an image-based captcha.) The support for each of these mechanisms must be enabled in the htmlfactory-config (e.g. the config-key `formfactory.honeypot.enabled` enables or disables the support for the honeypot-mechanism). Support for all three mechanisms are enabled by default, but must still be enabled individually for each form. This is done by setting the corresponding rules (either in the [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) you hand over to the `Form::open()`-call via the `->requestObject()`-method, or in the rules-array you state via the `->rules()`-method.
@@ -380,25 +363,6 @@ FormFactory has a build-in captcha-protection based on simple mathematical calcu
 
 E.g. the rule `'_captcha' => 'captcha:10,5'` would display and require a captcha after 10 form-submissions and for 5 minutes (thus overriding the default-values in the config file).
 
-#### Automatically open bootstrap-modal on error
-
-If your form is located inside a bootstrap-modal, you will probably want to open that modal automatically on page-load, if a validation error occurs. This package already includes functionality to achieve this by stating the `id` of the modal via the `modalId()` method on the `Form::open()` call. Here is an example:
-Example:
-```
-<div class="modal" id="myModalId" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                {!! Form::open('myForm')->modalId('myModalId') !!}
-                {!! Form::text('myField') !!}
-                {!! Form::submit('submit') !!}
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
-```
-
 #### Disable automatic mandatory-field-legend
 
 A `Form::close()` call will automatically add an info-text describing mandatory fields (`* Mandatory fields`) to the end of the form.
@@ -409,3 +373,120 @@ Example:
 ```
 {!! Form::close(false) !!}
 ```
+
+#### Changing views
+
+As described in the documentation of HtmlFactory, you can change the view, in which a particular form will be rendered. (see default views for usage). Of course, if you wanted to change the views of ALL Elements of a certain type, publishing and editing the included views would be the better option.
+
+#### Decorating
+
+You can also use DecoratorClasses and the decorate() method to influence the output of your forms and fields. Both are described in the documentation of HtmlFactory.
+
+As with views, you can access and influence several of a FormControl's features (label, errors, help-text, etc.) within decoration.
+
+### VueForms
+
+By default, the forms generated with this package do not have any JavaScript- or AJAX-functionality in place to allow for validation or submission without a new page-reload. To allow a more modern approach, FormFactory can utilize `vue.js` and `axios` to create forms that submit via AJAX and do not required a page-reload. These are called VueForms.
+
+VueForms provide the same set of features as normal Forms (which means existing Forms can be "converted" to VueForms any time). But they open up many further possibilities through Vue's data binding. This allows the extension of any custom frontend-functionality (see Customizability below).
+
+Several parts of the form will then be reactive, e.g.:
+- Field-values will be bound to `fields.fieldName.value`.
+- The 'required' attribute and the indicator for required fields next to the label (by default `<sup>*</sup>`) will be bound to `fields.fieldName.required`.
+- The 'disabled' attribute will be bound to `fields.fieldName.disabled`.
+
+#### Prerequisites
+
+To enable usage of VueForms, make sure you have followed the VueForm-specific Installation instructions at the beginning of this README.
+
+Additionally it must be ensured, that a correct JSON-response is returned in both a successful and unsuccessful form submission:
+- The controller-method designated to handle the submit-request should return a `Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse` on a successful request.
+- If validation takes place via a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation), it should include the Trait `Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait`.
+- If validation takes place in the controller-method using `$this->validate()`, the controller should include `Webflorist\FormFactory\Vue\FormFactoryControllerTrait`.
+
+#### Usage
+
+If the prerequisites are met, the basic usage is identical to FormFactory's normal forms, with the only exception being to use `Form::vOpen()` (instead of `Form::open()`) to create open your form.
+
+Here is a full example for a VueForm:
+```
+Blade Code:
+-----------
+{!! Form::vOpen('MyVueFormID')
+    ->requestObject(\App\Http\Requests\MyVueFormRequest::class)
+    ->action('MyVueFormController@post')
+     !!}
+{!! Form::text('MyTextField') !!}
+{!! Form::submit() !!}
+{!! Form::close() !!}
+
+Form Request (\App\Http\Requests\MyVueFormRequest):
+---------------------------------------------------
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Webflorist\FormFactory\Vue\FormFactoryFormRequestTrait;
+
+class MyVueFormRequest extends FormRequest
+{
+    use FormFactoryFormRequestTrait;
+
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            'MyTextField' => 'required',
+        ];
+    }
+}
+
+Controller (App\Http\Controllers\MyVueFormController):
+------------------
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\MyVueFormRequest;
+use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
+
+class MyVueFormController extends Controller
+{
+
+    public function post(MyVueFormRequest $request)
+    {
+        // Do stuff....
+        
+        return (new VueFormSuccessResponse('Form successfully submitted!'));
+    }
+}
+```
+
+The `VueFormSuccessResponse` can be customized with additional functionality via the following fluent methods:
+
+Method | Description
+-------|--------
+**resetForm**() | Resets the form by setting all field-values to an empty string after delivering the response.
+**redirect**(string $url, int $delay=2000) | Redirects the user to $url after $delay (in ms) after delivering the response. This also appends a sentence telling the user about the upcoming redirect to the success-message.
+
+#### Customizability
+
+##### Vue Options
+A VueForm can be extended with any kind of frontend-functionality by adding items (data, computed properties, methods, etc) to the [Vue Options Object](https://vuejs.org/v2/api/#Options-Data), giving you the full arsenal of Vue.js to modify your form's frontend behaviour.
+
+By default, the Vue instances and their Options are automatically generated using the `Form::generateVueInstances()` call you added to your master-template (see installation-instructions).
+
+You can however influence or manually initiate the generation of the Vue instance for a specific form by calling `Form::vueInstance('MyVueFormID')` sometime after he ´Form::close() call. This will return a PHP-object of class `Webflorist\VueFactory\VueInstance` to which you can add additional Vue options (e.g. methods, computed, watch, etc.) by chaining the corresponding methods. See the documentation of [webflorist/vuefactory](https://github.com/webflorist/vuefactory) for additional usage-instructions.
+
+Manual generation into JavaScript-code can be initiated by chaining the ˋgenerate()ˋ command at the end of the call. Be sure to wrap the call within script-tags in this case. Oherwise the code will be generated with your additions automatically with the 'Form::generateVueInstances()' call.
+
+A VueForm's VueInstance is also accessible in views and decoration via $el->vueInstance.
+
+##### Language Strings
+
+Default language strings are included for various frontend functionality. Use Laravel's usual way of overriding Package language files.

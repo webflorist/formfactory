@@ -10,11 +10,9 @@ Route::post('honeypot-post', '\FormFactoryTests\Browser\Controllers\HoneypotTest
 Route::get('timelimit-get', '\FormFactoryTests\Browser\Controllers\TimeLimitTestController@get');
 Route::post('timelimit-post', '\FormFactoryTests\Browser\Controllers\TimeLimitTestController@post');
 
-Route::get('ajaxvalidation-get-on-form-submit', '\FormFactoryTests\Browser\Controllers\AjaxValidationTestController@getOnFormSubmit');
-Route::get('ajaxvalidation-get-on-field-change', '\FormFactoryTests\Browser\Controllers\AjaxValidationTestController@getOnFieldChange');
-Route::get('ajaxvalidation-get-on-field-key-up', '\FormFactoryTests\Browser\Controllers\AjaxValidationTestController@getOnFieldKeyUp');
-Route::post('ajaxvalidation-post', '\FormFactoryTests\Browser\Controllers\AjaxValidationTestController@post');
+Route::get('vue-redirect', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getRedirect');
+Route::post('vue-redirect', '\FormFactoryTests\Browser\Controllers\VueFormTestController@postRedirect');
+Route::get('vue-redirect-target', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getRedirectTarget');
 
-Route::get('dynamic-lists-get', '\FormFactoryTests\Browser\Controllers\DynamicListsTestController@get');
-Route::get('dynamic-lists-get-with-default-values', '\FormFactoryTests\Browser\Controllers\DynamicListsTestController@getWithDefaultValues');
-Route::post('dynamic-lists-post', '\FormFactoryTests\Browser\Controllers\DynamicListsTestController@post');
+Route::get('vue-controller-errors', '\FormFactoryTests\Browser\Controllers\VueFormTestController@getControllerErrors');
+Route::post('vue-controller-errors', '\FormFactoryTests\Browser\Controllers\VueFormTestController@postControllerErrors');

@@ -12,19 +12,7 @@ use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use AssertsHtml;
-
-    /**
-     * Copies FormFactory-related javascript-files to public directory.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    protected function publishJavaScript($app)
-    {
-        $publicPath = $app->basePath() . '/public/';
-        copy(__DIR__ . '/Browser/public/jquery-3.2.1.min.js', $publicPath . 'jquery-3.2.1.min.js');
-        copy(__DIR__ . '/../src/public/js/formfactory.js', $publicPath . 'formfactory.js');
-    }
+    use AssertsHtml, TestCaseTrait;
 
     /**
      * Define environment setup.
@@ -34,18 +22,6 @@ abstract class DuskTestCase extends BaseTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $this->setupConfiguration($app);
-        $this->loadRoutes($app);
-        $this->publishJavaScript($app);
-    }
-
-    /**
-     * Load configuration settings
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    public function setupConfiguration($app)
-    {
         //Cookie Settings
         $app['config']->set('session.expire_on_close', false);
 
@@ -54,26 +30,14 @@ abstract class DuskTestCase extends BaseTestCase
             __DIR__ . '/Browser/views'
         ]);
 
-        $app['config']->set('htmlfactory.frontend_framework', 'bootstrap:3');
-
-    }
-
-    protected function setFrontendFramework(string $frameworkId, string $frameworkVersion = null)
-    {
-        $frontendFramework = $frameworkId;
-        if (!is_null($frameworkVersion)) {
-            $frontendFramework .= ':' . $frameworkVersion;
-        }
-        $this->tweakApplication(function($app) use ($frontendFramework){
-            $app['config']->set('htmlfactory.frontend_framework', $frontendFramework);
-        });
+        $this->setupConfig($app);
+        $this->loadRoutes($app);
     }
 
     protected function setUp()
     {
         parent::setUp();
     }
-
 
     /**
      * Nicely prints current page source.
@@ -86,7 +50,6 @@ abstract class DuskTestCase extends BaseTestCase
     {
         dd((new Indenter())->indent($browser->driver->getPageSource()));
     }
-
 
     /**
      * Load Routes
@@ -130,6 +93,9 @@ abstract class DuskTestCase extends BaseTestCase
         return $root . '/tests/Browser';
     }
 
-
+    protected function waitForAndAssertSee(Browser $browser, $text) {
+        $browser->waitForText($text);
+        $browser->assertSee($text);
+    }
 
 }

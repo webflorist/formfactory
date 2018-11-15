@@ -96,29 +96,13 @@ class FormTest extends TestCase
             $this->matchTagAttributes['method'] = 'POST';
         }
 
-        // Add hidden-error-container for general errors.
-        $this->matchTagChildren[] = [
-            'tag' => 'div',
-            'attributes' => [
-                'role' => 'alert',
-                'data-error-container' => '1',
-                'data-displays-general-errors' => '1',
-                'class' => 'alert m-b-1 alert-danger',
-                'id' => 'd41d8cd98f00b204e9800998ecf8427e_errors',
-                'data-displays-errors-for' => '',
-                'hidden' => true,
-                'style' => 'display:none'
-            ]
-        ];
-
         // Add hidden-input honeypot field, if one was set.
         if (strlen($this->honeypotFieldName)>0) {
             $this->matchTagChildren[] = [
                 'tag' => 'div',
                 'attributes' => [
                     'hidden' => true,
-                    'class' => 'form-group',
-                    'data-field-wrapper' => '1'
+                    'class' => 'form-group'
                 ],
                 'children' => [
                     [
@@ -133,18 +117,6 @@ class FormTest extends TestCase
                         ]
                     ],
                     [
-                        'tag' => 'div',
-                        'attributes' => [
-                            'role' => 'alert',
-                            'class' => 'alert m-b-1 alert-danger',
-                            'id' => $this->matchTagAttributes['id'].'_'.$this->honeypotFieldName.'_errors',
-                            'data-error-container' => '1',
-                            'data-displays-errors-for' => $this->honeypotFieldName,
-                            'hidden' => true,
-                            'style' => 'display:none'
-                        ]
-                    ],
-                    [
                         'tag' => 'input',
                         'attributes' => [
                             'type' => 'text',
@@ -152,7 +124,6 @@ class FormTest extends TestCase
                             'class' => 'form-control',
                             'name' => $this->honeypotFieldName,
                             'value' => "",
-                            'aria-describedby' => $this->matchTagAttributes['id'].'_'.$this->honeypotFieldName.'_errors',
                             'placeholder' => 'Please leave this field blank.'
                         ]
                     ]
@@ -166,8 +137,7 @@ class FormTest extends TestCase
             $this->matchTagChildren[] = [
                 'tag' => 'div',
                 'attributes' => [
-                    'class' => 'form-group',
-                    'data-field-wrapper' => '1'
+                    'class' => 'form-group'
                 ],
                 'children' => [
                     [
@@ -190,23 +160,11 @@ class FormTest extends TestCase
                         ]
                     ],
                     [
-                        'tag' => 'div',
-                        'attributes' => [
-                            'role' => 'alert',
-                            'class' => 'alert m-b-1 alert-danger',
-                            'id' => $this->matchTagAttributes['id'].'__captcha_errors',
-                            'data-error-container' => '1',
-                            'data-displays-errors-for' => '_captcha',
-                            'hidden' => true,
-                            'style' => 'display:none'
-                        ]
-                    ],
-                    [
                         'tag' => 'input',
                         'attributes' => [
                             'type' => 'text',
                             'id' => $this->matchTagAttributes['id'].'__captcha',
-                            'aria-describedby' => $this->matchTagAttributes['id'].'__captcha_errors ' . $this->matchTagAttributes['id'].'__captcha_helpText',
+                            'aria-describedby' => $this->matchTagAttributes['id'].'__captcha_helpText',
                             'class' => 'form-control',
                             'required' => true,
                             'name' => '_captcha',
@@ -215,7 +173,7 @@ class FormTest extends TestCase
                         ]
                     ],
                     [
-                        'tag' => 'div',
+                        'tag' => 'small',
                         'attributes' => [
                             'class' => 'text-muted small',
                             'id' => $this->matchTagAttributes['id'].'__captcha_helpText',

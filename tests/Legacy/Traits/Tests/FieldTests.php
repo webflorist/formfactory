@@ -41,27 +41,8 @@ trait FieldTests
             ];
         }
 
-        // Hidden error-container
-        $this->errorMatcher = [
-            'tag' => 'div',
-            'attributes' => [
-                'role' => 'alert',
-                'class' => 'alert m-b-1 alert-danger',
-                'data-error-container' => '1',
-                'data-displays-errors-for' => $fieldName,
-                'hidden' => true,
-                'style' => 'display:none'
-            ],
-            'children' => []
-        ];
-
-        if (!isset($this->errorMatcher['attributes']['id'])) {
-            $this->errorMatcher['attributes']['id'] = $fieldID.'_errors';
-        }
-
-        $this->matchTagAttributes['aria-describedby'] = $fieldID.'_errors';
         $this->matchTagAttributes['id'] = $fieldID;
-        $this->matchTagAttributes['name'] = $fieldID;
+        $this->matchTagAttributes['name'] = $fieldName;
 
         /*
         if ($this->tag === 'input') {
@@ -71,76 +52,6 @@ trait FieldTests
 
         if (!isset($this->matchTagAttributes['class'])) {
             $this->matchTagAttributes['class'] = 'form-control';
-        }
-
-    }
-
-    /** Tests:
-    Form::open('myFormName');
-    %tagCall%->autoSubmit()
-     */
-    public function testFieldTag_setAutoSubmit() {
-
-        $this->tagMethods = [
-            [
-                'name' => 'autoSubmit',
-                'parameters' => []
-            ]
-        ];
-
-        $this->performTagTest();
-    }
-
-    /** Tests:
-    Form::open('myFormName');
-    %tagCall%->ajaxValidation('onChange')
-     */
-    public function testFieldTag_setAjaxValidationOnChange() {
-
-        $this->tagMethods = [
-            [
-                'name' => 'ajaxValidation',
-                'parameters' => ['onChange']
-            ]
-        ];
-
-        $this->performTagTest();
-    }
-
-    /** Tests:
-    Form::open('myFormName');
-    %tagCall%->labelMode('none')
-     */
-    public function testFieldTag_setLabelModeNone() {
-
-        if (($this->labelMode !== 'after') && ($this->labelMode !== 'before')) {
-            $this->tagMethods = [
-                [
-                    'name' => 'labelMode',
-                    'parameters' => ['none']
-                ]
-            ];
-
-            $this->performTagTest();
-        }
-
-    }
-
-    /** Tests:
-    Form::open('myFormName');
-    %tagCall%->labelMode('sr-only')
-     */
-    public function testFieldTag_setLabelModeSrOnly() {
-
-        if (($this->labelMode !== 'after') && ($this->labelMode !== 'before')) {
-            $this->tagMethods = [
-                [
-                    'name' => 'labelMode',
-                    'parameters' => ['sr-only']
-                ]
-            ];
-
-            $this->performTagTest();
         }
 
     }
