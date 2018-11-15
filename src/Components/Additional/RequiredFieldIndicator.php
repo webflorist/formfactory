@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\FormFactory;
-use Nicat\HtmlFactory\Elements\SupElement;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\HtmlFactory\Elements\SupElement;
 
 class RequiredFieldIndicator extends SupElement
 {

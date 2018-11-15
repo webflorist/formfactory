@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bulma\v0;
+namespace Webflorist\FormFactory\Decorators\Bulma\v0;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\Additional\FieldWrapper;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldWrapper extends Decorator
 {

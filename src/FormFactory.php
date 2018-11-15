@@ -1,56 +1,56 @@
 <?php
 
-namespace Nicat\FormFactory;
+namespace Webflorist\FormFactory;
 
-use Nicat\FormFactory\Components\Additional\ButtonGroup;
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Components\Additional\RequiredFieldIndicator;
-use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
-use Nicat\FormFactory\Components\Additional\InputGroupAddon;
-use Nicat\FormFactory\Components\Additional\InputGroupButton;
-use Nicat\FormFactory\Components\Additional\InputGroup;
-use Nicat\FormFactory\Components\Additional\Panel;
-use Nicat\FormFactory\Components\Additional\RadioGroup;
-use Nicat\FormFactory\Components\Additional\RequiredFieldsLegend;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\Form;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\Optgroup;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\Exceptions\OpenElementNotFoundException;
-use Nicat\HtmlFactory\Elements\ButtonElement;
-use Nicat\HtmlFactory\Elements\FieldsetElement;
+use Webflorist\FormFactory\Components\Additional\ButtonGroup;
+use Webflorist\FormFactory\Components\Additional\ErrorContainer;
+use Webflorist\FormFactory\Components\Additional\RequiredFieldIndicator;
+use Webflorist\FormFactory\Components\HelpText\HelpTextContainer;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicList;
+use Webflorist\FormFactory\Components\Additional\InputGroupAddon;
+use Webflorist\FormFactory\Components\Additional\InputGroupButton;
+use Webflorist\FormFactory\Components\Additional\InputGroup;
+use Webflorist\FormFactory\Components\Additional\Panel;
+use Webflorist\FormFactory\Components\Additional\RadioGroup;
+use Webflorist\FormFactory\Components\Additional\RequiredFieldsLegend;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\ColorInput;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Webflorist\FormFactory\Components\FormControls\DateInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Webflorist\FormFactory\Components\FormControls\EmailInput;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\Form;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\MonthInput;
+use Webflorist\FormFactory\Components\FormControls\NumberInput;
+use Webflorist\FormFactory\Components\FormControls\Optgroup;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\PasswordInput;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Components\FormControls\RangeInput;
+use Webflorist\FormFactory\Components\FormControls\ResetButton;
+use Webflorist\FormFactory\Components\FormControls\SearchInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\FormFactory\Components\FormControls\TelInput;
+use Webflorist\FormFactory\Components\FormControls\Textarea;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\FormControls\TimeInput;
+use Webflorist\FormFactory\Components\FormControls\UrlInput;
+use Webflorist\FormFactory\Components\FormControls\WeekInput;
+use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
+use Webflorist\HtmlFactory\Elements\ButtonElement;
+use Webflorist\HtmlFactory\Elements\FieldsetElement;
 
 /**
  * The main class of this package.
  * Provides factory methods for all form-tags.
  *
  * Class FormFactory
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  *
  *
  */
@@ -85,8 +85,8 @@ class FormFactory
      *
      * @param string $id
      * @return Form
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public static function open(string $id): Form
     {

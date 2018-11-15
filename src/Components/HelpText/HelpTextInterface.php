@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Components\HelpText;
+namespace Webflorist\FormFactory\Components\HelpText;
 
 interface HelpTextInterface
 {

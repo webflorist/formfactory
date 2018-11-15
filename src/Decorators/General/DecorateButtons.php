@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\General;
+namespace Webflorist\FormFactory\Decorators\General;
 
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\FormFactory\FormFactory;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\ResetButton;
+use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 /**
  * Apply various decorations to FormFactory-fields.
  *
  * Class AutoGenerateButtonTexts
- * @package Nicat\FormFactory\Decorators\General
+ * @package Webflorist\FormFactory\Decorators\General
  */
 class DecorateButtons extends Decorator
 {

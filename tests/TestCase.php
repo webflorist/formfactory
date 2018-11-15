@@ -5,10 +5,10 @@ namespace FormFactoryTests;
 use Form;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
-use Nicat\FormFactory\FormFactoryFacade;
-use Nicat\FormFactory\FormFactoryServiceProvider;
-use Nicat\HtmlFactory\HtmlFactoryFacade;
-use Nicat\HtmlFactory\HtmlFactoryServiceProvider;
+use Webflorist\FormFactory\FormFactoryFacade;
+use Webflorist\FormFactory\FormFactoryServiceProvider;
+use Webflorist\HtmlFactory\HtmlFactoryFacade;
+use Webflorist\HtmlFactory\HtmlFactoryServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -52,8 +52,8 @@ class TestCase extends BaseTestCase
      * Setup the test environment.
      *
      * @return void
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     protected function setUp()
     {

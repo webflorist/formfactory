@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
-use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\HtmlFactory\Components\PanelComponent;
-use Nicat\HtmlFactory\Elements\SpanElement;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicList;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\HtmlFactory\Components\PanelComponent;
+use Webflorist\HtmlFactory\Elements\SpanElement;
 
 class Panel extends PanelComponent implements DynamicListTemplateInterface
 {

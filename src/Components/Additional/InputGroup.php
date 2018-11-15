@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
-use Nicat\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\HtmlFactory\Components\CheckboxInputComponent;
-use Nicat\HtmlFactory\Components\RadioInputComponent;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\ButtonElement;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicList;
+use Webflorist\FormFactory\Components\DynamicLists\DynamicListTemplateInterface;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\Traits\CanHaveLabel;
+use Webflorist\HtmlFactory\Components\CheckboxInputComponent;
+use Webflorist\HtmlFactory\Components\RadioInputComponent;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\ButtonElement;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class InputGroup extends DivElement implements DynamicListTemplateInterface
 {

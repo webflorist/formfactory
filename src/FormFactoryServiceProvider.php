@@ -1,14 +1,14 @@
 <?php
 
-namespace Nicat\FormFactory;
+namespace Webflorist\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\ServiceProvider;
-use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
-use Nicat\HtmlFactory\HtmlFactory;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\HtmlFactory\HtmlFactory;
 use Route;
 use Validator;
 
@@ -18,7 +18,7 @@ class FormFactoryServiceProvider extends ServiceProvider
      * Bootstrap the application services.
      *
      * @return void
-     * @throws \Nicat\HtmlFactory\Exceptions\DecoratorNotFoundException
+     * @throws \Webflorist\HtmlFactory\Exceptions\DecoratorNotFoundException
      */
     public function boot()
     {
@@ -30,11 +30,11 @@ class FormFactoryServiceProvider extends ServiceProvider
 
         // Publish public stuff.
         $this->publishes([
-            __DIR__.'/public' => public_path('vendor/nicat/formfactory'),
+            __DIR__.'/public' => public_path('vendor/webflorist/formfactory'),
         ], 'public');
 
         // Load translations.
-        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Nicat-FormFactory");
+        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Webflorist-FormFactory");
 
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
@@ -76,26 +76,26 @@ class FormFactoryServiceProvider extends ServiceProvider
     /**
      * Register included decorators with HtmlFactory.
      *
-     * @throws \Nicat\HtmlFactory\Exceptions\DecoratorNotFoundException
+     * @throws \Webflorist\HtmlFactory\Exceptions\DecoratorNotFoundException
      */
     private function registerHtmlFactoryDecorators()
     {
         /** @var HtmlFactory $htmlFactory */
         $htmlFactory = app(HtmlFactory::class);
         $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\General',
+            'Webflorist\FormFactory\Decorators\General',
             __DIR__ . '/Decorators/General'
         );
         $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\Bootstrap\v3',
+            'Webflorist\FormFactory\Decorators\Bootstrap\v3',
             __DIR__ . '/Decorators/Bootstrap/v3'
         );
         $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\Bootstrap\v4',
+            'Webflorist\FormFactory\Decorators\Bootstrap\v4',
             __DIR__ . '/Decorators/Bootstrap/v4'
         );
         $htmlFactory->decorators->registerFromFolder(
-            'Nicat\FormFactory\Decorators\Bulma\v0',
+            'Webflorist\FormFactory\Decorators\Bulma\v0',
             __DIR__ . '/Decorators/Bulma/v0'
         );
     }
@@ -122,7 +122,7 @@ class FormFactoryServiceProvider extends ServiceProvider
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('captcha', function ($message, $attribute, $rule, $parameters) {
-                return trans('Nicat-FormFactory::formfactory.captcha_error');
+                return trans('Webflorist-FormFactory::formfactory.captcha_error');
             });
         }
     }
@@ -139,7 +139,7 @@ class FormFactoryServiceProvider extends ServiceProvider
             // We deliver the error configured in the htmlfactory-language-file and replace the time-limit.
             Validator::replacer('timeLimit', function ($message, $attribute, $rule, $parameters) {
 
-                return trans('Nicat-FormFactory::formfactory.time_limit_error', [
+                return trans('Webflorist-FormFactory::formfactory.time_limit_error', [
                     'timeLimit' => TimeLimitProtection::getTimeLimitFromRuleParams($parameters)
                 ]);
             });
@@ -157,7 +157,7 @@ class FormFactoryServiceProvider extends ServiceProvider
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
-                return trans('Nicat-FormFactory::formfactory.honeypot_error');
+                return trans('Webflorist-FormFactory::formfactory.honeypot_error');
             });
         }
     }
@@ -168,9 +168,9 @@ class FormFactoryServiceProvider extends ServiceProvider
     private function registerAjaxValidationRoutes()
     {
         if (config('formfactory.ajax_validation.enabled')) {
-            Route::middleware('web')->post('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->put('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
-            Route::middleware('web')->delete('/formfactory_validation', 'Nicat\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->post('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->put('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
+            Route::middleware('web')->delete('/formfactory_validation', 'Webflorist\FormFactory\Utilities\AjaxValidation\AjaxValidationController@process');
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\AutoTranslation;
+namespace Webflorist\FormFactory\Utilities\AutoTranslation;
 
 interface AutoTranslationInterface
 {

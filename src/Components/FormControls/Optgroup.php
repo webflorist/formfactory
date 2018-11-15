@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\HtmlFactory\Elements\OptgroupElement;
+use Webflorist\HtmlFactory\Elements\OptgroupElement;
 
 class Optgroup extends OptgroupElement
 {

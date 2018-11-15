@@ -1,15 +1,15 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\FieldErrors;
+namespace Webflorist\FormFactory\Utilities\FieldErrors;
 
-use Nicat\FormFactory\Components\Form;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Components\Form;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 /**
  * Manages field-errors for forms.
  *
  * Class FieldErrorManager
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class FieldErrorManager
 {

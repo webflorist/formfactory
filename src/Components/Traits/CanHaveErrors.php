@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Traits;
+namespace Webflorist\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\FormFactory;
+use Webflorist\FormFactory\FormFactory;
 
 
 trait CanHaveErrors
@@ -59,7 +59,7 @@ trait CanHaveErrors
      * Get array of errors for this field.
      *
      * @return array
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getErrors() : array
     {
@@ -85,7 +85,7 @@ trait CanHaveErrors
      * Does this field have errors?
      *
      * @return bool
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function hasErrors()
     {

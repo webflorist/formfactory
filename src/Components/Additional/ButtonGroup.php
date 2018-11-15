@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class ButtonGroup extends DivElement
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\General;
+namespace Webflorist\FormFactory\Decorators\General;
 
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\FormFactory;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 /**
  * Apply various decorations to FormFactory-options.
  *
  * Class DecorateFields
- * @package Nicat\FormFactory\Decorators\General
+ * @package Webflorist\FormFactory\Decorators\General
  */
 class DecorateOptions extends Decorator
 {

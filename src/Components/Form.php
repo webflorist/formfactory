@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormFactory\Components;
+namespace Webflorist\FormFactory\Components;
 
-use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
-use Nicat\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\Utilities\FieldErrors\FieldErrorManager;
-use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueManager;
-use Nicat\HtmlFactory\Elements\FormElement;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\HoneypotProtection;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\TimeLimitProtection;
+use Webflorist\FormFactory\Components\Additional\ErrorContainer;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Utilities\FieldErrors\FieldErrorManager;
+use Webflorist\FormFactory\Utilities\FieldRules\FieldRuleManager;
+use Webflorist\FormFactory\Utilities\FieldValues\FieldValueManager;
+use Webflorist\HtmlFactory\Elements\FormElement;
 
 class Form extends FormElement
 {
@@ -188,8 +188,8 @@ class Form extends FormElement
      *
      * @param string $method
      * @return $this
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotAllowedException
-     * @throws \Nicat\HtmlFactory\Exceptions\AttributeNotFoundException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotAllowedException
+     * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotFoundException
      */
     public function method(string $method)
     {

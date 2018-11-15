@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bulma\v0;
+namespace Webflorist\FormFactory\Decorators\Bulma\v0;
 
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\Components\FormControls\ResetButton;
-use Nicat\FormFactory\Components\FormControls\SubmitButton;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\ResetButton;
+use Webflorist\FormFactory\Components\FormControls\SubmitButton;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtons extends Decorator
 {

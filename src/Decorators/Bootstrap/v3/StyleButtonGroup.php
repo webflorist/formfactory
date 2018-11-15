@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 
-use Nicat\FormFactory\Components\Additional\ButtonGroup;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\Additional\ButtonGroup;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleButtonGroup extends Decorator
 {
