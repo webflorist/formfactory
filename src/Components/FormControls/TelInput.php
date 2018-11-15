@@ -1,18 +1,18 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextInterface;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormFactory\Components\Traits\CanAutoSubmit;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
-use Nicat\FormFactory\Components\Traits\CanPerformAjaxValidation;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
-use Nicat\HtmlFactory\Components\TelInputComponent;
+use Webflorist\FormFactory\Components\HelpText\HelpTextInterface;
+use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Webflorist\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
+use Webflorist\FormFactory\Components\Traits\CanAutoSubmit;
+use Webflorist\FormFactory\Components\Traits\CanHaveErrors;
+use Webflorist\FormFactory\Components\Traits\CanHaveHelpText;
+use Webflorist\FormFactory\Components\Traits\CanHaveLabel;
+use Webflorist\FormFactory\Components\Traits\CanHaveRules;
+use Webflorist\FormFactory\Components\Traits\CanPerformAjaxValidation;
+use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\HtmlFactory\Components\TelInputComponent;
 
 class TelInput extends TelInputComponent implements FieldValueProcessorInterface, AutoTranslationInterface, HelpTextInterface
 {

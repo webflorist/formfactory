@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleButtonGroup as Bootstrap3StyleButtonGroup;
+use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleButtonGroup as Bootstrap3StyleButtonGroup;
 
 class StyleButtonGroup extends Bootstrap3StyleButtonGroup
 {

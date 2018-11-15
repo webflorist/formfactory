@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Traits;
+namespace Webflorist\FormFactory\Components\Traits;
 
 
 trait CanPerformAjaxValidation

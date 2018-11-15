@@ -1,46 +1,46 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\General;
+namespace Webflorist\FormFactory\Decorators\General;
 
-use Nicat\FormFactory\Components\Additional\FieldWrapper;
-use Nicat\FormFactory\Components\FormControls\MonthInput;
-use Nicat\FormFactory\Components\FormControls\PasswordInput;
-use Nicat\FormFactory\Components\FormControls\RangeInput;
-use Nicat\FormFactory\Components\FormControls\SearchInput;
-use Nicat\FormFactory\Components\FormControls\TelInput;
-use Nicat\FormFactory\Components\FormControls\TimeInput;
-use Nicat\FormFactory\Components\FormControls\UrlInput;
-use Nicat\FormFactory\Components\FormControls\WeekInput;
-use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessor;
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\ColorInput;
-use Nicat\FormFactory\Components\FormControls\DateInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeInput;
-use Nicat\FormFactory\Components\FormControls\DatetimeLocalInput;
-use Nicat\FormFactory\Components\FormControls\EmailInput;
-use Nicat\FormFactory\Components\FormControls\FileInput;
-use Nicat\FormFactory\Components\FormControls\HiddenInput;
-use Nicat\FormFactory\Components\FormControls\NumberInput;
-use Nicat\FormFactory\Components\FormControls\Option;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\FormFactory\Components\FormControls\Select;
-use Nicat\FormFactory\Components\FormControls\Textarea;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Components\Traits\CanHaveHelpText;
-use Nicat\FormFactory\Components\Traits\CanHaveLabel;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsPlaceholderAttribute;
+use Webflorist\FormFactory\Components\Additional\FieldWrapper;
+use Webflorist\FormFactory\Components\FormControls\MonthInput;
+use Webflorist\FormFactory\Components\FormControls\PasswordInput;
+use Webflorist\FormFactory\Components\FormControls\RangeInput;
+use Webflorist\FormFactory\Components\FormControls\SearchInput;
+use Webflorist\FormFactory\Components\FormControls\TelInput;
+use Webflorist\FormFactory\Components\FormControls\TimeInput;
+use Webflorist\FormFactory\Components\FormControls\UrlInput;
+use Webflorist\FormFactory\Components\FormControls\WeekInput;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\FormFactory\Utilities\FieldRules\FieldRuleProcessor;
+use Webflorist\FormFactory\Utilities\FieldValues\FieldValueProcessor;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\ColorInput;
+use Webflorist\FormFactory\Components\FormControls\DateInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
+use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Webflorist\FormFactory\Components\FormControls\EmailInput;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\NumberInput;
+use Webflorist\FormFactory\Components\FormControls\Option;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Components\FormControls\Textarea;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Components\Traits\CanHaveHelpText;
+use Webflorist\FormFactory\Components\Traits\CanHaveLabel;
+use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsPlaceholderAttribute;
 
 /**
  * Apply various decorations to FormFactory-fields.
  *
  * Class DecorateFields
- * @package Nicat\FormFactory\Decorators\General
+ * @package Webflorist\FormFactory\Decorators\General
  */
 class DecorateFields extends Decorator
 {

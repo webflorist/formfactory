@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Components\DynamicLists;
+namespace Webflorist\FormFactory\Components\DynamicLists;
 
-use Nicat\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\Button;
 
 interface DynamicListTemplateInterface
 {

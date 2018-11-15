@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bulma\v0;
+namespace Webflorist\FormFactory\Decorators\Bulma\v0;
 
-use Nicat\FormFactory\Components\Additional\FieldLabel;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\Additional\FieldLabel;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleFieldLabel extends Decorator
 {

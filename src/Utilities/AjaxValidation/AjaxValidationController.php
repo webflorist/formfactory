@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\AjaxValidation;
+namespace Webflorist\FormFactory\Utilities\AjaxValidation;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
-use Nicat\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Utilities\AntiBotProtection\CaptchaProtection;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Validator;
 
 class AjaxValidationController extends Controller
@@ -16,7 +16,7 @@ class AjaxValidationController extends Controller
      * Controller-method for ajax-validation.
      *
      * @return JsonResponse
-     * @throws \Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException
      * @throws MandatoryOptionMissingException
      */
     public function process()

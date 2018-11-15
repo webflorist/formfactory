@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Traits;
+namespace Webflorist\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Utilities\FieldRules\FieldRuleManager;
-use Nicat\FormFactory\FormFactory;
+use Webflorist\FormFactory\Utilities\FieldRules\FieldRuleManager;
+use Webflorist\FormFactory\FormFactory;
 
 trait CanHaveRules
 {
@@ -32,7 +32,7 @@ trait CanHaveRules
      * Does this field have any rules set?
      *
      * @return bool
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function hasRules() : bool
     {
@@ -43,7 +43,7 @@ trait CanHaveRules
      * Get the rules for this field.
      *
      * @return array
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getRules() : array
     {

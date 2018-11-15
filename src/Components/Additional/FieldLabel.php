@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\Components\FormControls\CheckboxInput;
-use Nicat\FormFactory\Components\FormControls\RadioInput;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\LabelElement;
+use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\RadioInput;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\LabelElement;
 
 class FieldLabel extends LabelElement
 {

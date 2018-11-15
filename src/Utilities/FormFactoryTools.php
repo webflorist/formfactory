@@ -1,15 +1,15 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities;
+namespace Webflorist\FormFactory\Utilities;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Nicat\FormFactory\Exceptions\FormRequestClassNotFoundException;
+use Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException;
 
 /**
  * This class provides some static functions for general use.
  *
  * Class FormFactory
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  *
  */
 class FormFactoryTools

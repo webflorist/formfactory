@@ -1,12 +1,12 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
-use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
-use Nicat\HtmlFactory\Elements\OptionElement;
+use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\HtmlFactory\Elements\OptionElement;
 
 class Option extends OptionElement implements AutoTranslationInterface
 {
@@ -17,7 +17,7 @@ class Option extends OptionElement implements AutoTranslationInterface
      * Returns the base translation-key for auto-translations for this object.
      *
      * @return string
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     public function getAutoTranslationKey(): string
     {

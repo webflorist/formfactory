@@ -1,19 +1,19 @@
 <?php
 
-namespace Nicat\FormFactory\Components\DynamicLists;
+namespace Webflorist\FormFactory\Components\DynamicLists;
 
-use Nicat\FormFactory\Components\Additional\ErrorContainer;
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
-use Nicat\FormFactory\Components\FormControls\Button;
-use Nicat\FormFactory\FormFactory;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
-use Nicat\HtmlFactory\Components\AlertComponent;
-use Nicat\HtmlFactory\Elements\Abstracts\ContainerElement;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\DivElement;
-use Nicat\HtmlFactory\Elements\FieldsetElement;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsDisabledAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsNameAttribute;
+use Webflorist\FormFactory\Components\Additional\ErrorContainer;
+use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslator;
+use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\HtmlFactory\Components\AlertComponent;
+use Webflorist\HtmlFactory\Elements\Abstracts\ContainerElement;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Elements\FieldsetElement;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsDisabledAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsNameAttribute;
 
 class DynamicList extends FieldsetElement
 {
@@ -145,7 +145,7 @@ class DynamicList extends FieldsetElement
      * Gets called after applying decorators.
      * Overwrite to perform manipulations.
      *
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function afterDecoration()
     {
@@ -196,7 +196,7 @@ class DynamicList extends FieldsetElement
      * Establishes list of itemKeys, that should already be rendered on output.
      * (e.g. default-values or submitted values).
      *
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function addPreRenderedItems()
     {
@@ -355,7 +355,7 @@ class DynamicList extends FieldsetElement
      * Tries to get $this->dynamicListMinItems and $this->dynamicListMaxItems from the rules,
      * if not set on dynamicList()-call.
      *
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function establishMinAndMaxItems()
     {
@@ -406,7 +406,7 @@ class DynamicList extends FieldsetElement
      * Establishes a list of item-keys, that should be pre-rendered with this dynamic list.
      *
      * @return int[]
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     protected function getItemListToPreRender(): array
     {
@@ -491,7 +491,7 @@ class DynamicList extends FieldsetElement
     /**
      * Generates the Button used for $this->addItemButton.
      *
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     private function generateAddItemButton()
     {
@@ -507,7 +507,7 @@ class DynamicList extends FieldsetElement
                 ucfirst($arrayStrippedAttribute)
             );
 
-            $addButtonLabel = trans('Nicat-FormFactory::formfactory.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
+            $addButtonLabel = trans('Webflorist-FormFactory::formfactory.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
         }
 
         $this->addItemButton = (new Button())
@@ -526,7 +526,7 @@ class DynamicList extends FieldsetElement
     {
         $this->maximumReachedAlert = (new AlertComponent('info'))
             ->hidden()
-            ->content(trans('Nicat-FormFactory::formfactory.dynamic_list_maximum_reached'))
+            ->content(trans('Webflorist-FormFactory::formfactory.dynamic_list_maximum_reached'))
             ->data('dynamiclist-maxalert', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID());
     }
@@ -544,7 +544,7 @@ class DynamicList extends FieldsetElement
             ucfirst($arrayStrippedAttribute)
         );
 
-        $removeButtonLabel = trans('Nicat-FormFactory::formfactory.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
+        $removeButtonLabel = trans('Webflorist-FormFactory::formfactory.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
 
         $this->removeItemButton = (new Button())
             ->title($removeButtonLabel)

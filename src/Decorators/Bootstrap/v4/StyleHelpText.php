@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Components\HelpText\HelpTextContainer;
-use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\FormFactory\Components\HelpText\HelpTextContainer;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
 class StyleHelpText extends Decorator
 {

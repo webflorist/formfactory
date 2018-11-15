@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
-use Nicat\FormFactory\Components\Traits\UsesAutoTranslation;
-use Nicat\HtmlFactory\Components\Traits\HasContext;
-use Nicat\HtmlFactory\Elements\ButtonElement;
+use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslationInterface;
+use Webflorist\FormFactory\Components\Traits\UsesAutoTranslation;
+use Webflorist\HtmlFactory\Components\Traits\HasContext;
+use Webflorist\HtmlFactory\Elements\ButtonElement;
 
 class Button extends ButtonElement implements AutoTranslationInterface
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v4;
+namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Nicat\FormFactory\Decorators\Bootstrap\v3\StyleDynamicLists as Bootstrap3StyleDynamicLists;
+use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleDynamicLists as Bootstrap3StyleDynamicLists;
 
 class StyleDynamicLists extends Bootstrap3StyleDynamicLists
 {

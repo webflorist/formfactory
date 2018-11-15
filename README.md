@@ -1,16 +1,16 @@
-# nicat/formfactory
+# webflorist/formfactory
 **Convenient and powerful form-builder for Laravel 5.5**
 
 ## Description
-This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [nicat/htmlfactory](https://github.com/nic-at/htmlfactory). 
+This package provides a form-builder for building whole forms in Laravel 5.5 views without the need to write any HTML. It builds on basic functionality provided by [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory). 
 
 The main features are:
 * Use static factory methods for all relevant form-elements.
 * Chain fluid method-calls to set HTML-attributes and other properties.
 * Fully use the benefits of IDEs (auto-completion).
-* Style output for specific frontend-frameworks using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
+* Style output for specific frontend-frameworks using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorator`-Classes. (Currently the package comes with on-board-support for Bootstrap 3.)
 * Keep your views frontend-framework-agnostic.
-* Extend it's features using [nicat/htmlfactory](https://github.com/nic-at/htmlfactory)'s `Decorators` and `Components`.
+* Extend it's features using [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory)'s `Decorators` and `Components`.
 * Produce accessibility-conform valid HTML 5 output.
 * Automatic mapping of Laravel-validation-rules into HTML5-attributes for live-validation by the browser (e.g. laravel rule "required" results in the "required"-property of the HTML-field)
 * Automatic mapping and display of Laravel-error-messages next to their corresponding form-fields.
@@ -22,15 +22,15 @@ The main features are:
 * ...and many more.
 
 ## Installation
-1. Require the package via composer:  `composer require nicat/formfactory`
-2. Add the Service-Provider to config/app.php:  `Nicat\FormFactory\FormFactoryServiceProvider::class`
-3. Add the Form-facade to config/app.php: `'Form' => Nicat\FormFactory\FormFactoryFacade::class`
-4. Publish config and javascript:  `php artisan vendor:publish --provider="Nicat\FormFactory\FormFactoryServiceProvider"`
-5. Include the published javascript-file (`public/vendor/nicat/formfactory/js/formfactory.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
+1. Require the package via composer:  `composer require webflorist/formfactory`
+2. Add the Service-Provider to config/app.php:  `Webflorist\FormFactory\FormFactoryServiceProvider::class`
+3. Add the Form-facade to config/app.php: `'Form' => Webflorist\FormFactory\FormFactoryFacade::class`
+4. Publish config and javascript:  `php artisan vendor:publish --provider="Webflorist\FormFactory\FormFactoryServiceProvider"`
+5. Include the published javascript-file (`public/vendor/webflorist/formfactory/js/formfactory.js`) in your master-template (only required for ajax-validation and dynamic-list-functionality).
 
 ## Configuration
 The package can be configured via `config/formfactory.php`. Please see the inline-documentation of this file for explanations of the various settings:
-https://github.com/nic-at/formfactory/blob/develop/src/config/formfactory.php
+https://github.com/webflorist/formfactory/blob/develop/src/config/formfactory.php
 
 Also be sure to correctly configure the `frontend_framework` in the HtmlFactory-config (at `config/htmlfactory.php`), so the proper _Decorators_ are applied and the generated output includes all necessary styles for the frontent-framework in use. Currently only 'bootstrap:3' is supported.
 
@@ -38,7 +38,7 @@ Also be sure to correctly configure the `frontend_framework` in the HtmlFactory-
 
 ### Basics
 
-Since this package extends the functionality of [nicat/htmlfactory](https://github.com/nic-at/htmlfactory), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormFactory is identical to [nicat/htmlfactory](https://github.com/nic-at/htmlfactory).
+Since this package extends the functionality of [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory), it is recommended to read at least the 'Basics'-section of that package. The basic usage (building of HTML-elements with fluid setter-methods - e.g. to set HTML-attributes) of FormFactory is identical to [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory).
 
 The main difference in usage is, that FormFactory uses it's own `Form`-facade instead of HtmlFactory's `Html`-facade. It also provides some additional methods to control the extended form-functionality.
 
@@ -262,9 +262,9 @@ Here is a list of tags, that can be auto-translated (see example below for requi
 Please note, that if you specifically state this information with the appropriate methods on the call to generate a specific field, that will always take precedence over auto-translation. E.g. `Form::text('myTextField')->label('Use this label')` will always display 'Use this label' as the label - regardless of any available language-keys.
 
 There are three possible sources you can use for auto-translation (FormFactory tries all three until it gets a valid translation):
-* If you are using the [nicat/routetree](https://github.com/nic-at/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
-* If you are using the [nicat/extended-validation](https://github.com/nic-at/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
-* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
+* If you are using the [webflorist/routetree](https://github.com/webflorist/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
+* If you are using the [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
+* If you are not using [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
 
 Let's see an example of the second variant:
 
@@ -272,7 +272,7 @@ Let's see an example of the second variant:
 Contents of the 'attributes' sub-array of \resources\lang\en\validation.php
 ---------------------------------------------------------------------------
 'myTextField' => 'My Beautiful Field',
-'myTextFieldPlaceholder' => 'I love nicat/htmlfactory!',
+'myTextFieldPlaceholder' => 'I love webflorist/htmlfactory!',
 'myTextFieldHelpText' => 'Please enter something nice!',
 'mySelectBox' => 'My Beautiful Select-Box',
 'mySelectBox_myFirstOption' => 'My First Select-Box-Option',
@@ -304,7 +304,7 @@ Generated HTML:
     <input id="myForm__formID" class="form-control" name="_formID" value="myForm" type="hidden">
     <fieldset class="form-group">
         <label for="myForm_myTextField">My Beautiful Field</label>
-        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love nicat/htmlfactory!" type="text">
+        <input id="myForm_myTextField" class="form-control" aria-describedby="myForm_myTextField_helpText" name="myTextField" value="" placeholder="I love webflorist/htmlfactory!" type="text">
         <div class="text-muted small" id="myForm_myTextField_helpText">Please enter something nice!</div>
     </fieldset>
     <fieldset class="form-group">

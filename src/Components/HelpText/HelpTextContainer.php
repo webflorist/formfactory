@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\HelpText;
+namespace Webflorist\FormFactory\Components\HelpText;
 
-use Nicat\HtmlFactory\Attributes\Traits\AllowsAriaDescribedbyAttribute;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsAriaDescribedbyAttribute;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class HelpTextContainer extends DivElement
 {

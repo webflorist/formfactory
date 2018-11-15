@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\AntiBotProtection;
+namespace Webflorist\FormFactory\Utilities\AntiBotProtection;
 
 use Illuminate\Cache\RateLimiter;
-use Nicat\FormFactory\Components\Form;
-use Nicat\FormFactory\Components\FormControls\TextInput;
-use Nicat\FormFactory\Exceptions\MandatoryOptionMissingException;
+use Webflorist\FormFactory\Components\Form;
+use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Exceptions\MandatoryOptionMissingException;
 
 class CaptchaProtection
 {
@@ -74,8 +74,8 @@ class CaptchaProtection
                     ->required(true)
                     ->value('')
                     ->label($captchaData['question'])
-                    ->placeholder(trans('Nicat-FormFactory::formfactory.captcha_placeholder'))
-                    ->helpText(trans('Nicat-FormFactory::formfactory.captcha_help_text'))
+                    ->placeholder(trans('Webflorist-FormFactory::formfactory.captcha_placeholder'))
+                    ->helpText(trans('Webflorist-FormFactory::formfactory.captcha_help_text'))
             );
 
         }
@@ -182,7 +182,7 @@ class CaptchaProtection
         $num1 = rand(1, 10) * rand(1, 3);
         $num2 = rand(1, 10) * rand(1, 3);
         $answer = $num1 + $num2;
-        $question = trans('Nicat-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
+        $question = trans('Webflorist-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
         return [
             'question' => $question,
             'answer' => $answer,

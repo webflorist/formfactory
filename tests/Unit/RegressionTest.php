@@ -4,7 +4,7 @@ namespace FormFactoryTests\Unit;
 
 use Form;
 use FormFactoryTests\TestCase;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 class RegressionTest extends TestCase
 {

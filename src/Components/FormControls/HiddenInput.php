@@ -1,10 +1,10 @@
 <?php
 
-namespace Nicat\FormFactory\Components\FormControls;
+namespace Webflorist\FormFactory\Components\FormControls;
 
-use Nicat\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
-use Nicat\FormFactory\Components\Traits\CanHaveErrors;
-use Nicat\HtmlFactory\Components\HiddenInputComponent;
+use Webflorist\FormFactory\Utilities\FieldValues\FieldValueProcessorInterface;
+use Webflorist\FormFactory\Components\Traits\CanHaveErrors;
+use Webflorist\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInterface
 {

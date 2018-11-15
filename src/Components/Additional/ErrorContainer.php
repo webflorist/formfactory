@@ -1,11 +1,11 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\FormFactory\FormFactory;
-use Nicat\HtmlFactory\Components\AlertComponent;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\FormFactory\FormFactory;
+use Webflorist\HtmlFactory\Components\AlertComponent;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class ErrorContainer extends AlertComponent
 {
@@ -107,7 +107,7 @@ class ErrorContainer extends AlertComponent
     /**
      * Adds all errors for all fields within $this->errorFieldElements and $this->errorFieldNames.
      *
-     * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
     private function addErrors()
     {

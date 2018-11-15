@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Additional;
+namespace Webflorist\FormFactory\Components\Additional;
 
-use Nicat\HtmlFactory\Elements\ButtonElement;
-use Nicat\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Elements\ButtonElement;
+use Webflorist\HtmlFactory\Elements\DivElement;
 
 class InputGroupButton extends DivElement
 {

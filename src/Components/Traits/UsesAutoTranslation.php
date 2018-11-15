@@ -1,9 +1,9 @@
 <?php
 
-namespace Nicat\FormFactory\Components\Traits;
+namespace Webflorist\FormFactory\Components\Traits;
 
-use Nicat\FormFactory\Utilities\AutoTranslation\AutoTranslator;
-use Nicat\FormFactory\Utilities\FormFactoryTools;
+use Webflorist\FormFactory\Utilities\AutoTranslation\AutoTranslator;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 trait UsesAutoTranslation
 {

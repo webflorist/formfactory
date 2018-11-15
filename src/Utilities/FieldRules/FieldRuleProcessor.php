@@ -1,24 +1,24 @@
 <?php
 
-namespace Nicat\FormFactory\Utilities\FieldRules;
+namespace Webflorist\FormFactory\Utilities\FieldRules;
 
 
-use Nicat\FormFactory\Components\Traits\CanHaveRules;
-use Nicat\HtmlFactory\Elements\Abstracts\Element;
-use Nicat\HtmlFactory\Elements\InputElement;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsMaxAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsMaxlengthAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsMinAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsPatternAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsRequiredAttribute;
-use Nicat\HtmlFactory\Attributes\Traits\AllowsTypeAttribute;
+use Webflorist\FormFactory\Components\Traits\CanHaveRules;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\InputElement;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsMaxAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsMaxlengthAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsMinAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsPatternAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsRequiredAttribute;
+use Webflorist\HtmlFactory\Attributes\Traits\AllowsTypeAttribute;
 
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
  *
  * Class FieldRuleProcessor
- * @package Nicat\FormFactory
+ * @package Webflorist\FormFactory
  */
 class FieldRuleProcessor
 {
