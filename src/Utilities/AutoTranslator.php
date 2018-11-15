@@ -3,7 +3,7 @@
 namespace Webflorist\FormFactory\Utilities;
 
 use Lang;
-use Webflorist\ExtendedValidation\ExtendedValidation;
+use Nicat\ExtendedValidation\ExtendedValidation;
 use Webflorist\FormFactory\Components\FormControls\Contracts\AutoTranslationInterface;
 use Webflorist\RouteTree\RouteTree;
 
@@ -42,7 +42,8 @@ class AutoTranslator
             }
         }
 
-        // If the webflorist/extended-validation package is installed,
+
+        // If the nicat/extended-validation package is installed,
         // we try getting a translation from it's registered attributes.
         if (isset(app()[ExtendedValidation::class]) && app()[ExtendedValidation::class]->hasAttribute($translationKey)) {
             return app()[ExtendedValidation::class]->getAttribute($translationKey);
