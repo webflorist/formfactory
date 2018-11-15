@@ -19,4 +19,14 @@ class HiddenInput extends HiddenInputComponent implements FieldValueProcessorInt
     {
         $this->value($value);
     }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('value');
+    }
 }

@@ -94,6 +94,10 @@ class FormFactoryServiceProvider extends ServiceProvider
             'Nicat\FormFactory\Decorators\Bootstrap\v4',
             __DIR__ . '/Decorators/Bootstrap/v4'
         );
+        $htmlFactory->decorators->registerFromFolder(
+            'Nicat\FormFactory\Decorators\Bulma\v0',
+            __DIR__ . '/Decorators/Bulma/v0'
+        );
     }
 
     /**

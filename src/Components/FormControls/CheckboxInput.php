@@ -31,6 +31,16 @@ class CheckboxInput extends CheckboxInputComponent implements FieldValueProcesso
      */
     public function applyFieldValue($value)
     {
-        $this->checked($value == $this->attributes->value);
+        $this->checked((string)$value === $this->attributes->value);
+    }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('checked');
     }
 }

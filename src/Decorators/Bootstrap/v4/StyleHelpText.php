@@ -39,5 +39,6 @@ class StyleHelpText extends Decorator
     {
         $this->element->addClass('text-muted');
         $this->element->addClass('form-text');
+        $this->element->addClass('small');
     }
 }

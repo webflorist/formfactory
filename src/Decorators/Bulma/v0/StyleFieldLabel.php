@@ -1,12 +1,19 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bulma\v0;
 
-use Nicat\FormFactory\Components\Additional\ButtonGroup;
+use Nicat\FormFactory\Components\Additional\FieldLabel;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
-class StyleButtonGroup extends Decorator
+class StyleFieldLabel extends Decorator
 {
+
+    /**
+     * The element to be decorated.
+     *
+     * @var FieldLabel
+     */
+    protected $element;
 
     /**
      * Returns an array of frontend-framework-ids, this decorator is specific for.
@@ -16,7 +23,7 @@ class StyleButtonGroup extends Decorator
     public static function getSupportedFrameworks(): array
     {
         return [
-            'bootstrap:3'
+            'bulma:0'
         ];
     }
 
@@ -28,7 +35,7 @@ class StyleButtonGroup extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            ButtonGroup::class
+            FieldLabel::class
         ];
     }
 
@@ -37,7 +44,6 @@ class StyleButtonGroup extends Decorator
      */
     public function decorate()
     {
-        $this->element->addClass('btn-group');
-
+        $this->element->addClass('label');
     }
 }

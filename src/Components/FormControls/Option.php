@@ -19,7 +19,7 @@ class Option extends OptionElement implements AutoTranslationInterface
      * @return string
      * @throws \Nicat\FormFactory\Exceptions\OpenElementNotFoundException
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         /** @var FormFactory $formFactoryService */
         $formFactoryService = app()[FormFactory::class];

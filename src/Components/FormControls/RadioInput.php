@@ -31,7 +31,7 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
      */
     public function applyFieldValue($value)
     {
-        $this->checked($value === $this->attributes->value);
+        $this->checked((string)$value === $this->attributes->value);
     }
 
     /**
@@ -39,8 +39,18 @@ class RadioInput extends RadioInputComponent implements FieldValueProcessorInter
      *
      * @return string
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         return $this->attributes->name . '_' . $this->attributes->value;
+    }
+
+    /**
+     * Does this field currently have a value set?
+     *
+     * @return bool
+     */
+    public function fieldHasValue()
+    {
+        return $this->attributes->isSet('checked');
     }
 }

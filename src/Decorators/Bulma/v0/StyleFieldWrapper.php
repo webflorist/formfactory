@@ -1,17 +1,19 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bulma\v0;
 
-use Nicat\FormFactory\Components\DynamicLists\DynamicList;
+use Nicat\FormFactory\Components\Additional\FieldWrapper;
+use Nicat\FormFactory\Components\FormControls\CheckboxInput;
+use Nicat\FormFactory\Components\FormControls\RadioInput;
 use Nicat\HtmlFactory\Decorators\Abstracts\Decorator;
 
-class StyleDynamicLists extends Decorator
+class StyleFieldWrapper extends Decorator
 {
 
     /**
      * The element to be decorated.
      *
-     * @var DynamicList
+     * @var FieldWrapper
      */
     protected $element;
 
@@ -23,7 +25,7 @@ class StyleDynamicLists extends Decorator
     public static function getSupportedFrameworks(): array
     {
         return [
-            'bootstrap:3'
+            'bulma:0'
         ];
     }
 
@@ -35,7 +37,7 @@ class StyleDynamicLists extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            DynamicList::class
+            FieldWrapper::class
         ];
     }
 
@@ -44,14 +46,14 @@ class StyleDynamicLists extends Decorator
      */
     public function decorate()
     {
+        $this->element->addClass('field');
 
-        $this->element->addItemButton
-            ->addClass('btn-sm push-top')
-            ->appendContent(' <i class="btr bt-plus btn-no-anim"></i>')
-        ;
+        if (!is_null($this->element->field)) {
 
-        $this->element->removeItemButton->content->clear();
-        $this->element->removeItemButton->content('<i class="btr bt-trash" style="margin:0"></i>');
-
+            // Add error-class to wrapper, if field has errors.
+            if ($this->element->field->hasErrors()) {
+                $this->element->addClass('has-error');
+            }
+        }
     }
 }

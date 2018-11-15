@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicat\FormFactory\Decorators\Bootstrap\v3;
+namespace Nicat\FormFactory\Decorators\Bulma\v0;
 
 use Nicat\FormFactory\Components\FormControls\Button;
 use Nicat\FormFactory\Components\FormControls\ResetButton;
@@ -25,7 +25,7 @@ class StyleButtons extends Decorator
     public static function getSupportedFrameworks(): array
     {
         return [
-            'bootstrap:3'
+            'bulma:0'
         ];
     }
 
@@ -48,29 +48,13 @@ class StyleButtons extends Decorator
      */
     public function decorate()
     {
-        if (!$this->element->hasContext()) {
-            $this->element->context($this->getDefaultContext());
+        if (!$this->element->hasContext() && $this->element->is(SubmitButton::class)) {
+            $this->element->context('primary');
         }
 
-        $this->element->addClass('btn-'.$this->element->getContext());
-
-    }
-
-    /**
-     * Returns the default context for the button.
-     *
-     * @return string
-     */
-    private function getDefaultContext()
-    {
-        if ($this->element->is(SubmitButton::class)) {
-            return 'primary';
+        if ($this->element->hasContext()) {
+            $this->element->addClass('is-'.$this->element->getContext());
         }
 
-        if ($this->element->is(ResetButton::class)) {
-            return 'secondary';
-        }
-
-        return 'default';
     }
 }

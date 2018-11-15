@@ -201,11 +201,11 @@ As you can see, the values provided from the controller to the view and then to 
 
 In a normal Laravel-application a user is redirected back to the form-page, if any validation-errors have occurred.
 
-HtmlFactory automatically maps previously entered "old" input-values as well as error messages back to the submitted form. This even works, when multiple forms with identically named fields are present on the same page. Since the unique form-ID is submitted with the form itself and stored in the session, HtmlFactory will always know, which form was submitted, and pre-fill any fields (incl. radiobuttons or chackboxes) with the old input accordingly and display any error messages on validation errors.
+FormFactory automatically maps previously entered "old" input-values as well as error messages back to the submitted form. This even works, when multiple forms with identically named fields are present on the same page. Since the unique form-ID is submitted with the form itself and stored in the session, FormFactory will always know, which form was submitted, and pre-fill any fields (incl. radiobuttons or chackboxes) with the old input accordingly and display any error messages on validation errors.
 
-Per default HtmlFactory searches the in the `default`-ViewErrorBag of Laravel. If you have stated a specifically named error bag during validation, you will have to tell HtmlFactory which error-bag it should use to look for errors for your form. You can do this by using the `->errorBag()`-method on the `Form::open()`-call.
+Per default FormFactory searches the in the `default`-ViewErrorBag of Laravel. If you have stated a specifically named error bag during validation, you will have to tell FormFactory which error-bag it should use to look for errors for your form. You can do this by using the `->errorBag()`-method on the `Form::open()`-call.
 
-If you do not want to let HtmlFactory fetch errors from the session, but state them yourself, you have 2 possible options:
+If you do not want to let FormFactory fetch errors from the session, but state them yourself, you have 2 possible options:
 * You can state the complete multidimensional error-array for all fields of a form using the `->errors()`-method on the `Form::open()` call.
 * Or you can state errors for a single field by handing a simple one-dimensional array to the `->errors()`-method of any field (e.g. `Form::text('myField')->errors(['My first error message','My second error message'])`.
 
@@ -216,7 +216,7 @@ errors stated with a specific field > errors stated with the `Form::open()` call
 
 Several attributes (e.g. `required`, `max`, `min`, `pattern`, etc.) were introduced with HTML5 to add validation-relevant information to fields. With the help of these attributes, modern browsers can validate user input without any server-side requests.
 
-These attributes correspond directly to build-in Laravel-rules, so HtmlFactory provides several ways generate these attributes from Laravel-rules. Additionally it will also change the input-type of a text-field accordingly. And it will append `<sup>*</sup>` to required fields to mark them as mandatory.
+These attributes correspond directly to built-in Laravel-rules, so FormFactory provides several ways generate these attributes from Laravel-rules. Additionally it will also change the input-type of a text-field accordingly. And it will append `<sup>*</sup>` to required fields to mark them as mandatory.
 
 Here is a list of Laravel-rules translated into HTML-attributes or forcing a specific input-type:
 
@@ -242,14 +242,14 @@ min:value|min="value" (when used on `type=number`- input-tag)|-
 min:value|pattern=".{min,}" (when used on any other tag)|-
 mimes:foo,bar,...|accept=".foo,.bar,...."
 
-There are 3 possible ways of telling HtmlFactory these rules:
-* If you are using a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) with your form, you can simply state the class-name of that Form Request using the `->requestObject()`-method on the `Form::open()`-call. HtmlFactory will then fetch the rules from that object automatically. If your Form Request Object resides in the default namespace (`App\Http\Requests`), you can simply state the simple class-name (e.g. `->requestObject('MyFormRequest')`). Otherwise, you have to state the full class-name incl. the namespace.  
+There are 3 possible ways of telling FormFactory these rules:
+* If you are using a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) with your form, you can simply state the class-name of that Form Request using the `->requestObject()`-method on the `Form::open()`-call. FormFactory will then fetch the rules from that object automatically. If your Form Request Object resides in the default namespace (`App\Http\Requests`), you can simply state the simple class-name (e.g. `->requestObject('MyFormRequest')`). Otherwise, you have to state the full class-name incl. the namespace.  
 * You can state the complete associative rules-array for all fields of a form using the `->rules()`-method on the `Form::open()` call.
 * Or you can state the rules for a single field by handing them as a string to the `->errors()`-method of any field.
 
 #### Automatic translation
 
-Another useful feature of HtmlFactory is it's usage of auto-translation, which tries to automatically translate labels, button- or option-texts, placeholders, and general help-texts via standard laravel-translation-files.
+Another useful feature of FormFactory is it's usage of auto-translation, which tries to automatically translate labels, button- or option-texts, placeholders, and general help-texts via standard laravel-translation-files.
  
 Here is a list of tags, that can be auto-translated (see example below for required language-file-keys):
 * Labels
@@ -261,9 +261,10 @@ Here is a list of tags, that can be auto-translated (see example below for requi
 
 Please note, that if you specifically state this information with the appropriate methods on the call to generate a specific field, that will always take precedence over auto-translation. E.g. `Form::text('myTextField')->label('Use this label')` will always display 'Use this label' as the label - regardless of any available language-keys.
 
-There are two possible sources you can use for auto-translation:
+There are three possible sources you can use for auto-translation (FormFactory tries all three until it gets a valid translation):
+* If you are using the [nicat/routetree](https://github.com/nic-at/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
 * If you are using the [nicat/extended-validation](https://github.com/nic-at/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
-* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package HtmlFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
+* If you are not using [nicat/extended-validation](https://github.com/nic-at/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
 
 Let's see an example of the second variant:
 
@@ -328,7 +329,7 @@ Generated HTML:
 
 #### Ajax validation
 
-HtmlFactory comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
+FormFactory comes with on-board functionality for ajax-validation of forms, which means an ajax-request will be sent to the server to validate your form-data and display any errors without a complete page-reload. The following prerequisites must be fulfilled for a form to have ajax validation:
 * `formfactory.js` must be loaded with your application (see Install-instructions above).
 * The config-key `formfactory.ajax_validation.enabled` must be set to `true` in the `htmlfactory`-config.
 * A [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) must be handed over to the `Form::open()`-call via the `->requestObject()`-method (see `rules`-section above for details). This request-object will be used for ajax-validation.
@@ -339,11 +340,11 @@ If these are fulfilled, you have the following options for ajax-validation:
   * `onChange`: This will validate the field, when the `onChange`-event of that field is fired (e.g. when leaving text-field or clicking a radio-button). This is the default-behaviour, when adding `->ajaxValidation()` to your field-generation-call.
   * `onKeyup`: This will validate the field, when the `onKeyup`-event of that field is fired (e.g. every time after pressing a key within a text-field). You can enable this behaviour by passing 'onKeyup' to the `ajaxValidation()`-method (e.g. `Form::text('myTextField')->ajaxValidation('onKeyup')`).
   
-Ajax validation-requests will be sent to the route `/formfactory_validation`, which is automatically registered by the HtmlFactoryServiceProvider (if ajax-validation is enabled in the html-builder-config).
+Ajax validation-requests will be sent to the route `/formfactory_validation`, which is automatically registered by the FormFactoryServiceProvider (if ajax-validation is enabled in the html-builder-config).
 
 #### Anti-bot mechanisms
 
-HtmlFactory comes with 3 built-in and easy-to-use solutions to protect a form against bots or ddos-attacks. A primary focus of these mechanisms is to maintain the accessibility of your forms, so screen-readers should have no problem with them. (This is also the reason, why the provided captcha-mechanism used a simple text-based mathematical challenge instead of an image-based captcha.) The support for each of these mechanisms must be enabled in the htmlfactory-config (e.g. the config-key `formfactory.honeypot.enabled` enables or disables the support for the honeypot-mechanism). Support for all three mechanisms are enabled by default, but must still be enabled individually for each form. This is done by setting the corresponding rules (either in the [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) you hand over to the `Form::open()`-call via the `->requestObject()`-method, or in the rules-array you state via the `->rules()`-method.
+FormFactory comes with 3 built-in and easy-to-use solutions to protect a form against bots or ddos-attacks. A primary focus of these mechanisms is to maintain the accessibility of your forms, so screen-readers should have no problem with them. (This is also the reason, why the provided captcha-mechanism used a simple text-based mathematical challenge instead of an image-based captcha.) The support for each of these mechanisms must be enabled in the htmlfactory-config (e.g. the config-key `formfactory.honeypot.enabled` enables or disables the support for the honeypot-mechanism). Support for all three mechanisms are enabled by default, but must still be enabled individually for each form. This is done by setting the corresponding rules (either in the [Laravel Form Request Object](https://laravel.com/docs/master/validation#form-request-validation) you hand over to the `Form::open()`-call via the `->requestObject()`-method, or in the rules-array you state via the `->rules()`-method.
 
 The following rules (set within the `rules`method of a request-object) would enable all three mechanisms for any form, that uses this request-object by handing it to the `Form::open()`-call via the `->requestObject()`-method.
 ```php
@@ -373,7 +374,7 @@ A default time-limit, that is automatically used for all forms, that have time-l
 
 ##### Captcha
 
-HtmlFactory has a build-in captcha-protection based on simple mathematical calculations. There are 2 settings relevant to this mechanism:
+FormFactory has a build-in captcha-protection based on simple mathematical calculations. There are 2 settings relevant to this mechanism:
 * The number of times a form can be submitted, before a captcha is required. (0 means, the captcha is shown always.) A default-value can be set via the config-key `formfactory.captcha.default_limit` of the htmlfactory-config (2 per default). It can also be overridden per form via the first parameter of the `captcha`-rule.
 * The time-span (in minutes) for which the captcha-limit is valid. After reaching the limit for captcha-less submissions, it takes this long, before the user can submit the form again without a captcha. Again, a default-value can be set via the config-key `formfactory.captcha.decay_time` of the htmlfactory-config (2 per default). It can also be overridden per form via the second parameter of the `captcha`-rule.
 

@@ -51,7 +51,7 @@ trait UsesAutoTranslation
      *
      * @return string
      */
-    function getAutoTranslationKey(): string
+    public function getAutoTranslationKey(): string
     {
         return FormFactoryTools::arrayStripString($this->attributes->name);
     }
