@@ -380,7 +380,7 @@ As described in the documentation of HtmlFactory, you can change the view, in wh
 
 #### Decorating
 
-You can also use DecoratorClasses and the decorate() method to influence the output of your forma and fields. Both are described in the documentation of HtmlFactory.
+You can also use DecoratorClasses and the decorate() method to influence the output of your forms and fields. Both are described in the documentation of HtmlFactory.
 
 As with views, you can access and influence several of a FormControl's features (label, errors, help-text, etc.) within decoration.
 
@@ -397,10 +397,12 @@ Several parts of the form will then be reactive, e.g.:
 
 #### Prerequisites
 
-To enable usage of VueForms, make sure you have followed the VueForm-specific Installation instructions at the beginning of this README. In addition, each VueForm has the following requirements:
-1. The VueForm must be supplied with a corresponding [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation) class via it's mandatory second parameter.
-2. The Form Request object should use the `Nicat\FormFactory\Vue\FormFactoryFormRequestTrait` to make sure, errors are returned in the correct format.
-3. The controller-method designated to handle the submit-request should return a `Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse`.
+To enable usage of VueForms, make sure you have followed the VueForm-specific Installation instructions at the beginning of this README.
+
+Additionally it must be ensured, that a correct JSON-response is returned in both a successful and unsuccessful form submission:
+- The controller-method designated to handle the submit-request should return a `Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse` on a successful request.
+- If validation takes place via a [Laravel Form Request](https://laravel.com/docs/master/validation#form-request-validation), it should include the Trait `Nicat\FormFactory\Vue\FormFactoryFormRequestTrait`.
+- If validation takes place in the controller-method using `$this->validate()`, the controller should include `Nicat\FormFactory\Vue\FormFactoryControllerTrait`.
 
 #### Usage
 
@@ -410,7 +412,8 @@ Here is a full example for a VueForm:
 ```
 Blade Code:
 -----------
-{!! Form::vOpen('MyVueFormID', \App\Http\Requests\MyVueFormRequest::class)
+{!! Form::vOpen('MyVueFormID')
+    ->requestObject(\App\Http\Requests\MyVueFormRequest::class)
     ->action('MyVueFormController@post')
      !!}
 {!! Form::text('MyTextField') !!}
@@ -486,4 +489,4 @@ A VueForm's VueInstance is also accessible in views and decoration via $el->vueI
 
 ##### Language Strings
 
-Default language strings are inckuded for various frontend functionality. Use Laravel's usual way of overriding Package language files.
+Default language strings are included for various frontend functionality. Use Laravel's usual way of overriding Package language files.

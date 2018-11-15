@@ -3,7 +3,6 @@
 namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\TimeLimitTestRequest;
-use Illuminate\Routing\Controller;
 use Nicat\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class TimeLimitTestController extends Controller

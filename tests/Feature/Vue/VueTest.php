@@ -13,7 +13,7 @@ class VueTest extends TestCase
 
     public function test_manual_vue_app_generation()
     {
-        \Form::vOpen('myFormId', VueFormTestRequest::class);
+        \Form::vOpen('myFormId');
 
         \Form::text('text')->generate();
 
@@ -29,7 +29,7 @@ class VueTest extends TestCase
 
     public function test_automatic_vue_app_generation()
     {
-        \Form::vOpen('myAutoVueForm1', VueFormTestRequest::class);
+        \Form::vOpen('myAutoVueForm1');
         \Form::text('myAutoVueForm1Text')->generate();
         \Form::close();
 
@@ -37,12 +37,12 @@ class VueTest extends TestCase
         \Form::text('myNonVueFormText')->generate();
         \Form::close();
 
-        \Form::vOpen('myManualVueForm', VueFormTestRequest::class);
+        \Form::vOpen('myManualVueForm');
         \Form::text('myManualVueFormText')->generate();
         \Form::close();
         \Form::vueInstance('myManualVueForm')->generate();
 
-        \Form::vOpen('myAutoVueForm2', VueFormTestRequest::class);
+        \Form::vOpen('myAutoVueForm2');
         \Form::text('myAutoVueForm2Text')->generate();
         \Form::close();
 

@@ -21,7 +21,7 @@ trait CaptchaTestTrait
             $calculation = str_before(str_after($browser->driver->getPageSource(), 'calculation: '), '<sup>');
 
             $result = eval('return ' . $calculation . ';');
-            $this->submitForm($browser, $result);
+            $this->submitCaptchaForm($browser, $result);
             $this->waitForAndAssertSee($browser, 'validated');
             $this->exhaustCaptchaLimit($browser);
         });
@@ -35,7 +35,7 @@ trait CaptchaTestTrait
     {
         $this->browse(function (Browser $browser) {
             $this->exhaustCaptchaLimit($browser);
-            $this->submitForm($browser, 'wrong');
+            $this->submitCaptchaForm($browser, 'wrong');
             $this->waitForAndAssertSee($browser, 'The result is incorrect');
         });
     }
@@ -48,7 +48,7 @@ trait CaptchaTestTrait
      * @param Browser $browser
      * @param string $captchaValue
      */
-    private function submitForm(Browser $browser, $captchaValue = null)
+    private function submitCaptchaForm(Browser $browser, $captchaValue = null)
     {
         if (!is_null($captchaValue)) {
             $browser->type('_captcha', $captchaValue);
@@ -67,7 +67,7 @@ trait CaptchaTestTrait
         cache()->clear();
         for ($i = 1; $i <= config('formfactory.captcha.default_limit'); $i++) {
             $browser->visit('/captcha-get');
-            $this->submitForm($browser);
+            $this->submitCaptchaForm($browser);
             $this->waitForAndAssertSee($browser, 'validated');
         }
         $browser->visit('/captcha-get');

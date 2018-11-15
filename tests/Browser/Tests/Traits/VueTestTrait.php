@@ -1,11 +1,12 @@
 <?php
 
-namespace FormFactoryTests\Browser\Tests\RawVue;
+namespace FormFactoryTests\Browser\Tests\Traits;
 
 use Laravel\Dusk\Browser;
 
-class RedirectTest extends AbstractRawVueTest
+trait VueTestTrait
 {
+
 
     /**
      * @throws \Exception
@@ -21,5 +22,20 @@ class RedirectTest extends AbstractRawVueTest
             $this->waitForAndAssertSee($browser, 'redirected');
         });
     }
+
+    /**
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function testControllerErrors()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/vue-controller-errors');
+            $browser->click('#myFormId_submit');
+            $this->waitForAndAssertSee($browser, 'field is required');
+            $browser->assertDontSee('validated');
+        });
+    }
+
 
 }

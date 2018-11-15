@@ -167,17 +167,15 @@ class FormFactory
      * Renders the form-start-tag on generation.
      *
      * @param string $id
-     * @param string $requestObject
      * @return VueForm|Form
-     * @throws Exceptions\FormRequestClassNotFoundException
      */
-    public static function vOpen(string $id, string $requestObject): VueForm
+    public static function vOpen(string $id): VueForm
     {
         if (config('formfactory.vue.disabled')) {
-            return (self::open($id))->requestObject($requestObject);
+            return (self::open($id));
         }
 
-        $form = (new VueForm($id, $requestObject));
+        $form = (new VueForm($id));
         FormFactory::singleton()->forms->addForm($form);
         return $form;
     }

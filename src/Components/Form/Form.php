@@ -524,9 +524,9 @@ class Form extends FormElement
     {
 
         if (config('formfactory.time_limit.enabled')) {
-            $captchaRules = $this->rules->getRulesForField('_timeLimit');
+            $timeLimitRules = $this->rules->getRulesForField('_timeLimit');
 
-            if (isset($captchaRules['timeLimit'])) {
+            if (isset($timeLimitRules['timeLimit'])) {
 
                 // TimeLimit-protection only works, if a request-object was stated via the requestObject() method,
                 // so we throw an exception, if this was not the case.
