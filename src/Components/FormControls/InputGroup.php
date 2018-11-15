@@ -16,6 +16,8 @@ class InputGroup
     extends DivElement
 {
 
+    use LabelTrait;
+
     /**
      * The main field of this InputGroup.
      * It's FieldLabel will be used as this InputGroup's FieldLabel.
