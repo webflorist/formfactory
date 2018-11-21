@@ -5,6 +5,7 @@ namespace Webflorist\FormFactory\Components\Helpers;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Webflorist\FormFactory\Components\FormControls\TextInput;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\Components\AlertComponent;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 use Webflorist\HtmlFactory\Elements\DivElement;
@@ -20,11 +21,11 @@ class ErrorContainer extends AlertComponent
     public $field;
 
     /**
-     * The field-name this ErrorContainer should display errors for.
+     * Additional field-names this ErrorContainer should display errors for.
      *
-     * @var FieldInterface|FormControlInterface|Element
+     * @var string
      */
-    public $fieldName;
+    public $additionalErrorFields = [];
 
     /**
      * Should errors be displayed?
@@ -66,7 +67,8 @@ class ErrorContainer extends AlertComponent
 
         if (!is_null($this->field)) {
 
-            $this->getErrorsFromFormInstance();
+            $fieldName = $this->field->getFieldName();
+
 
             $this->id(function () {
                 $containerId = $this->field->getFieldName() . '_errors';
@@ -79,6 +81,11 @@ class ErrorContainer extends AlertComponent
         }
     }
 
+    public function addAdditionalErrorField(string $fieldName)
+    {
+        $this->additionalErrorFields[] = $fieldName;
+    }
+
     /**
      * Sets the errors to display.
      *
@@ -88,6 +95,21 @@ class ErrorContainer extends AlertComponent
     public function setErrors(array $errors)
     {
         $this->errors = $errors;
+        return $this;
+    }
+
+    /**
+     * Adds errors to display.
+     *
+     * @param array $errors
+     * @return ErrorContainer
+     */
+    public function addErrors(array $errors)
+    {
+        if (is_null($this->errors)) {
+            $this->errors = [];
+        }
+        $this->errors = array_merge($this->errors, $errors);
         return $this;
     }
 
@@ -108,7 +130,7 @@ class ErrorContainer extends AlertComponent
      */
     public function hasErrors(): bool
     {
-        return count($this->errors) > 0;
+        return !is_null($this->errors) && count($this->errors) > 0;
     }
 
     /**
@@ -138,11 +160,17 @@ class ErrorContainer extends AlertComponent
 
             if ($this->field->isVueEnabled()) {
                 $fieldName = $this->field->getFieldName();
-                $this->appendContent(
-                    (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
-                );
-                $this->vIf("fieldHasError('$fieldName')");
+                $errorFieldNames = array_merge([$fieldName], $this->additionalErrorFields);
+                $vIf = [];
+                foreach ($errorFieldNames as $fieldName) {
+                    $this->appendContent(
+                        (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
+                    );
+                    $vIf[] = "fieldHasError('$fieldName')";
+                }
+                $this->vIf(implode(' || ', $vIf));
             } else {
+                $this->getErrorsFromFormInstance();
                 foreach ($this->getErrors() as $error) {
                     $this->appendContent((new DivElement())->content($error));
                 }
@@ -186,7 +214,12 @@ class ErrorContainer extends AlertComponent
             $formInstanceErrors = $this->field->getForm()->errors;
             $fieldName = $this->field->getFieldName();
             if ($formInstanceErrors->hasErrorsForField($fieldName)) {
-                $this->setErrors($formInstanceErrors->getErrorsForField($fieldName));
+                $this->addErrors($formInstanceErrors->getErrorsForField($fieldName));
+                if (count($this->additionalErrorFields) > 0) {
+                    foreach ($this->additionalErrorFields as $fieldName) {
+                        $this->addErrors($formInstanceErrors->getErrorsForField($fieldName, true));
+                    }
+                }
             }
         }
     }

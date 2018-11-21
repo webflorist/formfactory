@@ -210,6 +210,12 @@ If you do not want to let FormFactory fetch errors from the session, but state t
 The order of precedence with error-fetching is as follows:
 errors stated with a specific field > errors stated with the `Form::open()` call > errors fetched from session.
 
+There might be cases, where there are validation-errors, that don't have an associated field in the output (e.g. if fields belong to an array, which has errors). FormFactory automatically displays these errors at the end of the form, but you can render them anywhere else in your form using one of the following methods:
+* You can add `{!! Form::errorContainer('myFieldName') !!}` anywhere within your form to render errors for `myFieldName`.
+* You can add `->addErrorField('myFieldName')` to any other field's generation to render errors for `myFieldName` next to that other field's errors.
+
+You can add an error-container for a specific field-name
+
 ##### Mapping laravel-rules to HTML5-attributes
 
 Several attributes (e.g. `required`, `max`, `min`, `pattern`, etc.) were introduced with HTML5 to add validation-relevant information to fields. With the help of these attributes, modern browsers can validate user input without any server-side requests.
@@ -260,9 +266,8 @@ Here is a list of tags, that can be auto-translated (see example below for requi
 Please note, that if you specifically state this information with the appropriate methods on the call to generate a specific field, that will always take precedence over auto-translation. E.g. `Form::text('myTextField')->label('Use this label')` will always display 'Use this label' as the label - regardless of any available language-keys.
 
 There are three possible sources you can use for auto-translation (FormFactory tries all three until it gets a valid translation):
-* If you are using the [webflorist/routetree](https://github.com/webflorist/routetree) package with your application, it will try to use it's auto-translation functionality for regular page-content (just like it's `trans_by_route` helper-function), looking in a subarray called `form` in the route's content-language-file.
-* If you are using the [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
-* If you are not using [webflorist/extended-validation](https://github.com/webflorist/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
+* If you are using the [nic-at/extended-validation](https://github.com/nic-at/extended-validation) package with your application, it will automatically fetch the translations from the attributes registered with the registerAttribute-functionality of that package. This is quite logical, since that functionality is for showing the actual field-names (=attributes) within error messages, so we already have all we need in one place.
+* If you are not using [nic-at/extended-validation](https://github.com/nic-at/extended-validation) package FormFactory is trying to get translations from a single language-file. You have to state this in the `formfactory.translations` config key of the htmlfactory-config (default is `validation.attributes`, which is also Laravel's default location for attributes.
 
 Let's see an example of the second variant:
 

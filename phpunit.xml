@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="../../autoload.php"
+         bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false">
+         stopOnFailure="false">
 
     <testsuites>
         <testsuite name="FormFactory Legacy Tests">
@@ -30,11 +29,9 @@
         <env name="APP_KEY" value="base64:W6SykHpAPJS7ahx2oOSr2/+f4psDt65U1OHEgP5tT0U="/>
         <env name="APP_DEBUG" value="1"/>
         <env name="APP_LOG_LEVEL" value="debug"/>
-        <env name="APP_URL" value="http://192.168.56.103:8000"/>
-        <env name="BROWSERTEST_DRIVER_URL" value="localhost"/>
-        <!--<env name="BROWSERTEST_DRIVER_PORT" value="9515"/>-->
-        <env name="BROWSERTEST_SERVER_IP" value="192.168.56.103"/>
+        <env name="APP_URL" value="http://localhost:8000"/>
         <env name="CACHE_DRIVER" value="file"/>
         <env name="SESSION_DRIVER" value="file"/>
     </php>
+
 </phpunit>

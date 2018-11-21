@@ -2,6 +2,9 @@
 
 namespace FormFactoryTests;
 
+use Facebook\WebDriver\Chrome\ChromeOptions;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Gajus\Dindent\Indenter;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Laravel\Dusk\Browser;
@@ -37,7 +40,30 @@ abstract class DuskTestCase extends BaseTestCase
     protected function setUp()
     {
         parent::setUp();
+
     }
+    /**
+     * Create the RemoteWebDriver instance.
+     *
+     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
+     */
+    protected function driver()
+    {
+
+        $options = (new ChromeOptions())->addArguments([
+            '--disable-gpu',
+            '--headless',
+            '--start-maximized',
+            '--no-sandbox',
+        ]);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+            ChromeOptions::CAPABILITY, $options
+        )
+        );
+    }
+
 
     /**
      * Nicely prints current page source.
