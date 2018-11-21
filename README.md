@@ -210,6 +210,12 @@ If you do not want to let FormFactory fetch errors from the session, but state t
 The order of precedence with error-fetching is as follows:
 errors stated with a specific field > errors stated with the `Form::open()` call > errors fetched from session.
 
+There might be cases, where there are validation-errors, that don't have an associated field in the output (e.g. if fields belong to an array, which has errors). FormFactory automatically displays these errors at the end of the form, but you can render them anywhere else in your form using one of the following methods:
+* You can add `{!! Form::errorContainer('myFieldName') !!}` anywhere within your form to render errors for `myFieldName`.
+* You can add `->addErrorField('myFieldName')` to any other field's generation to render errors for `myFieldName` next to that other field's errors.
+
+You can add an error-container for a specific field-name
+
 ##### Mapping laravel-rules to HTML5-attributes
 
 Several attributes (e.g. `required`, `max`, `min`, `pattern`, etc.) were introduced with HTML5 to add validation-relevant information to fields. With the help of these attributes, modern browsers can validate user input without any server-side requests.

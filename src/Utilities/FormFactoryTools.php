@@ -27,6 +27,31 @@ class FormFactoryTools
     }
 
     /**
+     * Returns all parent-array-field-names of an array.
+     * E.g. for "domainlist[0][domainName][domainLabel]" the following array is returned:
+     * [
+     *      'domainlist',
+     *      'domainlist[0]',
+     *      'domainlist[0][domainName]'     *
+     * ]
+     *
+     * @param string $fieldName
+     * @return array
+     */
+    public static function getArrayFieldParents(string $fieldName): array
+    {
+        $fieldParents = [];
+        if (self::isArrayField($fieldName)) {
+            $immediateParent = substr($fieldName, 0, strrpos($fieldName, '['));
+            $fieldParents[] = $immediateParent;
+            if (self::isArrayField($immediateParent)) {
+                $fieldParents = array_merge($fieldParents, self::getArrayFieldParents($immediateParent));
+            }
+        }
+        return $fieldParents;
+    }
+
+    /**
      * Converts the HTML-name of an array-field (e.g. "domainlist[0][domainName][domainLabel]")
      * to it's DOT-notation (e.g. "domainlist.0.domainName.domainLabel")
      *

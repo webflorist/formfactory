@@ -29,6 +29,17 @@ class FieldErrorManager
     private $errors = [];
 
     /**
+     * Array of unclaimed errors for fields.
+     * This array is identical to $this->errors after initial generation
+     * If getErrorsForField() is called for a field, it's errors get removed
+     * from $this->unclaimedErrors. This way we can determine, if any errors
+     * have not been displayed.
+     *
+     * @var array
+     */
+    private $unclaimedErrors = [];
+
+    /**
      * Name of the Laravel errorBag, where this form should look for errors.
      *
      * @var string
@@ -56,6 +67,8 @@ class FieldErrorManager
     public function setErrors(array $errors)
     {
         $this->errors = $errors;
+        $this->unclaimedErrors = $errors;
+
     }
 
     /**
@@ -71,15 +84,24 @@ class FieldErrorManager
 
     /**
      * Gets the error(s) of a field currently stored in this FieldErrorManager.
+     * Also removes errors for this field from $this->unclaimedErrors.
      *
      * @param string $fieldName
+     * @param bool $unclaimedOnly Returns errors only, if they have not been claimed before.
      * @return array
      */
-    public function getErrorsForField(string $fieldName): array
+    public function getErrorsForField(string $fieldName, $unclaimedOnly=false): array
     {
         $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
 
+        if ($unclaimedOnly && !isset($this->unclaimedErrors[$fieldName])) {
+            return [];
+        }
+
         if (isset($this->errors[$fieldName])) {
+            if (isset($this->unclaimedErrors[$fieldName])) {
+                unset($this->unclaimedErrors[$fieldName]);
+            }
             return $this->errors[$fieldName];
         }
 
@@ -116,7 +138,7 @@ class FieldErrorManager
                 /** @var \Illuminate\Support\ViewErrorBag $errorBag */
                 $errors = $errorBag->getBag($this->errorBag)->toArray();
                 if (count($errors) > 0) {
-                    $this->errors = $errors;
+                    $this->setErrors($errors);
                 }
             }
         }
@@ -128,6 +150,26 @@ class FieldErrorManager
     public function hasErrors()
     {
         return count($this->errors) > 0;
+    }
+
+    /**
+     * Are any unclaimed errors present?
+     *
+     * @return bool
+     */
+    public function hasUnclaimedErrors()
+    {
+        return count($this->unclaimedErrors) > 0;
+    }
+
+    /**
+     * Returns all unclaimed errors.
+     *
+     * @return array
+     */
+    public function getUnclaimedErrors()
+    {
+        return $this->unclaimedErrors;
     }
 
 }

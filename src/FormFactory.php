@@ -169,9 +169,9 @@ class FormFactory
      * @param string $id
      * @return VueForm|Form
      */
-    public static function vOpen(string $id): VueForm
+    public static function vOpen(string $id)
     {
-        if (config('formfactory.vue.disabled')) {
+        if (!config('formfactory.vue.enabled')) {
             return (self::open($id));
         }
 
@@ -185,19 +185,21 @@ class FormFactory
      *
      * @param bool $appendRequiredFieldsLegend
      * @return string
+     * @throws OpenElementNotFoundException
      */
     public static function close($appendRequiredFieldsLegend=true)
     {
         $return = '';
-        $openForm = null;
+        $openForm = FormFactory::singleton()->getOpenForm();
 
-        try {
-            $openForm = FormFactory::singleton()->getOpenForm();
-            $appendRequiredFieldsLegend = $openForm->wasRequiredFieldIndicatorUsed();
-        } catch (OpenElementNotFoundException $e) {
+        // For non-VueForms we add an ErrorContainer containing all unclaimed errors.
+        if (!$openForm->is(VueForm::class) && $openForm->errors->hasUnclaimedErrors()) {
+            foreach($openForm->errors->getUnclaimedErrors() as $errorFieldName => $errors) {
+                $return .= (new ErrorContainer($errorFieldName));
+            }
         }
 
-        if ($appendRequiredFieldsLegend) {
+        if ($appendRequiredFieldsLegend && $openForm->wasRequiredFieldIndicatorUsed()) {
             $return .= new RequiredFieldsLegend();
         }
 

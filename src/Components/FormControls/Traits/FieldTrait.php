@@ -66,6 +66,19 @@ trait FieldTrait
     }
 
     /**
+     * Sets an additional field-name whose errors
+     * should be displayed with this field's errors.
+     *
+     * @param string $fieldName
+     * @return $this
+     */
+    public function addErrorField(string $fieldName)
+    {
+        $this->errors->addAdditionalErrorField($fieldName);
+        return $this;
+    }
+
+    /**
      * Set rules for this field in Laravel-syntax (either in array- or string-format)
      * (omit for automatic adoption from request-object)
      *
