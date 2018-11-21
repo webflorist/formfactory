@@ -101,7 +101,7 @@ class InputGroup
         }
 
         // Make sure, all helpers are generated.
-        $this->label->generate();
+
         foreach($this->containedHelpTexts as $helpText) {
             $helpText->generate();
         }
@@ -109,6 +109,13 @@ class InputGroup
             $errors->generate();
         }
     }
+
+    protected function afterChildrenDecoration()
+    {
+        parent::afterChildrenDecoration();
+        $this->label->generate();
+    }
+
 
     /**
      * Returns the base translation-key for auto-translations for this object.
