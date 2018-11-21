@@ -66,10 +66,6 @@ class ErrorContainer extends AlertComponent
         $this->field = $field;
 
         if (!is_null($this->field)) {
-
-            $fieldName = $this->field->getFieldName();
-
-
             $this->id(function () {
                 $containerId = $this->field->getFieldName() . '_errors';
                 if ($this->field->belongsToForm()) {
@@ -77,7 +73,6 @@ class ErrorContainer extends AlertComponent
                 }
                 return $containerId;
             });
-
         }
     }
 

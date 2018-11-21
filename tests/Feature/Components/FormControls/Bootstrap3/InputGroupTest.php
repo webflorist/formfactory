@@ -1,13 +1,13 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4;
+namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap3;
 
 use FormFactoryTests\TestCase;
 
 class InputGroupTest extends TestCase
 {
 
-    protected $decorators = ['bootstrap:v4'];
+    protected $decorators = ['bootstrap:v3'];
 
     public function testSimple()
     {
@@ -27,15 +27,15 @@ class InputGroupTest extends TestCase
                 <div class="form-group">
                     <label for="myFormId_myTextFieldName">MyTextFieldName</label>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">text-before</span></div>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" class="form-control" />
-                        <div class="input-group-append">
-                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" class="form-control">
-                                <option value="myOptionValue1">myOptionValue1</option>
-                                <option value="myOptionValue2">myOptionValue2</option>
-                            </select>
+                        <span class="input-group-addon">text-before</span>
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" class="form-control" placeholder="MyTextFieldName" />
+                        <select name="mySelectFieldName" id="myFormId_mySelectFieldName" class="form-control">
+                            <option value="myOptionValue1">myOptionValue1</option>
+                            <option value="myOptionValue2">myOptionValue2</option>
+                        </select>
+                        <span class="input-group-btn">
                             <button type="submit" name="submit" id="myFormId_submit" class="btn btn-primary">Submit</button>
-                        </div>
+                        </span>
                     </div>
                 </div>
             ',
@@ -68,17 +68,17 @@ class InputGroupTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">text-before</span></div>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_helpText myFormId_myTextFieldName_errors" aria-invalid="true" />
-                        <div class="input-group-append">
-                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" class="form-control">
-                                <option value="myOptionValue1">myOptionValue1</option>
-                                <option value="myOptionValue2">myOptionValue2</option>
-                            </select>
+                        <span class="input-group-addon">text-before</span>
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" aria-describedby="myFormId_myTextFieldName_helpText myFormId_myTextFieldName_errors" aria-invalid="true" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="MyTextFieldName" />
+                        <select name="mySelectFieldName" id="myFormId_mySelectFieldName" class="form-control">
+                            <option value="myOptionValue1">myOptionValue1</option>
+                            <option value="myOptionValue2">myOptionValue2</option>
+                        </select>
+                        <span class="input-group-btn">
                             <button type="submit" name="submit" id="myFormId_submit" class="btn btn-primary">Submit</button>
-                        </div>
+                        </span>
                     </div>
-                    <small id="myFormId_myTextFieldName_helpText" class="text-muted form-text small">myHelpText</small>
+                    <small id="myFormId_myTextFieldName_helpText" class="text-muted small">myHelpText</small>
                 </div>
             ',
             $element->generate()

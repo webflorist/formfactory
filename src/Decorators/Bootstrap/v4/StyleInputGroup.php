@@ -2,16 +2,12 @@
 
 namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
-use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
-use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\InputGroup;
-use Webflorist\FormFactory\Components\FormControls\RadioInput;
-use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
-use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 use Webflorist\HtmlFactory\Elements\DivElement;
 use Webflorist\HtmlFactory\Elements\SpanElement;
 
-class StyleInputGroup extends Bootstrap3StyleFieldWrapper
+class StyleInputGroup extends Decorator
 {
 
     /**

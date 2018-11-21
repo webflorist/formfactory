@@ -5,7 +5,7 @@ namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
 class InputGroupTest extends AbstractBootstrap4VueTest
 {
 
-    public function testSimple()
+    public function testSimpleInputGroup()
     {
         $element = \Form::inputGroup([
             'text-before',

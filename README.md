@@ -214,8 +214,6 @@ There might be cases, where there are validation-errors, that don't have an asso
 * You can add `{!! Form::errorContainer('myFieldName') !!}` anywhere within your form to render errors for `myFieldName`.
 * You can add `->addErrorField('myFieldName')` to any other field's generation to render errors for `myFieldName` next to that other field's errors.
 
-You can add an error-container for a specific field-name
-
 ##### Mapping laravel-rules to HTML5-attributes
 
 Several attributes (e.g. `required`, `max`, `min`, `pattern`, etc.) were introduced with HTML5 to add validation-relevant information to fields. With the help of these attributes, modern browsers can validate user input without any server-side requests.
