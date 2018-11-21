@@ -81,7 +81,7 @@ class FormTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="http://192.168.56.103:8000">
+                <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="http://localhost:8000">
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     <div>

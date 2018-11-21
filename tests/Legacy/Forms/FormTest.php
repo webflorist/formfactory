@@ -25,7 +25,7 @@ class FormTest extends TestCase
 
     protected $matchTagAttributes = [
         'id' => 'myFormID',
-        'action' => 'http://192.168.56.103:8000',
+        'action' => 'http://localhost:8000',
         'method' => 'POST',
         'role' => 'form',
         'accept-charset' => 'UTF-8',
