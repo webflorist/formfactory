@@ -159,10 +159,8 @@ class ErrorContainer extends AlertComponent
             }
 
             if ($this->field->isVueEnabled()) {
-                $fieldName = $this->field->getFieldName();
-                $errorFieldNames = array_merge([$fieldName], $this->additionalErrorFields);
                 $vIf = [];
-                foreach ($errorFieldNames as $fieldName) {
+                foreach ($this->getErrorFields() as $fieldName) {
                     $this->appendContent(
                         (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
                     );
@@ -211,14 +209,10 @@ class ErrorContainer extends AlertComponent
     private function getErrorsFromFormInstance()
     {
         if ($this->field->belongsToForm()) {
-            $formInstanceErrors = $this->field->getForm()->errors;
-            $fieldName = $this->field->getFieldName();
-            if ($formInstanceErrors->hasErrorsForField($fieldName)) {
-                $this->addErrors($formInstanceErrors->getErrorsForField($fieldName));
-                if (count($this->additionalErrorFields) > 0) {
-                    foreach ($this->additionalErrorFields as $fieldName) {
-                        $this->addErrors($formInstanceErrors->getErrorsForField($fieldName, true));
-                    }
+            $fieldErrorManager = $this->field->getForm()->errors;
+            foreach ($this->getErrorFields() as $fieldName) {
+                if ($fieldErrorManager->hasErrorsForField($fieldName)) {
+                    $this->addErrors($fieldErrorManager->getErrorsForField($fieldName));
                 }
             }
         }
@@ -252,5 +246,17 @@ class ErrorContainer extends AlertComponent
         }
     }
 
+    /**
+     * Returns all field-names this ErrorContainer should display errors for.
+     *
+     * @return array
+     */
+    protected function getErrorFields(): array
+    {
+        if (!is_null($this->field)) {
+            return array_merge([$this->field->getFieldName()], $this->additionalErrorFields);
+        }
+        return $this->additionalErrorFields;
+    }
 
 }
