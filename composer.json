@@ -26,11 +26,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:webflorist/htmlfactory.git"
+            "url": "https://github.com/webflorist/htmlfactory.git"
         },
         {
             "type": "vcs",
-            "url": "git@github.com:webflorist/vuefactory.git"
+            "url": "https://github.com/webflorist/vuefactory.git"
         }
     ],
     "extra": {
