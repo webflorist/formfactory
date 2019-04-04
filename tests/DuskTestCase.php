@@ -37,33 +37,11 @@ abstract class DuskTestCase extends BaseTestCase
         $this->loadRoutes($app);
     }
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
     }
-    /**
-     * Create the RemoteWebDriver instance.
-     *
-     * @return \Facebook\WebDriver\Remote\RemoteWebDriver
-     */
-    protected function driver()
-    {
-
-        $options = (new ChromeOptions())->addArguments([
-            '--disable-gpu',
-            '--headless',
-            '--start-maximized',
-            '--no-sandbox',
-        ]);
-
-        return RemoteWebDriver::create(
-            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
-            ChromeOptions::CAPABILITY, $options
-        )
-        );
-    }
-
 
     /**
      * Nicely prints current page source.
