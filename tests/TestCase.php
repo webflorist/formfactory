@@ -3,7 +3,6 @@
 namespace FormFactoryTests;
 
 use Form;
-use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
@@ -49,9 +48,8 @@ class TestCase extends BaseTestCase
      * Setup the test environment.
      *
      * @return void
-     * @throws \Webflorist\FormFactory\Exceptions\FormRequestClassNotFoundException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         if ($this->openForm) {
@@ -69,8 +67,9 @@ class TestCase extends BaseTestCase
      * Clean up the testing environment before the next test.
      *
      * @return void
+     * @throws \Webflorist\FormFactory\Exceptions\OpenElementNotFoundException
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->closeForm) {
             Form::close();
