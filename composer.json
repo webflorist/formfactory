@@ -15,7 +15,8 @@
     "require-dev": {
         "orchestra/testbench": "~3.5",
         "orchestra/testbench-dusk": "~3.5",
-        "gajus/dindent": "^2.0"
+        "gajus/dindent": "^2.0",
+        "orchestra/dusk-updater": "^1.0"
     },
     "autoload": {
         "psr-4": {
