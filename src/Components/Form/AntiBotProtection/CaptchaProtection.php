@@ -85,7 +85,6 @@ class CaptchaProtection
      */
     public function setUp()
     {
-        $this->forgetOldSessionData();
 
         // If the limit has been reached, we must append a captcha-field.
         if ($this->isRequestLimitReached()) {
@@ -138,7 +137,7 @@ class CaptchaProtection
         $this->answer = $num1 + $num2;
         $this->question = trans('Webflorist-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
 
-        session()->flash(
+        session()->put(
             $this->sessionKey,
             [
                 'question' => $this->question,
@@ -147,8 +146,22 @@ class CaptchaProtection
         );
     }
 
+
+
     /**
-     * Makes sure, captchaData (question and answer) for this form are present in the session and in this object.     *
+     * Retrieves Captcha Data from session.
+     */
+    private function getCaptchaDataFromSession()
+    {
+        if (session()->has($this->sessionKey)) {
+            $sessionData = session()->get($this->sessionKey);
+            $this->question = $sessionData['question'];
+            $this->answer = $sessionData['answer'];
+        }
+    }
+
+    /**
+     * Makes sure, captchaData (question and answer) for this form are present in the session and in this object.
      */
     private function establishCaptchaData()
     {
@@ -156,6 +169,7 @@ class CaptchaProtection
         // there might already be captchaData in the session.
         // If this is the case, we use that.
         // Otherwise we generate a new captcha-question and an answer.
+
         if (session()->has($this->sessionKey)) {
             $sessionData = session()->get($this->sessionKey);
             $this->question = $sessionData['question'];
@@ -178,8 +192,7 @@ class CaptchaProtection
      */
     protected function forgetOldSessionData()
     {
-        $oldFlashKeys = session()->get('_flash.old');
-        if (is_array($oldFlashKeys) && in_array($this->sessionKey, $oldFlashKeys)) {
+        if (session()->has($this->sessionKey)) {
             session()->forget($this->sessionKey);
         }
     }
@@ -213,13 +226,14 @@ class CaptchaProtection
      */
     public function validate($answer)
     {
-
-        $this->establishCaptchaData();
+        $this->getCaptchaDataFromSession();
 
         if ($this->isRequestLimitReached() && (strval($answer) !== strval($this->answer))) {
+            $this->generateCaptchaData();
             return false;
         }
 
+        $this->generateCaptchaData();
         return true;
 
     }
