@@ -362,9 +362,9 @@ A default time-limit, that is automatically used for all forms, that have time-l
 
 FormFactory has a build-in captcha-protection based on simple mathematical calculations. There are 2 settings relevant to this mechanism:
 * The number of times a form can be submitted, before a captcha is required. (0 means, the captcha is shown always.) A default-value can be set via the config-key `formfactory.captcha.default_limit` of the htmlfactory-config (2 per default). It can also be overridden per form via the first parameter of the `captcha`-rule.
-* The time-span (in minutes) for which the captcha-limit is valid. After reaching the limit for captcha-less submissions, it takes this long, before the user can submit the form again without a captcha. Again, a default-value can be set via the config-key `formfactory.captcha.decay_time` of the htmlfactory-config (2 per default). It can also be overridden per form via the second parameter of the `captcha`-rule.
+* The time-span (in seconds since Laravel 5.8; in minutes before Laravel 5.8) for which the captcha-limit is valid. After reaching the limit for captcha-less submissions, it takes this long, before the user can submit the form again without a captcha. Again, a default-value can be set via the config-key `formfactory.captcha.decay_time` of the htmlfactory-config (120 per default). It can also be overridden per form via the second parameter of the `captcha`-rule.
 
-E.g. the rule `'_captcha' => 'captcha:10,5'` would display and require a captcha after 10 form-submissions and for 5 minutes (thus overriding the default-values in the config file).
+E.g. the rule `'_captcha' => 'captcha:10,60'` would display and require a captcha after 10 form-submissions and for 60 seconds (thus overriding the default-values in the config file).
 
 #### Disable automatic mandatory-field-legend
 

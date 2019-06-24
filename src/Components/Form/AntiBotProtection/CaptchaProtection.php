@@ -215,6 +215,12 @@ class CaptchaProtection
     {
 
         $this->establishCaptchaData();
+        $rateLimiter = app(RateLimiter::class);
+        print_r($rateLimiter->attempts($this->rateLimiterKey) ."\n");
+        print_r($this->rateLimiterKey ."\n");
+        print_r($this->requestLimit ."\n");
+        print_r($this->decayTime ."\n");
+        //die;
 
         if ($this->isRequestLimitReached() && (strval($answer) !== strval($this->answer))) {
             return false;
