@@ -23,7 +23,14 @@ The main features are:
 * ...and many more.
 
 ## Installation
-1. Require the package via composer:  `composer require webflorist/formfactory`
+1. Require the package via composer:
+```php 
+composer require webflorist/formfactory
+```
+2. Publish config (optional):
+```
+php artisan vendor:publish --provider="Webflorist\FormFactory\FormFactoryServiceProvider"
+```
 
 Note that this package is configured for automatic discovery for Laravel. Thus the package's Service Provider `Webflorist\FormFactory\FormFactoryServiceProvider` and the `Form`-Facade `Webflorist\FormFactory\FormFactoryFacade` will be automatically registered with Laravel.
 
