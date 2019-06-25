@@ -28,11 +28,6 @@ class FormFactoryServiceProvider extends ServiceProvider
             __DIR__ . '/config/formfactory.php' => config_path('formfactory.php'),
         ]);
 
-        // Publish public stuff.
-        $this->publishes([
-            __DIR__.'/public' => public_path('vendor/webflorist/formfactory'),
-        ], 'public');
-
         // Load translations.
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Webflorist-FormFactory");
 
