@@ -4,12 +4,23 @@ namespace FormFactoryTests\Browser\Controllers;
 
 use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Webflorist\FormFactory\Vue\FormFactoryControllerTrait;
 use Webflorist\FormFactory\Vue\Responses\VueFormSuccessResponse;
 
 class VueFormTestController extends Controller
 {
     use FormFactoryControllerTrait;
+
+    public function getSuccess()
+    {
+        return view('vue_form', ['action' => '/vue-success']);
+    }
+
+    public function postSuccess(VueFormTestRequest $request)
+    {
+        return (new VueFormSuccessResponse('success'));
+    }
 
     public function getRedirect()
     {

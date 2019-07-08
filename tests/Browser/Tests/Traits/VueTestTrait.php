@@ -7,6 +7,18 @@ use Laravel\Dusk\Browser;
 trait VueTestTrait
 {
 
+    /**
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function testSuccess()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/vue-success');
+            $browser->click('#myFormId_submit');
+            $this->waitForAndAssertSee($browser, 'success');
+        });
+    }
 
     /**
      * @throws \Exception
