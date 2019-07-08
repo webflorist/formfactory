@@ -161,7 +161,7 @@ class FormFactoryServiceProvider extends ServiceProvider
         if (config('formfactory.vue.enabled') && config('formfactory.vue.auto_csrf_refresh')) {
             /** @var Router $router */
             $router = $this->app[Router::class];
-            $router->get('csrf_token', function () {
+            $router->get('api/csrf_token', function () {
                 return response()->json(csrf_token());
             })->middleware('web');
         }
