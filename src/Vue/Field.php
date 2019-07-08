@@ -113,7 +113,7 @@ class Field
      */
     private function evaluateFieldErrors(Element $field)
     {
-        if ($field->errors) {
+        if (property_exists($field,'errors')) {
             return $field->errors->getErrors();
         }
 

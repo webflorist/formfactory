@@ -2,10 +2,10 @@
 
 namespace Webflorist\FormFactory\Vue;
 
+use stdClass;
 use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\Form\VueForm;
 use Webflorist\VueFactory\VueInstance;
-use stdClass;
 
 /**
  * Generates a vue instance from a Form.
@@ -65,7 +65,7 @@ class VueInstanceGenerator
     private function parseFormControls()
     {
         foreach ($this->form->getFormControls() as $control) {
-            if ($control->isAField()) {
+            if ($control->attributes->isSet('name')) {
                 $this->fieldData->{$control->attributes->name} = new Field($control, $this->fieldData);
             }
         }
@@ -151,7 +151,7 @@ class VueInstanceGenerator
                                 }
                             }
                             else if (error.response.status == 419) {
-                                this.generalErrors = [this.lang["form_expired_error"]];
+                                this.handleCsrfTokenError(error.response);
                             }
                             else {
                                 this.generalErrors = [this.lang["general_form_error"]];
@@ -198,12 +198,50 @@ class VueInstanceGenerator
                 }');
 
         $this->vueInstance->addMethod(
-            'displaySuccessMessage', config('formfactory.vue.methods.display_success_message'));
+            'displaySuccessMessage',
+            config('formfactory.vue.methods.display_success_message')
+        );
+
+        $this->vueInstance->addMethod(
+            'refreshCsrfToken',
+            'function(submitAfterSuccess=false) {
+                axios.get("/csrf_token").then((response) => {
+                    axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
+                    if (submitAfterSuccess) {
+                        this.submitForm();
+                    }
+                }).catch((error) => {
+                    this.generalErrors = [this.lang["form_expired_error"]];
+                });
+            }'
+        );
+
+        $this->vueInstance->addMethod(
+            'handleCsrfTokenError',
+            'function(response) {
+                    ' . $this->getFunctionBodyForHandlingCsrfTokenErrors() . '
+                }'
+        );
 
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('generalErrors', []);
         $this->vueInstance->addData('successMessage', []);
         $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
+    }
+
+    private function getFunctionBodyForHandlingCsrfTokenErrors()
+    {
+        if (config('formfactory.vue.auto_csrf_refresh')) {
+
+            return '
+                this.finishSubmit(response);
+                this.refreshCsrfToken(true);
+            ';
+
+        }
+
+        // Otherwise Vue should simply display an error.
+        return 'this.generalErrors = [this.lang["form_expired_error"]];';
     }
 
 }

@@ -51,7 +51,13 @@ return [
                 this.successMessage = message;
             }',
 
-        ]
+        ],
+
+        /*
+         * Functionality to automatically fetch a new CSRF-token
+         * and resubmit form, if a 419-error is returned on form-submission.
+         */
+        'auto_csrf_refresh' => true
 
     ],
 

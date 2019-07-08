@@ -3,6 +3,7 @@
 namespace Webflorist\FormFactory;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
@@ -49,6 +50,8 @@ class FormFactoryServiceProvider extends ServiceProvider
 
         // Register the honeypot-validator, if honeypot-protection is enabled in the config.
         $this->registerHoneypotValidator();
+
+        $this->registerGetCsrfTokenRoute();
 
     }
 
@@ -146,6 +149,21 @@ class FormFactoryServiceProvider extends ServiceProvider
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
                 return trans('Webflorist-FormFactory::formfactory.honeypot_error');
             });
+        }
+    }
+
+
+    /**
+     * Register route to fetch new CSRF-token.
+     */
+    private function registerGetCsrfTokenRoute()
+    {
+        if (config('formfactory.vue.enabled') && config('formfactory.vue.auto_csrf_refresh')) {
+            /** @var Router $router */
+            $router = $this->app[Router::class];
+            $router->get('csrf_token', function () {
+                return response()->json(csrf_token());
+            })->middleware('web');
         }
     }
 }
