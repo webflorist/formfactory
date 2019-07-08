@@ -15,6 +15,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Generate hidden input field for CSRF-token with every form.
+    |--------------------------------------------------------------------------
+    |
+    | You can disable this, if you only use axios and it is
+    | configured to submit the CSRF-token automatically.
+    |
+     */
+    'generate_csrf_token' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Vue.js Support
     |--------------------------------------------------------------------------
     |
