@@ -111,7 +111,7 @@ class VueInstanceGenerator
         ];
 
         foreach ($langKeys as $langKey) {
-            $lang->{$langKey} = trans("Webflorist-FormFactory::formfactory.$langKey");
+            $lang->{$langKey} = trans("webflorist-formfactory::formfactory.$langKey");
         }
 
         return $lang;

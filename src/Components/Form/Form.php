@@ -515,8 +515,8 @@ class Form extends FormElement
             ->required(true)
             ->value('')
             ->label($this->getCaptchaQuestion())
-            ->placeholder(trans('Webflorist-FormFactory::formfactory.captcha_placeholder'))
-            ->helpText(trans('Webflorist-FormFactory::formfactory.captcha_help_text'));
+            ->placeholder(trans('webflorist-formfactory::formfactory.captcha_placeholder'))
+            ->helpText(trans('webflorist-formfactory::formfactory.captcha_help_text'));
     }
 
     /**

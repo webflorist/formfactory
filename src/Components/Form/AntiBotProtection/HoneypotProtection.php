@@ -27,7 +27,7 @@ class HoneypotProtection
                 // ...we add the honeypot-field wrapped in a hidden wrapper.
                 $honeypotField = FormFactory::singleton()->text(self::getHoneypotFieldName())
                     ->value("")
-                    ->label(trans('Webflorist-FormFactory::formfactory.honeypot_field_label'));
+                    ->label(trans('webflorist-formfactory::formfactory.honeypot_field_label'));
 
                 $honeypotField->wrap(
                     (new FieldWrapper($honeypotField))->hidden()

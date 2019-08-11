@@ -1,1 +1,1 @@
-@include('formfactory::_general.checkable-field')
+@include('webflorist-formfactory::_general.checkable-field')

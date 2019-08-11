@@ -58,7 +58,7 @@ class InputGroup
         parent::__construct();
 
         // Apply view.
-        $this->view('formfactory::form-controls.input-group');
+        $this->view('webflorist-formfactory::form-controls.input-group');
 
         // Set content.
         $this->content($content);

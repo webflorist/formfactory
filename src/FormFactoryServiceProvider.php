@@ -30,10 +30,10 @@ class FormFactoryServiceProvider extends ServiceProvider
         ]);
 
         // Load translations.
-        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "Webflorist-FormFactory");
+        $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "webflorist-formfactory");
 
         // Load views.
-        $this->loadViewsFrom(__DIR__.'/resources/views/', 'formfactory');
+        $this->loadViewsFrom(__DIR__.'/resources/views/', 'webflorist-formfactory');
 
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
@@ -112,7 +112,7 @@ class FormFactoryServiceProvider extends ServiceProvider
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('captcha', function ($message, $attribute, $rule, $parameters) {
-                return trans('Webflorist-FormFactory::formfactory.captcha_error');
+                return trans('webflorist-formfactory::formfactory.captcha_error');
             });
         }
     }
@@ -129,7 +129,7 @@ class FormFactoryServiceProvider extends ServiceProvider
             // We deliver the error configured in the htmlfactory-language-file and replace the time-limit.
             Validator::replacer('timeLimit', function ($message, $attribute, $rule, $parameters) {
 
-                return trans('Webflorist-FormFactory::formfactory.time_limit_error', [
+                return trans('webflorist-formfactory::formfactory.time_limit_error', [
                     'timeLimit' => TimeLimitProtection::getTimeLimitFromRuleParams($parameters)
                 ]);
             });
@@ -147,7 +147,7 @@ class FormFactoryServiceProvider extends ServiceProvider
 
             // We deliver the error configured in the htmlfactory-language-file.
             Validator::replacer('honeypot', function ($message, $attribute, $rule, $parameters) {
-                return trans('Webflorist-FormFactory::formfactory.honeypot_error');
+                return trans('webflorist-formfactory::formfactory.honeypot_error');
             });
         }
     }

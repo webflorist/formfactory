@@ -135,7 +135,7 @@ class CaptchaProtection
         $num1 = rand(1, 10) * rand(1, 3);
         $num2 = rand(1, 10) * rand(1, 3);
         $this->answer = $num1 + $num2;
-        $this->question = trans('Webflorist-FormFactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
+        $this->question = trans('webflorist-formfactory::formfactory.captcha_questions.math', ['calc' => $num1 . ' + ' . $num2]);
 
         session()->put(
             $this->sessionKey,

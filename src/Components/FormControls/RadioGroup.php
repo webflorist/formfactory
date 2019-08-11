@@ -62,7 +62,7 @@ class RadioGroup
     {
         parent::__construct();
 
-        $this->view('formfactory::form-controls.radio-group');
+        $this->view('webflorist-formfactory::form-controls.radio-group');
 
         $this->radioName = $name;
         $this->radioInputs = $radioInputs;

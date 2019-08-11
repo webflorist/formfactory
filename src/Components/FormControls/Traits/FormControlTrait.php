@@ -57,7 +57,7 @@ trait FormControlTrait
 
         // Apply view.
         try {
-            $this->view('formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName()));
+            $this->view('webflorist-formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName()));
         } catch (\ReflectionException $e) {
         }
 

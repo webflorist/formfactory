@@ -507,7 +507,7 @@ class DynamicList extends FieldsetElement
                 ucfirst($arrayStrippedAttribute)
             );
 
-            $addButtonLabel = trans('Webflorist-FormFactory::formfactory.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
+            $addButtonLabel = trans('webflorist-formfactory::formfactory.dynamic_list_add_button_title', ['attribute' => $addButtonLabelAttribute]);
         }
 
         $this->addItemButton = (new Button())
@@ -526,7 +526,7 @@ class DynamicList extends FieldsetElement
     {
         $this->maximumReachedAlert = (new AlertComponent('info'))
             ->hidden()
-            ->content(trans('Webflorist-FormFactory::formfactory.dynamic_list_maximum_reached'))
+            ->content(trans('webflorist-formfactory::formfactory.dynamic_list_maximum_reached'))
             ->data('dynamiclist-maxalert', true)
             ->data('dynamiclist-group', $this->getDynamicListGroupID());
     }
@@ -544,7 +544,7 @@ class DynamicList extends FieldsetElement
             ucfirst($arrayStrippedAttribute)
         );
 
-        $removeButtonLabel = trans('Webflorist-FormFactory::formfactory.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
+        $removeButtonLabel = trans('webflorist-formfactory::formfactory.dynamic_list_remove_button_title', ['attribute' => $removeButtonAttribute]);
 
         $this->removeItemButton = (new Button())
             ->title($removeButtonLabel)

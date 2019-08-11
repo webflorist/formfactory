@@ -20,7 +20,7 @@ class VueFormSuccessResponse extends VueFormResponse
     public function __construct($message = null, int $status = 200)
     {
         parent::__construct(null, $status);
-        $this->vueFormResponseData['message'] = $message ?? trans('Webflorist-FormFactory::formfactory.default_success_message');
+        $this->vueFormResponseData['message'] = $message ?? trans('webflorist-formfactory::formfactory.default_success_message');
     }
 
     /**
@@ -45,7 +45,7 @@ class VueFormSuccessResponse extends VueFormResponse
      */
     public function redirect(string $url, int $delay=2000)
     {
-        $this->vueFormResponseData['message'] .= ' ' . trans('Webflorist-FormFactory::formfactory.redirect_message');
+        $this->vueFormResponseData['message'] .= ' ' . trans('webflorist-formfactory::formfactory.redirect_message');
         $this->vueFormResponseData['redirect'] = [
             'url' => $url,
             'delay' => $delay

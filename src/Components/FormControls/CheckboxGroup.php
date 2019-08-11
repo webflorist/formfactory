@@ -48,7 +48,7 @@ class CheckboxGroup
     {
         parent::__construct();
 
-        $this->view('formfactory::form-controls.checkbox-group');
+        $this->view('webflorist-formfactory::form-controls.checkbox-group');
 
         $this->checkboxInputs = $checkboxInputs;
 
