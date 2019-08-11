@@ -209,6 +209,18 @@ class FormFactory
     }
 
     /**
+     * Creates the required fields legend.
+     *
+     * @param bool $appendRequiredFieldsLegend
+     * @return string
+     * @throws OpenElementNotFoundException
+     */
+    public static function requiredFieldsLegend()
+    {
+        return new RequiredFieldsLegend();
+    }
+
+    /**
      * Creates an error-container for a certain field-name.
      *
      * @param $fieldName
