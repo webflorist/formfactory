@@ -147,7 +147,9 @@ class VueInstanceGenerator
                                     if (typeof this.fields[fieldName] === "undefined") {
                                         this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
                                     }
-                                    this.fields[fieldName].errors = error.response.data.errors[fieldName];
+                                    else {
+                                        this.fields[fieldName].errors = error.response.data.errors[fieldName];
+                                    }
                                 }
                             }
                             else if (error.response.status == 419) {
