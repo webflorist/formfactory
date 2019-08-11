@@ -42,6 +42,13 @@ trait FormControlTrait
     private $vueEnabled = true;
 
     /**
+     * Is this FormControl part of a (e.g. input-)group?
+     *
+     * @var bool
+     */
+    public $inGroup = false;
+    
+    /**
      * Performs various Setup-tasks for this FormControl.
      *
      * TODO: This is all very smelly. Find better solution.

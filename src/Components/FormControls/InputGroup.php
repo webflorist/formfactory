@@ -85,6 +85,10 @@ class InputGroup
         foreach ($this->content->getChildrenByClassName(FieldInterface::class) as $childKey => $child) {
             /** @var FieldTrait|FormControlTrait|HelpTextTrait|LabelTrait $child */
 
+            // Tell the child, it is part of a group.
+            // (useful for Decorators/Views etc.)
+            $child->inGroup = true;
+
             $this->containedErrors[] = clone $child->errors;
             $child->errors->hideErrors();
 
