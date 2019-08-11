@@ -234,6 +234,21 @@ class FieldRuleProcessor
     }
 
     /**
+     * Applies 'image' rule.
+     *
+     * @param array $parameters
+     */
+    private function applyImageRule(array $parameters)
+    {
+        /** @var AllowsAcceptAttribute $field */
+        $field = $this->field;
+        $acceptedFileTypes = [
+            'jpeg', 'jpg', 'png', 'bmp', 'gif', 'svg', 'webp'
+        ];
+        $field->accept('.' . implode(',.', $acceptedFileTypes));
+    }
+
+    /**
      * Applies a pattern-attribute.
      *
      * @param string $pattern
