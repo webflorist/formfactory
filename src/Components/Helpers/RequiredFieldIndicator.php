@@ -35,8 +35,7 @@ class RequiredFieldIndicator extends SupElement
         }
 
         $this->field = $field;
-
-        $this->content('*');
+        $this->view('webflorist-formfactory::_general.required-field-indicator');
 
         if (!is_null($this->field) && $this->field->isVueEnabled()) {
             $this->vIf( "fields['".$this->field->getFieldName()."'].isRequired");
