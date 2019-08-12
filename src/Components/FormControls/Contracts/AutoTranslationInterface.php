@@ -22,7 +22,7 @@ interface AutoTranslationInterface
      *
      * Calling Class must implement AutoTranslationInterface!
      *
-     * The $suffix is appended to the translation-key (e.g. "HelpText" or "Placeholder").
+     * The $suffix is appended to the translation-key (e.g. "_help_text" or "_placeholder").
      *
      * @param null $defaultValue
      * @param string $suffix

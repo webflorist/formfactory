@@ -90,7 +90,15 @@ class FieldLabel extends LabelElement
             if ($this->field->attributes->isAllowed('placeholder') && !$this->field->attributes->isSet('placeholder')) {
                 $this->field->placeholder(function () {
                     $defaultValue = $this->hasLabel() ? $this->getText() : null;
-                    return $this->field->performAutoTranslation($defaultValue, 'Placeholder');
+                    return $this->field->performAutoTranslation($defaultValue, '_placeholder');
+                });
+            }
+
+            // Set autocomplete attribute.
+            // TODO: make this work.
+            if ($this->field->attributes->isAllowed('autocomplete') && !$this->field->attributes->isSet('autocomplete')) {
+                $this->field->autocomplete(function () {
+                    return $this->field->performAutoTranslation($defaultValue, '_autocomplete');
                 });
             }
 

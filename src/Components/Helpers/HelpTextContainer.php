@@ -116,7 +116,7 @@ class HelpTextContainer extends SmallElement
 
         // Perform auto-translation, if no help-text was manually set.
         if (!$this->hasHelpText()) {
-            $helpText = $this->field->performAutoTranslation(null, 'HelpText');
+            $helpText = $this->field->performAutoTranslation(null, '_help_text');
             if ($helpText !== null) {
                 $this->setText($helpText);
             }
