@@ -78,7 +78,7 @@ class VueForm extends Form
     {
         $this->vOn('submit', 'submitForm', ['prevent']);
         $this->appendContent(
-            (new ErrorContainer())
+            (new AlertComponent('danger'))
                 ->appendContent(
                     (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
                 )

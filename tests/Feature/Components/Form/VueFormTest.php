@@ -39,7 +39,7 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="myAction" v-on:submit.prevent="submitForm">
                     <template>
-                        <div v-if="generalErrors.length">
+                        <div role="alert" v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
@@ -119,7 +119,7 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" v-on:submit.prevent="submitForm" action="http://localhost:8000">
                     <template>
-                        <div v-if="generalErrors.length">
+                        <div role="alert" v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
@@ -180,7 +180,7 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="myAction" v-on:submit.prevent="submitForm">
                     <template>
-                        <div v-if="generalErrors.length">
+                        <div role="alert" v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
@@ -231,7 +231,7 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" v-on:submit.prevent="submitForm" action="http://localhost:8000">
                     <template>
-                        <div v-if="generalErrors.length">
+                        <div role="alert" v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
