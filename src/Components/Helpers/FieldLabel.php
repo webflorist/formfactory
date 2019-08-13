@@ -96,11 +96,13 @@ class FieldLabel extends LabelElement
 
             // Set autocomplete attribute.
             // TODO: make this work.
+            /*
             if ($this->field->attributes->isAllowed('autocomplete') && !$this->field->attributes->isSet('autocomplete')) {
                 $this->field->autocomplete(function () {
                     return $this->field->performAutoTranslation($defaultValue, '_autocomplete');
                 });
             }
+            */
 
             $this->for($this->field->attributes->id);
             $this->content($this->getText());

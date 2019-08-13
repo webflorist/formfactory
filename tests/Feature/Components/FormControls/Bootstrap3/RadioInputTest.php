@@ -37,7 +37,7 @@ class RadioInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="radio has-error">
-                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myFieldName_errors" class="alert alert-danger" role="alert">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

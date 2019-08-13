@@ -2,18 +2,21 @@
 
 namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
+use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
 use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 
-class StyleFieldWrapper extends Decorator
+class StyleField extends Decorator
 {
 
     /**
      * The element to be decorated.
      *
-     * @var FieldWrapper
+     * @var Element|FieldInterface|FormControlInterface
      */
     protected $element;
 
@@ -37,7 +40,7 @@ class StyleFieldWrapper extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            FieldWrapper::class
+            FieldInterface::class
         ];
     }
 
@@ -47,33 +50,28 @@ class StyleFieldWrapper extends Decorator
      */
     public function decorate()
     {
-        $this->element->addClass($this->getFieldWrapperClass());
+        $this->applyErrorClass();
     }
 
     /**
-     * Returns the correct class for the field's wrapper.
+     * Applies error-class, if field has errors.
+     * If vue is used, this will be bound.
      *
-     * @return string
+     * @throws \Webflorist\HtmlFactory\Exceptions\VueDirectiveModifierNotAllowedException
      */
-    protected function getFieldWrapperClass()
+    protected function applyErrorClass()
     {
-        $class = 'form-group';
 
-        // FieldWrappers for RadioInputs, that belong to a RadioGroup do not get the form-group class.
-        if (isset($this->element->field->belongsToGroup) && $this->element->field->belongsToGroup === true) {
-            $class = '';
+        // We make this reactive, if vue is used.
+        if ($this->element->isVueEnabled()) {
+            $this->element->vBind('class',"{ 'is-invalid': fieldHasError('".$this->element->getFieldName()."') }");
+            return;
         }
 
-        if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class))) {
-            $class .= ' form-check';
-
-            if ($this->element->field->isInline()) {
-                $class .= ' form-check-inline';
-            }
-
+        // If vue is not used, we simply add the error-class, if the field has errors.
+        if ($this->element->errors->hasErrors()) {
+            $this->element->addClass('is-invalid');
         }
-
-        return $class;
     }
 
 }

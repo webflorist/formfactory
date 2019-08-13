@@ -35,7 +35,7 @@ class TelInputTest extends TestCase
             '
                 <div>
                     <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                    <div role="alert" id="myFormId_myFieldName_errors">
+                    <div id="myFormId_myFieldName_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

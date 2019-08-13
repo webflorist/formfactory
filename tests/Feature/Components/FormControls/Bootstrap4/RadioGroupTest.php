@@ -49,16 +49,16 @@ class RadioGroupTest extends TestCase
             '
                 <fieldset class="form-group">
                     <legend>myLegend<sup>*</sup></legend>
-                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <div class="form-check has-error">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input is-invalid" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
                     </div>
-                    <div class="form-check has-error">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input is-invalid" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
                     </div>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>

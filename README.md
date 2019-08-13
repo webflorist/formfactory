@@ -77,7 +77,7 @@ Generated HTML:
     
     <div data-field-wrapper="1">
         <label for="MyFormID_MyFieldName">MyFieldName</label>
-        <div role="alert" data-error-container="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
+        <div data-error-container="1" id="MyFormID_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden style="display:none"></div>
         <input type="text" name="MyFieldName" id="MyFormID_MyFieldName" placeholder="MyFieldName" aria-describedby="MyFormID_MyFieldName_errors" />
     </div>
     
@@ -109,7 +109,7 @@ Generated HTML:
 ---------------
 <div data-field-wrapper="1">
     <label for="frmTest_MyFieldName">MyFieldName</label>
-    <div role="alert" data-error-container="1" id="frmTest_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden="" style="display:none"></div>
+    <div data-error-container="1" id="frmTest_MyFieldName_errors" data-displays-errors-for="MyFieldName" hidden="" style="display:none"></div>
     <input type="text" name="MyFieldName" id="frmTest_MyFieldName" placeholder="MyFieldName" aria-describedby="frmTest_MyFieldName_errors">
 </div>
 ```

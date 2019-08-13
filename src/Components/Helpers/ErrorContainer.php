@@ -10,7 +10,7 @@ use Webflorist\HtmlFactory\Components\AlertComponent;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 use Webflorist\HtmlFactory\Elements\DivElement;
 
-class ErrorContainer extends AlertComponent
+class ErrorContainer extends DivElement
 {
 
     /**
@@ -55,7 +55,7 @@ class ErrorContainer extends AlertComponent
      */
     public function __construct($field = null)
     {
-        parent::__construct('danger');
+        parent::__construct();
 
         // If we just get a field-name, we create a temporary text-input from it,
         // since a FieldInterface is required for further processing.

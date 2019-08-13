@@ -49,20 +49,20 @@ class CheckboxGroupTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <fieldset class="form-group">
-                    <div role="alert" id="myFormId_myFirstCheckboxFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myFirstCheckboxFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstCheckboxFirstError</div>
                         <div>myFirstCheckboxSecondError</div>
                     </div>
-                    <div role="alert" id="myFormId_mySecondCheckboxFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_mySecondCheckboxFieldName_errors" role="alert" class="invalid-feedback">
                         <div>mySecondCheckboxFirstError</div>
                         <div>mySecondCheckboxSecondError</div>
                     </div>
-                    <div class="form-check has-error">
-                        <input type="checkbox" name="myFirstCheckboxFieldName" class="form-check-input" value="1" id="myFormId_myFirstCheckboxFieldName" aria-describedby="myFormId_myFirstCheckboxFieldName_errors myFormId_myFirstCheckboxFieldName_helpText" aria-invalid="true" />
+                    <div class="form-check">
+                        <input type="checkbox" name="myFirstCheckboxFieldName" class="form-check-input is-invalid" value="1" id="myFormId_myFirstCheckboxFieldName" aria-describedby="myFormId_myFirstCheckboxFieldName_errors myFormId_myFirstCheckboxFieldName_helpText" aria-invalid="true" />
                         <label class="form-check-label" for="myFormId_myFirstCheckboxFieldName">MyFirstCheckboxFieldName</label>
                     </div>
-                    <div class="form-check has-error">
-                        <input type="checkbox" name="mySecondCheckboxFieldName" class="form-check-input" value="1" id="myFormId_mySecondCheckboxFieldName"  required aria-describedby="myFormId_mySecondCheckboxFieldName_errors myFormId_mySecondCheckboxFieldName_helpText" aria-invalid="true" />
+                    <div class="form-check">
+                        <input type="checkbox" name="mySecondCheckboxFieldName" class="form-check-input is-invalid" value="1" id="myFormId_mySecondCheckboxFieldName"  required aria-describedby="myFormId_mySecondCheckboxFieldName_errors myFormId_mySecondCheckboxFieldName_helpText" aria-invalid="true" />
                         <label class="form-check-label" for="myFormId_mySecondCheckboxFieldName">MySecondCheckboxFieldName<sup>*</sup></label>
                     </div>
                     <small id="myFormId_myFirstCheckboxFieldName_helpText" class="text-muted form-text small">myFirstCheckboxHelpText</small>

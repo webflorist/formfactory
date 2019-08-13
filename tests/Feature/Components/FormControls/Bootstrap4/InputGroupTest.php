@@ -61,15 +61,15 @@ class InputGroupTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group">
                     <label for="myFormId_myTextFieldName">MyTextFieldName<sup>*</sup></label>
-                    <div role="alert" id="myFormId_myTextFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myTextFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend"><span class="input-group-text">text-before</span></div>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" class="form-control" required pattern="[a-zA-Z]+" maxlength="10" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_helpText myFormId_myTextFieldName_errors" aria-invalid="true" />
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" class="form-control is-invalid" required pattern="[a-zA-Z]+" maxlength="10" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_helpText myFormId_myTextFieldName_errors" aria-invalid="true" />
                         <div class="input-group-append">
                             <select name="mySelectFieldName" id="myFormId_mySelectFieldName" class="form-control">
                                 <option value="myOptionValue1">myOptionValue1</option>

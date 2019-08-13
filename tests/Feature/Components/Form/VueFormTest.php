@@ -39,12 +39,12 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="myAction" v-on:submit.prevent="submitForm">
                     <template>
-                        <div role="alert" v-if="generalErrors.length">
+                        <div v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
                     <template>
-                        <div role="alert" v-if="successMessage.length">{{ successMessage }}</div>
+                        <div v-if="successMessage.length" role="alert">{{ successMessage }}</div>
                     </template>
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
@@ -54,7 +54,7 @@ class VueFormTest extends TestCase
                             <template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template>
                         </label>
                         <template>
-                            <div role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
+                            <div id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
                                 <div v-for="error in fields[\'myTextFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
@@ -62,7 +62,7 @@ class VueFormTest extends TestCase
                     </div>
                     <div>
                         <template>
-                            <div role="alert" id="myFormId_myRadioFieldName_errors" v-if="fieldHasError(\'myRadioFieldName\')">
+                            <div id="myFormId_myRadioFieldName_errors" v-if="fieldHasError(\'myRadioFieldName\')">
                                 <div v-for="error in fields[\'myRadioFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
@@ -74,7 +74,7 @@ class VueFormTest extends TestCase
                     </div>
                     <div>
                         <template>
-                            <div role="alert" id="myFormId_myRadioFieldName_errors" v-if="fieldHasError(\'myRadioFieldName\')">
+                            <div id="myFormId_myRadioFieldName_errors" v-if="fieldHasError(\'myRadioFieldName\')">
                                 <div v-for="error in fields[\'myRadioFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
@@ -90,7 +90,7 @@ class VueFormTest extends TestCase
                             <template><sup v-if="fields[\'myTextareaFieldName\'].isRequired">*</sup></template>
                         </label>
                         <template>
-                            <div role="alert" id="myFormId_myTextareaFieldName_errors" v-if="fieldHasError(\'myTextareaFieldName\')">
+                            <div id="myFormId_myTextareaFieldName_errors" v-if="fieldHasError(\'myTextareaFieldName\')">
                                 <div v-for="error in fields[\'myTextareaFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
@@ -119,12 +119,12 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" v-on:submit.prevent="submitForm" action="http://localhost:8000">
                     <template>
-                        <div role="alert" v-if="generalErrors.length">
+                        <div v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
                     <template>
-                        <div role="alert" v-if="successMessage.length">{{ successMessage }}</div>
+                        <div v-if="successMessage.length" role="alert">{{ successMessage }}</div>
                     </template>
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
@@ -134,7 +134,7 @@ class VueFormTest extends TestCase
                             <template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template>
                         </label>
                         <template>
-                            <div role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
+                            <div id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
                                 <div v-for="error in fields[\'myTextFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
@@ -180,12 +180,12 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="myAction" v-on:submit.prevent="submitForm">
                     <template>
-                        <div role="alert" v-if="generalErrors.length">
+                        <div v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
                     <template>
-                        <div role="alert" v-if="successMessage.length">{{ successMessage }}</div>
+                        <div v-if="successMessage.length" role="alert">{{ successMessage }}</div>
                     </template>
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
@@ -195,7 +195,7 @@ class VueFormTest extends TestCase
                             <template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template>
                         </label>
                         <template>
-                            <div role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\') || fieldHasError(\'myFirstAdditionalFieldName\') || fieldHasError(\'mySecondAdditionalFieldName\')">
+                            <div id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\') || fieldHasError(\'myFirstAdditionalFieldName\') || fieldHasError(\'mySecondAdditionalFieldName\')">
                                 <div v-for="error in fields[\'myTextFieldName\'].errors">{{ error }}</div>
                                 <div v-for="error in fields[\'myFirstAdditionalFieldName\'].errors">{{ error }}</div>
                                 <div v-for="error in fields[\'mySecondAdditionalFieldName\'].errors">{{ error }}</div>
@@ -231,17 +231,17 @@ class VueFormTest extends TestCase
             '
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" v-on:submit.prevent="submitForm" action="http://localhost:8000">
                     <template>
-                        <div role="alert" v-if="generalErrors.length">
+                        <div v-if="generalErrors.length">
                             <div v-for="error in generalErrors">{{ error }}</div>
                         </div>
                     </template>
                     <template>
-                        <div role="alert" v-if="successMessage.length">{{ successMessage }}</div>
+                        <div v-if="successMessage.length" role="alert">{{ successMessage }}</div>
                     </template>
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     <template>
-                        <div role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+                        <div id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
                             <div v-for="error in fields[\'myFieldName\'].errors">{{ error }}</div>
                         </div>
                     </template>

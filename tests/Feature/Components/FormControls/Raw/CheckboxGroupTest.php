@@ -47,11 +47,11 @@ class CheckboxGroupTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <fieldset>
-                    <div role="alert" id="myFormId_myFirstCheckboxFieldName_errors">
+                    <div id="myFormId_myFirstCheckboxFieldName_errors">
                         <div>myFirstCheckboxFirstError</div>
                         <div>myFirstCheckboxSecondError</div>
                     </div>
-                    <div role="alert" id="myFormId_mySecondCheckboxFieldName_errors">
+                    <div id="myFormId_mySecondCheckboxFieldName_errors">
                         <div>mySecondCheckboxFirstError</div>
                         <div>mySecondCheckboxSecondError</div>
                     </div>

@@ -36,7 +36,7 @@ class NumberInputTest extends TestCase
             '
                 <div class="form-group has-error">
                     <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myFieldName_errors" class="alert alert-danger" role="alert">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

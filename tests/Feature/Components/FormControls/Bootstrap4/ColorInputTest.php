@@ -34,13 +34,13 @@ class ColorInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group has-error">
+                <div class="form-group">
                     <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                    <div role="alert" id="myFormId_myFieldName_errors" class="alert m-b-1 alert-danger">
+                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="color" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <input type="color" name="myFieldName" class="form-control is-invalid" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',

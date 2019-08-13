@@ -20,15 +20,15 @@ class InputGroupTest extends AbstractBootstrap4VueTest
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group" v-bind:class="{ \'has-error\': fieldHasError(\'myTextFieldName\') }">
+                <div class="form-group">
                     <label for="myFormId_myTextFieldName">MyTextFieldName<template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template></label>
 		            <template>           
-	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
+	                    <div class="invalid-feedback" role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
 	                        <div v-for="error in fields[\'myTextFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
 		            <template>           
-	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_mySelectFieldName_errors" v-if="fieldHasError(\'mySelectFieldName\')">
+	                    <div class="invalid-feedback" role="alert" id="myFormId_mySelectFieldName_errors" v-if="fieldHasError(\'mySelectFieldName\')">
 	                        <div v-for="error in fields[\'mySelectFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
@@ -36,9 +36,9 @@ class InputGroupTest extends AbstractBootstrap4VueTest
                         <div class="input-group-prepend">
                             <span class="input-group-text">text-before</span>
                         </div>
-                        <input type="text" name="myTextFieldName" class="form-control" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_errors" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" />
+                        <input type="text" name="myTextFieldName" class="form-control" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_errors" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myTextFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" />
                         <div class="input-group-append">
-                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" aria-describedby="myFormId_mySelectFieldName_errors" v-model="fields[\'mySelectFieldName\'].value" v-bind:required="fields[\'mySelectFieldName\'].isRequired" v-bind:disabled="fields[\'mySelectFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'mySelectFieldName\')" class="form-control">
+                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" aria-describedby="myFormId_mySelectFieldName_errors" v-model="fields[\'mySelectFieldName\'].value" v-bind:required="fields[\'mySelectFieldName\'].isRequired" v-bind:disabled="fields[\'mySelectFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'mySelectFieldName\') }" v-bind:aria-invalid="fieldHasError(\'mySelectFieldName\')" class="form-control">
                                 <option value="myOptionValue1">myOptionValue1</option>
                                 <option value="myOptionValue2">myOptionValue2</option>
                             </select>

@@ -128,17 +128,17 @@ class FormTest extends TestCase
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     <div>
                         <label for="myFormId_myTextFieldName">MyTextFieldName</label>
-                        <div role="alert" id="myFormId_myTextFieldName_errors">
+                        <div id="myFormId_myTextFieldName_errors">
                             <div>myFirstArrayItemError1</div>
                             <div>myFirstArrayItemError2</div>
                         </div>
                         <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_errors" aria-invalid="true" />
                     </div>
-                    <div role="alert" id="myFormId_myFirstUnclaimedErrors_errors">
+                    <div id="myFormId_myFirstUnclaimedErrors_errors">
                         <div>myFirstUnclaimedError1</div>
                         <div>myFirstUnclaimedError2</div>
                     </div>
-                    <div role="alert" id="myFormId_mySecondUnclaimedErrors_errors">
+                    <div id="myFormId_mySecondUnclaimedErrors_errors">
                         <div>mySecondUnclaimedError1</div>
                         <div>mySecondUnclaimedError2</div>
                     </div>
@@ -184,7 +184,7 @@ class FormTest extends TestCase
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     <div>
                         <label for="myFormId_myTextFieldName">MyTextFieldName</label>
-                        <div role="alert" id="myFormId_myTextFieldName_errors">
+                        <div id="myFormId_myTextFieldName_errors">
                             <div>myTextFieldError1</div>
                             <div>myTextFieldError2</div>
                             <div>myFirstAdditionalFieldError1</div>
@@ -222,7 +222,7 @@ class FormTest extends TestCase
                 <form id="myFormId" role="form" accept-charset="UTF-8" enctype="multipart/form-data" method="POST" action="http://localhost:8000">
                     <input type="hidden" name="_token" id="myFormId__token" value="" />
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
-                    <div role="alert" id="myFormId_myFieldName_errors">
+                    <div id="myFormId_myFieldName_errors">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
@@ -280,7 +280,7 @@ class FormTest extends TestCase
                     <input type="hidden" name="_formID" id="myFormId__formID" value="myFormId" />
                     <div>
                         <label for="myFormId_myTextFieldName">MyTextFieldName</label>
-                        <div role="alert" id="myFormId_myTextFieldName_errors">
+                        <div id="myFormId_myTextFieldName_errors">
                             <div>myTextFieldError1</div>
                             <div>myTextFieldError2</div>
                             <div>myFirstAdditionalFieldError1</div>
@@ -288,7 +288,7 @@ class FormTest extends TestCase
                             <div>mySecondAdditionalFieldError1</div>
                             <div>mySecondAdditionalFieldError2</div>
                         </div>
-                        <div role="alert" id="myFormId_mySelectFieldName_errors">
+                        <div id="myFormId_mySelectFieldName_errors">
                             <div>mySelectFieldError1</div>
                             <div>mySelectFieldError2</div>
                         </div>

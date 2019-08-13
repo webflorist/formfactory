@@ -171,7 +171,7 @@ trait AppliesTagMethodsToMatcherData
             'tag' => 'div',
             'attributes' => [
                 'role' => 'alert',
-                'class' => 'alert m-b-1 alert-danger',
+                'class' => 'alert alert-danger',
             ],
             'children' => []
         ];

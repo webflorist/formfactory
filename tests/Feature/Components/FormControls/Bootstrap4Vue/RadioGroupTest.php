@@ -17,16 +17,16 @@ class RadioGroupTest extends AbstractBootstrap4VueTest
                 <fieldset class="form-group">
                     <legend>MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
-	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>
                     </div>
-                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>
                     </div>
                 </fieldset>
@@ -51,16 +51,16 @@ class RadioGroupTest extends AbstractBootstrap4VueTest
                 <fieldset class="form-group">
                     <legend>myLegend<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
-	                    <div role="alert" class="alert m-b-1 alert-danger" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
                     </div>
-                    <div class="form-check" v-bind:class="{ \'has-error\': fieldHasError(\'myFieldName\') }">
-                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" class="form-check-input" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" required v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
                     </div>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
