@@ -256,6 +256,35 @@ class FormFactory
     }
 
     /**
+     * Helper-function to create an array of RadioInput-Objects
+     * to be used as a parameter for Form::radioGroup() from an array.
+     *
+     * Per default it expects an indexed array of values.
+     * If $isAssociative is true, it expects an associative arraay
+     * of (value=>label) pairs.
+     *
+     * @param array $items
+     * @param bool $isAssociative
+     * @param null $defaultValue
+     * @return array
+     */
+    public static function createRadios($items = [], $defaultValue=null, $isAssociative=false) {
+        $return = [];
+        foreach ($items as $key => $val) {
+            $radioValue = $isAssociative ? $key : $val;
+            $radio = self::singleton()->radio($radioValue);
+            if ($isAssociative) {
+                $radio->label($val);
+            }
+            if ($defaultValue === $radioValue) {
+                $radio->checked();
+            }
+            $return[] = $radio;
+        }
+        return $return;
+    }
+
+    /**
      * Returns the currently open Form-element.
      *
      * @return Form
