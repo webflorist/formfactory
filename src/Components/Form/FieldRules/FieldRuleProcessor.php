@@ -3,6 +3,7 @@
 namespace Webflorist\FormFactory\Components\Form\FieldRules;
 
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
+use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 use Webflorist\HtmlFactory\Elements\InputElement;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
@@ -23,7 +24,7 @@ class FieldRuleProcessor
 {
 
     /**
-     * @var FieldInterface|Element
+     * @var FieldInterface|FormControlInterface|Element
      */
     private $field;
 
@@ -61,6 +62,22 @@ class FieldRuleProcessor
      */
     private function applyRequiredRule()
     {
+        /** @var AllowsRequiredAttribute $field */
+        $field = $this->field;
+        $field->required();
+    }
+
+    /**
+     * Applies 'required_if' rule.
+     */
+    private function applyRequiredIfRule()
+    {
+        // TODO: make this reactive in vue.
+        /*
+        if ($this->field->isVueEnabled()) {
+        }
+        */
+
         /** @var AllowsRequiredAttribute $field */
         $field = $this->field;
         $field->required();
