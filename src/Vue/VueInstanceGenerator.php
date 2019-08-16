@@ -142,7 +142,7 @@ class VueInstanceGenerator
                             }
                             this.finishSubmit(response);
                         }).catch((error) => {
-                            if(error.response.status == 422) {
+                            if(error.response.status == 422 || error.response.status == 429) {
                                 for (let fieldName in error.response.data.errors) {
                                     if (typeof this.fields[fieldName] === "undefined") {
                                         this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
@@ -197,6 +197,16 @@ class VueInstanceGenerator
                     if (response.data.captcha_question) {
                         this.captchaQuestion = response.data.captcha_question;
                     }
+                
+                    // Scroll to first alert (error-message, succes, etc.)
+                    this.$nextTick().then(() => {
+                        let firstAlert = this.$el.querySelector("[role=alert]");
+                        if (firstAlert !== null) {
+                            $("html").animate({
+                                scrollTop: $(firstAlert).offset().top - 150
+                            }, "300");
+                        }
+                    });
                 }');
 
         $this->vueInstance->addMethod(
