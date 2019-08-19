@@ -123,7 +123,11 @@ class HelpTextContainer extends SmallElement
         }
 
         if ($this->applyAriaAttribute && $this->hasHelpText()) {
-            $this->field->addAriaDescribedby($this->attributes->id);
+
+            // For vue, the aria-describedby attribute for fields is handled in FormControlTrait::applyVueDirectives().
+            if (!$this->field->isVueEnabled()) {
+                $this->field->addAriaDescribedby($this->attributes->id);
+            }
             $this->content($this->getText());
         }
     }

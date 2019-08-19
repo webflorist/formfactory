@@ -135,7 +135,20 @@ trait FormControlTrait
             $this->vBind('required', $fieldBase . '.isRequired');
             $this->vBind('disabled', $fieldBase . '.isDisabled');
             $this->vBind('aria-invalid', "fieldHasError('$fieldName')");
+            $this->vBind('aria-describedby', $this->getAriaDescribedByExpression());
         }
+    }
+
+    protected function getAriaDescribedByExpression() {
+        $fieldName = $this->attributes->name;
+        $errorContainerId = $this->errors->attributes->id;
+        $return = "(fieldHasError('$fieldName') ? '$errorContainerId' : '')";
+        if ($this->helpText->hasHelpText()) {
+            $helpTextContainerId = $this->helpText->attributes->id;
+            $return .= "+ ' $helpTextContainerId'";
+        }
+        return $return;
+
     }
 
     /**

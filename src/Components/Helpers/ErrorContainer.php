@@ -218,20 +218,18 @@ class ErrorContainer extends DivElement
      */
     private function applyAriaAttributes()
     {
-        $this->field->addAriaDescribedby(function () {
 
-            // If vue is enabled, we always set the aria-describedby attribute.
-            // If not, we only set it, if there actually are errors.
-            if ($this->hasErrors() || $this->field->isVueEnabled()) {
-                return $this->attributes->id;
-            }
-
-            return null;
-        });
-
-        // We do not set the aria-invalid attribute, if vue is used,
+        // We do not set the aria-attributes, if vue is used,
         // since this will be reactive.
         if (!$this->field->isVueEnabled()) {
+
+            $this->field->addAriaDescribedby(function () {
+                if ($this->hasErrors()) {
+                    return $this->attributes->id;
+                }
+                return null;
+            });
+
             $this->field->ariaInvalid(function () {
                 if ($this->hasErrors()) {
                     return 'true';
