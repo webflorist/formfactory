@@ -229,10 +229,12 @@ class FieldRuleProcessor
      */
     private function applyNumericRule(array $parameters)
     {
-        /** @var AllowsTypeAttribute $field */
-        $field = $this->field;
-        $field->type('number');
-        $this->applyPatternAttribute('[+-]?\d*\.?\d+');
+        if ($this->field->is(InputElement::class)) {
+            /** @var AllowsTypeAttribute $field */
+            $field = $this->field;
+            $field->type('number');
+            $this->applyPatternAttribute('[+-]?\d*\.?\d+');
+        }
     }
 
     /**
