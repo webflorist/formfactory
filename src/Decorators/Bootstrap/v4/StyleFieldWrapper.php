@@ -65,10 +65,10 @@ class StyleFieldWrapper extends Decorator
         }
 
         if (!is_null($this->element->field) && ($this->element->field->is(CheckboxInput::class) || $this->element->field->is(RadioInput::class))) {
-            $class .= ' form-check';
+            $class .= ' custom-control custom-'.$this->element->field->attributes->type;
 
             if ($this->element->field->isInline()) {
-                $class .= ' form-check-inline';
+                $class .= ' custom-control-inline';
             }
 
         }

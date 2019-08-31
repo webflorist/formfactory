@@ -48,7 +48,7 @@ class StyleFieldLabel extends Bootstrap3StyleFieldWrapper
     public function decorate()
     {
         if ($this->element->field->is(RadioInput::class) || $this->element->field->is(CheckboxInput::class)) {
-            $this->element->addClass('form-check-label');
+            $this->element->addClass('custom-control-label');
         }
     }
 
