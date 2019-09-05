@@ -16,7 +16,7 @@ trait TestCaseTrait
         $app['config']->set('htmlfactory.decorators', $this->decorators);
         $app['config']->set('formfactory.vue.enabled', $this->vueEnabled);
         $app['config']->set('formfactory.vue.auto_csrf_refresh', $this->csrfTokenAutoFetch);
-        $app['config']->set('formfactory.generate_csrf_token', $this->generateCsrfToken);
+        $app['config']->set('formfactory.vue.generate_csrf_token', $this->generateCsrfToken);
     }
 
 

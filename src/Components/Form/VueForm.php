@@ -120,4 +120,15 @@ class VueForm extends Form
         return $captchaField;
     }
 
+    /**
+     * VueForms might not need the csrf-token (configurable).
+     */
+    protected function appendCSRFToken()
+    {
+        if (config('formfactory.vue.generate_csrf_token') !==false) {
+            parent::appendCSRFToken();
+        }
+    }
+
+
 }

@@ -349,7 +349,6 @@ class Form extends FormElement
     protected function appendCSRFToken()
     {
         if (
-            (config('formfactory.generate_csrf_token') !==false) &&
             $this->generateToken &&
             $this->attributes->method !== 'GET')
         {
