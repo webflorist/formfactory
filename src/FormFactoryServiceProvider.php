@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
+use Webflorist\FormFactory\Controllers\FormFactoryController;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\HtmlFactory;
 use Route;
@@ -161,9 +162,7 @@ class FormFactoryServiceProvider extends ServiceProvider
         if (config('formfactory.vue.enabled') && config('formfactory.vue.auto_csrf_refresh')) {
             /** @var Router $router */
             $router = $this->app[Router::class];
-            $router->get('api/csrf_token', function () {
-                return response()->json(csrf_token());
-            })->middleware('web');
+            $router->get('api/csrf-token', FormFactoryController::class.'@getCsrfToken')->middleware(['web','throttle:60,1']);
         }
     }
 }
