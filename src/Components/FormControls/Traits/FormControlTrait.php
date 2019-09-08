@@ -131,6 +131,9 @@ trait FormControlTrait
         if (!$this->attributes->isSet('v-model') && !$this->is(FileInput::class)) {
             $this->vModel($fieldBase . '.value');
         }
+        if ($this->is(FileInput::class) && (!$this->attributes->isSet('v-bind:value'))) {
+            $this->vOnChange("handleFileInputChange('$fieldName', \$event)");
+        }
         if (!$this->attributes->isSet('v-bind')) {
             $this->vBind('required', $fieldBase . '.isRequired');
             $this->vBind('disabled', $fieldBase . '.isDisabled');

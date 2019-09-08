@@ -51,11 +51,25 @@ class VueInstanceGenerator
 
         $this->vueInstance->addData('fields', $this->fieldData);
         $this->vueInstance->addMethod('fieldHasError', 'function (fieldName) {return this.fields[fieldName].errors.length > 0;}');
+        $this->vueInstance->addMethod('fieldHasValue', 'function (fieldName) {return this.fields[fieldName].value ? true : false;}');
         $this->addComputeErrorFlags();
 
         $this->vueInstance->addData('lang', $this->getLangObject());
 
         $this->addSubmitFunctionality();
+        $this->vueInstance->addMethod('handleFileInputChange', 'function (fieldName, event) {
+            var files = event.target.files || event.dataTransfer.files;
+              if (files) {
+                if(files[0].type.match(/^image\/(gif|png|jpeg|svg\+xml)$/) || files[0].name.match(/\.(gif|png|jpe?g|svg)$/i)) {
+                    var reader = new FileReader();
+                    reader.onload = e => this.fields[fieldName].value = e.target.result;   
+                    reader.readAsDataURL(files[0]);
+                }
+                else {
+                    this.fields[fieldName].value = files[0].name;
+                }
+              }
+        }');
 
     }
 
