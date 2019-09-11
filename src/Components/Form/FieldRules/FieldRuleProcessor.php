@@ -2,10 +2,9 @@
 
 namespace Webflorist\FormFactory\Components\Form\FieldRules;
 
+use Webflorist\FormFactory\Components\Form\VueForm;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
-use Webflorist\HtmlFactory\Elements\Abstracts\Element;
-use Webflorist\HtmlFactory\Elements\InputElement;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsAcceptAttribute;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsMaxAttribute;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsMaxlengthAttribute;
@@ -13,6 +12,8 @@ use Webflorist\HtmlFactory\Attributes\Traits\AllowsMinAttribute;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsPatternAttribute;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsRequiredAttribute;
 use Webflorist\HtmlFactory\Attributes\Traits\AllowsTypeAttribute;
+use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\InputElement;
 
 /**
  * Applies laravel-rules to the field's attributes for browser-live-validation.
@@ -51,7 +52,7 @@ class FieldRuleProcessor
             foreach ($field->getRules() as $rule => $parameters) {
                 $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
                 if (method_exists($rulesProcessor, $applyRulesMethod)) {
-                    call_user_func([$rulesProcessor,$applyRulesMethod], $parameters);
+                    call_user_func([$rulesProcessor, $applyRulesMethod], $parameters);
                 }
             }
         }
@@ -70,17 +71,28 @@ class FieldRuleProcessor
     /**
      * Applies 'required_if' rule.
      */
-    private function applyRequiredIfRule()
+    private function applyRequiredIfRule(array $parameters)
     {
-        // TODO: make this reactive in vue.
-        /*
         if ($this->field->isVueEnabled()) {
+            $fieldName = $this->field->getFieldName();
+            $requireField = $parameters[0];
+            $requireValue = $parameters[1];
+            $hash = md5("require $fieldName if $requireField is $requireValue");
+            /** @var VueForm $vForm */
+            $vForm = $this->field->getForm();
+            $vForm->getVueInstance()
+                ->addComputed("require_if_$hash", "function() {
+                    return this.fields['$requireField'].value;
+                }")
+                ->addWatcher("require_if_$hash", "function(value) {
+                    this.fields['$fieldName'].isRequired = (value === '$requireValue');
+                }");
         }
-        */
-
-        /** @var AllowsRequiredAttribute $field */
-        $field = $this->field;
-        $field->required();
+        else {
+            /** @var AllowsRequiredAttribute $field */
+            $field = $this->field;
+            $field->required();
+        }
     }
 
     /**
@@ -159,7 +171,7 @@ class FieldRuleProcessor
         }
 
         // For all others, we apply pattern- and maxlength-attributes.
-        $this->applyPatternAttribute('.{' . $parameters[0] . ',' . $parameters[1] . '}',true);
+        $this->applyPatternAttribute('.{' . $parameters[0] . ',' . $parameters[1] . '}', true);
         $this->applyMaxlengthAttribute($parameters[1]);
 
     }
