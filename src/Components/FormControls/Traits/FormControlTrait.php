@@ -134,10 +134,16 @@ trait FormControlTrait
         if ($this->is(FileInput::class) && (!$this->attributes->isSet('v-bind:value'))) {
             $this->vOnChange("handleFileInputChange('$fieldName', \$event)");
         }
-        if (!$this->attributes->isSet('v-bind')) {
+        if (!$this->attributes->isSet('v-bind:required')) {
             $this->vBind('required', $fieldBase . '.isRequired');
+        }
+        if (!$this->attributes->isSet('v-bind:disabled')) {
             $this->vBind('disabled', $fieldBase . '.isDisabled');
+        }
+        if (!$this->attributes->isSet('v-bind:aria-invalid')) {
             $this->vBind('aria-invalid', "fieldHasError('$fieldName')");
+        }
+        if (!$this->attributes->isSet('v-bind:aria-describedby')) {
             $this->vBind('aria-describedby', $this->getAriaDescribedByExpression());
         }
     }
