@@ -3,6 +3,7 @@
 namespace Webflorist\FormFactory;
 
 use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\FormFactory\Components\Helpers\RequiredFieldIndicator;
 use Webflorist\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Webflorist\FormFactory\Components\FormControls\ButtonGroup;
 use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
@@ -213,13 +214,21 @@ class FormFactory
     /**
      * Creates the required fields legend.
      *
-     * @param bool $appendRequiredFieldsLegend
-     * @return string
-     * @throws OpenElementNotFoundException
+     * @return RequiredFieldsLegend
      */
     public static function requiredFieldsLegend()
     {
         return new RequiredFieldsLegend();
+    }
+
+    /**
+     * Creates the required fields indicator.
+     *
+     * @return RequiredFieldIndicator
+     */
+    public static function requiredFieldIndicator()
+    {
+        return new RequiredFieldIndicator();
     }
 
     /**
