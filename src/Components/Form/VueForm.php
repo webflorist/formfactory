@@ -16,29 +16,30 @@ class VueForm extends Form
 {
 
     /**
-     * Gets set to true, if a vue instance has been generated for this form.
+     * VueInstanceGenerator instance for this form.
      *
-     * @var bool
+     * @var VueInstanceGenerator
      */
-    private $vueInstanceGenerated = false;
+    private $vueInstanceGenerator;
 
     /**
      * Returns the VueInstance object for this form.
      *
-     * To avoid duplicate rendering of the vue-instance,
-     * this function will return null, if it was called before.
-     * Set first parameter to false, to avoid this.
-     *
-     * @param bool $returnNullIfAlreadyGenerated
-     * @return \Webflorist\VueFactory\VueInstance|null
+     * @return \Webflorist\VueFactory\VueInstance
      */
-    public function getVueInstance($returnNullIfAlreadyGenerated=true)
+    public function getVueInstance()
     {
-        if ($returnNullIfAlreadyGenerated && $this->vueInstanceGenerated) {
-            return null;
-        }
-        $this->vueInstanceGenerated = true;
-        return (new VueInstanceGenerator($this))->getVueInstance();
+        return $this->vueInstanceGenerator->getVueInstance();
+    }
+
+    /**
+     * Generates the VueInstance-JS for this form.
+     *
+     * @return \Webflorist\VueFactory\VueInstance
+     */
+    public function generateVueInstance() : string
+    {
+        return $this->vueInstanceGenerator->generate();
     }
 
     /**
@@ -48,7 +49,7 @@ class VueForm extends Form
      */
     protected function beforeDecoration()
     {
-
+        $this->vueInstanceGenerator = new VueInstanceGenerator($this);
         //$this->checkVueDependencies();
         $this->applyVueModifications();
 

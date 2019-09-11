@@ -47,15 +47,9 @@ class VueInstanceGenerator
         $this->form = $form;
         $this->vueInstance = new VueInstance('#' . $this->form->getId());
         $this->fieldData = new stdClass();
-        $this->parseFormControls();
-
-        $this->vueInstance->addData('fields', $this->fieldData);
         $this->vueInstance->addMethod('fieldHasError', 'function (fieldName) {return this.fields[fieldName].errors.length > 0;}');
         $this->vueInstance->addMethod('fieldHasValue', 'function (fieldName) {return this.fields[fieldName].value ? true : false;}');
-        $this->addComputeErrorFlags();
-
         $this->vueInstance->addData('lang', $this->getLangObject());
-
         $this->addSubmitFunctionality();
         $this->vueInstance->addMethod('handleFileInputChange', 'function (fieldName, event) {
             var files = event.target.files || event.dataTransfer.files;
@@ -71,6 +65,19 @@ class VueInstanceGenerator
               }
         }');
 
+    }
+
+
+    /**
+     * Generates the JS for the VueInstance.
+     *
+     * @return string
+     */
+    public function generate() {
+        $this->parseFormControls();
+        $this->vueInstance->addData('fields', $this->fieldData);
+        $this->addComputeErrorFlags();
+        return $this->vueInstance->generate();
     }
 
     /**

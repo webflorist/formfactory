@@ -374,7 +374,7 @@ class FormFactory
     }
 
     /**
-     * Generates a VueInstance for the form with ID $id.
+     * Returns the VueInstance for the form with ID $id.
      *
      * @param string $id
      * @return VueInstance
@@ -385,15 +385,14 @@ class FormFactory
     {
         $form = FormFactory::singleton()->forms->getForm($id);
         if (!$form->is(VueForm::class)) {
-            throw new MissingVueDependencyException("Cannot generate vue instance for form with '$id', since it is not a VueForm. Use Form::vOpen() instead of Form::open().");
+            throw new MissingVueDependencyException("Cannot return vue instance for form with '$id', since it is not a VueForm. Use Form::vOpen() instead of Form::open().");
         }
         /** @var VueForm $form */
         return $form->getVueInstance();
     }
 
     /**
-     * Generates vue instances for all VueForms,
-     * that weren't generated before.
+     * Generates vue instances for all VueForms.
      *
      * Call this function at the end of your master-template
      * to ensure the generation of all required vue instances.
@@ -408,10 +407,7 @@ class FormFactory
         foreach (FormFactory::singleton()->forms->getForms() as $form) {
             if ($form->is(VueForm::class)) {
                 /** @var VueForm $form */
-                $vueInstance = $form->getVueInstance();
-                if (!is_null($vueInstance)) {
-                    $vueInstances .= $vueInstance->generate();
-                }
+                $vueInstances .= $form->generateVueInstance();
             }
         }
 
