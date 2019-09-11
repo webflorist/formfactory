@@ -243,25 +243,33 @@ class FormFactory
     }
 
     /**
-     * Helper-function to create an array of Option-Tag-Objects to be used as a parameter for Form::select()
-     * out of a one-dimensional array of "value=>label"-pairs.
+     * Helper-function to create an array of Option-Tag-Objects
+     * to be used as a parameter for Form::select() from an array.
+     *
+     * Per default it expects an indexed array of values.
+     * If $isAssociative is true, it expects an associative arraay
+     * of (value=>label) pairs.
      *
      * @param array $items
      * @param bool|true $prependEmptyOption
      * @param null $defaultValue
      * @return array
      */
-    public static function createOptions($items = [], $prependEmptyOption=true, $defaultValue=null) {
+    public static function createOptions($items = [], $prependEmptyOption=true, $defaultValue=null, $isAssociative=false) {
         $return = [];
         if ($prependEmptyOption) {
             $return[] = self::singleton()->option();
         }
-        foreach ($items as $value => $label) {
-            $optionTag = self::singleton()->option($value)->content($label);
-            if ($defaultValue === $value) {
-                $optionTag->selected();
+        foreach ($items as $key => $val) {
+            $optionValue = $isAssociative ? $key : $val;
+            $option = self::singleton()->option($optionValue);
+            if ($isAssociative) {
+                $option->content($val);
             }
-            $return[] = $optionTag;
+            if ($defaultValue === $optionValue) {
+                $option->selected();
+            }
+            $return[] = $option;
         }
         return $return;
     }
