@@ -15,6 +15,7 @@ use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
 use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
 use Webflorist\FormFactory\Components\FormControls\EmailInput;
 use Webflorist\FormFactory\Components\FormControls\FileInput;
+use Webflorist\FormFactory\Components\FormControls\ImageFileInput;
 use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\FormControls\HiddenInput;
 use Webflorist\FormFactory\Components\FormControls\InputGroup;
@@ -63,6 +64,7 @@ use Webflorist\VueFactory\VueInstance;
  * @method static DatetimeLocalInput    datetimeLocal(string $name)
  * @method static EmailInput            email(string $name)
  * @method static FileInput             file(string $name)
+ * @method static ImageFileInput        image(string $name)
  * @method static HiddenInput           hidden(string $name)
  * @method static MonthInput            month(string $name)
  * @method static NumberInput           number(string $name)
@@ -346,6 +348,9 @@ class FormFactory
         }
         if (array_search($accessor,$inputAccessors) !== false) {
             $shortClassName .= 'Input';
+        }
+        if ($accessor === 'image') {
+            $shortClassName = 'ImageFileInput';
         }
 
         return 'Webflorist\\FormFactory\\Components\\FormControls\\'.$shortClassName;

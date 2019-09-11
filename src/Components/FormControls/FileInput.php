@@ -42,14 +42,5 @@ class FileInput
     {
         parent::afterDecoration();
         $this->processFormControl();
-
-        // If there is a current value,
-        // we save save it under the 'currentFile' payload
-        // and set the value to 'keep'.
-        if ($this->attributes->isSet('value')) {
-            $currentFile = $this->attributes->value;
-            $this->attributes->value = 'keep';
-            $this->payload($currentFile, 'currentFile');
-        }
     }
 }
