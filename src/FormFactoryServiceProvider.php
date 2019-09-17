@@ -159,7 +159,7 @@ class FormFactoryServiceProvider extends ServiceProvider
      */
     private function registerGetCsrfTokenRoute()
     {
-        if (config('formfactory.vue.enabled') && config('formfactory.vue.auto_csrf_refresh')) {
+        if (config('formfactory.vue.enabled')) {
             /** @var Router $router */
             $router = $this->app[Router::class];
             $router->get('api/csrf-token', FormFactoryController::class.'@getCsrfToken')->middleware(['web','throttle:60,1']);

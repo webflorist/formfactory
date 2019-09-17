@@ -163,28 +163,41 @@ class VueInstanceGenerator
                             }
                             this.finishSubmit(response);
                         }).catch((error) => {
-                            if(error.response.status == 422 || error.response.status == 429) {
-                                for (let fieldName in error.response.data.errors) {
-                                    if (typeof this.fields[fieldName] === "undefined") {
-                                        this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
-                                    }
-                                    else {
-                                        this.fields[fieldName].errors = error.response.data.errors[fieldName];
-                                    }
-                                }
-                            }
-                            else if (error.response.status == 419) {
-                                this.handleCsrfTokenError(error.response);
-                            }
-                            else {
-                                this.generalErrors = [this.lang["general_form_error"]];
-                            }
+                            this.handleFieldErrors(error, "submitForm");
                             this.finishSubmit(error.response);
                         });
                         
 
                     }
                 }');
+
+        $this->vueInstance->addMethod(
+            'handleFieldErrors',
+            'function(error, callingMethod) {
+                if(error.response.status == 422 || error.response.status == 429) {
+                    for (let fieldName in error.response.data.errors) {
+                        if (typeof this.fields[fieldName] === "undefined") {
+                            this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
+                        }
+                        else {
+                            this.fields[fieldName].errors = error.response.data.errors[fieldName];
+                        }
+                    }
+                }
+                else if (error.response.status == 419) {
+                    this.finishSubmit(error.response);
+                    axios.get("/api/csrf-token").then((response) => {
+                        axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
+                        this[callingMethod]();
+                    }).catch((error) => {
+                        this.generalErrors = [this.lang["form_expired_error"]];
+                    });
+                }
+                else {
+                    this.generalErrors = [this.lang["general_form_error"]];
+                }
+            }'
+        );
 
         $this->vueInstance->addMethod(
             'clearErrors',
@@ -235,46 +248,10 @@ class VueInstanceGenerator
             config('formfactory.vue.methods.display_success_message')
         );
 
-        $this->vueInstance->addMethod(
-            'refreshCsrfToken',
-            'function(submitAfterSuccess=false) {
-                axios.get("/api/csrf-token").then((response) => {
-                    axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
-                    if (submitAfterSuccess) {
-                        this.submitForm();
-                    }
-                }).catch((error) => {
-                    this.generalErrors = [this.lang["form_expired_error"]];
-                });
-            }'
-        );
-
-        $this->vueInstance->addMethod(
-            'handleCsrfTokenError',
-            'function(response) {
-                    ' . $this->getFunctionBodyForHandlingCsrfTokenErrors() . '
-                }'
-        );
-
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('generalErrors', []);
         $this->vueInstance->addData('successMessage', []);
         $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
-    }
-
-    private function getFunctionBodyForHandlingCsrfTokenErrors()
-    {
-        if (config('formfactory.vue.auto_csrf_refresh')) {
-
-            return '
-                this.finishSubmit(response);
-                this.refreshCsrfToken(true);
-            ';
-
-        }
-
-        // Otherwise Vue should simply display an error.
-        return 'this.generalErrors = [this.lang["form_expired_error"]];';
     }
 
 }
