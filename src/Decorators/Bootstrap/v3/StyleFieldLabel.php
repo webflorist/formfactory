@@ -2,13 +2,12 @@
 
 namespace Webflorist\FormFactory\Decorators\Bootstrap\v3;
 
-use Webflorist\FormFactory\Components\Helpers\FieldLabel;
-use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
-use Webflorist\FormFactory\Decorators\Bootstrap\v3\StyleFieldWrapper as Bootstrap3StyleFieldWrapper;
+use Webflorist\FormFactory\Components\Helpers\FieldLabel;
+use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 
-class StyleFieldLabel extends Bootstrap3StyleFieldWrapper
+class StyleFieldLabel extends Decorator
 {
 
     /**
@@ -49,6 +48,11 @@ class StyleFieldLabel extends Bootstrap3StyleFieldWrapper
     {
         // In Bootstrap 3, checkable fields are wrapped in their label-tag.
         $this->element->wrapCheckable = true;
+
+        if ($this->element->srOnly && !$this->element->field->is(RadioInput::class) && !$this->element->field->is(CheckboxInput::class)) {
+            $this->element->addClass('sr-only');
+        }
+
     }
 
 

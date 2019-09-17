@@ -50,6 +50,9 @@ class StyleFieldLabel extends Bootstrap3StyleFieldWrapper
         if ($this->element->field->is(RadioInput::class) || $this->element->field->is(CheckboxInput::class)) {
             $this->element->addClass('custom-control-label');
         }
+        elseif ($this->element->srOnly) {
+            $this->element->addClass('sr-only');
+        }
     }
 
 

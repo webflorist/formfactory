@@ -14,7 +14,7 @@ class RequiredFieldsLegend extends DivElement
      */
     protected function setUp()
     {
-        $this->addClass('text-muted small');
+        $this->addClass('small');
         $this->appendContent(new RequiredFieldIndicator());
         $this->appendContent(' ' . trans('webflorist-formfactory::formfactory.mandatory_fields'));
     }

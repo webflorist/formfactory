@@ -38,4 +38,17 @@ trait LabelTrait
         return $this;
     }
 
+    /**
+     * Set the label to be hidden from
+     * non-screenreaders.
+     *
+     * @param string|false $label
+     * @return $this
+     */
+    public function labelSrOnly(bool $srOnly = true)
+    {
+        $this->label->srOnly = $srOnly;
+        return $this;
+    }
+
 }

@@ -33,6 +33,13 @@ class FieldLabel extends LabelElement
     public $displayLabel = true;
 
     /**
+     * Should the label be hidden for non-screenreaders?
+     *
+     * @var bool
+     */
+    public $srOnly = false;
+
+    /**
      * Signals the view, that this label should wrap a checkable field,
      * instead of being rendered bound after the field.
      *
@@ -151,6 +158,15 @@ class FieldLabel extends LabelElement
     public function hideLabel()
     {
         $this->displayLabel = false;
+    }
+
+    /**
+     * Is the field-label visible
+     * (for non-screenreaders)?
+     */
+    public function isVisible(): bool
+    {
+        return $this->displayLabel && !$this->srOnly;
     }
 
 }
