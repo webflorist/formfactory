@@ -141,20 +141,22 @@ trait FormControlTrait
         if (!$this->attributes->isSet('v-model') && !$this->is(FileInput::class)) {
             $this->vModel($fieldBase . '.value');
         }
-        if ($this->is(FileInput::class) && (!$this->attributes->isSet('v-bind:value'))) {
-            $this->vOnChange("handleFileInputChange('$fieldName', \$event)");
-        }
-        if (!$this->attributes->isSet('v-bind:required')) {
-            $this->vBind('required', $fieldBase . '.isRequired');
-        }
-        if (!$this->attributes->isSet('v-bind:disabled')) {
-            $this->vBind('disabled', $fieldBase . '.isDisabled');
-        }
-        if (!$this->attributes->isSet('v-bind:aria-invalid')) {
-            $this->vBind('aria-invalid', "fieldHasError('$fieldName')");
-        }
-        if (!$this->attributes->isSet('v-bind:aria-describedby')) {
-            $this->vBind('aria-describedby', $this->getAriaDescribedByExpression());
+        if (!$this->is(HiddenInput::class)) {
+            if ($this->is(FileInput::class) && (!$this->attributes->isSet('v-bind:value'))) {
+                $this->vOnChange("handleFileInputChange('$fieldName', \$event)");
+            }
+            if (!$this->attributes->isSet('v-bind:required')) {
+                $this->vBind('required', $fieldBase . '.isRequired');
+            }
+            if (!$this->attributes->isSet('v-bind:disabled')) {
+                $this->vBind('disabled', $fieldBase . '.isDisabled');
+            }
+            if (!$this->attributes->isSet('v-bind:aria-invalid')) {
+                $this->vBind('aria-invalid', "fieldHasError('$fieldName')");
+            }
+            if (!$this->attributes->isSet('v-bind:aria-describedby')) {
+                $this->vBind('aria-describedby', $this->getAriaDescribedByExpression());
+            }
         }
     }
 
