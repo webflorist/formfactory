@@ -88,7 +88,7 @@ class FormTest extends TestCase
                         <label for="myFormId_myTextFieldName">MyTextFieldName<sup>*</sup></label>
                         <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" required placeholder="MyTextFieldName" />
                     </div>
-                    <div class="text-muted small"><sup>*</sup> Mandatory fields</div>
+                    <div class="small"><sup>*</sup> Mandatory fields</div>
                 </form>
             ',
             $html

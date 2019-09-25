@@ -10,9 +10,10 @@ use Webflorist\HtmlFactory\Components\HiddenInputComponent;
 
 class HiddenInput
     extends HiddenInputComponent
-    implements FormControlInterface
+    implements FormControlInterface, FieldInterface
 {
-    use FormControlTrait;
+    use FormControlTrait,
+        FieldTrait;
 
     /**
      * HiddenInput constructor.

@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap4Vue;
 
 class WeekInputTest extends AbstractBootstrap4VueTest
 {
@@ -18,7 +18,7 @@ class WeekInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <input type="week" name="myFieldName" class="form-control" id="myFormId_myFieldName" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <input type="week" name="myFieldName" class="form-control" id="myFormId_myFieldName" v-bind:aria-describedby="(fieldHasError(\'myFieldName\') ? \'myFormId_myFieldName_errors\' : \'\')" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                 </div>
             ',
             $element->generate()
@@ -41,7 +41,7 @@ class WeekInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <input type="week" name="myFieldName" class="form-control" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <input type="week" name="myFieldName" class="form-control" id="myFormId_myFieldName"v-bind:aria-describedby="(fieldHasError(\'myFieldName\') ? \'myFormId_myFieldName_errors\' : \'\')+ \' myFormId_myFieldName_helpText\'" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',

@@ -58,7 +58,7 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'myTextFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" value="myTextFieldValue" placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" aria-describedby="myFormId_myTextFieldName_errors" />
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" value="myTextFieldValue" placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myTextFieldName\') ? \'myFormId_myTextFieldName_errors\' : \'\')" />
                     </div>
                     <div>
                         <template>
@@ -66,7 +66,7 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'myRadioFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <input type="radio" name="myRadioFieldName" value="myRadioFieldValue1" id="myFormId_myRadioFieldName_myRadioFieldValue1" v-model="fields[\'myRadioFieldName\'].value" v-bind:required="fields[\'myRadioFieldName\'].isRequired" v-bind:disabled="fields[\'myRadioFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myRadioFieldName\')" aria-describedby="myFormId_myRadioFieldName_errors" />
+                        <input type="radio" name="myRadioFieldName" value="myRadioFieldValue1" id="myFormId_myRadioFieldName_myRadioFieldValue1" v-model="fields[\'myRadioFieldName\'].value" v-bind:required="fields[\'myRadioFieldName\'].isRequired" v-bind:disabled="fields[\'myRadioFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myRadioFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myRadioFieldName\') ? \'myFormId_myRadioFieldName_errors\' : \'\')" />
                         <label for="myFormId_myRadioFieldName_myRadioFieldValue1">
                             MyRadioFieldValue1
                             <template><sup v-if="fields[\'myRadioFieldName\'].isRequired">*</sup></template>
@@ -78,7 +78,7 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'myRadioFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <input type="radio" name="myRadioFieldName" value="myRadioFieldValue2" id="myFormId_myRadioFieldName_myRadioFieldValue2" checked v-model="fields[\'myRadioFieldName\'].value" v-bind:required="fields[\'myRadioFieldName\'].isRequired" v-bind:disabled="fields[\'myRadioFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myRadioFieldName\')" aria-describedby="myFormId_myRadioFieldName_errors" />
+                        <input type="radio" name="myRadioFieldName" value="myRadioFieldValue2" id="myFormId_myRadioFieldName_myRadioFieldValue2" checked v-model="fields[\'myRadioFieldName\'].value" v-bind:required="fields[\'myRadioFieldName\'].isRequired" v-bind:disabled="fields[\'myRadioFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myRadioFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myRadioFieldName\') ? \'myFormId_myRadioFieldName_errors\' : \'\')" />
                         <label for="myFormId_myRadioFieldName_myRadioFieldValue2">
                             MyRadioFieldValue2
                             <template><sup v-if="fields[\'myRadioFieldName\'].isRequired">*</sup></template>
@@ -94,9 +94,9 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'myTextareaFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <textarea name="myTextareaFieldName" id="myFormId_myTextareaFieldName" placeholder="MyTextareaFieldName" v-model="fields[\'myTextareaFieldName\'].value" v-bind:required="fields[\'myTextareaFieldName\'].isRequired" v-bind:disabled="fields[\'myTextareaFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextareaFieldName\')" aria-describedby="myFormId_myTextareaFieldName_errors">myTextAreaFieldValue</textarea>
+                        <textarea name="myTextareaFieldName" id="myFormId_myTextareaFieldName" placeholder="MyTextareaFieldName" v-model="fields[\'myTextareaFieldName\'].value" v-bind:required="fields[\'myTextareaFieldName\'].isRequired" v-bind:disabled="fields[\'myTextareaFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextareaFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myTextareaFieldName\') ? \'myFormId_myTextareaFieldName_errors\' : \'\')">myTextAreaFieldValue</textarea>
                     </div>
-                    <div class="text-muted small"><sup>*</sup> Mandatory fields</div>
+                    <div class="small"><sup>*</sup> Mandatory fields</div>
                 </form>
 
             ',
@@ -138,9 +138,9 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'myTextFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" required placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" aria-describedby="myFormId_myTextFieldName_errors" />
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" required placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myTextFieldName\') ? \'myFormId_myTextFieldName_errors\' : \'\')" />
                     </div>
-                    <div class="text-muted small"><sup>*</sup> Mandatory fields</div>
+                    <div class="small"><sup>*</sup> Mandatory fields</div>
                 </form>
             ',
             $html
@@ -201,9 +201,9 @@ class VueFormTest extends TestCase
                                 <div v-for="error in fields[\'mySecondAdditionalFieldName\'].errors">{{ error }}</div>
                             </div>
                         </template>
-                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" aria-describedby="myFormId_myTextFieldName_errors" />
+                        <input type="text" name="myTextFieldName" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myTextFieldName\') ? \'myFormId_myTextFieldName_errors\' : \'\')" />
                     </div>
-                    <div class="text-muted small"><sup>*</sup> Mandatory fields</div>
+                    <div class="small"><sup>*</sup> Mandatory fields</div>
                 </form>
             ',
             $html

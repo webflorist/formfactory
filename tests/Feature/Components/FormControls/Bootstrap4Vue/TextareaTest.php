@@ -1,8 +1,8 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap4Vue;
 
-class TextareaInputTest extends AbstractBootstrap4VueTest
+class TextareaTest extends AbstractBootstrap4VueTest
 {
 
     public function testSimple()
@@ -18,7 +18,7 @@ class TextareaInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" aria-describedby="myFormId_myFieldName_errors"></textarea>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" placeholder="MyFieldName" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" v-bind:aria-describedby="(fieldHasError(\'myFieldName\') ? \'myFormId_myFieldName_errors\' : \'\')"></textarea>
                 </div>
             ',
             $element->generate()
@@ -41,7 +41,7 @@ class TextareaInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName" required maxlength="10" placeholder="MyFieldName" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')"></textarea>
+                    <textarea name="myFieldName" class="form-control" id="myFormId_myFieldName"maxlength="10" placeholder="MyFieldName" v-bind:aria-describedby="(fieldHasError(\'myFieldName\') ? \'myFormId_myFieldName_errors\' : \'\')+ \' myFormId_myFieldName_helpText\'" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myFieldName\')"></textarea>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',

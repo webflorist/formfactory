@@ -16,9 +16,9 @@ class CheckboxInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check">
-                    <input type="checkbox" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName" />
-                    <label class="form-check-label" for="myFormId_myFieldName"> MyFieldName </label>
+                <div class="form-group custom-control custom-checkbox">
+                    <input type="checkbox" name="myFieldName" class="custom-control-input" value="myValue" id="myFormId_myFieldName" />
+                    <label class="custom-control-label" for="myFormId_myFieldName"> MyFieldName </label>
                 </div>
             ',
             $element->generate()
@@ -34,13 +34,13 @@ class CheckboxInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check">
+                <div class="form-group custom-control custom-checkbox">
                     <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="checkbox" name="myFieldName" class="form-check-input is-invalid" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
-                    <label class="form-check-label" for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
+                    <input type="checkbox" name="myFieldName" class="custom-control-input is-invalid" value="myValue" id="myFormId_myFieldName" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" />
+                    <label class="custom-control-label" for="myFormId_myFieldName"> MyFieldName <sup>*</sup> </label>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',

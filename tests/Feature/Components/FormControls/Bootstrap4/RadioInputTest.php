@@ -16,9 +16,9 @@ class RadioInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check">
-                    <input type="radio" name="myFieldName" class="form-check-input" value="myValue" id="myFormId_myFieldName_myValue" />
-                    <label class="form-check-label" for="myFormId_myFieldName_myValue"> MyValue </label>
+                <div class="form-group custom-control custom-radio">
+                    <input type="radio" name="myFieldName" class="custom-control-input" value="myValue" id="myFormId_myFieldName_myValue" />
+                    <label class="custom-control-label" for="myFormId_myFieldName_myValue"> MyValue </label>
                 </div>
             ',
             $element->generate()
@@ -34,13 +34,13 @@ class RadioInputTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div class="form-group form-check">
+                <div class="form-group custom-control custom-radio">
                     <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <input type="radio" name="myFieldName" class="form-check-input is-invalid" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" aria-invalid="true" />
-                    <label class="form-check-label" for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
+                    <input type="radio" name="myFieldName" class="custom-control-input is-invalid" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" aria-invalid="true" />
+                    <label class="custom-control-label" for="myFormId_myFieldName_myValue"> MyValue <sup>*</sup> </label>
                     <small id="myFormId_myFieldName_myValue_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>
             ',

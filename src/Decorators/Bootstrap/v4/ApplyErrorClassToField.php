@@ -4,19 +4,20 @@ namespace Webflorist\FormFactory\Decorators\Bootstrap\v4;
 
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\Traits\ErrorsTrait;
 use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
 use Webflorist\HtmlFactory\Decorators\Abstracts\Decorator;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 
-class StyleField extends Decorator
+class ApplyErrorClassToField extends Decorator
 {
 
     /**
      * The element to be decorated.
      *
-     * @var Element|FieldInterface|FormControlInterface
+     * @var Element|FieldInterface|FormControlInterface|ErrorsTrait
      */
     protected $element;
 
@@ -40,7 +41,7 @@ class StyleField extends Decorator
     public static function getSupportedElements(): array
     {
         return [
-            FieldInterface::class
+            ErrorsTrait::class
         ];
     }
 

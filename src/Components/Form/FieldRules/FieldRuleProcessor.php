@@ -63,9 +63,12 @@ class FieldRuleProcessor
      */
     private function applyRequiredRule()
     {
-        /** @var AllowsRequiredAttribute $field */
-        $field = $this->field;
-        $field->required();
+        // required is reactive, when using vue.
+        if (!$this->field->isVueEnabled()) {
+            /** @var AllowsRequiredAttribute $field */
+            $field = $this->field;
+            $field->required();
+        }
     }
 
     /**
@@ -87,8 +90,7 @@ class FieldRuleProcessor
                 ->addWatcher("require_if_$hash", "function(value) {
                     this.fields['$fieldName'].isRequired = (value === '$requireValue');
                 }");
-        }
-        else {
+        } else {
             /** @var AllowsRequiredAttribute $field */
             $field = $this->field;
             $field->required();

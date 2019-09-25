@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap4Vue;
 
 class InputGroupTest extends AbstractBootstrap4VueTest
 {
@@ -36,9 +36,9 @@ class InputGroupTest extends AbstractBootstrap4VueTest
                         <div class="input-group-prepend">
                             <span class="input-group-text">text-before</span>
                         </div>
-                        <input type="text" name="myTextFieldName" class="form-control" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" aria-describedby="myFormId_myTextFieldName_errors" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myTextFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" />
+                        <input type="text" name="myTextFieldName" class="form-control" id="myFormId_myTextFieldName" placeholder="MyTextFieldName" v-bind:aria-describedby="(fieldHasError(\'myTextFieldName\') ? \'myFormId_myTextFieldName_errors\' : \'\')" v-model="fields[\'myTextFieldName\'].value" v-bind:required="fields[\'myTextFieldName\'].isRequired" v-bind:disabled="fields[\'myTextFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'myTextFieldName\') }" v-bind:aria-invalid="fieldHasError(\'myTextFieldName\')" />
                         <div class="input-group-append">
-                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" aria-describedby="myFormId_mySelectFieldName_errors" v-model="fields[\'mySelectFieldName\'].value" v-bind:required="fields[\'mySelectFieldName\'].isRequired" v-bind:disabled="fields[\'mySelectFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'mySelectFieldName\') }" v-bind:aria-invalid="fieldHasError(\'mySelectFieldName\')" class="form-control">
+                            <select name="mySelectFieldName" id="myFormId_mySelectFieldName" v-bind:aria-describedby="(fieldHasError(\'mySelectFieldName\') ? \'myFormId_mySelectFieldName_errors\' : \'\')" v-model="fields[\'mySelectFieldName\'].value" v-bind:required="fields[\'mySelectFieldName\'].isRequired" v-bind:disabled="fields[\'mySelectFieldName\'].isDisabled" v-bind:class="{ \'is-invalid\': fieldHasError(\'mySelectFieldName\') }" v-bind:aria-invalid="fieldHasError(\'mySelectFieldName\')" class="form-control">
                                 <option value="myOptionValue1">myOptionValue1</option>
                                 <option value="myOptionValue2">myOptionValue2</option>
                             </select>

@@ -4,6 +4,7 @@ namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
 use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\FormFactory\Components\FormControls\HiddenInput;
 use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\FormFactory\Components\FormControls\FileInput;
@@ -72,9 +73,13 @@ trait FormControlTrait
         $this->setDefaultId();
 
         if ($this->isAField()) {
-            $this->wrapper = new FieldWrapper($this);
-            $this->errors = new ErrorContainer($this);
 
+            if ($this->canHaveWrapper()) {
+                $this->wrapper = new FieldWrapper($this);
+            }
+            if ($this->canHaveErrors()) {
+                $this->errors = new ErrorContainer($this);
+            }
             if ($this->canHaveLabel()) {
                 $this->label = new FieldLabel($this);
             }
@@ -95,18 +100,23 @@ trait FormControlTrait
     {
         if ($this->isAField()) {
 
-            FieldRuleProcessor::process($this);
+            if ($this->canHaveRules()) {
+                FieldRuleProcessor::process($this);
+            }
+
             FieldValueProcessor::process($this);
 
             if ($this->canHaveLabel()) {
                 $this->label->generate();
             }
 
-            if ($this->isVueEnabled()) {
+            if ($this->isVueEnabled() && !$this->is(HiddenInput::class)) {
                 $this->applyVueDirectives();
             }
 
-            $this->errors->generate();
+            if ($this->canHaveErrors()) {
+                $this->errors->generate();
+            }
         }
 
         if ($this->canHaveHelpText()) {
