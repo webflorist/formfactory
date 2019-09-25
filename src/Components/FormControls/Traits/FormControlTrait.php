@@ -48,7 +48,7 @@ trait FormControlTrait
      * @var bool
      */
     public $inGroup = false;
-    
+
     /**
      * Performs various Setup-tasks for this FormControl.
      *
@@ -110,7 +110,7 @@ trait FormControlTrait
                 $this->label->generate();
             }
 
-            if ($this->isVueEnabled() && !$this->is(HiddenInput::class)) {
+            if ($this->isVueEnabled()) {
                 $this->applyVueDirectives();
             }
 

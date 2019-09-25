@@ -63,12 +63,9 @@ class FieldRuleProcessor
      */
     private function applyRequiredRule()
     {
-        // required is reactive, when using vue.
-        if (!$this->field->isVueEnabled()) {
-            /** @var AllowsRequiredAttribute $field */
-            $field = $this->field;
-            $field->required();
-        }
+        /** @var AllowsRequiredAttribute $field */
+        $field = $this->field;
+        $field->required();
     }
 
     /**
