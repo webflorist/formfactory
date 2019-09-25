@@ -16,12 +16,12 @@ class CheckboxGroupTest extends AbstractBootstrap4VueTest
             '
                 <fieldset class="form-group">
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFirstCheckboxFieldName_errors" v-if="fieldHasError(\'myFirstCheckboxFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFirstCheckboxFieldName_errors" v-if="fieldHasError(\'myFirstCheckboxFieldName\')">
 	                        <div v-for="error in fields[\'myFirstCheckboxFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_mySecondCheckboxFieldName_errors" v-if="fieldHasError(\'mySecondCheckboxFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_mySecondCheckboxFieldName_errors" v-if="fieldHasError(\'mySecondCheckboxFieldName\')">
 	                        <div v-for="error in fields[\'mySecondCheckboxFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
@@ -56,12 +56,12 @@ class CheckboxGroupTest extends AbstractBootstrap4VueTest
             '
                 <fieldset class="form-group">
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFirstCheckboxFieldName_errors" v-if="fieldHasError(\'myFirstCheckboxFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFirstCheckboxFieldName_errors" v-if="fieldHasError(\'myFirstCheckboxFieldName\')">
 	                        <div v-for="error in fields[\'myFirstCheckboxFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_mySecondCheckboxFieldName_errors" v-if="fieldHasError(\'mySecondCheckboxFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_mySecondCheckboxFieldName_errors" v-if="fieldHasError(\'mySecondCheckboxFieldName\')">
 	                        <div v-for="error in fields[\'mySecondCheckboxFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>

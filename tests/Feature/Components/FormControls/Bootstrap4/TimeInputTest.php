@@ -36,7 +36,7 @@ class TimeInputTest extends TestCase
             '
                 <div class="form-group">
                     <label for="myFormId_myFieldName">MyFieldName<sup>*</sup></label>
-                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
+                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback d-block">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

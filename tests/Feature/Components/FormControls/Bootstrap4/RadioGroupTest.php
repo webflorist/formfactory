@@ -49,7 +49,7 @@ class RadioGroupTest extends TestCase
             '
                 <fieldset class="form-group">
                     <legend>myLegend<sup>*</sup></legend>
-                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
+                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback d-block">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

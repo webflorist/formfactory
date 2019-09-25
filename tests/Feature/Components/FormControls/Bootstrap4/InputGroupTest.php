@@ -63,7 +63,7 @@ class InputGroupTest extends TestCase
             '
                 <div class="form-group">
                     <label for="myFormId_myTextFieldName">MyTextFieldName<sup>*</sup></label>
-                    <div id="myFormId_myTextFieldName_errors" role="alert" class="invalid-feedback">
+                    <div id="myFormId_myTextFieldName_errors" role="alert" class="invalid-feedback d-block">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

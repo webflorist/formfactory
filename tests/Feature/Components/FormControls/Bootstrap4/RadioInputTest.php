@@ -35,7 +35,7 @@ class RadioInputTest extends TestCase
         $this->assertHtmlEquals(
             '
                 <div class="form-group custom-control custom-radio">
-                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback">
+                    <div id="myFormId_myFieldName_errors" role="alert" class="invalid-feedback d-block">
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>

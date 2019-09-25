@@ -17,7 +17,7 @@ class RadioGroupTest extends AbstractBootstrap4VueTest
                 <fieldset class="form-group">
                     <legend>MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
@@ -51,7 +51,7 @@ class RadioGroupTest extends AbstractBootstrap4VueTest
                 <fieldset class="form-group">
                     <legend>myLegend<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></legend>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>

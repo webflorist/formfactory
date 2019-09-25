@@ -47,6 +47,6 @@ class StyleErrorContainer extends Decorator
     public function decorate()
     {
         $this->element->addRole('alert');
-        $this->element->addClass('invalid-feedback');
+        $this->element->addClass('invalid-feedback d-block');
     }
 }

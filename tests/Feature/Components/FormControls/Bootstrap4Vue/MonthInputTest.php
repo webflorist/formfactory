@@ -15,7 +15,7 @@ class MonthInputTest extends AbstractBootstrap4VueTest
                 <div class="form-group">
                     <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
@@ -38,7 +38,7 @@ class MonthInputTest extends AbstractBootstrap4VueTest
                 <div class="form-group">
                     <label for="myFormId_myFieldName">MyFieldName<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myFieldName_errors" v-if="fieldHasError(\'myFieldName\')">
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>

@@ -23,12 +23,12 @@ class InputGroupTest extends AbstractBootstrap4VueTest
                 <div class="form-group">
                     <label for="myFormId_myTextFieldName">MyTextFieldName<template><sup v-if="fields[\'myTextFieldName\'].isRequired">*</sup></template></label>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_myTextFieldName_errors" v-if="fieldHasError(\'myTextFieldName\')">
 	                        <div v-for="error in fields[\'myTextFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
 		            <template>           
-	                    <div class="invalid-feedback" role="alert" id="myFormId_mySelectFieldName_errors" v-if="fieldHasError(\'mySelectFieldName\')">
+	                    <div class="invalid-feedback d-block" role="alert" id="myFormId_mySelectFieldName_errors" v-if="fieldHasError(\'mySelectFieldName\')">
 	                        <div v-for="error in fields[\'mySelectFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>

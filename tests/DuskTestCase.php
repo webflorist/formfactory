@@ -98,7 +98,7 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     protected function waitForAndAssertSee(Browser $browser, $text) {
-        $browser->waitForText($text);
+        $browser->waitForText($text, 100000);
         $browser->assertSee($text);
     }
 
