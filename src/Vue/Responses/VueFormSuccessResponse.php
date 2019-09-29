@@ -53,4 +53,21 @@ class VueFormSuccessResponse extends VueFormResponse
         return $this;
     }
 
+    /**
+     * Reloads page from server after response.
+     * You can also set a delay to give the user
+     * time to read the success message.
+     *
+     * @param int $delay
+     * @return $this
+     */
+    public function reloadPage(int $delay=2000)
+    {
+        $this->vueFormResponseData['message'] .= ' ' . trans('webflorist-formfactory::formfactory.reload_message');
+        $this->vueFormResponseData['reloadPage'] = [
+            'delay' => $delay
+        ];
+        return $this;
+    }
+
 }

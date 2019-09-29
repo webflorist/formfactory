@@ -17,5 +17,6 @@ return [
     'default_success_message' => 'The form was successfully submitted.',
     'general_form_error' => 'The form could not be submitted successfully. Please try again later.',
     'form_expired_error' => 'The form has expired. Please reload the page.',
-    'redirect_message' => 'You will be redirected shortly.'
+    'redirect_message' => 'You will be redirected shortly.',
+    'reload_message' => 'The page will be reloaded shortly.'
 ];

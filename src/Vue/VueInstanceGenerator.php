@@ -155,6 +155,9 @@ class VueInstanceGenerator
                             if (response.data.redirect) {
                                 this.redirect(response.data.redirect["url"], response.data.redirect["delay"]);
                             }
+                            if (response.data.reloadPage) {
+                                this.reloadPage(response.data.reloadPage["delay"]);
+                            }
                             if (response.data.message) {
                                 this.displaySuccessMessage(response.data.message);
                             }
@@ -222,6 +225,13 @@ class VueInstanceGenerator
             'async function(url, delay) {
                     await new Promise(resolve => setTimeout(resolve, delay));
                     window.location = url;
+                }');
+
+        $this->vueInstance->addMethod(
+            'reloadPage',
+            'async function(delay) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    window.location.reload(true);
                 }');
 
         $this->vueInstance->addMethod(

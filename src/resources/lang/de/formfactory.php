@@ -17,5 +17,6 @@ return [
     'default_success_message' => 'Das Formular wurde erfolgreich abgeschickt.',
     'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
     'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.',
-    'redirect_message' => 'Sie werden in Kürze weitergeleitet.'
+    'redirect_message' => 'Sie werden in Kürze weitergeleitet.',
+    'reload_message' => 'Die Seite wird in Kürze neu geladen.'
 ];
