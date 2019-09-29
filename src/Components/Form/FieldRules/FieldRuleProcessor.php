@@ -187,7 +187,7 @@ class FieldRuleProcessor
     }
 
     /**
-     * Applies 'required' rule.
+     * Applies 'max' rule.
      *
      * @param array $parameters
      */
