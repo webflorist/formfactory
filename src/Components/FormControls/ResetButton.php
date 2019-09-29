@@ -29,6 +29,16 @@ class ResetButton
         $this->setupFormControl();
     }
 
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        if (!$this->content->hasContent()) {
+            $this->content(
+                $this->performAutoTranslation(ucwords($this->attributes->name))
+            );
+        }
+    }
+
     /**
      * Gets called after applying decorators.
      * Overwrite to perform manipulations.

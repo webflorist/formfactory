@@ -39,6 +39,16 @@ class SubmitButton
         $this->processFormControl();
     }
 
+    protected function beforeDecoration()
+    {
+        parent::beforeDecoration();
+        if (!$this->content->hasContent()) {
+            $this->content(
+                $this->performAutoTranslation(ucwords($this->attributes->name))
+            );
+        }
+    }
+
     /**
      * Returns the base translation-key for auto-translations for this object.
      *

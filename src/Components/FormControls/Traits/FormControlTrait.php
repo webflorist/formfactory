@@ -123,15 +123,6 @@ trait FormControlTrait
             $this->helpText->generate();
         }
 
-        // Auto-translate button-content, if none was set.
-        if ($this->is(ButtonElement::class)) {
-            if (!$this->content->hasContent()) {
-                $this->content(
-                    $this->performAutoTranslation(ucwords($this->attributes->name))
-                );
-            }
-        }
-
     }
 
     protected function applyVueDirectives()
