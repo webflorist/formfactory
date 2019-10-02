@@ -176,7 +176,7 @@ class VueInstanceGenerator
 
         $this->vueInstance->addMethod(
             'handleFieldErrors',
-            'function(error, callingMethod) {
+            'function(error, callbackMethod) {
                 if(error.response.status == 422 || error.response.status == 429) {
                     for (let fieldName in error.response.data.errors) {
                         if (typeof this.fields[fieldName] === "undefined") {
@@ -189,16 +189,25 @@ class VueInstanceGenerator
                 }
                 else if (error.response.status == 419) {
                     this.finishSubmit(error.response);
-                    axios.get("/api/csrf-token").then((response) => {
-                        axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
-                        this[callingMethod]();
-                    }).catch((error) => {
-                        this.generalErrors = [this.lang["form_expired_error"]];
-                    });
+                    this.refreshCsrfToken(callbackMethod);
                 }
                 else {
                     this.generalErrors = [this.lang["general_form_error"]];
                 }
+            }'
+        );
+
+        $this->vueInstance->addMethod(
+            'refreshCsrfToken',
+            'function(callbackMethod=null) {
+                axios.get("/api/csrf-token").then((response) => {
+                    axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
+                    if (callbackMethod !== null) {
+                        this[callbackMethod]();
+                    }
+                }).catch((error) => {
+                    this.generalErrors = [this.lang["form_expired_error"]];
+                });
             }'
         );
 
