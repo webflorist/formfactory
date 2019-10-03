@@ -189,7 +189,13 @@ class VueInstanceGenerator
                 }
                 else if (error.response.status == 419) {
                     this.finishSubmit(error.response);
-                    this.refreshCsrfToken(callbackMethod);
+                    if (!this.csrfTokenRefreshed) {
+                        this.refreshCsrfToken(callbackMethod);
+                    }
+                    else {
+                        this.generalErrors = [this.lang["form_expired_error"]];
+                    }
+                    this.csrfTokenRefreshed = true;
                 }
                 else {
                     this.generalErrors = [this.lang["general_form_error"]];
@@ -268,6 +274,7 @@ class VueInstanceGenerator
         );
 
         $this->vueInstance->addData('isSubmitting', false);
+        $this->vueInstance->addData('csrfTokenRefreshed', false);
         $this->vueInstance->addData('generalErrors', []);
         $this->vueInstance->addData('successMessage', []);
         $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
