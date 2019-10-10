@@ -77,7 +77,9 @@ class VueForm extends Form
      */
     private function applyVueModifications()
     {
-        $this->vOn('submit', 'submitForm', ['prevent']);
+        if (!$this->attributes->isSet('v-on:submit')) {
+            $this->vOn('submit', 'submitForm', ['prevent']);
+        }
         $this->appendContent(
             (new AlertComponent('danger'))
                 ->appendContent(
