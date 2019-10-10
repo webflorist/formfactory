@@ -143,7 +143,10 @@ class VueInstanceGenerator
      */
     private function addSubmitFunctionality()
     {
-        $this->vueInstance->addMethod('submitForm', 'function() {
+        $this->vueInstance->addMethod('submitForm', 'function(finishSubmitMethod=null) {
+                    if (typeof finishSubmitMethod !== "string") {
+                        finishSubmitMethod = "finishSubmit";
+                    }
                     if (this.isSubmitting == false) {
                         this.isSubmitting = true;
                         this.clearErrors();
@@ -164,10 +167,10 @@ class VueInstanceGenerator
                             if (response.data.reset_form) {
                                 this.resetForm();
                             }
-                            this.finishSubmit(response);
+                            this[finishSubmitMethod](response, true);
                         }).catch((error) => {
                             this.handleFieldErrors(error, "submitForm");
-                            this.finishSubmit(error.response);
+                            this[finishSubmitMethod](error.response, false);
                         });
                         
 
@@ -251,13 +254,13 @@ class VueInstanceGenerator
 
         $this->vueInstance->addMethod(
             'finishSubmit',
-            'function(response) {
+            'function(response, wasSuccessful=true) {
                     this.isSubmitting = false;
                     if (response.data.captcha_question) {
                         this.captchaQuestion = response.data.captcha_question;
                     }
                 
-                    // Scroll to first alert (error-message, succes, etc.)
+                    // Scroll to first alert (error-message, success, etc.)
                     this.$nextTick().then(() => {
                         let firstAlert = this.$el.querySelector("[role=alert]");
                         if (firstAlert !== null) {
