@@ -86,11 +86,13 @@ class VueForm extends Form
                     (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
                 )
                 ->vIf("generalErrors.length")
+                ->view('webflorist-formfactory::_general.general-errors-alert')
                 ->wrap(new TemplateElement())
         );
         $this->appendContent(
             (new AlertComponent('success'))
                 ->appendContent('{{ successMessage }}')
+                ->view('webflorist-formfactory::_general.success-message-alert')
                 ->vIf("successMessage.length")
                 ->wrap(new TemplateElement())
         );
