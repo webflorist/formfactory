@@ -167,6 +167,9 @@ class VueInstanceGenerator
                             if (response.data.reset_form) {
                                 this.resetForm();
                             }
+                            if (response.data.hide_form) {
+                                this.hideForm = true;
+                            }
                             this[finishSubmitMethod](response, true);
                         }).catch((error) => {
                             this.handleFieldErrors(error, "submitForm");
@@ -278,8 +281,9 @@ class VueInstanceGenerator
 
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('csrfTokenRefreshed', false);
+        $this->vueInstance->addData('hideForm', false);
         $this->vueInstance->addData('generalErrors', []);
-        $this->vueInstance->addData('successMessage', []);
+        $this->vueInstance->addData('successMessage', "");
         $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
     }
 

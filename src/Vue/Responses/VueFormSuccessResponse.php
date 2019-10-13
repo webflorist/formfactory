@@ -35,6 +35,17 @@ class VueFormSuccessResponse extends VueFormResponse
     }
 
     /**
+     * Hides the form after delivering response.
+     *
+     * @return $this
+     */
+    public function hideForm()
+    {
+        $this->vueFormResponseData['hide_form'] = true;
+        return $this;
+    }
+
+    /**
      * Sets an URL to redirect to after delivering response.
      * You can also set a delay to give the user
      * time to read the success message.
