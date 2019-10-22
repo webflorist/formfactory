@@ -18,6 +18,7 @@ use Webflorist\FormFactory\Components\Helpers\HelpTextContainer;
 use Webflorist\FormFactory\Components\Helpers\FieldLabel;
 use Webflorist\FormFactory\Components\Form\FieldRules\FieldRuleProcessor;
 use Webflorist\FormFactory\Components\Form\FieldValues\FieldValueProcessor;
+use Webflorist\HtmlFactory\Components\Traits\HasLayout;
 use Webflorist\HtmlFactory\Elements\ButtonElement;
 
 /**
@@ -27,6 +28,7 @@ use Webflorist\HtmlFactory\Elements\ButtonElement;
  */
 trait FormControlTrait
 {
+    use HasLayout;
 
     /**
      * The Form this Field belongs to.
@@ -63,12 +65,6 @@ trait FormControlTrait
         } catch (OpenElementNotFoundException $e) {
         }
 
-        // Apply view.
-        try {
-            $this->view('webflorist-formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName()));
-        } catch (\ReflectionException $e) {
-        }
-
         // Set a default-ID for various FormControls.
         $this->setDefaultId();
 
@@ -91,6 +87,15 @@ trait FormControlTrait
         }
     }
 
+    private function applyView()
+    {
+        try {
+            $view = 'webflorist-formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName());
+            $this->view($view);
+        } catch (\ReflectionException $e) {
+        }
+    }
+
     /**
      * Performs various tasks before decoration.
      *
@@ -98,6 +103,10 @@ trait FormControlTrait
      */
     protected function processFormControl()
     {
+
+        // Apply view.
+        $this->applyView();
+
         if ($this->isAField()) {
 
             if ($this->canHaveRules()) {
