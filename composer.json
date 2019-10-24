@@ -10,9 +10,10 @@
     "require": {
         "laravel/framework": "~5.5",
         "webflorist/htmlfactory": "dev-develop",
-        "webflorist/vuefactory": "dev-develop"
+        "webflorist/vuefactory": "dev-develop",
     },
     "require-dev": {
+        "ext-json": "*",
         "orchestra/testbench": "~3.5",
         "orchestra/testbench-dusk": "~3.5",
         "gajus/dindent": "^2.0",

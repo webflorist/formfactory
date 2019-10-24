@@ -212,7 +212,7 @@ class VueInstanceGenerator
         $this->vueInstance->addMethod(
             'refreshCsrfToken',
             'function(callbackMethod=null) {
-                axios.get("/api/csrf-token").then((response) => {
+                axios.get("/api/form-factory/csrf-token").then((response) => {
                     axios.defaults.headers.common["X-CSRF-TOKEN"] = response.data;
                     if (callbackMethod !== null) {
                         this[callbackMethod]();

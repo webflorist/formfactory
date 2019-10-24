@@ -5,14 +5,15 @@ namespace Webflorist\FormFactory;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Route;
+use Validator;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\CaptchaValidator;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\HoneypotProtection;
 use Webflorist\FormFactory\Components\Form\AntiBotProtection\TimeLimitProtection;
-use Webflorist\FormFactory\Controllers\FormFactoryController;
+use Webflorist\FormFactory\Http\Controllers\FormFactoryController;
+use Webflorist\FormFactory\Http\Middleware\FormFactoryMiddleware;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\HtmlFactory;
-use Route;
-use Validator;
 
 class FormFactoryServiceProvider extends ServiceProvider
 {
@@ -34,7 +35,7 @@ class FormFactoryServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . "/resources/lang", "webflorist-formfactory");
 
         // Load views.
-        $this->loadViewsFrom(__DIR__.'/resources/views/', 'webflorist-formfactory');
+        $this->loadViewsFrom(__DIR__ . '/resources/views/', 'webflorist-formfactory');
 
         // Register included decorators.
         $this->registerHtmlFactoryDecorators();
@@ -52,7 +53,10 @@ class FormFactoryServiceProvider extends ServiceProvider
         // Register the honeypot-validator, if honeypot-protection is enabled in the config.
         $this->registerHoneypotValidator();
 
-        $this->registerGetCsrfTokenRoute();
+        $this->registerRoutes();
+
+        // Add the middleware.
+        $this->addMiddleware(FormFactoryMiddleware::class);
 
     }
 
@@ -155,14 +159,27 @@ class FormFactoryServiceProvider extends ServiceProvider
 
 
     /**
-     * Register route to fetch new CSRF-token.
+     * Register the routes used by this package.
      */
-    private function registerGetCsrfTokenRoute()
+    private function registerRoutes()
     {
         if (config('formfactory.vue.enabled')) {
             /** @var Router $router */
             $router = $this->app[Router::class];
-            $router->get('api/csrf-token', FormFactoryController::class.'@getCsrfToken')->middleware(['web','throttle:60,1']);
+
+            //Register route to fetch new CSRF-token.
+            $router->get('api/form-factory/csrf-token', FormFactoryController::class . '@getCsrfToken')->middleware(['web', 'throttle:60,1']);
+
+            // Register route
+            $router->post('api/form-factory/file-upload', FormFactoryController::class . '@uploadFile')->middleware(['web', 'throttle:60,1']);
+        }
+    }
+
+    private function addMiddleware(string $middleware)
+    {
+        $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware($middleware);
+        if ($this->app['router']->hasMiddlewareGroup('web')) {
+            $this->app['router']->pushMiddlewareToGroup('web', $middleware);
         }
     }
 }
