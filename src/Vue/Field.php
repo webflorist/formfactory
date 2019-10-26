@@ -3,9 +3,11 @@
 namespace Webflorist\FormFactory\Vue;
 
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
+use Webflorist\FormFactory\Components\FormControls\FileInput;
 use Webflorist\FormFactory\Components\FormControls\Option;
 use Webflorist\FormFactory\Components\FormControls\RadioInput;
 use Webflorist\FormFactory\Components\FormControls\Select;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 use Webflorist\HtmlFactory\Elements\TextareaElement;
 
@@ -101,6 +103,10 @@ class Field
             return $this->evaluateSelectValue($field);
         }
 
+        if ($field->is(FileInput::class)) {
+            return $this->evaluateFileValue($field);
+        }
+
         return $field->attributes->value;
 
     }
@@ -170,5 +176,45 @@ class Field
         }
 
         return $return;
+    }
+
+    /**
+     * Evaluate current value(s) of a Select.
+     *
+     * @param Select $field
+     * @return array|string
+     */
+    private function evaluateFileValue(FileInput $field)
+    {
+        $value = $field->attributes->value;
+        if (FormFactoryTools::isArrayField($field->attributes->name)) {
+            if (is_array($value)) {
+                foreach ($value as $key => $file) {
+                    $value[$key] = $this->processStoredFile($file);
+                }
+            }
+        }
+        else {
+            $value = $this->processStoredFile($value);
+        }
+        return $value;
+    }
+
+    private function processStoredFile($file)
+    {
+        if (is_object($file) && is_a($file, 'Webflorist\FileStorage\Models\StoredFile')) {
+            /** @var StoredFile $file */
+            return (object)[
+                'customName' => $file->title,
+                'upload' => (object) [
+                    'stored_file_uuid' => $file->uuid
+                ],
+                'name' => $file->name,
+                'type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'url' => $file->getUrl()
+            ];
+        }
+        return $file;
     }
 }
