@@ -4,6 +4,7 @@ namespace Webflorist\FormFactory\Http\Middleware;
 
 use Closure;
 use Webflorist\FormFactory\Utilities\FileUploadManager;
+use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
 class FormFactoryMiddleware
 {
@@ -19,14 +20,32 @@ class FormFactoryMiddleware
         if ($request->has('_formID') && $request->has('form_factory_uploads')) {
             $requestData = $request->all();
             foreach ($request->get('form_factory_uploads') as $fieldName) {
-                $fileId = $request->get($fieldName);
-                $requestData[$fieldName] = FileUploadManager::retrieveFile(
-                    $fileId,
-                    $request->get('_formID')
-                );
+                $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
+                if ($request->has($fieldName)) {
+                    $fieldValue = $request->get($fieldName);
+                    if (is_array($fieldValue)) {
+                        foreach ($fieldValue as $fileKey => $fileData) {
+                            if (isset($fileData['file_upload_id'])) {
+                                $requestData[$fieldName][$fileKey] = FileUploadManager::retrieveFile(
+                                    $fileData['file_upload_id'],
+                                    $request->get('_formID'),
+                                    $fieldName
+                                );
+                            }
+                        }
+                    }
+                    else {
+                        if (isset($fieldValue['file_upload_id'])) {
+                            $requestData[$fieldName] = FileUploadManager::retrieveFile(
+                                $fieldValue['file_upload_id'],
+                                $request->get('_formID'),
+                                $fieldName
+                            );
+                        }
+                    }
+                }
             }
             unset($requestData['form_factory_uploads']);
-
             $request->replace($requestData);
         }
         return $next($request);

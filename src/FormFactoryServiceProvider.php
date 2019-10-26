@@ -177,7 +177,6 @@ class FormFactoryServiceProvider extends ServiceProvider
 
     private function addMiddleware(string $middleware)
     {
-        $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware($middleware);
         if ($this->app['router']->hasMiddlewareGroup('web')) {
             $this->app['router']->pushMiddlewareToGroup('web', $middleware);
         }
