@@ -91,6 +91,9 @@ trait FormControlTrait
     {
         try {
             $view = 'webflorist-formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName());
+            if ($this->hasLayout()) {
+                $view .= ".".$this->getLayout();
+            }
             $this->view($view);
         } catch (\ReflectionException $e) {
         }
