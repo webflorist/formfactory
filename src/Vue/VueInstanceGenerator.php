@@ -193,6 +193,9 @@ class VueInstanceGenerator
                         }
                     }
                 }
+                else if (error.response.status == 408) {
+                    this.generalErrors = [this.lang["form_expired_error"]];
+                }
                 else if (error.response.status == 419) {
                     this.finishSubmit(error.response);
                     if (!this.csrfTokenRefreshed) {
