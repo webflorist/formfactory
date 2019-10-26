@@ -193,6 +193,9 @@ class Field
                     $value[$key] = $this->processStoredFile($file);
                 }
             }
+            else {
+                $value = [];
+            }
         }
         else {
             $value = $this->processStoredFile($value);

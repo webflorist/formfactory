@@ -282,6 +282,37 @@ class VueInstanceGenerator
             config('formfactory.vue.methods.display_success_message')
         );
 
+        $this->vueInstance->addMethod('fileAgentSelected', 'function (files, fieldName) {
+            let headers = {
+                "X-CSRF-TOKEN": "'.csrf_token().'"
+            };
+            let self = this;
+            let isMultiple = (!!this.fields[fieldName].value) && (this.fields[fieldName].value.constructor === Array);
+            files.forEach(function (fileData) {
+                self.$refs["vueFileAgent_"+fieldName].upload("/api/form-factory/file-upload", headers, [fileData], function (fileData) {
+                    let formData = new FormData();
+                    formData.append("file", fileData.file);
+                    formData.append("fieldName", fieldName);
+                    formData.append("_formID", self.fields["_formID"].value);
+                    return formData;
+                }).then((response) => {
+                    if (response.length > 0) {                    
+                        delete fileData.xhr;
+                        fileData.upload = response[0].data;
+                        fileData.progress(100);
+                        self.$forceUpdate();
+                    }
+                });
+            });
+        }');
+
+        // Workaround, since vueFileAgent sets this to empty array instead of string for non-multiple fields.
+        $this->vueInstance->addMethod('fileAgentDeleted', 'function (fileData, fieldName) {
+            if (!this.$refs["vueFileAgent_"+fieldName].multiple) {
+                this.fields[fieldName].value = null;
+            }
+        }');
+
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('csrfTokenRefreshed', false);
         $this->vueInstance->addData('hideForm', false);

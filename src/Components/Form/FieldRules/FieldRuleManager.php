@@ -123,6 +123,12 @@ class FieldRuleManager
         }
         if (is_array($explodedRules) && (count($explodedRules) > 0)) {
             foreach ($explodedRules as $key => $rule) {
+                if (is_object($rule) && is_a($rule, 'Webflorist\FileStorage\Rules\StoredFileRule')) {
+                    unset($explodedRules[$key]);
+                    $explodedRules = array_merge($explodedRules, $rule->fileRules);
+                }
+            }
+            foreach ($explodedRules as $key => $rule) {
                 if (is_string($rule)) {
                     $parameters = [];
                     if (str_contains($rule, ':')) {

@@ -23,7 +23,7 @@ class FormFactoryMiddleware
                 $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
                 if ($request->has($fieldName)) {
                     $fieldValue = $request->get($fieldName);
-                    if (is_array($fieldValue)) {
+                    if (isset($fieldValue[0])) {
                         foreach ($fieldValue as $fileKey => $fileData) {
                             if (isset($fileData['file_upload_id'])) {
                                 $requestData[$fieldName][$fileKey] = FileUploadManager::retrieveFile(
