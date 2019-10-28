@@ -262,7 +262,7 @@ class VueInstanceGenerator
             'finishSubmit',
             'function(response, wasSuccessful=true) {
                     this.isSubmitting = false;
-                    if (response.data.captcha_question) {
+                    if (response && response.data.captcha_question) {
                         this.captchaQuestion = response.data.captcha_question;
                     }
                 
@@ -290,6 +290,7 @@ class VueInstanceGenerator
             let isMultiple = (!!this.fields[fieldName].value) && (this.fields[fieldName].value.constructor === Array);
             files.forEach(function (fileData) {
                 self.$refs["vueFileAgent_"+fieldName].upload("/api/form-factory/file-upload", headers, [fileData], function (fileData) {
+                    self.isSubmitting = true;
                     let formData = new FormData();
                     formData.append("file", fileData.file);
                     formData.append("fieldName", fieldName);
@@ -302,6 +303,14 @@ class VueInstanceGenerator
                         fileData.progress(100);
                         self.$forceUpdate();
                     }
+                    self.$nextTick().then(() => {
+                        self.isSubmitting = false;
+                    });
+                }).catch((error) => {
+                    self.handleFieldErrors(error);
+                    self.$nextTick().then(() => {
+                        self.finishSubmit();
+                    });
                 });
             });
         }');
