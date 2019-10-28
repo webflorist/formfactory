@@ -11,8 +11,8 @@ class FormFactoryMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -21,9 +21,17 @@ class FormFactoryMiddleware
             $requestData = $request->all();
             foreach ($request->get('form_factory_uploads') as $fieldName) {
                 $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-                if ($request->has($fieldName)) {
-                    $fieldValue = $request->get($fieldName);
-                    if (isset($fieldValue[0])) {
+                if ($request->has($fieldName) && is_array($fieldValue = $request->get($fieldName))) {
+
+                    // Handle non-array field.
+                    if (isset($fieldValue['file_upload_id'])) {
+                        $requestData[$fieldName] = FileUploadManager::retrieveFile(
+                            $fieldValue['file_upload_id'],
+                            $request->get('_formID'),
+                            $fieldName
+                        );
+                    } // Handle array field.
+                    else {
                         foreach ($fieldValue as $fileKey => $fileData) {
                             if (isset($fileData['file_upload_id'])) {
                                 $requestData[$fieldName][$fileKey] = FileUploadManager::retrieveFile(
@@ -34,15 +42,7 @@ class FormFactoryMiddleware
                             }
                         }
                     }
-                    else {
-                        if (isset($fieldValue['file_upload_id'])) {
-                            $requestData[$fieldName] = FileUploadManager::retrieveFile(
-                                $fieldValue['file_upload_id'],
-                                $request->get('_formID'),
-                                $fieldName
-                            );
-                        }
-                    }
+
                 }
             }
             unset($requestData['form_factory_uploads']);
