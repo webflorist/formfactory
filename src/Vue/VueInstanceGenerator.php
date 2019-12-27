@@ -47,7 +47,7 @@ class VueInstanceGenerator
         $this->form = $form;
         $this->vueInstance = new VueInstance('#' . $this->form->getId());
         $this->fieldData = new stdClass();
-        $this->vueInstance->addMethod('fieldHasError', 'function (fieldName) {return this.fields[fieldName].errors.length > 0;}');
+        $this->vueInstance->addMethod('fieldHasError', 'function (fieldName) {return this.errors.hasOwnProperty(fieldName);}');
         $this->vueInstance->addMethod('fieldHasValue', 'function (fieldName) {return this.fields[fieldName].value ? true : false;}');
         $this->vueInstance->addData('lang', $this->getLangObject());
         $this->addSubmitFunctionality();
@@ -56,7 +56,7 @@ class VueInstanceGenerator
               if (files) {
                 if(files[0].type.match(/^image\/(gif|png|jpeg|svg\+xml)$/) || files[0].name.match(/\.(gif|png|jpe?g|svg)$/i)) {
                     var reader = new FileReader();
-                    reader.onload = e => this.fields[fieldName].value = e.target.result;   
+                    reader.onload = e => this.fields[fieldName].value = e.target.result;
                     reader.readAsDataURL(files[0]);
                 }
                 else {
@@ -108,13 +108,7 @@ class VueInstanceGenerator
      */
     private function addComputeErrorFlags()
     {
-        $jsStatements = [];
-        foreach ($this->fieldData as $fieldName => $field) {
-            $jsStatements[] = "this.fields['$fieldName'].errors.length > 0";
-        }
-        $jsStatements = implode(' || ', $jsStatements);
-
-        $this->vueInstance->addComputed('hasErrors', "function () {return $jsStatements;}");
+        $this->vueInstance->addComputed('hasErrors', "function () {return errors.length > 0;}");
     }
 
     /**
@@ -184,12 +178,10 @@ class VueInstanceGenerator
             'handleFieldErrors',
             'function(error, callbackMethod) {
                 if(error.response.status == 422 || error.response.status == 429) {
+                    this.errors = error.response.data.errors;
                     for (let fieldName in error.response.data.errors) {
-                        if (typeof this.fields[fieldName] === "undefined") {
+                        if (typeof this.fields[fieldName] === "undefined" && !fieldName.includes(".")) {
                             this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
-                        }
-                        else {
-                            this.fields[fieldName].errors = error.response.data.errors[fieldName];
                         }
                     }
                 }
@@ -229,9 +221,7 @@ class VueInstanceGenerator
         $this->vueInstance->addMethod(
             'clearErrors',
             'function() {
-                    for (let fieldName in this.fields) {
-                        this.fields[fieldName].errors = [];
-                    }
+                    this.errors = {};
                     this.generalErrors = [];
                 }');
 
@@ -265,7 +255,7 @@ class VueInstanceGenerator
                     if (response && response.data.captcha_question) {
                         this.captchaQuestion = response.data.captcha_question;
                     }
-                
+
                     // Scroll to first alert (error-message, success, etc.)
                     this.$nextTick().then(() => {
                         let firstAlert = this.$el.querySelector("[role=alert]");
@@ -297,7 +287,7 @@ class VueInstanceGenerator
                     formData.append("_formID", self.fields["_formID"].value);
                     return formData;
                 }).then((response) => {
-                    if (response.length > 0) {                    
+                    if (response.length > 0) {
                         delete fileData.xhr;
                         fileData.upload = response[0].data;
                         fileData.progress(100);
@@ -322,10 +312,16 @@ class VueInstanceGenerator
             }
         }');
 
+        $this->vueInstance->addMethod(
+            'displayConfirmDialog',
+            config('formfactory.vue.methods.display_confirm_dialog')
+        );
+
         $this->vueInstance->addData('isSubmitting', false);
         $this->vueInstance->addData('csrfTokenRefreshed', false);
         $this->vueInstance->addData('hideForm', false);
         $this->vueInstance->addData('generalErrors', []);
+        $this->vueInstance->addData('errors', (object)[]);
         $this->vueInstance->addData('successMessage', "");
         $this->vueInstance->addData('captchaQuestion', $this->form->getCaptchaQuestion());
     }

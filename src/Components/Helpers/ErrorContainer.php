@@ -4,6 +4,7 @@ namespace Webflorist\FormFactory\Components\Helpers;
 
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
+use Webflorist\FormFactory\Components\FormControls\TempField;
 use Webflorist\FormFactory\Components\FormControls\TextInput;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 use Webflorist\HtmlFactory\Components\AlertComponent;
@@ -60,7 +61,7 @@ class ErrorContainer extends DivElement
         // If we just get a field-name, we create a temporary text-input from it,
         // since a FieldInterface is required for further processing.
         if (is_string($field)) {
-            $field = (new TextInput($field));
+            $field = (new TempField($field));
         }
 
         $this->field = $field;
@@ -157,7 +158,7 @@ class ErrorContainer extends DivElement
                 $vIf = [];
                 foreach ($this->getErrorFields() as $fieldName) {
                     $this->appendContent(
-                        (new DivElement())->vFor("error in fields['$fieldName'].errors")->content('{{ error }}')
+                        (new DivElement())->vFor("error in errors['$fieldName']")->content('{{ error }}')
                     );
                     $vIf[] = "fieldHasError('$fieldName')";
                 }

@@ -69,4 +69,26 @@ class SubmitButton
         // As default-suffix, we use the string 'submit'.
         return 'submit';
     }
+
+    public function confirmDialog(?string $title=null, ?string $text=null, ?string $confirmButtonText=null, ?string $cancelButtonText=null) {
+
+        if (is_null($title)) {
+            $title = trans('webflorist-formfactory::formfactory.default_confirm_title');
+        }
+        if (is_null($text)) {
+            $text = trans('webflorist-formfactory::formfactory.default_confirm_text');
+        }
+        if (is_null($confirmButtonText)) {
+            $confirmButtonText = trans('webflorist-formfactory::formfactory.default_confirm_button_text');
+        }
+        if (is_null($cancelButtonText)) {
+            $cancelButtonText = trans('webflorist-formfactory::formfactory.default_cancel_button_text');
+        }
+        $title = str_replace("'", "\'", $title);
+        $text = str_replace("'", "\'", $text);
+        $confirmButtonText = str_replace("'", "\'", $confirmButtonText);
+        $cancelButtonText = str_replace("'", "\'", $cancelButtonText);
+        $this->vOnClick("displayConfirmDialog('$title', '$text', '$confirmButtonText', '$cancelButtonText')", ['prevent']);
+        return $this;
+    }
 }

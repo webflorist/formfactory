@@ -3,6 +3,7 @@
 namespace Webflorist\FormFactory;
 
 use Webflorist\FormFactory\Components\Form\VueForm;
+use Webflorist\FormFactory\Components\FormControls\DynamicTextList;
 use Webflorist\FormFactory\Components\Helpers\RequiredFieldIndicator;
 use Webflorist\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Webflorist\FormFactory\Components\FormControls\ButtonGroup;
@@ -97,6 +98,7 @@ use Webflorist\VueFactory\VueInstance;
  * @method static InputGroup            inputGroup(array $content)
  * @method static CheckboxGroup         checkboxGroup(array $radioInputs)
  * @method static ButtonGroup           buttonGroup(array $buttons)
+ * @method static DynamicTextList       dynamicTextList(string $arrayName)
  *
  */
 class FormFactory

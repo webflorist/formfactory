@@ -18,5 +18,9 @@ return [
     'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
     'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.',
     'redirect_message' => 'Sie werden in Kürze weitergeleitet.',
-    'reload_message' => 'Die Seite wird in Kürze neu geladen.'
+    'reload_message' => 'Die Seite wird in Kürze neu geladen.',
+    'default_confirm_title' => 'Sind Sie sicher?',
+    'default_confirm_text' => 'Diese Aktion können Sie nicht rückgängig machen.',
+    'default_confirm_button_text' => 'Ja, ich bin sicher!',
+    'default_cancel_button_text' => 'Abbrechen',
 ];

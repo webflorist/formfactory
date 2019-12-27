@@ -18,5 +18,9 @@ return [
     'general_form_error' => 'The form could not be submitted successfully. Please try again later.',
     'form_expired_error' => 'The form has expired. Please reload the page.',
     'redirect_message' => 'You will be redirected shortly.',
-    'reload_message' => 'The page will be reloaded shortly.'
+    'reload_message' => 'The page will be reloaded shortly.',
+    'default_confirm_title' => 'Are you sure?',
+    'default_confirm_text' => 'You won\'t be able to revert this!',
+    'default_confirm_button_text' => 'Yes, i\'m sure!',
+    'default_cancel_button_text' => 'Cancel',
 ];

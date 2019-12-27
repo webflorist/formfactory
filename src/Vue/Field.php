@@ -2,6 +2,8 @@
 
 namespace Webflorist\FormFactory\Vue;
 
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\Models\Media;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\FileInput;
 use Webflorist\FormFactory\Components\FormControls\Option;
@@ -41,20 +43,11 @@ class Field
     /**
      * Is this field disabled?
      *
-     * The field's 'required' attribute will react to this setting.
+     * The field's 'disabled' attribute will react to this setting.
      *
      * @var bool
      */
     public $isDisabled = false;
-
-    /**
-     * Array of errors for this field
-     *
-     * The field's 'required' attribute will react to this setting.
-     *
-     * @var array
-     */
-    public $errors = [];
 
     /**
      * The fieldData-object this field is a part of.
@@ -73,7 +66,6 @@ class Field
     {
         $this->fieldData = $fieldData;
         $this->value = $this->evaluateFieldValue($field);
-        $this->errors = $this->evaluateFieldErrors($field);
         $this->isRequired = ($field->attributes->required === true) ? true : false;
         $this->isDisabled = ($field->attributes->disabled === true) ? true : false;
     }
@@ -107,23 +99,12 @@ class Field
             return $this->evaluateFileValue($field);
         }
 
-        return $field->attributes->value;
-
-    }
-
-    /**
-     * Evaluates the field's current errors.
-     *
-     * @param Element $field
-     * @return array
-     */
-    private function evaluateFieldErrors(Element $field)
-    {
-        if (property_exists($field,'errors')) {
-            return $field->errors->getErrors();
+        if (FormFactoryTools::isArrayField($field->attributes->name) && is_null($field->attributes->value)) {
+            return [];
         }
 
-        return [];
+        return $field->attributes->value;
+
     }
 
     /**
@@ -188,34 +169,36 @@ class Field
     {
         $value = $field->attributes->value;
         if (FormFactoryTools::isArrayField($field->attributes->name)) {
-            if (is_array($value)) {
+            if ($value instanceof Collection) {
+                $processedValue = [];
                 foreach ($value as $key => $file) {
-                    $value[$key] = $this->processStoredFile($file);
+                    $processedValue[$key] = $this->processFile($file);
                 }
+                $value = $processedValue;
             }
             else {
                 $value = [];
             }
         }
         else {
-            $value = $this->processStoredFile($value);
+            $value = $this->processFile($value);
         }
         return $value;
     }
 
-    private function processStoredFile($file)
+    private function processFile($file)
     {
-        if (is_object($file) && is_a($file, 'Webflorist\FileStorage\Models\StoredFile')) {
-            /** @var StoredFile $file */
+        if (is_object($file) && is_a($file, 'Spatie\MediaLibrary\Models\Media')) {
+            /** @var Media $file */
             return (object)[
-                'customName' => $file->title,
+                'customName' => $file->name,
                 'upload' => (object) [
-                    'stored_file_uuid' => $file->uuid
+                    'media_id' => $file->id
                 ],
-                'name' => $file->name,
-                'type' => $file->getMimeType(),
-                'size' => $file->getSize(),
-                'url' => $file->getUrl()
+                'name' => $file->file_name,
+                'type' => $file->type,
+                'size' => $file->size,
+                'url' => $file->getFullUrl()
             ];
         }
         return $file;
