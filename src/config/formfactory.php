@@ -40,6 +40,14 @@ return [
                 this.successMessage = message;
             }',
 
+            // This method displays the confirm dialog.
+            'display_confirm_dialog' => 'function(title, text, confirmButtonText, cancelButtonText) {
+                let confirm = confirm(title+" "+text);
+                if (confirm == true) {
+                  this.submitForm();
+                }
+            }',
+
         ],
 
         /*
