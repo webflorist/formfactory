@@ -1,2 +1,9 @@
 tests/Browser/console
 tests/Browser/screenshots
+# Development
+.idea
+.phpunit.result.cache
+
+# Dependencies
+composer.lock
+vendor

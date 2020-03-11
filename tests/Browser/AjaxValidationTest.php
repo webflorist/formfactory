@@ -14,19 +14,6 @@ class AjaxValidationTest extends DuskTestCase
      * @throws \Exception
      * @throws \Throwable
      */
-    public function testAjaxValidationOnFormSubmitError()
-    {
-        $this->browse(function (Browser $browser) {
-            $this->getForm($browser, '/ajaxvalidation-get-on-form-submit');
-            $this->submitForm($browser, true);
-            $browser->assertSee('The text field is required.');
-        });
-    }
-
-    /**
-     * @throws \Exception
-     * @throws \Throwable
-     */
     public function testAjaxValidationOnFormSubmitSuccess()
     {
         $this->browse(function (Browser $browser) {
@@ -36,34 +23,6 @@ class AjaxValidationTest extends DuskTestCase
             $browser->assertSee('validated');
         });
     }
-
-    /**
-     * @throws \Exception
-     * @throws \Throwable
-     */
-    public function testAjaxValidationOnFieldChangeError()
-    {
-        $this->browse(function (Browser $browser) {
-            $this->getForm($browser, '/ajaxvalidation-get-on-field-change');
-            $browser->type('text', 'a');
-            $browser->keys('#myFormId_text',WebDriverKeys::TAB);
-            $browser->assertSee('The text must be at least 2 characters.');
-        });
-    }
-
-    /**
-     * @throws \Exception
-     * @throws \Throwable
-     */
-    public function testAjaxValidationOnFieldKeyUpError()
-    {
-        $this->browse(function (Browser $browser) {
-            $this->getForm($browser, '/ajaxvalidation-get-on-field-key-up');
-            $browser->type('text', 'a');
-            $browser->assertSee('The text must be at least 2 characters.');
-        });
-    }
-
 
     /**
      * @param Browser $browser
