@@ -8,12 +8,12 @@
         }
     ],
     "require": {
-		"laravel/framework": "5.5.*",
+		"laravel/framework": ">=5.5 <7.0.0",
 		"webflorist/htmlfactory": "1.0.*"
 	},
     "require-dev": {
-        "orchestra/testbench": "3.5.*",
-        "orchestra/testbench-dusk": "3.5.*",
+        "orchestra/testbench": ">=3.5",
+        "orchestra/testbench-dusk": ">=3.5",
         "gajus/dindent": "^2.0"
     },
     "autoload": {

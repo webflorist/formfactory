@@ -3,6 +3,7 @@
 namespace FormFactoryTests\Browser;
 
 use FormFactoryTests\DuskTestCase;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 
 class CaptchaTest extends DuskTestCase
@@ -19,7 +20,7 @@ class CaptchaTest extends DuskTestCase
 
             $this->exhaustCaptchaLimit($browser);
 
-            $calculation = str_before(str_after($browser->driver->getPageSource(), 'calculation: '), '<sup>');
+            $calculation = Str::before(Str::after($browser->driver->getPageSource(), 'calculation: '), '<sup>');
 
             $result = eval('return ' . $calculation . ';');
             $this->submitForm($browser, $result);

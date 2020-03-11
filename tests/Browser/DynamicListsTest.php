@@ -3,6 +3,7 @@
 namespace FormFactoryTests\Browser;
 
 use FormFactoryTests\DuskTestCase;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 
 class DynamicListsTest extends DuskTestCase
@@ -63,7 +64,7 @@ class DynamicListsTest extends DuskTestCase
     private function assertDynamicListHtmlEquals(Browser $browser, string $expectedHtml) {
         $this->assertHtmlEquals(
             $expectedHtml,
-            str_before(str_after($browser->driver->getPageSource(),' data-displays-errors-for="" hidden="" style="display:none"></div>'),'<button type="submit"')
+            Str::before(Str::after($browser->driver->getPageSource(),' data-displays-errors-for="" hidden="" style="display:none"></div>'),'<button type="submit"')
         );
     }
 

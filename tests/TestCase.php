@@ -5,11 +5,11 @@ namespace FormFactoryTests;
 use Form;
 use HtmlFactoryTests\Traits\AppliesAttributeSets;
 use HtmlFactoryTests\Traits\AssertsHtml;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 use Webflorist\FormFactory\FormFactoryFacade;
 use Webflorist\FormFactory\FormFactoryServiceProvider;
 use Webflorist\HtmlFactory\HtmlFactoryFacade;
 use Webflorist\HtmlFactory\HtmlFactoryServiceProvider;
-use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
@@ -39,10 +39,11 @@ class TestCase extends BaseTestCase
         $app['config']->set('htmlfactory.frontend_framework', $this->frontendFramework);
     }
 
-    protected function setFrontendFramework(string $frameworkId,string $frameworkVersion=null) {
+    protected function setFrontendFramework(string $frameworkId, string $frameworkVersion = null)
+    {
         $frontendFramework = $frameworkId;
         if (!is_null($frameworkVersion)) {
-            $frontendFramework .= ':'.$frameworkVersion;
+            $frontendFramework .= ':' . $frameworkVersion;
         }
         $this->frontendFramework = $frontendFramework;
         $this->refreshApplication();
@@ -55,7 +56,7 @@ class TestCase extends BaseTestCase
      * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotAllowedException
      * @throws \Webflorist\HtmlFactory\Exceptions\AttributeNotFoundException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         Form::open('myFormId');
@@ -66,7 +67,7 @@ class TestCase extends BaseTestCase
      *
      * @return void
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         Form::close();
     }

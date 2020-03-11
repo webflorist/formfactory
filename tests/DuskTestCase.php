@@ -5,10 +5,10 @@ namespace FormFactoryTests;
 use Gajus\Dindent\Indenter;
 use HtmlFactoryTests\Traits\AssertsHtml;
 use Laravel\Dusk\Browser;
+use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 use Webflorist\FormFactory\FormFactoryFacade;
 use Webflorist\FormFactory\FormFactoryServiceProvider;
 use Webflorist\HtmlFactory\HtmlFactoryServiceProvider;
-use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -29,7 +29,7 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -64,12 +64,12 @@ abstract class DuskTestCase extends BaseTestCase
         if (!is_null($frameworkVersion)) {
             $frontendFramework .= ':' . $frameworkVersion;
         }
-        $this->tweakApplication(function($app) use ($frontendFramework){
+        $this->tweakApplication(function ($app) use ($frontendFramework) {
             $app['config']->set('htmlfactory.frontend_framework', $frontendFramework);
         });
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
@@ -129,7 +129,6 @@ abstract class DuskTestCase extends BaseTestCase
 
         return $root . '/tests/Browser';
     }
-
 
 
 }

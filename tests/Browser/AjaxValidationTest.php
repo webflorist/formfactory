@@ -4,6 +4,7 @@ namespace FormFactoryTests\Browser;
 
 use Facebook\WebDriver\WebDriverKeys;
 use FormFactoryTests\DuskTestCase;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 
 class AjaxValidationTest extends DuskTestCase
@@ -53,7 +54,7 @@ class AjaxValidationTest extends DuskTestCase
 
     private function getTimestamp(Browser $browser)
     {
-        return str_before(str_after($browser->driver->getPageSource(), '<timestamp>'), '</timestamp>');
+        return Str::before(Str::after($browser->driver->getPageSource(), '<timestamp>'), '</timestamp>');
     }
 
 }

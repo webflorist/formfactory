@@ -125,7 +125,7 @@ class Form extends FormElement
      */
     protected function manipulateOutput(string &$output)
     {
-        $output = str_before($output, '</form>');
+        $output = \Illuminate\Support\Str::before($output, '</form>');
     }
 
     /**

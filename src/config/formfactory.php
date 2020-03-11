@@ -76,12 +76,14 @@ return [
         'default_limit' => 2,
 
         /*
-         * The time-span (in minutes) for which the captcha-limit is valid.
+         * The time-span for which the captcha-limit is valid.
          * After reaching the limit for captcha-less submissions, it takes this long,
          * before the user can submit the form again without a captcha.
          * (Can be overridden explicitly per request via the second parameter of the 'captcha'-rule of the request-object.)
+         *
+         * ATTENTION: This value is in minutes for Laravel <5.8 and in seconds for >=5.8
          */
-        'decay_time' => 2,
+        'decay_time' => 120,
 
     ],
 

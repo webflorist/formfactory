@@ -2,6 +2,7 @@
 
 namespace Webflorist\FormFactory\Utilities\FieldValues;
 
+use Illuminate\Support\Arr;
 use Webflorist\FormFactory\Components\Form;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
@@ -57,8 +58,8 @@ class FieldValueManager
     public function getDefaultValueForField(string $fieldName)
     {
         $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
-        if (array_has($this->defaultValues, $fieldName)) {
-            return (array_get($this->defaultValues, $fieldName));
+        if (Arr::has($this->defaultValues, $fieldName)) {
+            return (Arr::get($this->defaultValues, $fieldName));
         }
         return null;
     }
@@ -73,12 +74,12 @@ class FieldValueManager
     {
         $fieldName = FormFactoryTools::convertArrayFieldHtmlName2DotNotation($fieldName);
 
-        if (!array_has($this->defaultValues, $fieldName)) {
+        if (!Arr::has($this->defaultValues, $fieldName)) {
             return false;
         }
 
         // An empty array is not considered as a default-value.
-        $value = array_get($this->defaultValues, $fieldName);
+        $value = Arr::get($this->defaultValues, $fieldName);
         if (is_array($value) && (count($value)===0)) {
             return false;
         }
