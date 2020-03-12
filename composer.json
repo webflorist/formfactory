@@ -1,6 +1,6 @@
 {
     "name": "webflorist/formfactory",
-    "description": "Convenient and powerful form-builder for Laravel 5.5 and later",
+    "description": "Convenient and powerful form-builder for Laravel (v5.5+ and v6)",
     "authors": [
         {
             "name": "Gerald Buttinger",
@@ -8,13 +8,12 @@
         }
     ],
     "require": {
-        "laravel/framework": "~5.5",
-        "webflorist/htmlfactory": "1.1.*",
-        "webflorist/vuefactory": "1.0.*"
+		"laravel/framework": ">=5.5 <7.0.0",
+		"webflorist/htmlfactory": "1.0.*"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.5",
-        "orchestra/testbench-dusk": "~3.5",
+        "orchestra/testbench": ">=3.5",
+        "orchestra/testbench-dusk": ">=3.5",
         "gajus/dindent": "^2.0",
         "orchestra/dusk-updater": "^1.0"
     },
@@ -25,11 +24,6 @@
         }
     },
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/webflorist/htmlfactory",
-            "no-api": true
-        },
         {
             "type": "vcs",
             "url": "https://github.com/webflorist/vuefactory",
