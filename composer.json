@@ -24,13 +24,6 @@
             "FormFactoryTests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/webflorist/vuefactory",
-            "no-api": true
-        }
-    ],
     "extra": {
         "laravel": {
             "providers": [
