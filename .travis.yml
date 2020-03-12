@@ -25,7 +25,7 @@ services:
   - xvfb
 
 install:
-  - travis_retry composer update--no-interaction --prefer-dist --no-suggest
+  - travis_retry composer update --no-interaction --prefer-dist --no-suggest
 
 before_script:
   - ./vendor/bin/dusk-updater update
