@@ -2,6 +2,7 @@
 
 namespace FormFactoryTests\Browser\Tests\Traits;
 
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 
 trait CaptchaTestTrait
@@ -18,7 +19,7 @@ trait CaptchaTestTrait
 
             $this->exhaustCaptchaLimit($browser);
 
-            $calculation = str_before(str_after($browser->driver->getPageSource(), 'calculation: '), '<sup>');
+            $calculation = Str::before(Str::after($browser->driver->getPageSource(), 'calculation: '), '<sup>');
 
             $result = eval('return ' . $calculation . ';');
             $this->submitCaptchaForm($browser, $result);

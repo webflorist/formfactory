@@ -2,6 +2,7 @@
 
 namespace Webflorist\FormFactory\Components\Form\FieldRules;
 
+use Illuminate\Support\Str;
 use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Utilities\FormFactoryTools;
 
@@ -131,7 +132,7 @@ class FieldRuleManager
             foreach ($explodedRules as $key => $rule) {
                 if (is_string($rule)) {
                     $parameters = [];
-                    if (str_contains($rule, ':')) {
+                    if (Str::contains($rule, ':')) {
                         $ruleWithParameters = explode(':', $rule);
                         $rule = $ruleWithParameters[0];
                         $parameters = explode(',', $ruleWithParameters[1]);

@@ -2,6 +2,7 @@
 
 namespace Webflorist\FormFactory\Components\Form;
 
+use Illuminate\Support\Str;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FormControlInterface;
 use Webflorist\FormFactory\Components\FormControls\HiddenInput;
 use Webflorist\FormFactory\Components\FormControls\Select;
@@ -339,7 +340,7 @@ class Form extends FormElement
      */
     protected function manipulateOutput(string &$output)
     {
-        $output = str_before($output, '</form>');
+        $output = Str::before($output, '</form>');
     }
 
     /**

@@ -9,6 +9,8 @@
 
 namespace FormFactoryTests\Legacy\Traits;
 
+use Illuminate\Support\Str;
+
 trait AppliesTagMethodsToMatcherData
 {
 
@@ -243,7 +245,7 @@ trait AppliesTagMethodsToMatcherData
         $explodedRules = explode('|', $ruleString);
         foreach ($explodedRules as $key => $rule) {
             $parameters = [];
-            if (str_contains($rule, ':')) {
+            if (Str::contains($rule, ':')) {
                 $ruleWithParameters = explode(':', $rule);
                 $rule = $ruleWithParameters[0];
                 $parameters = explode(',', $ruleWithParameters[1]);
