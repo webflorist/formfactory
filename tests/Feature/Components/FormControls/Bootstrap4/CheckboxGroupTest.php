@@ -20,11 +20,11 @@ class CheckboxGroupTest extends TestCase
             '
                 <fieldset class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" name="myFirstCheckboxFieldName" class="form-check-input" value="1" id="myFormId_myFirstCheckboxFieldName" />
+                        <input type="checkbox" name="myFirstCheckboxFieldName" class="custom-control-input" value="1" id="myFormId_myFirstCheckboxFieldName" />
                         <label class="form-check-label" for="myFormId_myFirstCheckboxFieldName">MyFirstCheckboxFieldName</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" name="mySecondCheckboxFieldName" class="form-check-input" value="1" id="myFormId_mySecondCheckboxFieldName" />
+                        <input type="checkbox" name="mySecondCheckboxFieldName" class="custom-control-input" value="1" id="myFormId_mySecondCheckboxFieldName" />
                         <label class="form-check-label" for="myFormId_mySecondCheckboxFieldName">MySecondCheckboxFieldName</label>
                     </div>
                 </fieldset>
@@ -58,11 +58,11 @@ class CheckboxGroupTest extends TestCase
                         <div>mySecondCheckboxSecondError</div>
                     </div>
                     <div class="form-check has-error">
-                        <input type="checkbox" name="myFirstCheckboxFieldName" class="form-check-input" value="1" id="myFormId_myFirstCheckboxFieldName" aria-describedby="myFormId_myFirstCheckboxFieldName_errors myFormId_myFirstCheckboxFieldName_helpText" aria-invalid="true" />
+                        <input type="checkbox" name="myFirstCheckboxFieldName" class="custom-control-input" value="1" id="myFormId_myFirstCheckboxFieldName" aria-describedby="myFormId_myFirstCheckboxFieldName_errors myFormId_myFirstCheckboxFieldName_helpText" aria-invalid="true" />
                         <label class="form-check-label" for="myFormId_myFirstCheckboxFieldName">MyFirstCheckboxFieldName</label>
                     </div>
                     <div class="form-check has-error">
-                        <input type="checkbox" name="mySecondCheckboxFieldName" class="form-check-input" value="1" id="myFormId_mySecondCheckboxFieldName"  required aria-describedby="myFormId_mySecondCheckboxFieldName_errors myFormId_mySecondCheckboxFieldName_helpText" aria-invalid="true" />
+                        <input type="checkbox" name="mySecondCheckboxFieldName" class="custom-control-input" value="1" id="myFormId_mySecondCheckboxFieldName"  required aria-describedby="myFormId_mySecondCheckboxFieldName_errors myFormId_mySecondCheckboxFieldName_helpText" aria-invalid="true" />
                         <label class="form-check-label" for="myFormId_mySecondCheckboxFieldName">MySecondCheckboxFieldName<sup>*</sup></label>
                     </div>
                     <small id="myFormId_myFirstCheckboxFieldName_helpText" class="text-muted form-text small">myFirstCheckboxHelpText</small>
