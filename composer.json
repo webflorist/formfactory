@@ -1,6 +1,8 @@
 {
     "name": "webflorist/formfactory",
     "description": "Convenient and powerful form-builder for Laravel (v5.5+ and v6)",
+    "homepage": "https://github.com/webflorist/formfactory",
+    "license": "MIT",
     "authors": [
         {
             "name": "Gerald Buttinger",
