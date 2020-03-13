@@ -2,6 +2,7 @@
 
 namespace Webflorist\FormFactory\Components\FormControls\Traits;
 
+use Illuminate\Support\Str;
 use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\Form\VueForm;
 use Webflorist\FormFactory\Components\Helpers\FieldWrapper;
@@ -57,7 +58,7 @@ trait FormControlTrait
 
         // Apply view.
         try {
-            $this->view('formfactory::form-controls.' . kebab_case((new \ReflectionClass($this))->getShortName()));
+            $this->view('formfactory::form-controls.' . Str::kebab((new \ReflectionClass($this))->getShortName()));
         } catch (\ReflectionException $e) {
         }
 

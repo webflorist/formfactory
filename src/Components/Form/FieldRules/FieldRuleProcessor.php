@@ -2,6 +2,7 @@
 
 namespace Webflorist\FormFactory\Components\Form\FieldRules;
 
+use Illuminate\Support\Str;
 use Webflorist\FormFactory\Components\FormControls\Contracts\FieldInterface;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
 use Webflorist\HtmlFactory\Elements\InputElement;
@@ -48,7 +49,7 @@ class FieldRuleProcessor
         if ($field->hasRules()) {
             $rulesProcessor = new FieldRuleProcessor($field);
             foreach ($field->getRules() as $rule => $parameters) {
-                $applyRulesMethod = 'apply' . studly_case($rule) . 'Rule';
+                $applyRulesMethod = 'apply' . Str::studly($rule) . 'Rule';
                 if (method_exists($rulesProcessor, $applyRulesMethod)) {
                     call_user_func([$rulesProcessor,$applyRulesMethod], $parameters);
                 }

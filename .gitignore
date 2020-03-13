@@ -3,3 +3,4 @@ tests/Browser/screenshots
 .idea
 composer.lock
 vendor
+.phpunit.result.cache
