@@ -2,24 +2,21 @@
 
 namespace Webflorist\FormFactory;
 
+use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\Form\VueForm;
-use Webflorist\FormFactory\Components\FormControls\DynamicTextList;
-use Webflorist\FormFactory\Components\Helpers\RequiredFieldIndicator;
-use Webflorist\FormFactory\Components\Helpers\RequiredFieldsLegend;
-use Webflorist\FormFactory\Components\FormControls\ButtonGroup;
-use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
 use Webflorist\FormFactory\Components\FormControls\Button;
+use Webflorist\FormFactory\Components\FormControls\ButtonGroup;
 use Webflorist\FormFactory\Components\FormControls\CheckboxGroup;
 use Webflorist\FormFactory\Components\FormControls\CheckboxInput;
 use Webflorist\FormFactory\Components\FormControls\ColorInput;
 use Webflorist\FormFactory\Components\FormControls\DateInput;
 use Webflorist\FormFactory\Components\FormControls\DatetimeInput;
 use Webflorist\FormFactory\Components\FormControls\DatetimeLocalInput;
+use Webflorist\FormFactory\Components\FormControls\DynamicTextList;
 use Webflorist\FormFactory\Components\FormControls\EmailInput;
 use Webflorist\FormFactory\Components\FormControls\FileInput;
-use Webflorist\FormFactory\Components\FormControls\ImageFileInput;
-use Webflorist\FormFactory\Components\Form\Form;
 use Webflorist\FormFactory\Components\FormControls\HiddenInput;
+use Webflorist\FormFactory\Components\FormControls\ImageFileInput;
 use Webflorist\FormFactory\Components\FormControls\InputGroup;
 use Webflorist\FormFactory\Components\FormControls\MonthInput;
 use Webflorist\FormFactory\Components\FormControls\NumberInput;
@@ -39,13 +36,18 @@ use Webflorist\FormFactory\Components\FormControls\TextInput;
 use Webflorist\FormFactory\Components\FormControls\TimeInput;
 use Webflorist\FormFactory\Components\FormControls\UrlInput;
 use Webflorist\FormFactory\Components\FormControls\WeekInput;
+use Webflorist\FormFactory\Components\Helpers\ErrorContainer;
+use Webflorist\FormFactory\Components\Helpers\RequiredFieldIndicator;
+use Webflorist\FormFactory\Components\Helpers\RequiredFieldsLegend;
 use Webflorist\FormFactory\Exceptions\ElementNotFoundException;
 use Webflorist\FormFactory\Exceptions\FormNotFoundException;
 use Webflorist\FormFactory\Exceptions\MissingVueDependencyException;
 use Webflorist\FormFactory\Exceptions\OpenElementNotFoundException;
 use Webflorist\FormFactory\Utilities\FormManager;
-use Webflorist\FormFactory\Vue\VueInstanceGenerator;
+use Webflorist\HtmlFactory\Components\AlertComponent;
 use Webflorist\HtmlFactory\Elements\Abstracts\Element;
+use Webflorist\HtmlFactory\Elements\DivElement;
+use Webflorist\HtmlFactory\Elements\TemplateElement;
 use Webflorist\VueFactory\VueInstance;
 
 /**
@@ -58,7 +60,7 @@ use Webflorist\VueFactory\VueInstance;
  *
  * Input-FormControls:
  * =========
- * @method static CheckboxInput         checkbox(string $name, string $value="1")
+ * @method static CheckboxInput         checkbox(string $name, string $value = "1")
  * @method static TextInput             text(string $name)
  * @method static ColorInput            color(string $name)
  * @method static DateInput             date(string $name)
@@ -149,7 +151,7 @@ class FormFactory
             return new $formControlClass(...$arguments);
         }
 
-        throw new ElementNotFoundException('No FormControl found for accessor "'.$accessor.'".');
+        throw new ElementNotFoundException('No FormControl found for accessor "' . $accessor . '".');
 
     }
 
@@ -192,16 +194,28 @@ class FormFactory
      * @return string
      * @throws OpenElementNotFoundException
      */
-    public static function close($appendRequiredFieldsLegend=true)
+    public static function close($appendRequiredFieldsLegend = true)
     {
         $return = '';
         $openForm = FormFactory::singleton()->getOpenForm();
 
         // For non-VueForms we add an ErrorContainer containing all unclaimed errors.
         if (!$openForm->is(VueForm::class) && $openForm->errors->hasUnclaimedErrors()) {
-            foreach($openForm->errors->getUnclaimedErrors() as $errorFieldName => $errors) {
+            foreach ($openForm->errors->getUnclaimedErrors() as $errorFieldName => $errors) {
                 $return .= (new ErrorContainer($errorFieldName));
             }
+        }
+
+        if ($openForm->is(VueForm::class)) {
+
+            if (!$openForm->generalErrorsContainerPlaced) {
+                $return .=  FormFactory::generalErrors();
+            }
+
+            if (!$openForm->successMessageContainerPlaced) {
+                $return .=  FormFactory::successMessage();
+            }
+
         }
 
         if ($appendRequiredFieldsLegend && $openForm->wasRequiredFieldIndicatorUsed()) {
@@ -239,9 +253,43 @@ class FormFactory
      * @param $fieldName
      * @return ErrorContainer
      */
-    public static function errorContainer($fieldName) : ErrorContainer
+    public static function errorContainer($fieldName): ErrorContainer
     {
         return new ErrorContainer($fieldName);
+    }
+
+    /**
+     * Creates the container for general errors.
+     * Gets appended automatically, if not manually placed.
+     *
+     * @return AlertComponent
+     */
+    public static function generalErrors()
+    {
+        FormFactory::singleton()->getOpenForm()->generalErrorsContainerPlaced = true;
+        return (new AlertComponent('danger'))
+            ->appendContent(
+                (new DivElement())->vFor("error in generalErrors")->content('{{ error }}')
+            )
+            ->vIf("generalErrors.length")
+            ->view('webflorist-formfactory::_general.general-errors-alert')
+            ->wrap(new TemplateElement());
+    }
+
+    /**
+     * Creates the container for success messages.
+     * Gets appended automatically, if not manually placed.
+     *
+     * @return AlertComponent
+     */
+    public static function successMessage()
+    {
+        FormFactory::singleton()->getOpenForm()->successMessageContainerPlaced = true;
+        return (new AlertComponent('success'))
+            ->appendContent('{{ successMessage }}')
+            ->view('webflorist-formfactory::_general.success-message-alert')
+            ->vIf("successMessage.length")
+            ->wrap(new TemplateElement());
     }
 
     /**
@@ -257,7 +305,8 @@ class FormFactory
      * @param null $defaultValue
      * @return array
      */
-    public static function createOptions($items = [], $prependEmptyOption=true, $defaultValue=null, $isAssociative=false) {
+    public static function createOptions($items = [], $prependEmptyOption = true, $defaultValue = null, $isAssociative = false)
+    {
         $return = [];
         if ($prependEmptyOption) {
             $return[] = self::singleton()->option();
@@ -289,7 +338,8 @@ class FormFactory
      * @param null $defaultValue
      * @return array
      */
-    public static function createRadios($items = [], $defaultValue=null, $isAssociative=false) {
+    public static function createRadios($items = [], $defaultValue = null, $isAssociative = false)
+    {
         $return = [];
         foreach ($items as $key => $val) {
             $radioValue = $isAssociative ? $key : $val;
@@ -334,7 +384,7 @@ class FormFactory
      * @param $accessor
      * @return string
      */
-    private function getFormControlClassNameForAccessor(string $accessor) : string
+    private function getFormControlClassNameForAccessor(string $accessor): string
     {
         $shortClassName = ucfirst($accessor);
         $buttonAccessors = [
@@ -362,17 +412,17 @@ class FormFactory
             'url',
             'week'
         ];
-        if (array_search($accessor,$buttonAccessors) !== false) {
+        if (array_search($accessor, $buttonAccessors) !== false) {
             $shortClassName .= 'Button';
         }
-        if (array_search($accessor,$inputAccessors) !== false) {
+        if (array_search($accessor, $inputAccessors) !== false) {
             $shortClassName .= 'Input';
         }
         if ($accessor === 'image') {
             $shortClassName = 'ImageFileInput';
         }
 
-        return 'Webflorist\\FormFactory\\Components\\FormControls\\'.$shortClassName;
+        return 'Webflorist\\FormFactory\\Components\\FormControls\\' . $shortClassName;
     }
 
     /**

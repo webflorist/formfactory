@@ -33,6 +33,8 @@ class FieldWrapper extends DivElement
     {
         parent::__construct();
         $this->field = $field;
+        $this->view('webflorist-formfactory::_general.field-wrapper');
+        $this->data('field-wrapper', $this->field->getFieldName());
     }
 
 }

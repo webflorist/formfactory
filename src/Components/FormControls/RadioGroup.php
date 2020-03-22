@@ -94,7 +94,12 @@ class RadioGroup
         if (is_null($this->legend)) {
             $this->legend = new LegendElement();
         }
-        $this->legend->content($legend);
+        if ($legend === false) {
+            $this->legend->hidden();
+        }
+        else {
+            $this->legend->content($legend);
+        }
         return $this;
     }
 

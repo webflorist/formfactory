@@ -98,6 +98,22 @@ class Form extends FormElement
     private $requiredFieldIndicatorUsed = false;
 
     /**
+     * Has a generalErrors container been rendered,
+     * and thus should not be automatically appended?
+     *
+     * @var bool
+     */
+    public $generalErrorsContainerPlaced = false;
+
+    /**
+     * Has a successMessage container been rendered,
+     * and thus should not be automatically appended?
+     *
+     * @var bool
+     */
+    public $successMessageContainerPlaced = false;
+
+    /**
      * Has this form been submitted with the last request?
      *
      * @var bool

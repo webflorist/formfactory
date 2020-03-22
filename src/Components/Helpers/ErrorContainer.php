@@ -65,6 +65,9 @@ class ErrorContainer extends DivElement
         }
 
         $this->field = $field;
+        $this->view('webflorist-formfactory::_general.error-container');
+
+        $this->addRole('alert');
 
         if (!is_null($this->field)) {
             $this->id(function () {

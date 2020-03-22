@@ -256,13 +256,16 @@ class VueInstanceGenerator
                         this.captchaQuestion = response.data.captcha_question;
                     }
 
-                    // Scroll to first alert (error-message, success, etc.)
+                    // Scroll to (label of) first alert (error-message, success, etc.)
                     this.$nextTick().then(() => {
                         let firstAlert = this.$el.querySelector("[role=alert]");
                         if (firstAlert !== null) {
-                            $("html").animate({
-                                scrollTop: $(firstAlert).offset().top - 150
-                            }, "300");
+                            let scrollTarget = firstAlert;
+                            let parentFieldWrapper = firstAlert.closest("[data-field-wrapper]");
+                            if (parentFieldWrapper !== null) {
+                                scrollTarget = parentFieldWrapper;
+                            }
+                            scrollTarget.scrollIntoView({ behavior: "smooth" });
                         }
                     });
                 }');

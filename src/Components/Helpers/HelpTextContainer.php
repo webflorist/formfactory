@@ -56,6 +56,7 @@ class HelpTextContainer extends SmallElement
         }
 
         $this->field = $field;
+        $this->view('webflorist-formfactory::_general.help-text-container');
 
         $this->id(function () {
             return $this->field->attributes->id . '_helpText';
