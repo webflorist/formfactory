@@ -17,6 +17,7 @@ return [
     'default_success_message' => 'The form was successfully submitted.',
     'general_form_error' => 'The form could not be submitted successfully. Please try again later.',
     'form_expired_error' => 'The form has expired. Please reload the page.',
+    'unauthorized_error' => 'You are not authorized to submit this form. Maybe you were logged out?',
     'redirect_message' => 'You will be redirected shortly.',
     'reload_message' => 'The page will be reloaded shortly.',
     'default_confirm_title' => 'Are you sure?',

@@ -17,6 +17,7 @@ return [
     'default_success_message' => 'Das Formular wurde erfolgreich abgeschickt.',
     'general_form_error' => 'Das Formular konnte nicht erfolgreich abgeschickt werden. Bitte versuchen Sie es später erneut.',
     'form_expired_error' => 'Das Formular is abgelaufen. Bitte laden Sie die Seite erneut.',
+    'unauthorized_error' => 'Sie sind nicht authoriziert dieses Formular abzusenden. Vielleicht wurden Sie ausgeloggt?',
     'redirect_message' => 'Sie werden in Kürze weitergeleitet.',
     'reload_message' => 'Die Seite wird in Kürze neu geladen.',
     'default_confirm_title' => 'Sind Sie sicher?',
