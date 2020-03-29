@@ -122,7 +122,8 @@ class VueInstanceGenerator
 
         $langKeys = [
             'general_form_error',
-            'form_expired_error'
+            'form_expired_error',
+            'unauthorized_error'
         ];
 
         foreach ($langKeys as $langKey) {
@@ -169,7 +170,7 @@ class VueInstanceGenerator
                             this.handleFieldErrors(error, "submitForm");
                             this[finishSubmitMethod](error.response, false);
                         });
-                        
+
 
                     }
                 }');
@@ -184,6 +185,9 @@ class VueInstanceGenerator
                             this.generalErrors = this.generalErrors.concat(error.response.data.errors[fieldName]);
                         }
                     }
+                }
+                else if (error.response.status == 401) {
+                    this.generalErrors = [this.lang["unauthorized_error"]];
                 }
                 else if (error.response.status == 408) {
                     this.generalErrors = [this.lang["form_expired_error"]];

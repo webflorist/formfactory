@@ -2,6 +2,8 @@
 
 namespace Webflorist\FormFactory\Vue\Responses;
 
+use Illuminate\Foundation\Testing\Assert as PHPUnit;
+use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 
@@ -38,6 +40,26 @@ class VueFormErrorResponse extends VueFormResponse
             $validator,
             $this
         );
+    }
+
+    /**
+     * Assert that the the given fields have errors.
+     *
+     * @param  string|array  $keys
+     * @param  mixed  $format
+     * @param  string  $errorBag
+     * @return $this
+     */
+    public function assertErrors($fields = [])
+    {
+        $fields = (array) $fields;
+        $errors = $this->vueFormResponseData['errors'];
+
+        foreach ($fields as $field) {
+            PHPUnit::assertArrayHasKey($field, $errors, "VueFormErrorResponse missing error: $field");
+        }
+
+        return $this;
     }
 
 }
