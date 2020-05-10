@@ -64,18 +64,23 @@ class StyleInputGroup extends Decorator
 
             if ($doAppend) {
                 $append[] = $child;
-            }
-            else {
+            } else {
                 $prepend[] = $child;
             }
         }
 
         $this->element->content->clear();
-        $this->element->content([
-            (new DivElement())->addClass('input-group-prepend')->content($prepend),
-            $this->element->mainField,
-            (new DivElement())->addClass('input-group-append')->content($append),
-        ]);
+
+        if (count($prepend) > 0) {
+            $this->element->appendContent((new DivElement())->addClass('input-group-prepend')->content($prepend));
+        }
+
+        $this->element->appendContent($this->element->mainField);
+
+        if (count($append) > 0) {
+            $this->element->appendContent((new DivElement())->addClass('input-group-append')->content($append));
+        }
+
     }
 
 }
