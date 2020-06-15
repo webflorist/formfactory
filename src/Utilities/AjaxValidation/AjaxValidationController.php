@@ -11,6 +11,17 @@ use Validator;
 
 class AjaxValidationController extends Controller
 {
+    public function __construct()
+    {
+        //Load middleware normale is loaded by the action route
+        if(request()->has('_middleware')) {
+            if (!is_array($middleware = request()->get('_middleware'))) {
+                $middleware = [$middleware];
+            }
+
+            $this->middleware($middleware);
+        }
+    }
 
     /**
      * Controller-method for ajax-validation.
