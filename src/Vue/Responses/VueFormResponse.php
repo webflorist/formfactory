@@ -64,5 +64,4 @@ abstract class VueFormResponse extends JsonResponse
         return parent::sendContent();
     }
 
-
 }
