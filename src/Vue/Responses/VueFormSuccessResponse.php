@@ -2,6 +2,8 @@
 
 namespace Webflorist\FormFactory\Vue\Responses;
 
+use Illuminate\Foundation\Testing\Assert as PHPUnit;
+
 /**
  * Class to create a success-JsonResponse of a VueForm.
  *
@@ -54,7 +56,7 @@ class VueFormSuccessResponse extends VueFormResponse
      * @param int $delay
      * @return $this
      */
-    public function redirect(string $url, int $delay=2000)
+    public function redirect(string $url, int $delay = 2000)
     {
         $this->vueFormResponseData['message'] .= ' ' . trans('webflorist-formfactory::formfactory.redirect_message');
         $this->vueFormResponseData['redirect'] = [
@@ -72,12 +74,26 @@ class VueFormSuccessResponse extends VueFormResponse
      * @param int $delay
      * @return $this
      */
-    public function reloadPage(int $delay=2000)
+    public function reloadPage(int $delay = 2000)
     {
         $this->vueFormResponseData['message'] .= ' ' . trans('webflorist-formfactory::formfactory.reload_message');
         $this->vueFormResponseData['reloadPage'] = [
             'delay' => $delay
         ];
+        return $this;
+    }
+
+    /**
+     * Assert that the response contains a redirect
+     * to a certain URL.
+     *
+     * @param string $url
+     * @return $this
+     */
+    public function assertRedirect(string $url)
+    {
+        PHPUnit::assertArrayHasKey('redirect', $this->vueFormResponseData);
+        PHPUnit::assertArrayHasKey('url', $this->vueFormResponseData['redirect'], $url);
         return $this;
     }
 
