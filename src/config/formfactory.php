@@ -119,7 +119,7 @@ return [
          * (0 means, the captcha is shown always.)
          * (Can be overridden explicitly per request via the first parameter of the 'captcha'-rule of the request-object.)
          */
-        'default_limit' => 2,
+        'default_limit' => 10,
 
         /*
          * The time-span (in seconds since Laravel 5.8; in minutes before Laravel 5.8) for which the captcha-limit is valid.
