@@ -23,10 +23,8 @@ class FileUploadManager
             $file = new UploadedFile($file->getPathname(), $file->getClientOriginalName(), $file->getClientMimeType(), null, $test = true);
         }
         /** @var UploadedFile $file */
-        $tmpFile = tempnam(sys_get_temp_dir(), '/form_factory_');
-        rename($file->getPathname(), $tmpFile);
         return [
-            'path' => $tmpFile,
+            'content' => $file->get(),
             'originalName' => $file->getClientOriginalName(),
             'mimeType' => $file->getClientMimeType()
         ];
@@ -39,7 +37,13 @@ class FileUploadManager
             throw new HttpResponseException(response("Uploaded File not found.", 408));
         }
         $storedFileData = cache()->get($key);
-        return new UploadedFile($storedFileData['path'], $storedFileData['originalName'], $storedFileData['mimeType'], null, true);
+
+        cache()->forget($key);
+
+        $tmpFile = tempnam(sys_get_temp_dir(), '/form_factory_');
+        file_put_contents($tmpFile, $storedFileData['content']);
+
+        return new UploadedFile($tmpFile, $storedFileData['originalName'], $storedFileData['mimeType'], null, true);
     }
 
     /**
