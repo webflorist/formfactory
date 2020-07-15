@@ -43,12 +43,12 @@ class VueFormErrorResponse extends VueFormResponse
     }
 
     /**
-     * Assert that the given fields have errors.
+     * Assert that the given field(s) have errors.
      *
-     * @param array $fields
+     * @param array|string $fields
      * @return $this
      */
-    public function assertErrors(array $fields = [])
+    public function assertErrors($fields)
     {
         $fields = (array) $fields;
         $errors = $this->vueFormResponseData['errors'];
