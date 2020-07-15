@@ -15,7 +15,7 @@ class FileUploadManagerTest extends TestCase
     public function test_file_upload_manager()
     {
         $fileId = FileUploadManager::storeFile(
-            File::createWithContent('test.txt', 'this is a test'),
+            new UploadedFile(__DIR__.'/testFile.txt', 'testFile.txt', null, null, true),
             'myTestForm',
             'myTestField'
         );
@@ -27,7 +27,7 @@ class FileUploadManagerTest extends TestCase
         );
 
         $this->assertEquals(
-            'test.txt',
+            'testFile.txt',
             $uploadedFile->getClientOriginalName()
         );
 
