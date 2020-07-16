@@ -13,7 +13,7 @@ class FileUploadManager
     {
         $fileId = Str::random();
         $key = self::getFileCacheKey($fileId, $formId, $fieldName);
-        cache()->put($key, self::processFile($file), now()->addMinutes(30));
+        cache()->put($key, self::processFile($file), now()->addDay());
         return $fileId;
     }
 
@@ -37,8 +37,6 @@ class FileUploadManager
             throw new HttpResponseException(response("Uploaded File not found.", 408));
         }
         $storedFileData = cache()->get($key);
-
-        cache()->forget($key);
 
         $tmpFile = tempnam(sys_get_temp_dir(), '/form_factory_');
         file_put_contents($tmpFile, $storedFileData['content']);
