@@ -17,7 +17,7 @@ class RegressionTest extends TestCase
 
         $this->assertHtmlEquals(
             '
-                <div>
+                <div data-field-wrapper="text">
                     <label for="myFormId_text">Text</label>
                     <input type="text" name="text" id="myFormId_text" value="new" placeholder="Text" />
                 </div>
