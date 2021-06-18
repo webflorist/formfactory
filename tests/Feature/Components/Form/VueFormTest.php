@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Form;
+namespace FormFactoryTests\Feature\Components\Form;
 
 use Form;
 use FormFactoryTests\TestCase;

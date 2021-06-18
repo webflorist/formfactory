@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls;
+namespace FormFactoryTests\Feature\Vue;
 
 use FormFactoryTests\Browser\Requests\VueFormTestRequest;
 use FormFactoryTests\TestCase;
