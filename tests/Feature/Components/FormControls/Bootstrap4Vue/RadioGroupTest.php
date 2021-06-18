@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap4Vue;
 
 class RadioGroupTest extends AbstractBootstrap4VueTest
 {

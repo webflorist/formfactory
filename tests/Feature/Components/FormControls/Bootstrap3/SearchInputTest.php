@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap3;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap3;
 
 use FormFactoryTests\TestCase;
 

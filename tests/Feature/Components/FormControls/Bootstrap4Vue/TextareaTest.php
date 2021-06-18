@@ -1,8 +1,8 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Bootstrap4Vue;
+namespace FormFactoryTests\Feature\Components\FormControls\Bootstrap4Vue;
 
-class TextareaInputTest extends AbstractBootstrap4VueTest
+class TextareaTest extends AbstractBootstrap4VueTest
 {
 
     public function testSimple()
