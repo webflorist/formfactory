@@ -1,6 +1,6 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Raw;
+namespace FormFactoryTests\Feature\Components\FormControls\Raw;
 
 use FormFactoryTests\TestCase;
 

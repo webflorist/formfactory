@@ -1,10 +1,10 @@
 <?php
 
-namespace FormFactoryTests\Feature\Components\FormControls\Fields\Raw;
+namespace FormFactoryTests\Feature\Components\FormControls\Raw;
 
 use FormFactoryTests\TestCase;
 
-class TextareaInputTest extends TestCase
+class TextareaTest extends TestCase
 {
 
 
