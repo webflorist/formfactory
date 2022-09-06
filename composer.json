@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-		"laravel/framework": ">=5.5 <7.0.0",
+		"laravel/framework": ">=5.5 <10.0.0",
 		"webflorist/htmlfactory": "1.1.*",
 		"webflorist/vuefactory": "1.0.*"
     },

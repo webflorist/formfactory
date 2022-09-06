@@ -17,7 +17,7 @@ class RadioInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <input type="radio" name="myFieldName" class="custom-control-input" value="myValue" id="myFormId_myFieldName_myValue" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" class="form-check-input" aria-describedby="myFormId_myFieldName_errors" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                     <label class="form-check-label" for="myFormId_myFieldName_myValue">MyValue<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
                 </div>
             ',
@@ -40,7 +40,7 @@ class RadioInputTest extends AbstractBootstrap4VueTest
 	                        <div v-for="error in fields[\'myFieldName\'].errors"> {{ error }} </div>
 	                    </div>
 		            </template>
-                    <input type="radio" name="myFieldName" class="custom-control-input" value="myValue" id="myFormId_myFieldName_myValue" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
+                    <input type="radio" name="myFieldName" value="myValue" id="myFormId_myFieldName_myValue" class="form-check-input" required aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_myValue_helpText" v-model="fields[\'myFieldName\'].value" v-bind:required="fields[\'myFieldName\'].isRequired" v-bind:disabled="fields[\'myFieldName\'].isDisabled" v-bind:aria-invalid="fieldHasError(\'myFieldName\')" />
                     <label class="form-check-label" for="myFormId_myFieldName_myValue">MyValue<template><sup v-if="fields[\'myFieldName\'].isRequired">*</sup></template></label>
                     <small id="myFormId_myFieldName_myValue_helpText" class="text-muted form-text small">myHelpText</small>
                 </div>

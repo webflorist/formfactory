@@ -1,6 +1,9 @@
 # webflorist/formfactory
 **Convenient and powerful form builder for Laravel 5.5 and later**
 
+[![Build Status](https://api.travis-ci.com/webflorist/formfactory.svg?branch=master)](https://app.travis-ci.com/github/webflorist/formfactory)
+[![Latest Stable Version](https://poser.pugx.org/webflorist/formfactory/v/stable)](https://packagist.org/packages/webflorist/formfactory)
+
 ## Description
 This package provides a form builder for building whole forms in Laravel views without the need to write any HTML. It builds on basic functionality provided by [webflorist/htmlfactory](https://github.com/webflorist/htmlfactory). 
 
