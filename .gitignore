@@ -1,5 +1,3 @@
-tests/Browser/console
-tests/Browser/screenshots
 .idea
 composer.lock
 vendor
