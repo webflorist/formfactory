@@ -21,11 +21,11 @@ class RadioGroupTest extends TestCase
                 <fieldset class="form-group">
                     <legend>MyFieldName</legend>
                     <div class="form-check">
-                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" />
+                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" class="form-check-input" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" />
+                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" class="form-check-input" />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>
                     </div>
                 </fieldset>
@@ -54,11 +54,11 @@ class RadioGroupTest extends TestCase
                         <div>mySecondError</div>
                     </div>
                     <div class="form-check has-error">
-                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" class="form-check-input" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
                     </div>
                     <div class="form-check has-error">
-                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" class="form-check-input" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
                         <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
                     </div>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
