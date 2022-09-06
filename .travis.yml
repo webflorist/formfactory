@@ -32,5 +32,5 @@ install:
   - travis_retry composer update --no-interaction --prefer-dist --no-suggest
 
 before_script:
-  - ./vendor/bin/dusk-updater update
+  - ./vendor/bin/dusk-updater detect --auto-update
   - ./vendor/laravel/dusk/bin/chromedriver-linux &
