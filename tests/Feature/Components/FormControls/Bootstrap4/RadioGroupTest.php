@@ -20,6 +20,7 @@ class RadioGroupTest extends TestCase
             '
                 <fieldset class="form-group">
                     <legend>MyFieldName</legend>
+<<<<<<< HEAD
                     <div class="custom-control custom-radio">
                         <input type="radio" name="myFieldName" class="custom-control-input" value="myValue1" id="myFormId_myFieldName_myValue1" />
                         <label class="custom-control-label" for="myFormId_myFieldName_myValue1">MyValue1</label>
@@ -27,6 +28,15 @@ class RadioGroupTest extends TestCase
                     <div class="custom-control custom-radio">
                         <input type="radio" name="myFieldName" class="custom-control-input" value="myValue2" id="myFormId_myFieldName_myValue2" />
                         <label class="custom-control-label" for="myFormId_myFieldName_myValue2">MyValue2</label>
+=======
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" class="form-check-input" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" class="form-check-input" />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>
+>>>>>>> 2.x
                     </div>
                 </fieldset>
             ',
@@ -53,13 +63,13 @@ class RadioGroupTest extends TestCase
                         <div>myFirstError</div>
                         <div>mySecondError</div>
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" name="myFieldName" class="custom-control-input is-invalid" value="myValue1" id="myFormId_myFieldName_myValue1" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
-                        <label class="custom-control-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
+                    <div class="form-check has-error">
+                        <input type="radio" name="myFieldName" value="myValue1" id="myFormId_myFieldName_myValue1" class="form-check-input" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue1">MyValue1</label>                 
                     </div>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" name="myFieldName" class="custom-control-input is-invalid" value="myValue2" id="myFormId_myFieldName_myValue2" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
-                        <label class="custom-control-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
+                    <div class="form-check has-error">
+                        <input type="radio" name="myFieldName" value="myValue2" id="myFormId_myFieldName_myValue2" class="form-check-input" aria-describedby="myFormId_myFieldName_errors myFormId_myFieldName_helpText" aria-invalid="true" required />
+                        <label class="form-check-label" for="myFormId_myFieldName_myValue2">MyValue2</label>                    
                     </div>
                     <small id="myFormId_myFieldName_helpText" class="text-muted form-text small">myHelpText</small>
                 </fieldset>
